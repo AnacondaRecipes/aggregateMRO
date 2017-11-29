@@ -1,8 +1,9 @@
+{% set pfx = 'r-' %}
 {% set version = '3.4.1' %}
 
-{% set url = 'https://go.microsoft.com/fwlink/?linkid=852724' %}                        # [win64]
-{% set fn = 'SRO_3.4.1.0_1033.cab' %}                                                   # [win64]
-{% set shasum = 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985' %}   # [win64]
+{% set url = 'https://go.microsoft.com/fwlink/?linkid=852724' %}                       # [win64]
+{% set fn = 'SRO_3.4.1.0_1033.cab' %}                                                  # [win64]
+{% set shasum = 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985' %}  # [win64]
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.pkg' %}  # [osx]
 {% set fn = 'microsoft-r-open-3.4.1.pkg' %}                                                        # [osx]
@@ -22,15 +23,223 @@ requirements:
     - python-libarchive-c
 
 outputs:
-  - name: r-base
+  - name: {{ pfx ~ 'base'.lower() }}
     version: {{ version }}
     script: install-r-base.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
 
-  - name: r-matrix
+  - name: {{ pfx ~ 'boot'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'checkpoint'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'class'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'cluster'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'codetools'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'curl'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'deployrRserve'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'doParallel'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'foreign'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'jsonlite'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'KernSmooth'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'lattice'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'MASS'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'Matrix'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'mgcv'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'MicrosoftR'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'nlme'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'nnet'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'png'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'RevoIOQ'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'RevoMods'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'RODBC'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'rpart'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'RUnit'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'spatial'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'survival'.lower() }}
+    version: {{ version }}
+    script: install-r-package.sh
+    requirements:
+      run:
+        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+
+  - name: {{ pfx ~ 'microsoft-r-open' }}
     version: {{ version }}
     requirements:
       run:
-        - {{ pin_subpackage('r-base', exact=True) }}
-        - {{ pin_subpackage('r-lattice') }}
-
-    script: install-r-matrix.sh
+        - {{ pfx ~ 'base'.lower() }}
+        - {{ pfx ~ 'boot'.lower() }}
+        - {{ pfx ~ 'checkpoint'.lower() }}
+        - {{ pfx ~ 'class'.lower() }}
+        - {{ pfx ~ 'cluster'.lower() }}
+        - {{ pfx ~ 'codetools'.lower() }}
+        - {{ pfx ~ 'curl'.lower() }}
+        - {{ pfx ~ 'deployrRserve'.lower() }}
+        - {{ pfx ~ 'doParallel'.lower() }}
+        - {{ pfx ~ 'foreign'.lower() }}
+        - {{ pfx ~ 'jsonlite'.lower() }}
+        - {{ pfx ~ 'KernSmooth'.lower() }}
+        - {{ pfx ~ 'lattice'.lower() }}
+        - {{ pfx ~ 'MASS'.lower() }}
+        - {{ pfx ~ 'Matrix'.lower() }}
+        - {{ pfx ~ 'mgcv'.lower() }}
+        - {{ pfx ~ 'MicrosoftR'.lower() }}
+        - {{ pfx ~ 'nlme'.lower() }}
+        - {{ pfx ~ 'nnet'.lower() }}
+        - {{ pfx ~ 'png'.lower() }}
+        - {{ pfx ~ 'RevoIOQ'.lower() }}
+        - {{ pfx ~ 'RevoMods'.lower() }}
+        - {{ pfx ~ 'RODBC'.lower() }}
+        - {{ pfx ~ 'rpart'.lower() }}
+        - {{ pfx ~ 'RUnit'.lower() }}
+        - {{ pfx ~ 'spatial'.lower() }}
+        - {{ pfx ~ 'survival'.lower() }}
