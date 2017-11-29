@@ -1,0 +1,21 @@
+{% set version = '3.4.1' %}
+
+package:
+  name: r
+  version: {{ version }}
+
+source:
+  fn: SRO_3.4.1.0_1033.cab
+  url: https://go.microsoft.com/fwlink/?linkid=852724
+
+outputs:
+  - name: r-base
+    version: {{ version }}
+
+  - name: r-matrix
+    version: {{ version }}
+    requirements:
+      run:
+        - {{ pin_subpackage('r-base', exact=True) }}
+    script: install-r-base.sh
+
