@@ -10,16 +10,16 @@ sources = {'win': {'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
                    'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8'}}
 
 HEADER='''
-{% set pfx = 'r-' %}
-{% set version = '3.4.1' %}
+{{% set pfx = 'r-' %}}
+{{% set version = '3.4.1' %}}
 
-{% set url = '{win_url}' %}  # [win64]
-{% set fn = '{win_fn}' %}  # [win64]
-{% set shasum = '{win_sha}' %}  # [win64]
+{{% set url = '{win_url}' %}}  # [win64]
+{{% set fn = '{win_fn}' %}}  # [win64]
+{{% set shasum = '{win_sha}' %}}  # [win64]
 
-{% set url = '{mac_url}' %}  # [osx]
-{% set fn = '{mac_fn}' %}  # [osx]
-{% set shasum = '{mac_sha}' %}  # [osx]
+{{% set url = '{mac_url}' %}}  # [osx]
+{{% set fn = '{mac_fn}' %}}  # [osx]
+{{% set shasum = '{mac_sha}' %}}  # [osx]
 
 package:
   name: r
