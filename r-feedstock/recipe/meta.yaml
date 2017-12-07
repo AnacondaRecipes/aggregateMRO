@@ -26,9 +26,6 @@ outputs:
   - name: {{ pfx ~ 'base'.lower() }}
     version: {{ version }}
     script: install-r-base.sh
-    requirements:
-      run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
 
   - name: {{ pfx ~ 'boot'.lower() }}
     version: {{ version }}
