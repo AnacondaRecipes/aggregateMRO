@@ -13,10 +13,11 @@ fi
 mkdir -p unpack
 pushd unpack
   if [[ -f ../$ARCHIVE ]]; then
-    python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')"
+    python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
   fi
   # Even on Darwin, libarchive will fail to unpack a .pkg file.
-  if [[ $? != 0 ]]; then
+  # if [[ $? != 0 ]]; then  # for some reason the script exits if libarchive fails to unpack?
+  if [[ $target_platform == osx-64 ]]; then
     xar -xf ../$ARCHIVE
     for PAYLOAD in $(find . -name Payload); do
       cat "$PAYLOAD" | gunzip -dc | cpio -i

@@ -6,6 +6,10 @@
 {% set fn = 'SRO_3.4.1.0_1033.cab' %}  # [win64]
 {% set shasum = 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985' %}  # [win64]
 
+{% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.pkg' %}  # [linux64]
+{% set fn = 'microsoft-r-open-3.4.1.pkg' %}  # [linux64]
+{% set shasum = '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8' %}  # [linux64]
+
 {% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.pkg' %}  # [osx]
 {% set fn = 'microsoft-r-open-3.4.1.pkg' %}  # [osx]
 {% set shasum = '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8' %}  # [osx]
@@ -26,7 +30,7 @@ requirements:
 outputs:
   - name: mro-base
     version: {{ version }}
-    script: install-r-base.sh
+    script: install-mro-base.sh
 
   - name: r-kernsmooth
     version: 2.23_15

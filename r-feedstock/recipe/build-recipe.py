@@ -25,6 +25,7 @@ from conda_build.license_family import allowed_license_families, guess_license_f
 
 from tempfile import TemporaryDirectory
 
+VERSION = '3.4.1'
 INDENT = '\n        - '
 
 # The following base/recommended package names are derived from R's source
@@ -42,25 +43,29 @@ VERSION_DEPENDENCY_REGEX = re.compile(
 )
 
 sources = {'win': {'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
-                    'fn': 'SRO_3.4.1.0_1033.cab',
+                    'fn': 'SRO_'+VERSION+'.0_1033.cab',
                    'sha': 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985',
                    'library': 'library'},
-           'linux': {'url': 'https://mran.blob.core.windows.net/install/mro/3.4.2/microsoft-r-open-3.4.2.tar.gz',
-                      'fn': 'microsoft-r-open-3.4.2.tar.gz',
-                     'sha': 'edc783e42911f182c52d1e8623b979042b090295e221bbd2eb9b47a7fb9c8cd3',
+           'linux': {'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.tar.gz',
+                      'fn': 'microsoft-r-open-'+VERSION+'.tar.gz',
+                     'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',
                      'library': 'R/library'},
-           'mac': {'url': 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.pkg',
-                    'fn': 'microsoft-r-open-3.4.1.pkg',
+           'mac': {'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.pkg',
+                    'fn': 'microsoft-r-open-'+VERSION+'.pkg',
                    'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',
                    'library': 'R/library'}}
 
 HEADER='''
 {{% set pfx = 'r-' %}}
-{{% set version = '3.4.1' %}}
+{{% set version = '{version}' %}}
 
 {{% set url = '{win_url}' %}}  # [win64]
 {{% set fn = '{win_fn}' %}}  # [win64]
 {{% set shasum = '{win_sha}' %}}  # [win64]
+
+{{% set url = '{linux_url}' %}}  # [linux64]
+{{% set fn = '{linux_fn}' %}}  # [linux64]
+{{% set shasum = '{linux_sha}' %}}  # [linux64]
 
 {{% set url = '{mac_url}' %}}  # [osx]
 {{% set fn = '{mac_fn}' %}}  # [osx]
@@ -84,7 +89,7 @@ BASE_PACKAGE='''
 outputs:
   - name: mro-base
     version: {{ version }}
-    script: install-r-base.sh
+    script: install-mro-base.sh
 '''
 
 PACKAGE='''
@@ -131,7 +136,8 @@ pushd unpack
     python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
   fi
   # Even on Darwin, libarchive will fail to unpack a .pkg file.
-  # if [[ $? != 0 ]]; then
+  # if [[ $? != 0 ]]; then  # for some reason the script exits if libarchive fails to unpack?
+  if [[ $target_platform == osx-64 ]]; then
     xar -xf ../$ARCHIVE
     for PAYLOAD in $(find . -name Payload); do
       cat "$PAYLOAD" | gunzip -dc | cpio -i
@@ -142,14 +148,74 @@ pushd unpack
 popd
 '''
 
-#PACKAGE='''
-#  - name: {pkg_name}
-#    version: {pkg_version}
-#    script: install-r-package.sh
-#    requirements:
-#      run:
-#        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
-#'''
+INSTALL_MRO_BASE_HEADER='''
+#!/bin/bash
+
+contains () {{
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}}
+
+make_mro_base () {{
+  if [[ $target_platform == osx-64 ]]; then
+    FRAMEWORK=/Library/Frameworks/R.framework
+    LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
+  else
+    FRAMEWORK=
+    LIBRARY=$FRAMEWORK/library
+  fi
+
+  mkdir -p "$PREFIX"$LIBRARY
+
+  pushd unpack$LIBRARY
+    for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
+      LIBRARY_CASED=${{LIBRARY_CASED//.\//}}
+      if ! contains $LIBRARY_CASED "${{EXCLUDED_PACKAGES[@]}}"; then
+        echo "Including $LIBRARY_CASED"
+        mv $LIBRARY_CASED "$PREFIX"$LIBRARY/
+      else
+        echo "Skipping $LIBRARY_CASED"
+      fi
+    done
+  popd
+
+  pushd unpack
+    mv bin/* "$PREFIX"/bin
+    mv doc etc include modules share README.R* CHANGES COPYING README Tcl src "$PREFIX"
+  popd
+}}
+declare -a EXCLUDED_PACKAGES
+'''
+
+INSTALL_MRO_BASE_FOOTER='''
+
+make_mro_base
+'''
+
+INSTALL_R_PACKAGE='''
+#!/bin/bash
+
+LIBRARY_NAME=${{PKG_NAME//r-/}}
+
+if [[ $target_platform == osx-64 ]]; then
+  FRAMEWORK=/Library/Frameworks/R.framework
+  LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
+else
+  FRAMEWORK=
+  LIBRARY=$FRAMEWORK/library
+fi
+
+mkdir -p "$PREFIX"$LIBRARY
+
+pushd unpack$LIBRARY
+for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
+  mv $LIBRARY_CASED "$PREFIX"$LIBRARY/
+done
+find . | wc -l
+'''
+
 
 def cache_file(src_cache, url, fn=None, sha=None, checksummer=hashlib.sha256):
     if fn:
@@ -396,18 +462,19 @@ def main():
 
                     d['%s_depends' % dep_type] = ''.join(deps)
 
-            platforms_dict={'win_url': sources['win']['url'],
-                            'win_fn': sources['win']['fn'],
-                            'win_sha': sources['win']['sha'],
-                            'linux_url': sources['mac']['url'],
-                            'linux_fn': sources['mac']['fn'],
-                            'linux_sha': sources['mac']['sha'],
-                            'mac_url': sources['mac']['url'],
-                            'mac_fn': sources['mac']['fn'],
-                            'mac_sha': sources['mac']['sha']}
+            template={'version': VERSION,
+                      'win_url': sources['win']['url'],
+                      'win_fn': sources['win']['fn'],
+                      'win_sha': sources['win']['sha'],
+                      'linux_url': sources['mac']['url'],
+                      'linux_fn': sources['mac']['fn'],
+                      'linux_sha': sources['mac']['sha'],
+                      'mac_url': sources['mac']['url'],
+                      'mac_fn': sources['mac']['fn'],
+                      'mac_sha': sources['mac']['sha']}
 
             with open(os.path.join(this_dir, 'meta.yaml'), 'w') as meta_yaml:
-                meta_yaml.write(HEADER.format(**platforms_dict))
+                meta_yaml.write(HEADER.format(**template))
                 meta_yaml.write(BASE_PACKAGE)
 
                 for package in package_dicts:
@@ -418,9 +485,18 @@ def main():
                         .decode() for k, v in iteritems(d)}
 
                     meta_yaml.write(PACKAGE.format(**d))
-            with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:
-                build_sh.write(BUILD_SH.format(**platforms_dict))
 
+            with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:
+                build_sh.write(BUILD_SH.format(**template))
+
+            with open(os.path.join(this_dir, 'install-mro-base.sh'), 'w') as install_mro_base:
+                install_mro_base.write(INSTALL_MRO_BASE_HEADER.format(**template))
+                for excluded in sorted(to_be_packaged, key=lambda s: s.lower()):
+                    install_mro_base.write('EXCLUDED_PACKAGES+=('+excluded+')\n')
+                install_mro_base.write(INSTALL_MRO_BASE_FOOTER.format(**template))
+
+            with open(os.path.join(this_dir, 'install-r-package.sh'), 'w') as install_r_package:
+                install_r_package.write(INSTALL_R_PACKAGE.format(**template))
 
 if __name__ == '__main__':
     main()
