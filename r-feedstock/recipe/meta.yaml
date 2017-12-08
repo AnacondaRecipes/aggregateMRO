@@ -26,6 +26,8 @@ source:
 requirements:
   build:
     - python-libarchive-c
+  host:
+    - m2w64-toolchain  # [win]
 
 outputs:
   - name: mro-base

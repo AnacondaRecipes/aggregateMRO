@@ -83,6 +83,8 @@ source:
 requirements:
   build:
     - python-libarchive-c
+  host:
+    - m2w64-toolchain  # [win]
 '''
 
 BASE_PACKAGE='''
@@ -118,8 +120,7 @@ PACKAGE='''
       license_family: {license_family}
 '''
 
-BUILD_SH='''
-#!/bin/bash
+BUILD_SH='''#!/bin/bash
 
 if [[ $target_platform == win-64 ]]; then
   ARCHIVE={win_fn}
@@ -146,10 +147,25 @@ pushd unpack
   fi
   find . | sort > $RECIPE_DIR/filelist-mro-$target_platform.txt
 popd
+if [[ $target_platform == win-64 ]]; then
+  env
+  # Compile the launcher
+  # XXX: Should we build Rgui with -DGUI=1 -mwindows?  The only difference is
+  # that it doesn't block the terminal, but we also can't get the return
+  # value for the conda build tests.
+  # NOTE: This needs to be run on Windows or via Wine.
+  if [[ ! $(uname) =~ M* ]]; then
+    WINE=wine
+    if ! which $WINE; then
+      echo "To build mro-base you need Wine"
+      exit 1
+    fi
+  fi
+  $WINE "$PREFIX"/Library/mingw-w64/bin/gcc.exe -DGUI=0 -O -s -o launcher.exe "$RECIPE_DIR"/launcher.c || exit 1
+fi
 '''
 
-INSTALL_MRO_BASE_HEADER='''
-#!/bin/bash
+INSTALL_MRO_BASE_HEADER='''#!/bin/bash
 
 contains () {{
   local e match="$1"
@@ -162,9 +178,25 @@ make_mro_base () {{
   if [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
+    PREFIX="$PREFIX"/lib/R
+  elif [[ $target_platform == win-64 ]]; then
+    FRAMEWORK=
+    LIBRARY=$FRAMEWORK/library
+    # Install the launcher
+    mkdir -p "$PREFIX"/Scripts
+    cp launcher.exe $PREFIX/Scripts/R.exe
+    cp launcher.exe $PREFIX/Scripts/Rcmd.exe
+    cp launcher.exe $PREFIX/Scripts/RSetReg.exe
+    cp launcher.exe $PREFIX/Scripts/Rfe.exe
+    cp launcher.exe $PREFIX/Scripts/Rgui.exe
+    cp launcher.exe $PREFIX/Scripts/Rscript.exe
+    cp launcher.exe $PREFIX/Scripts/Rterm.exe
+    cp launcher.exe $PREFIX/Scripts/open.exe
+    PREFIX="$PREFIX"/R
   else
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/library
+    PREFIX="$PREFIX"/lib/R
   fi
 
   mkdir -p "$PREFIX"$LIBRARY
@@ -194,8 +226,7 @@ INSTALL_MRO_BASE_FOOTER='''
 make_mro_base
 '''
 
-INSTALL_R_PACKAGE='''
-#!/bin/bash
+INSTALL_R_PACKAGE='''#!/bin/bash
 
 LIBRARY_NAME=${{PKG_NAME//r-/}}
 

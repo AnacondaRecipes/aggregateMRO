@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 LIBRARY_NAME=${PKG_NAME//r-/}

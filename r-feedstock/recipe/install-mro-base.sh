@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 contains () {
@@ -12,9 +11,25 @@ make_mro_base () {
   if [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
+    PREFIX="$PREFIX"/lib/R
+  elif [[ $target_platform == win-64 ]]; then
+    FRAMEWORK=
+    LIBRARY=$FRAMEWORK/library
+    # Install the launcher
+    mkdir -p "$PREFIX"/Scripts
+    cp launcher.exe $PREFIX/Scripts/R.exe
+    cp launcher.exe $PREFIX/Scripts/Rcmd.exe
+    cp launcher.exe $PREFIX/Scripts/RSetReg.exe
+    cp launcher.exe $PREFIX/Scripts/Rfe.exe
+    cp launcher.exe $PREFIX/Scripts/Rgui.exe
+    cp launcher.exe $PREFIX/Scripts/Rscript.exe
+    cp launcher.exe $PREFIX/Scripts/Rterm.exe
+    cp launcher.exe $PREFIX/Scripts/open.exe
+    PREFIX="$PREFIX"/R
   else
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/library
+    PREFIX="$PREFIX"/lib/R
   fi
 
   mkdir -p "$PREFIX"$LIBRARY
