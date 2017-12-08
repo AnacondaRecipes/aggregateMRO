@@ -1,17 +1,18 @@
+
 {% set pfx = 'r-' %}
 {% set version = '3.4.1' %}
 
-{% set url = 'https://go.microsoft.com/fwlink/?linkid=852724' %}                       # [win64]
-{% set fn = 'SRO_3.4.1.0_1033.cab' %}                                                  # [win64]
+{% set url = 'https://go.microsoft.com/fwlink/?linkid=852724' %}  # [win64]
+{% set fn = 'SRO_3.4.1.0_1033.cab' %}  # [win64]
 {% set shasum = 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985' %}  # [win64]
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.pkg' %}  # [osx]
-{% set fn = 'microsoft-r-open-3.4.1.pkg' %}                                                        # [osx]
-{% set shasum = '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8' %}              # [osx]
+{% set fn = 'microsoft-r-open-3.4.1.pkg' %}  # [osx]
+{% set shasum = '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8' %}  # [osx]
 
 package:
   name: r
-  version: {{ version }}
+  version: { version }
 
 source:
   fn: {{ fn }}
@@ -23,220 +24,772 @@ requirements:
     - python-libarchive-c
 
 outputs:
-  - name: {{ pfx ~ 'base'.lower() }}
+  - name: mro-base
     version: {{ version }}
     script: install-r-base.sh
 
-  - name: {{ pfx ~ 'boot'.lower() }}
-    version: {{ version }}
+  - name: r-kernsmooth
+    version: 2.23_15
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'checkpoint'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('KernSmooth')"           # [not win]
+        - "\"%R%\" -e \"library('KernSmooth')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/KernSmooth
+      license: Unlimited
+      summary: 'Functions for kernel smoothing (and density estimation) corresponding to the book:  Wand,
+        M.P. and Jones, M.C. (1995) "Kernel Smoothing".'
+      
+      license_family: MIT
+
+  - name: r-mass
+    version: 7.3_47
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: lattice, nlme, nnet, survival
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'class'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('MASS')"           # [not win]
+        - "\"%R%\" -e \"library('MASS')\""  # [win]
+
+    about:
+      home: http://www.stats.ox.ac.uk/pub/MASS4/
+      license: GPL-2 | GPL-3
+      summary: Functions and datasets to support Venables and Ripley, "Modern Applied Statistics
+        with S" (4th edition, 2002).
+      license_family: GPL3
+
+  - name: r-matrix
+    version: 1.2_10
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: expm, MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
+        - r-lattice
 
-  - name: {{ pfx ~ 'cluster'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('Matrix')"           # [not win]
+        - "\"%R%\" -e \"library('Matrix')\""  # [win]
+
+    about:
+      home: http://Matrix.R-forge.R-project.org/
+      license: GPL (>= 2) | file LICENCE
+      summary: Classes and methods for dense and sparse matrices and operations on them using 'LAPACK'
+        and 'SuiteSparse'.
+      license_family: GPL3
+
+  - name: r-microsoftr
+    version: 3.4.1.0081
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'codetools'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('MicrosoftR')"           # [not win]
+        - "\"%R%\" -e \"library('MicrosoftR')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/MicrosoftR
+      license: file LICENSE
+      summary: Umbrella package with licenses and notices for all Microsoft R packages
+      license_family: OTHER
+
+  - name: r-r6
+    version: 2.2.0
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: knitr, microbenchmark, pryr, testthat, ggplot2, scales
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'curl'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('R6')"           # [not win]
+        - "\"%R%\" -e \"library('R6')\""  # [win]
+
+    about:
+      home: https://github.com/wch/R6/
+      license: MIT + file LICENSE
+      summary: The R6 package allows the creation of classes with reference semantics, similar to
+        R's built-in reference classes. Compared to reference classes, R6 classes are simpler
+        and lighter-weight, and they are not built on S4 classes so they do not require
+        the methods package. These classes allow public and private members, and they support
+        inheritance, even when the classes are defined in different packages.
+      license_family: MIT
+
+  - name: r-rodbc
+    version: 1.3_15
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'deployrRserve'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RODBC')"           # [not win]
+        - "\"%R%\" -e \"library('RODBC')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/RODBC
+      license: GPL-2 | GPL-3
+      summary: An ODBC database interface.
+      license_family: GPL3
+
+  - name: r-runit
+    version: 0.4.26
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'doParallel'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RUnit')"           # [not win]
+        - "\"%R%\" -e \"library('RUnit')\""  # [win]
+
+    about:
+      home: https://sourceforge.net/projects/runit/
+      license: GPL-2
+      summary: R functions implementing a standard Unit Testing framework, with additional code inspection
+        and report generation tools
+      license_family: GPL2
+
+  - name: r-revoioq
+    version: 8.0.8
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: RevoUtils
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
+        - r-runit >=0.4.26
 
-  - name: {{ pfx ~ 'foreign'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RevoIOQ')"           # [not win]
+        - "\"%R%\" -e \"library('RevoIOQ')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/RevoIOQ
+      license: GPL-2
+      summary: Test suite for Microsoft R Services.
+      license_family: GPL2
+
+  - name: r-revomods
+    version: 11.0.0
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'jsonlite'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RevoMods')"           # [not win]
+        - "\"%R%\" -e \"library('RevoMods')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/RevoMods
+      license: GPL-2
+      summary: Microsoft modifications and extensions to standard R functions
+      license_family: GPL2
+
+  - name: r-revoutils
+    version: 10.0.5
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'KernSmooth'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RevoUtils')"           # [not win]
+        - "\"%R%\" -e \"library('RevoUtils')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/RevoUtils
+      license: GPL-2
+      summary: Utility functions for Microsoft R
+      license_family: GPL2
+
+  - name: r-boot
+    version: 1.3_19
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: MASS, survival
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'lattice'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('boot')"           # [not win]
+        - "\"%R%\" -e \"library('boot')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/boot
+      license: Unlimited
+      summary: Functions and datasets for bootstrapping from the book "Bootstrap Methods and Their
+        Application" by A. C. Davison and  D. V. Hinkley (1997, CUP), originally written
+        by Angelo Canty for S.
+      license_family: MIT
+
+  - name: r-checkpoint
+    version: 0.4.0
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: knitr, rmarkdown, testthat(>= 0.9), MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'MASS'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('checkpoint')"           # [not win]
+        - "\"%R%\" -e \"library('checkpoint')\""  # [win]
+
+    about:
+      home: https://github.com/RevolutionAnalytics/checkpoint
+      license: GPL-2
+      summary: The goal of checkpoint is to solve the problem of package reproducibility in R. Specifically,
+        checkpoint allows you to install packages as they existed on CRAN on a specific
+        snapshot date as if you had a CRAN time machine. To achieve reproducibility, the
+        checkpoint() function installs the packages required or called by your project and
+        scripts to a local library exactly as they existed at the specified point in time.
+        Only those packages are available to your project, thereby avoiding any package
+        updates that came later and may have altered your results. In this way, anyone using
+        checkpoint's checkpoint() can ensure the reproducibility of your scripts or projects
+        at any time. To create the snapshot archives, once a day (at midnight UTC) Microsoft
+        refreshes the Austria CRAN mirror on the "Microsoft R Archived Network" server (<https://mran.microsoft.com/>).
+        Immediately after completion of the rsync mirror process, the process takes a snapshot,
+        thus creating the archive. Snapshot archives exist starting from 2014-09-17.
+      license_family: GPL2
+
+  - name: r-class
+    version: 7.3_14
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
+        - r-mass
 
-  - name: {{ pfx ~ 'Matrix'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('class')"           # [not win]
+        - "\"%R%\" -e \"library('class')\""  # [win]
+
+    about:
+      home: http://www.stats.ox.ac.uk/pub/MASS4/
+      license: GPL-2 | GPL-3
+      summary: Various functions for classification, including k-nearest neighbour, Learning Vector
+        Quantization and Self-Organizing Maps.
+      license_family: GPL3
+
+  - name: r-cluster
+    version: 2.0.6
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'mgcv'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('cluster')"           # [not win]
+        - "\"%R%\" -e \"library('cluster')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/cluster
+      license: GPL (>= 2)
+      summary: Methods for Cluster analysis.  Much extended the original from Peter Rousseeuw, Anja
+        Struyf and Mia Hubert, based on Kaufman and Rousseeuw (1990) "Finding Groups in
+        Data".
+      license_family: GPL3
+
+  - name: r-codetools
+    version: 0.2_15
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'MicrosoftR'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('codetools')"           # [not win]
+        - "\"%R%\" -e \"library('codetools')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/codetools
+      license: GPL
+      summary: Code analysis tools for R.
+      license_family: GPL
+
+  - name: r-curl
+    version: 2.6
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'nlme'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('curl')"           # [not win]
+        - "\"%R%\" -e \"library('curl')\""  # [win]
+
+    about:
+      home: https://github.com/jeroen/curl#readme (devel) https://curl.haxx.se/libcurl/ (upstream)
+      license: MIT + file LICENSE
+      summary: The curl() and curl_download() functions provide highly configurable drop-in replacements
+        for base url() and download.file() with better performance, support for encryption
+        (https, ftps), gzip compression, authentication, and other 'libcurl' goodies. The
+        core of the package implements a framework for performing fully customized requests
+        where data can be processed either in memory, on disk, or streaming via the callback
+        or connection interfaces. Some knowledge of 'libcurl' is recommended; for a more-user-friendly
+        web client see the 'httr' package which builds on this package with http specific
+        tools and logic.
+      license_family: MIT
+
+  - name: r-deployrrserve
+    version: 9.0.0
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'nnet'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('deployrRserve')"           # [not win]
+        - "\"%R%\" -e \"library('deployrRserve')\""  # [win]
+
+    about:
+      home: http://www.rforge.net/Rserve/
+      license: GPL version 2
+      summary: Rserve acts as a socket server (TCP/IP or local sockets)  which allows binary requests
+        to be sent to R. Every connection has a separate workspace and working directory.
+        Client-side implementations are available for popular languages such as C/C++ and
+        Java, allowing any application to use facilities of R without the need of linking
+        to R code. Rserve supports remote connection, user authentication and file transfer.
+        A simple R client is included in this package as well.
+      license_family: GPL2
+
+  - name: r-doparallel
+    version: 1.0.10
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: caret, mlbench, rpart
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
+        - r-foreach >=1.2.0
+        - r-iterators >=1.0.0
 
-  - name: {{ pfx ~ 'png'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('doParallel')"           # [not win]
+        - "\"%R%\" -e \"library('doParallel')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/doParallel
+      license: GPL-2
+      summary: Provides a parallel backend for the %dopar% function using the parallel package.
+      license_family: GPL2
+
+  - name: r-foreign
+    version: 0.8_67
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'RevoIOQ'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('foreign')"           # [not win]
+        - "\"%R%\" -e \"library('foreign')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/foreign
+      license: GPL (>= 2)
+      summary: Functions for reading and writing data stored by some versions of Epi Info, Minitab,
+        S, SAS, SPSS, Stata, Systat and Weka and for reading and writing some dBase files.
+      license_family: GPL3
+
+  - name: r-jsonlite
+    version: 1.4
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'RevoMods'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('jsonlite')"           # [not win]
+        - "\"%R%\" -e \"library('jsonlite')\""  # [win]
+
+    about:
+      home: https://arxiv.org/abs/1403.2805, https://www.opencpu.org/posts/jsonlite-a-smarter-json-encoder
+      license: MIT + file LICENSE
+      summary: A fast JSON parser and generator optimized for statistical data and the web. Started
+        out as a fork of 'RJSONIO', but has been completely rewritten in recent versions.
+        The package offers flexible, robust, high performance tools for working with JSON
+        in R and is particularly powerful for building pipelines and interacting with a
+        web API. The implementation is based on the mapping described in the vignette (Ooms,
+        2014). In addition to converting JSON data from/to R objects, 'jsonlite' contains
+        functions to stream, validate, and prettify JSON data. The unit tests included with
+        the package verify that all edge cases are encoded and decoded consistently for
+        use with dynamic data in systems and applications.
+      license_family: MIT
+
+  - name: r-lattice
+    version: 0.20_35
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: KernSmooth, MASS, latticeExtra
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'RODBC'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('lattice')"           # [not win]
+        - "\"%R%\" -e \"library('lattice')\""  # [win]
+
+    about:
+      home: http://lattice.r-forge.r-project.org/
+      license: GPL (>= 2)
+      summary: A powerful and elegant high-level data visualization system inspired by Trellis graphics,
+        with an emphasis on multivariate data. Lattice is sufficient for typical graphics
+        needs, and is also flexible enough to handle most nonstandard requirements. See
+        ?Lattice for an introduction.
+      license_family: GPL3
+
+  - name: r-mgcv
+    version: 1.8_17
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: splines, parallel, survival, MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
+        - r-matrix
+        - r-nlme >=3.1_64
 
-  - name: {{ pfx ~ 'rpart'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('mgcv')"           # [not win]
+        - "\"%R%\" -e \"library('mgcv')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/mgcv
+      license: GPL (>= 2)
+      summary: GAMs, GAMMs and other generalized ridge regression with  multiple smoothing parameter
+        estimation by GCV, REML or UBRE/AIC.  Includes a gam() function, a wide variety
+        of smoothers, JAGS  support and distributions beyond the exponential family.
+      license_family: GPL3
+
+  - name: r-nlme
+    version: 3.1_131
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: Hmisc, MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
+        - r-lattice
 
-  - name: {{ pfx ~ 'RUnit'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('nlme')"           # [not win]
+        - "\"%R%\" -e \"library('nlme')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/nlme
+      license: GPL (>= 2) | file LICENCE
+      summary: Fit and compare Gaussian linear and nonlinear mixed-effects models.
+      license_family: GPL3
+
+  - name: r-nnet
+    version: 7.3_12
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: MASS
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'spatial'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('nnet')"           # [not win]
+        - "\"%R%\" -e \"library('nnet')\""  # [win]
+
+    about:
+      home: http://www.stats.ox.ac.uk/pub/MASS4/
+      license: GPL-2 | GPL-3
+      summary: Software for feed-forward neural networks with a single hidden layer, and for multinomial
+        log-linear models.
+      license_family: GPL3
+
+  - name: r-png
+    version: 0.1_7
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'survival'.lower() }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('png')"           # [not win]
+        - "\"%R%\" -e \"library('png')\""  # [win]
+
+    about:
+      home: http://www.rforge.net/png/
+      license: GPL-2 | GPL-3
+      summary: This package provides an easy and simple way to read, write and display bitmap images
+        stored in the PNG format. It can read and write both files and in-memory raw vectors.
+      license_family: GPL3
+
+  - name: r-rpart
+    version: 4.1_11
     script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: survival
     requirements:
       run:
-        - {{ pin_subpackage(pfx ~ 'base', exact=True) }}
+        - mro-base {{ version }}
 
-  - name: {{ pfx ~ 'microsoft-r-open' }}
-    version: {{ version }}
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('rpart')"           # [not win]
+        - "\"%R%\" -e \"library('rpart')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/rpart
+      license: GPL-2 | GPL-3
+      summary: Recursive partitioning for classification,  regression and survival trees.  An implementation
+        of most of the  functionality of the 1984 book by Breiman, Friedman, Olshen and
+        Stone.
+      license_family: GPL3
+
+  - name: r-spatial
+    version: 7.3_11
+    script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: MASS
     requirements:
       run:
-        - {{ pfx ~ 'base'.lower() }}
-        - {{ pfx ~ 'boot'.lower() }}
-        - {{ pfx ~ 'checkpoint'.lower() }}
-        - {{ pfx ~ 'class'.lower() }}
-        - {{ pfx ~ 'cluster'.lower() }}
-        - {{ pfx ~ 'codetools'.lower() }}
-        - {{ pfx ~ 'curl'.lower() }}
-        - {{ pfx ~ 'deployrRserve'.lower() }}
-        - {{ pfx ~ 'doParallel'.lower() }}
-        - {{ pfx ~ 'foreign'.lower() }}
-        - {{ pfx ~ 'jsonlite'.lower() }}
-        - {{ pfx ~ 'KernSmooth'.lower() }}
-        - {{ pfx ~ 'lattice'.lower() }}
-        - {{ pfx ~ 'MASS'.lower() }}
-        - {{ pfx ~ 'Matrix'.lower() }}
-        - {{ pfx ~ 'mgcv'.lower() }}
-        - {{ pfx ~ 'MicrosoftR'.lower() }}
-        - {{ pfx ~ 'nlme'.lower() }}
-        - {{ pfx ~ 'nnet'.lower() }}
-        - {{ pfx ~ 'png'.lower() }}
-        - {{ pfx ~ 'RevoIOQ'.lower() }}
-        - {{ pfx ~ 'RevoMods'.lower() }}
-        - {{ pfx ~ 'RODBC'.lower() }}
-        - {{ pfx ~ 'rpart'.lower() }}
-        - {{ pfx ~ 'RUnit'.lower() }}
-        - {{ pfx ~ 'spatial'.lower() }}
-        - {{ pfx ~ 'survival'.lower() }}
+        - mro-base {{ version }}
+
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('spatial')"           # [not win]
+        - "\"%R%\" -e \"library('spatial')\""  # [win]
+
+    about:
+      home: http://www.stats.ox.ac.uk/pub/MASS4/
+      license: GPL-2 | GPL-3
+      summary: Functions for kriging and point pattern analysis.
+      license_family: GPL3
+
+  - name: r-survival
+    version: 2.41_3
+    script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
+    requirements:
+      run:
+        - mro-base {{ version }}
+        - r-matrix
+
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('survival')"           # [not win]
+        - "\"%R%\" -e \"library('survival')\""  # [win]
+
+    about:
+      home: https://github.com/therneau/survival
+      license: LGPL (>= 2)
+      summary: Contains the core survival analysis routines, including definition of Surv objects,  Kaplan-Meier
+        and Aalen-Johansen (multi-state) curves, Cox models, and parametric accelerated
+        failure time models.
+      license_family: LGPL

@@ -48,16 +48,19 @@ fi
 
 mkdir -p "${PREFIX}"${LIBRARY}
 
-pushd unpack"${LIBRARY}"
+pushd unpack${LIBRARY}
   for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
     LIBRARY_CASED=${LIBRARY_CASED//.\//}
     if ! contains ${LIBRARY_CASED} "${EXCLUDED_PACKAGES[@]}"; then
+      echo "Including ${LIBRARY_CASED}"
       mv ${LIBRARY_CASED} "${PREFIX}"${LIBRARY}/
+    else
+      echo "Skipping ${LIBRARY_CASED}"
     fi
   done
 popd
 
 pushd unpack
-  mv bin/* "${PREFIX}"
-  mv doc etc include modules share README.R* "${PREFIX}"
+  mv bin/* "${PREFIX}"/bin
+  mv doc etc include modules share README.R* CHANGES COPYING README Tcl src "${PREFIX}"
 popd

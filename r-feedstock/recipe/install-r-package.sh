@@ -12,7 +12,7 @@ fi
 
 mkdir -p "${PREFIX}"${LIBRARY}
 
-pushd unpack"${LIBRARY}"
+pushd unpack${LIBRARY}
 for LIBRARY_CASED in $(find . -iname "${LIBRARY_NAME}" -maxdepth 1 -mindepth 1); do
   mv ${LIBRARY_CASED} "${PREFIX}"${LIBRARY}/
 done

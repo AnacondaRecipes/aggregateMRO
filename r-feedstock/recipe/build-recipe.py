@@ -19,6 +19,7 @@ from itertools import chain
 from conda_build.conda_interface import text_type, iteritems
 from conda_build.config import Config
 from conda_build.skeletons.cran import (dict_from_cran_lines, remove_package_line_continuations)
+from conda_build.skeletons.cran import R_BASE_PACKAGE_NAMES as R_BASE_PACKAGE_NAMES_ORIG
 from conda_build.source import download_to_cache
 from conda_build.license_family import allowed_license_families, guess_license_family
 
@@ -29,41 +30,8 @@ INDENT = '\n        - '
 # The following base/recommended package names are derived from R's source
 # tree (R-3.0.2/share/make/vars.mk).  Hopefully they don't change too much
 # between versions.
-R_BASE_PACKAGE_NAMES = (
-    'base',
-    'compiler',
-    'datasets',
-    'graphics',
-    'grDevices',
-    'grid',
-    'methods',
-    'parallel',
-    'splines',
-    'stats',
-    'stats4',
-    'tcltk',
-    'tools',
-    'translations',
-    'utils',
-)
 
-R_RECOMMENDED_PACKAGE_NAMES = (
-    'MASS',
-    'lattice',
-    'Matrix',
-    'nlme',
-    'survival',
-    'boot',
-    'cluster',
-    'codetools',
-    'foreign',
-    'KernSmooth',
-    'rpart',
-    'class',
-    'nnet',
-    'spatial',
-    'mgcv',
-)
+R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations', )
 
 # Stolen then tweaked from debian.deb822.PkgRelation.__dep_RE.
 VERSION_DEPENDENCY_REGEX = re.compile(
@@ -78,7 +46,7 @@ sources = {'win': {'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
                    'sha': 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985',
                    'library': 'library'},
            'linux': {'url': 'https://mran.blob.core.windows.net/install/mro/3.4.2/microsoft-r-open-3.4.2.tar.gz',
-                     'fn': 'microsoft-r-open-3.4.2.tar.gz',
+                      'fn': 'microsoft-r-open-3.4.2.tar.gz',
                      'sha': 'edc783e42911f182c52d1e8623b979042b090295e221bbd2eb9b47a7fb9c8cd3',
                      'library': 'R/library'},
            'mac': {'url': 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.pkg',
@@ -103,9 +71,9 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ fn }}
-  url: {{ url }}
-  sha256: {{ shasum }}
+  fn: {{{{ fn }}}}
+  url: {{{{ url }}}}
+  sha256: {{{{ shasum }}}}
 
 requirements:
   build:
@@ -122,6 +90,7 @@ outputs:
 PACKAGE='''
   - name: {packagename}
     version: {conda_version}
+    script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
       rpaths:
@@ -142,6 +111,35 @@ PACKAGE='''
       license: {license}
       {summary_comment}summary:{summary}
       license_family: {license_family}
+'''
+
+BUILD_SH='''
+#!/bin/bash
+
+if [[ $target_platform == win-64 ]]; then
+  ARCHIVE={win_fn}
+elif [[ $target_platform == linux-64 ]]; then
+  ARCHIVE={linux_fn}
+elif [[ $target_platform == osx-64 ]]; then
+  ARCHIVE={mac_fn}
+fi
+
+# If conda-build used libarchive to unpack things this would not need to exist
+mkdir -p unpack
+pushd unpack
+  if [[ -f ../$ARCHIVE ]]; then
+    python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
+  fi
+  # Even on Darwin, libarchive will fail to unpack a .pkg file.
+  # if [[ $? != 0 ]]; then
+    xar -xf ../$ARCHIVE
+    for PAYLOAD in $(find . -name Payload); do
+      cat "$PAYLOAD" | gunzip -dc | cpio -i
+    done
+    rm -rf R_Open_App.pkg R_Open_Framework.pkg Distribution
+  fi
+  find . | sort > $RECIPE_DIR/filelist-mro-$target_platform.txt
+popd
 '''
 
 #PACKAGE='''
@@ -165,7 +163,7 @@ def cache_file(src_cache, url, fn=None, sha=None, checksummer=hashlib.sha256):
     return cached_path, csumstr
 
 
-def yaml_quote_string(string):
+def yaml_quote_string(string, indent=2):
     """
     Quote a string for use in YAML.
 
@@ -175,21 +173,14 @@ def yaml_quote_string(string):
 
     Note that this function is NOT general.
     """
-    return yaml.dump(string, Dumper=SafeDumper).replace('\n...\n', '').replace('\n', '\n  ')
+    return yaml.dump(string, Dumper=SafeDumper).replace('\n...\n', '').replace('\n', '\n'+' '*indent)
 
 
 def main():
 
     is_github_url = False
 
-    print(HEADER.format(win_url=sources['win']['url'],
-                        win_fn=sources['win']['fn'],
-                        win_sha=sources['win']['sha'],
-                        mac_url=sources['mac']['url'],
-                        mac_fn=sources['mac']['fn'],
-                        mac_sha=sources['mac']['sha']))
-
-    print(BASE_PACKAGE)
+    this_dir = os.getcwd()
 
     # Unpack
     config = Config()
@@ -284,7 +275,7 @@ def main():
 
                 if 'Description' in cran_package:
                     d['summary_comment'] = ''
-                    d['summary'] = ' ' + yaml_quote_string(cran_package['Description'])
+                    d['summary'] = ' ' + yaml_quote_string(cran_package['Description'], indent=6)
 
                 if "Suggests" in cran_package:
                     d['suggests'] = "# Suggests: %s" % cran_package['Suggests']
@@ -389,7 +380,7 @@ def main():
                             # it can only depend on 'r-base' since anything else can and will cause cycles
                             # in the dependency graph. The cran metadata lists all dependencies anyway, even
                             # those packages that are in the recommended group.
-                            r_name = 'r-base'
+                            r_name = 'mro-base {{ version }}'
                             # We don't include any R version restrictions because we
                             # always build R packages against an exact R version
                             deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
@@ -405,14 +396,30 @@ def main():
 
                     d['%s_depends' % dep_type] = ''.join(deps)
 
-            for package in package_dicts:
-                d = package_dicts[package]
+            platforms_dict={'win_url': sources['win']['url'],
+                            'win_fn': sources['win']['fn'],
+                            'win_sha': sources['win']['sha'],
+                            'linux_url': sources['mac']['url'],
+                            'linux_fn': sources['mac']['fn'],
+                            'linux_sha': sources['mac']['sha'],
+                            'mac_url': sources['mac']['url'],
+                            'mac_fn': sources['mac']['fn'],
+                            'mac_sha': sources['mac']['sha']}
 
-                # Normalize the metadata values
-                d = {k: unicodedata.normalize("NFKD", text_type(v)).encode('ascii', 'ignore')
-                    .decode() for k, v in iteritems(d)}
+            with open(os.path.join(this_dir, 'meta.yaml'), 'w') as meta_yaml:
+                meta_yaml.write(HEADER.format(**platforms_dict))
+                meta_yaml.write(BASE_PACKAGE)
 
-                print(PACKAGE.format(**d))
+                for package in package_dicts:
+                    d = package_dicts[package]
+
+                    # Normalize the metadata values
+                    d = {k: unicodedata.normalize("NFKD", text_type(v)).encode('ascii', 'ignore')
+                        .decode() for k, v in iteritems(d)}
+
+                    meta_yaml.write(PACKAGE.format(**d))
+            with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:
+                build_sh.write(BUILD_SH.format(**platforms_dict))
 
 
 if __name__ == '__main__':
