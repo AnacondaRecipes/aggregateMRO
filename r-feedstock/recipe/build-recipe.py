@@ -497,9 +497,9 @@ def main():
                       'win_url': sources['win']['url'],
                       'win_fn': sources['win']['fn'],
                       'win_sha': sources['win']['sha'],
-                      'linux_url': sources['mac']['url'],
-                      'linux_fn': sources['mac']['fn'],
-                      'linux_sha': sources['mac']['sha'],
+                      'linux_url': sources['linux']['url'],
+                      'linux_fn': sources['linux']['fn'],
+                      'linux_sha': sources['linux']['sha'],
                       'mac_url': sources['mac']['url'],
                       'mac_fn': sources['mac']['fn'],
                       'mac_sha': sources['mac']['sha']}

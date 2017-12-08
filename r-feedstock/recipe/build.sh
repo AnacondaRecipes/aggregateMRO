@@ -3,7 +3,7 @@
 if [[ $target_platform == win-64 ]]; then
   ARCHIVE=SRO_3.4.1.0_1033.cab
 elif [[ $target_platform == linux-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.1.pkg
+  ARCHIVE=microsoft-r-open-3.4.1.tar.gz
 elif [[ $target_platform == osx-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.1.pkg
 fi
