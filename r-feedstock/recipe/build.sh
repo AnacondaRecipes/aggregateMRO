@@ -8,9 +8,12 @@ elif [[ $target_platform == osx-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.1.pkg
 fi
 
-# If conda-build used libarchive to unpack things this would not need to exist
 mkdir -p unpack
 pushd unpack
+
+# 1. Finish unpacking.
+#    (if conda-build used libarchive to unpack things we could aim to remove this
+#     but it would need a metadata flag to unpack archives within archives too).
   if [[ -f ../$ARCHIVE ]]; then
     python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
   fi
@@ -22,20 +25,56 @@ pushd unpack
       cat "$PAYLOAD" | gunzip -dc | cpio -i
     done
     rm -rf R_Open_App.pkg R_Open_Framework.pkg Distribution
+  elif [[ $target_platform == linux-64 ]]; then
+    # TODO :: May need to put the MKL libs into a separate package.
+    for RPM in $(find rpm -name "*.rpm"); do
+      echo $RPM
+      python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
+      find .
+    done
   fi
-  find . | sort > $RECIPE_DIR/filelist-mro-$target_platform.txt
+
+  # 2. Save filelist back to the recipe.
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.txt
+
+  # 3. Rearrange layout so it is compatible with conda
+  if [[ $target_platform == linux-64 ]]; then
+    mv opt/microsoft/ropen/3.4.1/lib64 lib
+  elif [[ $target_platform == osx-64 ]]; then
+    echo "No layout changes necessary for $target_platform"
+  else
+    echo "No layout necessary for $target_platform"
+  fi
+
+  # 4. Implement any necessary fixes.
+  if [[ $target_platform == linux-64 ]]; then
+    # Workaround: https://github.com/Microsoft/microsoft-r-open/issues/15
+    #        and: https://github.com/Microsoft/microsoft-r-open/issues/44
+    pushd $(mktemp -d)
+      wget -c http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
+      "${RECIPE_DIR}"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
+      cp -p usr/lib64/libpng12.so.0* "${SRC_DIR}"/unpack/lib/R/modules/
+    popd
+    patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
+  elif [[ $target_platform == osx-64 ]]; then
+    echo "No fixes necessary for $target_platform"
+  else
+    echo "No fixes necessary for $target_platform"
+  fi
 popd
+
+# 5. Compile launcher stub.
 if [[ $target_platform == win-64 ]]; then
   env
   # Compile the launcher
   # XXX: Should we build Rgui with -DGUI=1 -mwindows?  The only difference is
-  # that it doesn't block the terminal, but we also can't get the return
+  # that it does not block the terminal, but we also cannot get the return
   # value for the conda build tests.
   # NOTE: This needs to be run on Windows or via Wine.
   if [[ ! $(uname) =~ M* ]]; then
     WINE=wine
     if ! which $WINE; then
-      echo "To build mro-base you need Wine"
+      echo "To build mro-base on ${BUILD} you need Wine"
       exit 1
     fi
   fi

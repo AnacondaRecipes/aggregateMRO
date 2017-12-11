@@ -5,9 +5,12 @@ LIBRARY_NAME=${PKG_NAME//r-/}
 if [[ $target_platform == osx-64 ]]; then
   FRAMEWORK=/Library/Frameworks/R.framework
   LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
-else
+elif [[ $target_platform == win-64 ]]; then
   FRAMEWORK=
   LIBRARY=$FRAMEWORK/library
+else
+  LIBRARY=$FRAMEWORK/lib/R/library
+  PREFIX_LIB="$PREFIX"/library
 fi
 
 mkdir -p "$PREFIX"$LIBRARY

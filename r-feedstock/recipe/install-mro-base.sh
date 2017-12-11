@@ -11,7 +11,7 @@ make_mro_base () {
   if [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
-    PREFIX="$PREFIX"/lib/R
+    PREFIX_LIB="$PREFIX"/lib/R
   elif [[ $target_platform == win-64 ]]; then
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/library
@@ -25,11 +25,11 @@ make_mro_base () {
     cp launcher.exe $PREFIX/Scripts/Rscript.exe
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
-    PREFIX="$PREFIX"/R
+    PREFIX_LIB="$PREFIX"/R
   else
     FRAMEWORK=
-    LIBRARY=$FRAMEWORK/library
-    PREFIX="$PREFIX"/lib/R
+    LIBRARY=$FRAMEWORK/lib/R/library
+    PREFIX_LIB="$PREFIX"/library
   fi
 
   mkdir -p "$PREFIX"$LIBRARY
@@ -39,16 +39,20 @@ make_mro_base () {
       LIBRARY_CASED=${LIBRARY_CASED//.\//}
       if ! contains $LIBRARY_CASED "${EXCLUDED_PACKAGES[@]}"; then
         echo "Including $LIBRARY_CASED"
-        mv $LIBRARY_CASED "$PREFIX"$LIBRARY/
+        mv $LIBRARY_CASED "$PREFIX_LIB"/
       else
         echo "Skipping $LIBRARY_CASED"
       fi
     done
   popd
 
-  pushd unpack
-    mv bin/* "$PREFIX"/bin
-    mv doc etc include modules share README.R* CHANGES COPYING README Tcl src "$PREFIX"
+  pushd unpack$LIBRARY/..
+    mv library ../
+    rsync -avv . "$PREFIX"
+    mv ../library .
+    pushd $PREFIX
+      find . > ${RECIPE_DIR}/in-prefix.txt
+    popd
   popd
 }
 declare -a EXCLUDED_PACKAGES
