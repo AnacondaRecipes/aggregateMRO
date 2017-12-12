@@ -904,3 +904,38 @@ outputs:
         and Aalen-Johansen (multi-state) curves, Cox models, and parametric accelerated
         failure time models.
       license_family: LGPL
+
+  - name: mro-basics
+    version: {{ version }}
+    requirements:
+      run:
+        - mro-base
+        - r-boot
+        - r-checkpoint
+        - r-cluster
+        - r-codetools
+        - r-curl
+        - r-deployrrserve
+        - r-foreign
+        - r-iterators
+        - r-jsonlite
+        - r-kernsmooth
+        - r-lattice
+        - r-mass
+        - r-microsoftr
+        - r-nnet
+        - r-png
+        - r-r6
+        - r-revomods
+        - r-revoutilsmath
+        - r-rpart
+        - r-runit
+        - r-spatial
+        - r-class
+        - r-foreach
+        - r-matrix
+        - r-nlme
+        - r-revoioq
+        - r-doparallel
+        - r-mgcv
+        - r-survival
