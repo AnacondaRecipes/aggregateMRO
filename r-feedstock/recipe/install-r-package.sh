@@ -15,13 +15,16 @@ fi
 
 mkdir -p "$PREFIX"$LIBRARY
 
-pushd unpack$LIBRARY
-for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
-  mv $LIBRARY_CASED "$PREFIX_LIB"/
-done
-popd
-if [[ "$LIBRARY_NAME" == revoutilsmath ]] && [[ $target_platform == linux-64 ]]; then
-  mv unpack/stage "$PREFIX"
+if [[ "$LIBRARY_NAME" == "revoutilsmath" ]] && [[ $target_platform == linux-64 ]]; then
+  mkdir -p "$PREFIX"/lib/mro_mkl/
+  mv unpack/lib/mro_mkl/* "$PREFIX"/lib/mro_mkl/
+  mv "$PREFIX"/lib/mro_mkl/libRblas.so "$PREFIX"/lib/
 fi
+
+pushd unpack$LIBRARY
+  for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
+    mv $LIBRARY_CASED "$PREFIX_LIB"/
+  done
+popd
 
 find . | wc -l

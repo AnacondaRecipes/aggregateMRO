@@ -38,9 +38,11 @@ pushd unpack
   # 2. Save filelist back to the recipe.
   find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.txt
 
-  # 3. Rearrange layout so it is compatible with conda
+  # 3. Rearrange layout so it is compatible with conda, or at least does not stomp all over
+  #    conda packages (MKL for example).
   if [[ $target_platform == linux-64 ]]; then
     mv opt/microsoft/ropen/3.4.1/lib64 lib
+    mv opt/microsoft/ropen/3.4.1/stage stage
   elif [[ $target_platform == osx-64 ]]; then
     echo "No layout changes necessary for $target_platform"
   else
@@ -57,14 +59,26 @@ pushd unpack
       cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
     popd
     patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
+    # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
+    mkdir -p lib/mro_mkl/
+    mv stage/Linux/bin/x64/* lib/mro_mkl/
+    OLD_RPATH=$(patchelf --print-rpath lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so)
+    patchelf --set-rpath '$ORIGIN'/../../../lib/mro_mkl:$OLD_RPATH lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so
   elif [[ $target_platform == osx-64 ]]; then
     echo "No fixes necessary for $target_platform"
   else
     echo "No fixes necessary for $target_platform"
   fi
+
+  # 5. Workaround a conda-build bug (you cannot use always_include_files: and script: together).
+  # if [[ $target_platform == linux-64 ]]; then
+  #   set -x
+  #   ls -l lib/R/lib/libRblas.so
+  #   rm lib/R/lib/libRblas.so
+  # fi
 popd
 
-# 5. Compile launcher stub.
+# 6. Compile launcher stub.
 if [[ $target_platform == win-64 ]]; then
   env
   # Compile the launcher

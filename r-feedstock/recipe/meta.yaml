@@ -272,7 +272,9 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
-    
+      always_include_files:
+        - lib/libRblas.so  # [linux]
+
     requirements:
       host:
         - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
