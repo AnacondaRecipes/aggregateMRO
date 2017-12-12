@@ -32,7 +32,7 @@ INDENT = '\n        - '
 # tree (R-3.0.2/share/make/vars.mk).  Hopefully they don't change too much
 # between versions.
 
-R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations',)
+R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations', 'RevoUtils')
 
 # Stolen then tweaked from debian.deb822.PkgRelation.__dep_RE.
 VERSION_DEPENDENCY_REGEX = re.compile(
@@ -42,18 +42,18 @@ VERSION_DEPENDENCY_REGEX = re.compile(
     r'?(\s*\[(?P<archs>[\s!\w\-]+)\])?\s*$'
 )
 
-sources = {'win': {'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
-                    'fn': 'SRO_'+VERSION+'.0_1033.cab',
-                   'sha': 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985',
-                   'library': 'library'},
-           'linux': {'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.tar.gz',
-                      'fn': 'microsoft-r-open-'+VERSION+'.tar.gz',
-                     'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',
-                     'library': 'R/library'},
-           'mac': {'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.pkg',
-                    'fn': 'microsoft-r-open-'+VERSION+'.pkg',
-                   'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',
-                   'library': 'R/library'}}
+sources = {'win': {      'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
+                          'fn': 'SRO_'+VERSION+'.0_1033.cab',
+                         'sha': 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985',
+                     'library': 'library'},
+           'linux': {    'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.tar.gz',
+                          'fn': 'microsoft-r-open-'+VERSION+'.tar.gz',
+                         'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',
+                     'library': 'opt/microsoft/ropen/3.4.1/lib64/R/library'},
+           'mac': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.pkg',
+                          'fn': 'microsoft-r-open-'+VERSION+'.pkg',
+                         'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',
+                     'library': 'R/library'}}
 
 HEADER='''
 {{% set pfx = 'r-' %}}
@@ -291,7 +291,7 @@ mkdir -p "$PREFIX"$LIBRARY
 
 pushd unpack$LIBRARY
 for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
-  mv $LIBRARY_CASED "$PREFIX"$LIBRARY/
+  mv $LIBRARY_CASED "$PREFIX_LIB"/
 done
 find . | wc -l
 '''

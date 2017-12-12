@@ -26,7 +26,7 @@ pushd unpack
     done
     rm -rf R_Open_App.pkg R_Open_Framework.pkg Distribution
   elif [[ $target_platform == linux-64 ]]; then
-    # TODO :: May need to put the MKL libs into a separate package.
+    # TODO :: May need to put the MKL libs into a separate package (actually they're in r-revoutilsmath)
     for RPM in $(find rpm -name "*.rpm"); do
       echo $RPM
       python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true

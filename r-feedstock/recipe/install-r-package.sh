@@ -17,6 +17,11 @@ mkdir -p "$PREFIX"$LIBRARY
 
 pushd unpack$LIBRARY
 for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
-  mv $LIBRARY_CASED "$PREFIX"$LIBRARY/
+  mv $LIBRARY_CASED "$PREFIX_LIB"/
 done
+popd
+if [[ "$LIBRARY_NAME" == revoutilsmath ]] && [[ $target_platform == linux-64 ]]; then
+  mv unpack/stage "$PREFIX"
+fi
+
 find . | wc -l

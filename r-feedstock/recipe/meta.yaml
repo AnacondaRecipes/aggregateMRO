@@ -123,7 +123,7 @@ outputs:
       license_family: GPL3
 
   - name: r-microsoftr
-    version: 3.4.1.0081
+    version: 3.4.1.0077
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -179,33 +179,6 @@ outputs:
         the methods package. These classes allow public and private members, and they support
         inheritance, even when the classes are defined in different packages.
       license_family: MIT
-
-  - name: r-rodbc
-    version: 1.3_15
-    script: install-r-package.sh
-    # This is required to make R link correctly on Linux.
-    build:
-      rpaths:
-        - lib/R/lib/
-        - lib/
-    
-    requirements:
-      host:
-        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
-      run:
-        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
-
-    test:
-      commands:
-        # You can put additional test commands to be run here.
-        - $R -e "library('RODBC')"           # [not win]
-        - "\"%R%\" -e \"library('RODBC')\""  # [win]
-
-    about:
-      home: https://mran.microsoft.com/package/RODBC
-      license: GPL-2 | GPL-3
-      summary: An ODBC database interface.
-      license_family: GPL3
 
   - name: r-runit
     version: 0.4.26
@@ -291,8 +264,8 @@ outputs:
       summary: Microsoft modifications and extensions to standard R functions
       license_family: GPL2
 
-  - name: r-revoutils
-    version: 10.0.5
+  - name: r-revoutilsmath
+    version: 10.0.0
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -309,14 +282,14 @@ outputs:
     test:
       commands:
         # You can put additional test commands to be run here.
-        - $R -e "library('RevoUtils')"           # [not win]
-        - "\"%R%\" -e \"library('RevoUtils')\""  # [win]
+        - $R -e "library('RevoUtilsMath')"           # [not win]
+        - "\"%R%\" -e \"library('RevoUtilsMath')\""  # [win]
 
     about:
-      home: https://mran.microsoft.com/package/RevoUtils
-      license: GPL-2
-      summary: Utility functions for Microsoft R
-      license_family: GPL2
+      home: https://mran.microsoft.com/package/RevoUtilsMath
+      license: file LICENSE
+      summary: Utility functions for managing math threading.
+      license_family: OTHER
 
   - name: r-boot
     version: 1.3_19
@@ -568,6 +541,42 @@ outputs:
       summary: Provides a parallel backend for the %dopar% function using the parallel package.
       license_family: GPL2
 
+  - name: r-foreach
+    version: 1.4.4
+    script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: randomForest
+    requirements:
+      host:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('foreach')"           # [not win]
+        - "\"%R%\" -e \"library('foreach')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/foreach
+      license: Apache License (== 2.0)
+      summary: Support for the foreach looping construct.  Foreach is an idiom that allows for iterating
+        over elements in a collection, without the use of an explicit loop counter.  This
+        package in particular is intended to be used for its return value, rather than for
+        its side effects.  In that sense, it is similar to the standard lapply function,
+        but doesn't require the evaluation of a function.  Using foreach without side effects
+        also facilitates executing the loop in parallel.
+      license_family: APACHE
+
   - name: r-foreign
     version: 0.8_67
     script: install-r-package.sh
@@ -595,6 +604,34 @@ outputs:
       summary: Functions for reading and writing data stored by some versions of Epi Info, Minitab,
         S, SAS, SPSS, Stata, Systat and Weka and for reading and writing some dBase files.
       license_family: GPL3
+
+  - name: r-iterators
+    version: 1.0.8
+    script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    # Suggests: RUnit
+    requirements:
+      host:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('iterators')"           # [not win]
+        - "\"%R%\" -e \"library('iterators')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/iterators
+      license: Apache License (== 2.0)
+      summary: Support for iterators, which allow a programmer to traverse through all the elements
+        of a vector, list, or other collection of data.
+      license_family: APACHE
 
   - name: r-jsonlite
     version: 1.4
