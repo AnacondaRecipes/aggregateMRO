@@ -32,7 +32,7 @@ INDENT = '\n        - '
 # tree (R-3.0.2/share/make/vars.mk).  Hopefully they don't change too much
 # between versions.
 
-R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations', )
+R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations',)
 
 # Stolen then tweaked from debian.deb822.PkgRelation.__dep_RE.
 VERSION_DEPENDENCY_REGEX = re.compile(
@@ -73,12 +73,13 @@ HEADER='''
 
 package:
   name: r
-  version: {{ version }}
+  version: {{{{ version }}}}
 
 source:
   fn: {{{{ fn }}}}
   url: {{{{ url }}}}
   sha256: {{{{ shasum }}}}
+  folder: unpack
 
 requirements:
   build:
@@ -105,6 +106,7 @@ PACKAGE='''
         - lib/
     {suggests}
     requirements:
+      host:{run_depends}
       run:{run_depends}
 
     test:
@@ -130,9 +132,12 @@ elif [[ $target_platform == osx-64 ]]; then
   ARCHIVE={mac_fn}
 fi
 
-# If conda-build used libarchive to unpack things this would not need to exist
 mkdir -p unpack
 pushd unpack
+
+  # 1. Finish unpacking.
+  #    (if conda-build used libarchive to unpack things we could aim to remove this
+  #     but it would need a metadata flag to unpack archives within archives too).
   if [[ -f ../$ARCHIVE ]]; then
     python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
   fi
@@ -144,20 +149,57 @@ pushd unpack
       cat "$PAYLOAD" | gunzip -dc | cpio -i
     done
     rm -rf R_Open_App.pkg R_Open_Framework.pkg Distribution
+  elif [[ $target_platform == linux-64 ]]; then
+    # TODO :: May need to put the MKL libs into a separate package.
+    for RPM in $(find rpm -name "*.rpm"); do
+      echo $RPM
+      python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
+      find .
+    done
   fi
   find . | sort > $RECIPE_DIR/filelist-mro-$target_platform.txt
+
+  # 2. Save filelist back to the recipe.
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.txt
+
+  # 3. Rearrange layout so it is compatible with conda
+  if [[ $target_platform == linux-64 ]]; then
+    mv opt/microsoft/ropen/3.4.1/lib64 lib
+  elif [[ $target_platform == osx-64 ]]; then
+    echo "No layout changes necessary for $target_platform"
+  else
+    echo "No layout necessary for $target_platform"
+  fi
+
+  # 4. Implement any necessary fixes.
+  if [[ $target_platform == linux-64 ]]; then
+    # Workaround: https://github.com/Microsoft/microsoft-r-open/issues/15
+    #        and: https://github.com/Microsoft/microsoft-r-open/issues/44
+    pushd $(mktemp -d)
+      curl -SLO http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
+      "$RECIPE_DIR"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
+      cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
+    popd
+    patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
+  elif [[ $target_platform == osx-64 ]]; then
+    echo "No fixes necessary for $target_platform"
+  else
+    echo "No fixes necessary for $target_platform"
+  fi
 popd
+
+# 5. Compile launcher stub.
 if [[ $target_platform == win-64 ]]; then
   env
   # Compile the launcher
   # XXX: Should we build Rgui with -DGUI=1 -mwindows?  The only difference is
-  # that it doesn't block the terminal, but we also can't get the return
+  # that it does not block the terminal, but we also cannot get the return
   # value for the conda build tests.
   # NOTE: This needs to be run on Windows or via Wine.
   if [[ ! $(uname) =~ M* ]]; then
     WINE=wine
     if ! which $WINE; then
-      echo "To build mro-base you need Wine"
+      echo "To build mro-base on $BUILD you need Wine"
       exit 1
     fi
   fi
@@ -178,7 +220,7 @@ make_mro_base () {{
   if [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
-    PREFIX="$PREFIX"/lib/R
+    PREFIX_LIB="$PREFIX"/lib/R
   elif [[ $target_platform == win-64 ]]; then
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/library
@@ -192,11 +234,11 @@ make_mro_base () {{
     cp launcher.exe $PREFIX/Scripts/Rscript.exe
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
-    PREFIX="$PREFIX"/R
+    PREFIX_LIB="$PREFIX"/R
   else
     FRAMEWORK=
-    LIBRARY=$FRAMEWORK/library
-    PREFIX="$PREFIX"/lib/R
+    LIBRARY=$FRAMEWORK/lib/R/library
+    PREFIX_LIB="$PREFIX"/library
   fi
 
   mkdir -p "$PREFIX"$LIBRARY
@@ -206,16 +248,20 @@ make_mro_base () {{
       LIBRARY_CASED=${{LIBRARY_CASED//.\//}}
       if ! contains $LIBRARY_CASED "${{EXCLUDED_PACKAGES[@]}}"; then
         echo "Including $LIBRARY_CASED"
-        mv $LIBRARY_CASED "$PREFIX"$LIBRARY/
+        mv $LIBRARY_CASED "$PREFIX_LIB"/
       else
         echo "Skipping $LIBRARY_CASED"
       fi
     done
   popd
 
-  pushd unpack
-    mv bin/* "$PREFIX"/bin
-    mv doc etc include modules share README.R* CHANGES COPYING README Tcl src "$PREFIX"
+  pushd unpack$LIBRARY/..
+    mv library ../
+    rsync -avv . "$PREFIX"
+    mv ../library .
+    pushd $PREFIX
+      find . > $RECIPE_DIR/in-prefix.txt
+    popd
   popd
 }}
 declare -a EXCLUDED_PACKAGES
@@ -233,9 +279,12 @@ LIBRARY_NAME=${{PKG_NAME//r-/}}
 if [[ $target_platform == osx-64 ]]; then
   FRAMEWORK=/Library/Frameworks/R.framework
   LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
-else
+elif [[ $target_platform == win-64 ]]; then
   FRAMEWORK=
   LIBRARY=$FRAMEWORK/library
+else
+  LIBRARY=$FRAMEWORK/lib/R/library
+  PREFIX_LIB="$PREFIX"/library
 fi
 
 mkdir -p "$PREFIX"$LIBRARY
@@ -285,249 +334,279 @@ def main():
     with TemporaryDirectory() as td:
         for platform, details in sources.items():
             # if platform != 'mac' and platform != 'win': # Cannot extract macOS .pkg files on Linux.
-            if platform == 'win':
+            if platform == 'win_no':
                 details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
                 os.chdir(td)
                 libarchive.extract_file(details['cached_as'])
                 libdir = os.path.join(td, details['library'])
                 library = os.listdir(libdir)
+                # library.append('foreach')
                 to_be_packaged = set(library) - set(R_BASE_PACKAGE_NAMES)
-            package_dicts = {}
-            for package in sorted(list(to_be_packaged)):
-                p = os.path.join(libdir, package, "DESCRIPTION")
-                with open(p) as cran_description:
-                    description_text = cran_description.read()
-                    d = dict_from_cran_lines(remove_package_line_continuations(
-                        description_text.splitlines()))
-                    d['orig_description'] = description_text
-                    package = d['Package'].lower()
-                    cran_metadata[package] = d
+            elif platform == 'linux':
+                details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
+                os.chdir(td)
+                libarchive.extract_file(details['cached_as'])
+                import glob
+                for filename in glob.iglob('**/*.rpm', recursive=True):
+                    print(filename)
+                    libarchive.extract_file(filename)
+                libdir = os.path.join(td, details['library'])
+                library = os.listdir(libdir)
+                # library.append('foreach')
+                to_be_packaged = set(library) - set(R_BASE_PACKAGE_NAMES)
+        package_dicts = {}
+        for package in sorted(list(to_be_packaged)):
+            p = os.path.join(libdir, package, "DESCRIPTION")
+            with open(p) as cran_description:
+                description_text = cran_description.read()
+                d = dict_from_cran_lines(remove_package_line_continuations(
+                    description_text.splitlines()))
+                d['orig_description'] = description_text
+                package = d['Package'].lower()
+                cran_metadata[package] = d
 
-                # Make sure package always uses the CRAN capitalization
-                package = cran_metadata[package.lower()]['Package']
-                package_dicts[package.lower()] = {}
-            for package in sorted(list(to_be_packaged)):
-                cran_package = cran_metadata[package.lower()]
+            # Make sure package always uses the CRAN capitalization
+            package = cran_metadata[package.lower()]['Package']
+            package_dicts[package.lower()] = {}
+        for package in sorted(list(to_be_packaged)):
+            cran_package = cran_metadata[package.lower()]
 
-                package_dicts[package.lower()].update(
-                    {
-                        'cran_packagename': package,
-                        'packagename': 'r-' + package.lower(),
-                        'patches': '',
-                        'build_number': 0,
-                        'build_depends': '',
-                        'run_depends': '',
-                        # CRAN doesn't seem to have this metadata :(
-                        'home_comment': '#',
-                        'homeurl': '',
-                        'summary_comment': '#',
-                        'summary': '',
-                    })
-                d = package_dicts[package.lower()]
-                d['url_key'] = 'url:'
-                d['fn_key'] = 'fn:'
-                d['git_url_key'] = ''
-                d['git_tag_key'] = ''
-                d['git_url'] = ''
-                d['git_tag'] = ''
-                d['hash_entry'] = ''
+            package_dicts[package.lower()].update(
+                {
+                    'cran_packagename': package,
+                    'packagename': 'r-' + package.lower(),
+                    'patches': '',
+                    'build_number': 0,
+                    'build_depends': '',
+                    'run_depends': '',
+                    # CRAN doesn't seem to have this metadata :(
+                    'home_comment': '#',
+                    'homeurl': '',
+                    'summary_comment': '#',
+                    'summary': '',
+                })
+            d = package_dicts[package.lower()]
+            d['url_key'] = 'url:'
+            d['fn_key'] = 'fn:'
+            d['git_url_key'] = ''
+            d['git_tag_key'] = ''
+            d['git_url'] = ''
+            d['git_tag'] = ''
+            d['hash_entry'] = ''
 
-                d['cran_version'] = cran_package['Version']
-                # Conda versions cannot have -. Conda (verlib) will treat _ as a .
-                d['conda_version'] = d['cran_version'].replace('-', '_')
+            d['cran_version'] = cran_package['Version']
+            # Conda versions cannot have -. Conda (verlib) will treat _ as a .
+            d['conda_version'] = d['cran_version'].replace('-', '_')
 
-                patches = []
-                script_env = []
-                extra_recipe_maintainers = []
-                build_number = 0
-                if not len(patches):
-                    patches.append("# patches:\n")
-                    patches.append("   # List any patch files here\n")
-                    patches.append("   # - fix.patch")
-                if len(extra_recipe_maintainers):
-                    extra_recipe_maintainers[1:].sort()
-                    extra_recipe_maintainers.insert(0, "extra:\n  ")
-                d['build_number'] = build_number
+            patches = []
+            script_env = []
+            extra_recipe_maintainers = []
+            build_number = 0
+            if not len(patches):
+                patches.append("# patches:\n")
+                patches.append("   # List any patch files here\n")
+                patches.append("   # - fix.patch")
+            if len(extra_recipe_maintainers):
+                extra_recipe_maintainers[1:].sort()
+                extra_recipe_maintainers.insert(0, "extra:\n  ")
+            d['build_number'] = build_number
 
-                cached_path = None
-                d['cran_metadata'] = '\n'.join(['# %s' % l for l in
-                                                cran_package['orig_lines'] if l])
+            cached_path = None
+            d['cran_metadata'] = '\n'.join(['# %s' % l for l in
+                                            cran_package['orig_lines'] if l])
 
-                # XXX: We should maybe normalize these
-                d['license'] = cran_package.get("License", "None")
-                d['license_family'] = guess_license_family(d['license'], allowed_license_families)
+            # XXX: We should maybe normalize these
+            d['license'] = cran_package.get("License", "None")
+            d['license_family'] = guess_license_family(d['license'], allowed_license_families)
 
-                if 'License_is_FOSS' in cran_package:
-                    d['license'] += ' (FOSS)'
-                if cran_package.get('License_restricts_use') == 'yes':
-                    d['license'] += ' (Restricts use)'
+            if 'License_is_FOSS' in cran_package:
+                d['license'] += ' (FOSS)'
+            if cran_package.get('License_restricts_use') == 'yes':
+                d['license'] += ' (Restricts use)'
 
-                if "URL" in cran_package:
-                    d['home_comment'] = ''
-                    d['homeurl'] = ' ' + yaml_quote_string(cran_package['URL'])
-                else:
-                    # use CRAN page as homepage if nothing has been specified
-                    d['home_comment'] = ''
-                    d['homeurl'] = ' https://mran.microsoft.com/package/{}'.format(package)
+            if "URL" in cran_package:
+                d['home_comment'] = ''
+                d['homeurl'] = ' ' + yaml_quote_string(cran_package['URL'])
+            else:
+                # use CRAN page as homepage if nothing has been specified
+                d['home_comment'] = ''
+                d['homeurl'] = ' https://mran.microsoft.com/package/{}'.format(package)
 
-                if 'Description' in cran_package:
-                    d['summary_comment'] = ''
-                    d['summary'] = ' ' + yaml_quote_string(cran_package['Description'], indent=6)
+            if 'Description' in cran_package:
+                d['summary_comment'] = ''
+                d['summary'] = ' ' + yaml_quote_string(cran_package['Description'], indent=6)
 
-                if "Suggests" in cran_package:
-                    d['suggests'] = "# Suggests: %s" % cran_package['Suggests']
-                else:
-                    d['suggests'] = ''
+            if "Suggests" in cran_package:
+                d['suggests'] = "# Suggests: %s" % cran_package['Suggests']
+            else:
+                d['suggests'] = ''
 
-                # Every package depends on at least R.
-                # I'm not sure what the difference between depends and imports is.
-                depends = [s.strip() for s in cran_package.get('Depends',
-                                                               '').split(',') if s.strip()]
-                imports = [s.strip() for s in cran_package.get('Imports',
-                                                               '').split(',') if s.strip()]
-                links = [s.strip() for s in cran_package.get("LinkingTo",
-                                                             '').split(',') if s.strip()]
+            # Every package depends on at least R.
+            # I'm not sure what the difference between depends and imports is.
+            depends = [s.strip() for s in cran_package.get('Depends',
+                                                           '').split(',') if s.strip()]
+            imports = [s.strip() for s in cran_package.get('Imports',
+                                                           '').split(',') if s.strip()]
+            links = [s.strip() for s in cran_package.get("LinkingTo",
+                                                         '').split(',') if s.strip()]
 
-                dep_dict = {}
+            dep_dict = {}
 
-                seen = set()
-                for s in list(chain(imports, depends, links)):
-                    match = VERSION_DEPENDENCY_REGEX.match(s)
-                    if not match:
-                        sys.exit("Could not parse version from dependency of %s: %s" %
-                                 (package, s))
-                    name = match.group('name')
-                    if name in seen:
+            seen = set()
+            for s in list(chain(imports, depends, links)):
+                match = VERSION_DEPENDENCY_REGEX.match(s)
+                if not match:
+                    sys.exit("Could not parse version from dependency of %s: %s" %
+                             (package, s))
+                name = match.group('name')
+                if name in seen:
+                    continue
+                seen.add(name)
+                archs = match.group('archs')
+                relop = match.group('relop') or ''
+                ver = match.group('version') or ''
+                ver = ver.replace('-', '_')
+                # If there is a relop there should be a version
+                assert not relop or ver
+
+                if archs:
+                    sys.exit("Don't know how to handle archs from dependency of "
+                             "package %s: %s" % (package, s))
+
+                dep_dict[name] = '{relop}{version}'.format(relop=relop, version=ver)
+
+            if 'R' not in dep_dict:
+                dep_dict['R'] = ''
+
+            need_git = is_github_url
+            if cran_package.get("NeedsCompilation", 'no') == 'yes' and False:
+                with tarfile.open(cached_path) as tf:
+                    need_f = any([f.name.lower().endswith(('.f', '.f90', '.f77')) for f in tf])
+                    # Fortran builds use CC to perform the link (they do not call the linker directly).
+                    need_c = True if need_f else \
+                        any([f.name.lower().endswith('.c') for f in tf])
+                    need_cxx = any([f.name.lower().endswith(('.cxx', '.cpp', '.cc', '.c++'))
+                                    for f in tf])
+                    need_autotools = any([f.name.lower().endswith('/configure') for f in tf])
+                    need_make = True if any((need_autotools, need_f, need_cxx, need_c)) else \
+                        any([f.name.lower().endswith(('/makefile', '/makevars'))
+                             for f in tf])
+            else:
+                need_c = need_cxx = need_f = need_autotools = need_make = False
+            for dep_type in ['build', 'run']:
+
+                deps = []
+                # Put non-R dependencies first.
+                if dep_type == 'build':
+                    if need_c:
+                        deps.append("{indent}{{{{ compiler('c') }}}}        # [not win]".format(
+                            indent=INDENT))
+                    if need_cxx:
+                        deps.append("{indent}{{{{ compiler('cxx') }}}}      # [not win]".format(
+                            indent=INDENT))
+                    if need_f:
+                        deps.append("{indent}{{{{ compiler('fortran') }}}}  # [not win]".format(
+                            indent=INDENT))
+                    if need_c or need_cxx or need_f:
+                        deps.append("{indent}{{{{native}}}}toolchain        # [win]".format(
+                            indent=INDENT))
+                    if need_autotools or need_make or need_git:
+                        deps.append("{indent}{{{{posix}}}}filesystem        # [win]".format(
+                            indent=INDENT))
+                    if need_git:
+                        deps.append("{indent}{{{{posix}}}}git".format(indent=INDENT))
+                    if need_autotools:
+                        deps.append("{indent}{{{{posix}}}}sed               # [win]".format(
+                            indent=INDENT))
+                        deps.append("{indent}{{{{posix}}}}grep              # [win]".format(
+                            indent=INDENT))
+                        deps.append("{indent}{{{{posix}}}}autoconf".format(indent=INDENT))
+                        deps.append("{indent}{{{{posix}}}}automake".format(indent=INDENT))
+                        deps.append("{indent}{{{{posix}}}}pkg-config".format(indent=INDENT))
+                    if need_make:
+                        deps.append("{indent}{{{{posix}}}}make".format(indent=INDENT))
+                elif dep_type == 'run':
+                    if need_c or need_cxx or need_f:
+                        deps.append("{indent}{{{{native}}}}gcc-libs         # [win]".format(
+                            indent=INDENT))
+
+                for name in sorted(dep_dict):
+                    if name in R_BASE_PACKAGE_NAMES:
                         continue
-                    seen.add(name)
-                    archs = match.group('archs')
-                    relop = match.group('relop') or ''
-                    ver = match.group('version') or ''
-                    ver = ver.replace('-', '_')
-                    # If there is a relop there should be a version
-                    assert not relop or ver
+                    if name == 'R':
+                        # Put R first
+                        # Regarless of build or run, and whether this is a recommended package or not,
+                        # it can only depend on 'r-base' since anything else can and will cause cycles
+                        # in the dependency graph. The cran metadata lists all dependencies anyway, even
+                        # those packages that are in the recommended group.
+                        r_name = 'mro-base ' + VERSION
+                        # We don't include any R version restrictions because we
+                        # always build R packages against an exact R version
+                        deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
+                    else:
+                        conda_name = 'r-' + name.lower()
 
-                    if archs:
-                        sys.exit("Don't know how to handle archs from dependency of "
-                                 "package %s: %s" % (package, s))
-
-                    dep_dict[name] = '{relop}{version}'.format(relop=relop, version=ver)
-
-                if 'R' not in dep_dict:
-                    dep_dict['R'] = ''
-
-                need_git = is_github_url
-                if cran_package.get("NeedsCompilation", 'no') == 'yes' and False:
-                    with tarfile.open(cached_path) as tf:
-                        need_f = any([f.name.lower().endswith(('.f', '.f90', '.f77')) for f in tf])
-                        # Fortran builds use CC to perform the link (they do not call the linker directly).
-                        need_c = True if need_f else \
-                            any([f.name.lower().endswith('.c') for f in tf])
-                        need_cxx = any([f.name.lower().endswith(('.cxx', '.cpp', '.cc', '.c++'))
-                                        for f in tf])
-                        need_autotools = any([f.name.lower().endswith('/configure') for f in tf])
-                        need_make = True if any((need_autotools, need_f, need_cxx, need_c)) else \
-                            any([f.name.lower().endswith(('/makefile', '/makevars'))
-                                 for f in tf])
-                else:
-                    need_c = need_cxx = need_f = need_autotools = need_make = False
-                for dep_type in ['build', 'run']:
-
-                    deps = []
-                    # Put non-R dependencies first.
-                    if dep_type == 'build':
-                        if need_c:
-                            deps.append("{indent}{{{{ compiler('c') }}}}        # [not win]".format(
-                                indent=INDENT))
-                        if need_cxx:
-                            deps.append("{indent}{{{{ compiler('cxx') }}}}      # [not win]".format(
-                                indent=INDENT))
-                        if need_f:
-                            deps.append("{indent}{{{{ compiler('fortran') }}}}  # [not win]".format(
-                                indent=INDENT))
-                        if need_c or need_cxx or need_f:
-                            deps.append("{indent}{{{{native}}}}toolchain        # [win]".format(
-                                indent=INDENT))
-                        if need_autotools or need_make or need_git:
-                            deps.append("{indent}{{{{posix}}}}filesystem        # [win]".format(
-                                indent=INDENT))
-                        if need_git:
-                            deps.append("{indent}{{{{posix}}}}git".format(indent=INDENT))
-                        if need_autotools:
-                            deps.append("{indent}{{{{posix}}}}sed               # [win]".format(
-                                indent=INDENT))
-                            deps.append("{indent}{{{{posix}}}}grep              # [win]".format(
-                                indent=INDENT))
-                            deps.append("{indent}{{{{posix}}}}autoconf".format(indent=INDENT))
-                            deps.append("{indent}{{{{posix}}}}automake".format(indent=INDENT))
-                            deps.append("{indent}{{{{posix}}}}pkg-config".format(indent=INDENT))
-                        if need_make:
-                            deps.append("{indent}{{{{posix}}}}make".format(indent=INDENT))
-                    elif dep_type == 'run':
-                        if need_c or need_cxx or need_f:
-                            deps.append("{indent}{{{{native}}}}gcc-libs         # [win]".format(
-                                indent=INDENT))
-
-                    for name in sorted(dep_dict):
-                        if name in R_BASE_PACKAGE_NAMES:
-                            continue
-                        if name == 'R':
-                            # Put R first
-                            # Regarless of build or run, and whether this is a recommended package or not,
-                            # it can only depend on 'r-base' since anything else can and will cause cycles
-                            # in the dependency graph. The cran metadata lists all dependencies anyway, even
-                            # those packages that are in the recommended group.
-                            r_name = 'mro-base {{ version }}'
-                            # We don't include any R version restrictions because we
-                            # always build R packages against an exact R version
-                            deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
+                        if dep_dict[name]:
+                            deps.append('{indent}{name} {version}'.format(name=conda_name,
+                                                                          version=dep_dict[name], indent=INDENT))
                         else:
-                            conda_name = 'r-' + name.lower()
+                            deps.append('{indent}{name}'.format(name=conda_name,
+                                                                indent=INDENT))
 
-                            if dep_dict[name]:
-                                deps.append('{indent}{name} {version}'.format(name=conda_name,
-                                                                              version=dep_dict[name], indent=INDENT))
-                            else:
-                                deps.append('{indent}{name}'.format(name=conda_name,
-                                                                    indent=INDENT))
+                d['dep_dict'] = dep_dict  # We need this for (1)
 
-                    d['%s_depends' % dep_type] = ''.join(deps)
+                # Make pin_subpackage from the deps. Done separately so the above is the same as conda-build's
+                # CRAN skeleton (so it is easy to refactor CRAN skeleton so it can be reused here later).
+                for i, dep in enumerate(deps):
+                    groups = re.match('(\n.* - )([\w-]+) ?([>=\w0-9._]+)?', dep, re.MULTILINE)
+                    indent = groups.group(1)
+                    name = groups.group(2)
+                    pinning = groups.group(3)
+                    if pinning:
+                        if '>=' in pinning:
+                            deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin=None) }}}}".format(indent, name, pinning.replace('>=', ''))
+                        else:
+                            deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin='{}') }}}}".format(indent, name, pinning, pinning)
+                    else:
+                        deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}}}".format(indent, name)
 
-            template={'version': VERSION,
-                      'win_url': sources['win']['url'],
-                      'win_fn': sources['win']['fn'],
-                      'win_sha': sources['win']['sha'],
-                      'linux_url': sources['linux']['url'],
-                      'linux_fn': sources['linux']['fn'],
-                      'linux_sha': sources['linux']['sha'],
-                      'mac_url': sources['mac']['url'],
-                      'mac_fn': sources['mac']['fn'],
-                      'mac_sha': sources['mac']['sha']}
+                d['%s_depends' % dep_type] = ''.join(deps)
 
-            with open(os.path.join(this_dir, 'meta.yaml'), 'w') as meta_yaml:
-                meta_yaml.write(HEADER.format(**template))
-                meta_yaml.write(BASE_PACKAGE)
+        template={'version': VERSION,
+                  'win_url': sources['win']['url'],
+                  'win_fn': sources['win']['fn'],
+                  'win_sha': sources['win']['sha'],
+                  'linux_url': sources['linux']['url'],
+                  'linux_fn': sources['linux']['fn'],
+                  'linux_sha': sources['linux']['sha'],
+                  'mac_url': sources['mac']['url'],
+                  'mac_fn': sources['mac']['fn'],
+                  'mac_sha': sources['mac']['sha']}
 
-                for package in package_dicts:
-                    d = package_dicts[package]
+        with open(os.path.join(this_dir, 'meta.yaml'), 'w') as meta_yaml:
+            meta_yaml.write(HEADER.format(**template))
+            meta_yaml.write(BASE_PACKAGE)
 
-                    # Normalize the metadata values
-                    d = {k: unicodedata.normalize("NFKD", text_type(v)).encode('ascii', 'ignore')
-                        .decode() for k, v in iteritems(d)}
+            for package in package_dicts:
+                d = package_dicts[package]
 
-                    meta_yaml.write(PACKAGE.format(**d))
+                # Normalize the metadata values
+                d = {k: unicodedata.normalize("NFKD", text_type(v)).encode('ascii', 'ignore')
+                    .decode() for k, v in iteritems(d)}
 
-            with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:
-                build_sh.write(BUILD_SH.format(**template))
+                meta_yaml.write(PACKAGE.format(**d))
 
-            with open(os.path.join(this_dir, 'install-mro-base.sh'), 'w') as install_mro_base:
-                install_mro_base.write(INSTALL_MRO_BASE_HEADER.format(**template))
-                for excluded in sorted(to_be_packaged, key=lambda s: s.lower()):
-                    install_mro_base.write('EXCLUDED_PACKAGES+=('+excluded+')\n')
-                install_mro_base.write(INSTALL_MRO_BASE_FOOTER.format(**template))
+        with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:
+            build_sh.write(BUILD_SH.format(**template))
 
-            with open(os.path.join(this_dir, 'install-r-package.sh'), 'w') as install_r_package:
-                install_r_package.write(INSTALL_R_PACKAGE.format(**template))
+        with open(os.path.join(this_dir, 'install-mro-base.sh'), 'w') as install_mro_base:
+            install_mro_base.write(INSTALL_MRO_BASE_HEADER.format(**template))
+            for excluded in sorted(to_be_packaged, key=lambda s: s.lower()):
+                install_mro_base.write('EXCLUDED_PACKAGES+=('+excluded+')\n')
+            install_mro_base.write(INSTALL_MRO_BASE_FOOTER.format(**template))
+
+        with open(os.path.join(this_dir, 'install-r-package.sh'), 'w') as install_r_package:
+            install_r_package.write(INSTALL_R_PACKAGE.format(**template))
 
 if __name__ == '__main__':
     main()

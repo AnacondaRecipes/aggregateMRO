@@ -51,7 +51,7 @@ make_mro_base () {
     rsync -avv . "$PREFIX"
     mv ../library .
     pushd $PREFIX
-      find . > ${RECIPE_DIR}/in-prefix.txt
+      find . > $RECIPE_DIR/in-prefix.txt
     popd
   popd
 }

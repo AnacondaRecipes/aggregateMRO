@@ -11,9 +11,9 @@ fi
 mkdir -p unpack
 pushd unpack
 
-# 1. Finish unpacking.
-#    (if conda-build used libarchive to unpack things we could aim to remove this
-#     but it would need a metadata flag to unpack archives within archives too).
+  # 1. Finish unpacking.
+  #    (if conda-build used libarchive to unpack things we could aim to remove this
+  #     but it would need a metadata flag to unpack archives within archives too).
   if [[ -f ../$ARCHIVE ]]; then
     python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
   fi
@@ -33,6 +33,7 @@ pushd unpack
       find .
     done
   fi
+  find . | sort > $RECIPE_DIR/filelist-mro-$target_platform.txt
 
   # 2. Save filelist back to the recipe.
   find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.txt
@@ -51,9 +52,9 @@ pushd unpack
     # Workaround: https://github.com/Microsoft/microsoft-r-open/issues/15
     #        and: https://github.com/Microsoft/microsoft-r-open/issues/44
     pushd $(mktemp -d)
-      wget -c http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
-      "${RECIPE_DIR}"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
-      cp -p usr/lib64/libpng12.so.0* "${SRC_DIR}"/unpack/lib/R/modules/
+      curl -SLO http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
+      "$RECIPE_DIR"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
+      cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
     popd
     patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
   elif [[ $target_platform == osx-64 ]]; then
@@ -74,7 +75,7 @@ if [[ $target_platform == win-64 ]]; then
   if [[ ! $(uname) =~ M* ]]; then
     WINE=wine
     if ! which $WINE; then
-      echo "To build mro-base on ${BUILD} you need Wine"
+      echo "To build mro-base on $BUILD you need Wine"
       exit 1
     fi
   fi

@@ -16,7 +16,7 @@
 
 package:
   name: r
-  version: { version }
+  version: {{ version }}
 
 source:
   fn: {{ fn }}
@@ -34,13 +34,9 @@ outputs:
   - name: mro-base
     version: {{ version }}
     script: install-mro-base.sh
-    test:
-      commands:
-        - $R --help  # [not win]
-        - "\"%R%\" --help"  # [win]
 
   - name: r-kernsmooth
-    version: 2.23.15
+    version: 2.23_15
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -48,6 +44,11 @@ outputs:
         - lib/R/lib/
         - lib/
     # Suggests: MASS
+    requirements:
+      host:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -64,7 +65,7 @@ outputs:
       license_family: MIT
 
   - name: r-mass
-    version: 7.3.47
+    version: 7.3_47
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -74,7 +75,9 @@ outputs:
     # Suggests: lattice, nlme, nnet, survival
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -90,7 +93,7 @@ outputs:
       license_family: GPL3
 
   - name: r-matrix
-    version: 1.2.10
+    version: 1.2_10
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -100,8 +103,11 @@ outputs:
     # Suggests: expm, MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        - r-lattice
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
       commands:
@@ -127,7 +133,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -152,7 +160,9 @@ outputs:
     # Suggests: knitr, microbenchmark, pryr, testthat, ggplot2, scales
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -171,7 +181,7 @@ outputs:
       license_family: MIT
 
   - name: r-rodbc
-    version: 1.3.15
+    version: 1.3_15
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -181,7 +191,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -206,7 +218,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -232,8 +246,11 @@ outputs:
     # Suggests: RevoUtils
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        - {{ pin_subpackage('r-runit',  min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
 
     test:
       commands:
@@ -258,7 +275,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -272,33 +291,35 @@ outputs:
       summary: Microsoft modifications and extensions to standard R functions
       license_family: GPL2
 
-#  - name: r-revoutils
-#    version: 10.0.5
-#    script: install-r-package.sh
-#    # This is required to make R link correctly on Linux.
-#    build:
-#      rpaths:
-#        - lib/R/lib/
-#        - lib/
-#    
-#    requirements:
-#      host:
-#        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-#
-#    test:
-#      commands:
-#        # You can put additional test commands to be run here.
-#        - $R -e "library('RevoUtils')"           # [not win]
-#        - "\"%R%\" -e \"library('RevoUtils')\""  # [win]
-#
-#    about:
-#      home: https://mran.microsoft.com/package/RevoUtils
-#      license: GPL-2
-#      summary: Utility functions for Microsoft R
-#      license_family: GPL2
+  - name: r-revoutils
+    version: 10.0.5
+    script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+    
+    requirements:
+      host:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RevoUtils')"           # [not win]
+        - "\"%R%\" -e \"library('RevoUtils')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/RevoUtils
+      license: GPL-2
+      summary: Utility functions for Microsoft R
+      license_family: GPL2
 
   - name: r-boot
-    version: 1.3.19
+    version: 1.3_19
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -308,7 +329,9 @@ outputs:
     # Suggests: MASS, survival
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -335,7 +358,9 @@ outputs:
     # Suggests: knitr, rmarkdown, testthat(>= 0.9), MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -361,7 +386,7 @@ outputs:
       license_family: GPL2
 
   - name: r-class
-    version: 7.3.14
+    version: 7.3_14
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -371,8 +396,11 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        - {{ pin_subpackage('r-mass',  exact=True) }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
       commands:
@@ -398,7 +426,9 @@ outputs:
     # Suggests: MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -415,7 +445,7 @@ outputs:
       license_family: GPL3
 
   - name: r-codetools
-    version: 0.2.15
+    version: 0.2_15
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -425,7 +455,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -450,7 +482,9 @@ outputs:
     # Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -482,7 +516,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -512,9 +548,13 @@ outputs:
     # Suggests: caret, mlbench, rpart
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-#        - {{ pin_subpackage('r-foreach', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-foreach', min_pin='1.2.0', max_pin=None) }}
+        - {{ pin_subpackage('r-iterators', min_pin='1.0.0', max_pin=None) }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-foreach', min_pin='1.2.0', max_pin=None) }}
+        - {{ pin_subpackage('r-iterators', min_pin='1.0.0', max_pin=None) }}
 
     test:
       commands:
@@ -529,7 +569,7 @@ outputs:
       license_family: GPL2
 
   - name: r-foreign
-    version: 0.8.67
+    version: 0.8_67
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -539,7 +579,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -565,7 +607,9 @@ outputs:
     # Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -588,7 +632,7 @@ outputs:
       license_family: MIT
 
   - name: r-lattice
-    version: 0.20.35
+    version: 0.20_35
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -598,7 +642,9 @@ outputs:
     # Suggests: KernSmooth, MASS, latticeExtra
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -616,7 +662,7 @@ outputs:
       license_family: GPL3
 
   - name: r-mgcv
-    version: 1.8.17
+    version: 1.8_17
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -626,9 +672,13 @@ outputs:
     # Suggests: splines, parallel, survival, MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        - {{ pin_subpackage('r-matrix', exact=True) }}
-        - {{ pin_subpackage('r-nlme', exact=True) }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
 
     test:
       commands:
@@ -645,7 +695,7 @@ outputs:
       license_family: GPL3
 
   - name: r-nlme
-    version: 3.1.131
+    version: 3.1_131
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -655,8 +705,11 @@ outputs:
     # Suggests: Hmisc, MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        - {{ pin_subpackage('r-lattice', exact=True) }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
       commands:
@@ -671,7 +724,7 @@ outputs:
       license_family: GPL3
 
   - name: r-nnet
-    version: 7.3.12
+    version: 7.3_12
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -681,7 +734,9 @@ outputs:
     # Suggests: MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -697,7 +752,7 @@ outputs:
       license_family: GPL3
 
   - name: r-png
-    version: 0.1.7
+    version: 0.1_7
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -707,7 +762,9 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -723,7 +780,7 @@ outputs:
       license_family: GPL3
 
   - name: r-rpart
-    version: 4.1.11
+    version: 4.1_11
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -733,7 +790,9 @@ outputs:
     # Suggests: survival
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -750,7 +809,7 @@ outputs:
       license_family: GPL3
 
   - name: r-spatial
-    version: 7.3.11
+    version: 7.3_11
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -760,7 +819,9 @@ outputs:
     # Suggests: MASS
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
 
     test:
       commands:
@@ -775,7 +836,7 @@ outputs:
       license_family: GPL3
 
   - name: r-survival
-    version: 2.41.3
+    version: 2.41_3
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -785,8 +846,11 @@ outputs:
     
     requirements:
       host:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
-        # - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x.x.x', max_pin='x.x.x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='3.4.1', max_pin='3.4.1') }}
+        - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
       commands:
