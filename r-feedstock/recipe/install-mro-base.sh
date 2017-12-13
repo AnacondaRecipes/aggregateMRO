@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 contains () {
   local e match="$1"
   shift
@@ -51,7 +53,7 @@ make_mro_base () {
     rsync -avv . "$PREFIX"
     mv ../library .
     pushd $PREFIX
-      find . > $RECIPE_DIR/in-prefix.txt
+      find . > $RECIPE_DIR/filelist-mro-base-in-prefix-$target_platform.txt
     popd
   popd
 }

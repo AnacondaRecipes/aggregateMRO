@@ -93,5 +93,14 @@ if [[ $target_platform == win-64 ]]; then
       exit 1
     fi
   fi
-  $WINE "$PREFIX"/Library/mingw-w64/bin/gcc.exe -DGUI=0 -O -s -o launcher.exe "$RECIPE_DIR"/launcher.c || exit 1
+  # Wine has trouble finding DLLs on PATH?!
+  pushd "$PREFIX"/Library/mingw-w64/bin
+    PATH="$PREFIX"/Library/mingw-w64/bin:$PATH \
+      $WINE "$PREFIX"/Library/mingw-w64/bin/gcc.exe -DGUI=0 -O -s -o "$SRC_DIR"/launcher.exe "$RECIPE_DIR"/launcher.c || exit 1
+  popd
 fi
+
+# 7. Save end of build.sh filelist back to the recipe.
+pushd unpack
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.end-of-build-sh.txt
+popd
