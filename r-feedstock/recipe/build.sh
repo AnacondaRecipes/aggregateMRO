@@ -13,7 +13,8 @@ exec 1<> /c/Users/builder/conda/build-mro.log
 exec 2>&1
 
 if [[ $target_platform == win-64 ]]; then
-  ARCHIVE=SRO_3.4.1.0_1033.cab
+  # ARCHIVE=SRO_3.4.1.0_1033.cab
+  ARCHIVE=microsoft-r-open-3.4.1.exe
 elif [[ $target_platform == linux-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.1.tar.gz
 elif [[ $target_platform == osx-64 ]]; then
@@ -26,8 +27,24 @@ pushd unpack
   # 1. Finish unpacking.
   #    (if conda-build used libarchive to unpack things we could aim to remove this
   #     but it would need a metadata flag to unpack archives within archives too).
+  declare -a ARCHIVES
   if [[ -f $ARCHIVE ]]; then
-    python -c "import libarchive, os; libarchive.extract_file('$ARCHIVE')" || exit 1
+    if [[ $target_platform == win-64 ]]; then
+      pushd $(mktemp -d)
+        "$SRC_DIR"/wix/dark.exe microsoft-r-open-3.4.1.exe -x $PWD
+        msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        ARCHIVES+=($PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab)
+        ARCHIVES+=($PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab)
+      popd
+    else
+      ARCHIVES+=($ARCHIVE)
+    fi
+    for ARCHIVE in "${ARCHIVES[@]}"; do
+      python -c "import libarchive, os; libarchive.extract_file('$ARCHIVE')" || exit 1
+      rm $ARCHIVE
+    done
   fi
   # Even on Darwin, libarchive will fail to unpack a .pkg file.
   # if [[ $? != 0 ]]; then  # for some reason the script exits if libarchive fails to unpack?

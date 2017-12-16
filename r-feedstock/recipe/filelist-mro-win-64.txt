@@ -1,7 +1,6 @@
 .
-./bin
-./bin/config.sh
-./bin/R.exe
+./microsoft-r-open-3.4.1.exe
+.exe
 ./bin/Rscript.exe
 ./bin/x64
 ./bin/x64/open.exe

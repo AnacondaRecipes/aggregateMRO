@@ -60,7 +60,9 @@ make_mro_base () {
 
   pushd unpack$LIBRARY/.. || exit 1
     mv library ../
-    rsync -avv . "$PREFIX"
+    # We have no m2-rsync unfortunately.
+    # rsync -avv . "$PREFIX" || exit 1
+    cp -rf * "$PREFIX"
     mv ../library .
     pushd $PREFIX
       find . > $RECIPE_DIR/filelist-mro-base-in-prefix-$target_platform.txt
