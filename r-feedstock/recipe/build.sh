@@ -31,12 +31,20 @@ pushd unpack
   if [[ -f $ARCHIVE ]]; then
     if [[ $target_platform == win-64 ]]; then
       pushd $(mktemp -d)
-        "$SRC_DIR"/wix/dark.exe microsoft-r-open-3.4.1.exe -x $PWD
-        msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
+        rm -f $SRC_DIR/unpack/$ARCHIVE
+        msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
+        mv Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
+        # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
+        rm -rf Microsoft/MRO-3.4.1.0/Setup
+        mv Microsoft/MRO-3.4.1.0/* "$SRC_DIR"/unpack
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
-        ARCHIVES+=($PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab)
-        ARCHIVES+=($PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab)
+        # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
+        ARCHIVES+=(MKL_2017.0.36.5_1033.cab)
+        ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab)
+        echo ARCHIVES are ${ARCHIVES[@]}
       popd
     else
       ARCHIVES+=($ARCHIVE)

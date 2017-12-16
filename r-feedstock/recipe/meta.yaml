@@ -35,6 +35,7 @@ source:
     sha256: {{ shasum }}
     folder: unpack
   - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
+    sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
     folder: wix                                                                              # [win64]
 
 requirements:
