@@ -2,6 +2,16 @@
 
 set -x
 
+exec 1<&-
+# Close STDERR FD
+exec 2<&-
+
+# Open STDOUT as $LOG_FILE file for read and write.
+exec 1<> /c/Users/builder/conda/install-mro-base.log
+
+# Redirect STDERR to STDOUT
+exec 2>&1
+
 contains () {
   local e match="$1"
   shift
@@ -36,7 +46,7 @@ make_mro_base () {
 
   mkdir -p "$PREFIX"$LIBRARY
 
-  pushd unpack$LIBRARY
+  pushd unpack$LIBRARY || exit 1
     for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
       LIBRARY_CASED=${LIBRARY_CASED//.\//}
       if ! contains $LIBRARY_CASED "${EXCLUDED_PACKAGES[@]}"; then
@@ -48,7 +58,7 @@ make_mro_base () {
     done
   popd
 
-  pushd unpack$LIBRARY/..
+  pushd unpack$LIBRARY/.. || exit 1
     mv library ../
     rsync -avv . "$PREFIX"
     mv ../library .

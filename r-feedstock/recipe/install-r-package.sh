@@ -21,7 +21,7 @@ if [[ "$LIBRARY_NAME" == "revoutilsmath" ]] && [[ $target_platform == linux-64 ]
   mv "$PREFIX"/lib/mro_mkl/libRblas.so "$PREFIX"/lib/
 fi
 
-pushd unpack$LIBRARY
+pushd unpack$LIBRARY || exit 1
   for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
     mv $LIBRARY_CASED "$PREFIX_LIB"/
   done
