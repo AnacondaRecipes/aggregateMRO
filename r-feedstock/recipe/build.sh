@@ -38,21 +38,26 @@ pushd unpack
         mv Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
         # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
         rm -rf Microsoft/MRO-3.4.1.0/Setup
-        cp -rf Microsoft/MRO-3.4.1.0/* "$SRC_DIR"/unpack
-        rm -rf Microsoft/MRO-3.4.1.0
+        mkdir -p "$SRC_DIR"/unpack/lib
+        mv Microsoft/MRO-3.4.1.0 "$SRC_DIR"/unpack/lib/R
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
-        ARCHIVES+=(MKL_2017.0.36.5_1033.cab)
-        ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab)
+        ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R)
+        ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab,lib/R)
         echo ARCHIVES are ${ARCHIVES[@]}
       popd
     else
-      ARCHIVES+=($ARCHIVE)
+      ARCHIVES+=($ARCHIVE,.)
     fi
-    for ARCHIVE in "${ARCHIVES[@]}"; do
-      python -c "import libarchive, os; libarchive.extract_file('$ARCHIVE')" || exit 1
-      rm $ARCHIVE
+    for ARCHIVE_DEST in "${ARCHIVES[@]}"; do
+      ARCHIVE=${ARCHIVE_DEST//,*/}
+      DEST=${ARCHIVE_DEST#*,}
+      mv $ARCHIVE $DEST/
+      pushd $DEST
+        python -c "import libarchive, os; libarchive.extract_file('$ARCHIVE')" || exit 1
+        rm $ARCHIVE
+      popd
     done
   fi
   # Even on Darwin, libarchive will fail to unpack a .pkg file.
@@ -118,7 +123,6 @@ popd
 
 # 6. Compile launcher stub.
 if [[ $target_platform == win-64 ]]; then
-  env
   # Compile the launcher
   # XXX: Should we build Rgui with -DGUI=1 -mwindows?  The only difference is
   # that it does not block the terminal, but we also cannot get the return

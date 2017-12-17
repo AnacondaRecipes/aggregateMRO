@@ -7,10 +7,12 @@ if [[ $target_platform == osx-64 ]]; then
   LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
 elif [[ $target_platform == win-64 ]]; then
   FRAMEWORK=
-  LIBRARY=$FRAMEWORK/library
-else
   LIBRARY=$FRAMEWORK/lib/R/library
-  PREFIX_LIB="$PREFIX"/library
+  PREFIX_LIB="$PREFIX"/lib/R/library
+else
+FRAMEWORK=
+  LIBRARY=$FRAMEWORK/lib/R/library
+  PREFIX_LIB="$PREFIX"/lib/R/library
 fi
 
 mkdir -p "$PREFIX"$LIBRARY

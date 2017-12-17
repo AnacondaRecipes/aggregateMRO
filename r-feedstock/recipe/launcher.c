@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <process.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if __SIZEOF_POINTER__ == 8
 # define ARCH "x64"
@@ -199,7 +199,7 @@ int run(int argc, char **argv, int is_gui)
         }
     }
     strcpy(newpath, path);
-    strcat(newpath, "\\bin\\" ARCH "\\");
+    strcat(newpath, "\\lib\\R\\bin\\" ARCH "\\");
     strcat(newpath, fn);
 
 #if DEBUG

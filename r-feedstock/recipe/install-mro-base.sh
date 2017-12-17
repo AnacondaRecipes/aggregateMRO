@@ -37,20 +37,22 @@ make_mro_base () {
     cp launcher.exe $PREFIX/Scripts/Rscript.exe
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
-    PREFIX_LIB="$PREFIX"/R
+    LIBRARY=$FRAMEWORK/lib/R/library
+    PREFIX_LIB="$PREFIX"/lib/R/library
   else
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/lib/R/library
-    PREFIX_LIB="$PREFIX"/library
+    # Probably needs to be as-per win-64?
+    PREFIX_LIB="$PREFIX"/lib/R/library
   fi
 
-  mkdir -p "$PREFIX"$LIBRARY
+  mkdir -p "$PREFIX_LIB"
 
   pushd unpack$LIBRARY || exit 1
     for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
       LIBRARY_CASED=${LIBRARY_CASED//.\//}
       if ! contains $LIBRARY_CASED "${EXCLUDED_PACKAGES[@]}"; then
-        echo "Including $LIBRARY_CASED"
+        echo "Including $LIBRARY_CASED => $PREFIX_LIB"
         mv $LIBRARY_CASED "$PREFIX_LIB"/
       else
         echo "Skipping $LIBRARY_CASED"
@@ -62,7 +64,7 @@ make_mro_base () {
     mv library ../
     # We have no m2-rsync unfortunately.
     # rsync -avv . "$PREFIX" || exit 1
-    cp -rf * "$PREFIX"
+    cp -rf * "$PREFIX"/lib/R/
     mv ../library .
     pushd $PREFIX
       find . > $RECIPE_DIR/filelist-mro-base-in-prefix-$target_platform.txt
