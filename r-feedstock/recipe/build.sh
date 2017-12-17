@@ -38,7 +38,8 @@ pushd unpack
         mv Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
         # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
         rm -rf Microsoft/MRO-3.4.1.0/Setup
-        mv Microsoft/MRO-3.4.1.0/* "$SRC_DIR"/unpack
+        cp -rf Microsoft/MRO-3.4.1.0/* "$SRC_DIR"/unpack
+        rm -rf Microsoft/MRO-3.4.1.0
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
