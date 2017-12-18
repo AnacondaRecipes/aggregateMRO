@@ -18,9 +18,9 @@ fi
 mkdir -p "$PREFIX"$LIBRARY
 
 if [[ "$LIBRARY_NAME" == "revoutilsmath" ]] && [[ $target_platform == linux-64 ]]; then
-  mkdir -p "$PREFIX"/lib/mro_mkl/
-  mv unpack/lib/mro_mkl/* "$PREFIX"/lib/mro_mkl/
-  mv "$PREFIX"/lib/mro_mkl/libRblas.so "$PREFIX"/lib/
+  mkdir -p "$PREFIX"/lib/R/lib/mro_mkl/
+  mv unpack/lib/R/lib/mro_mkl/* "$PREFIX"/lib/R/lib/mro_mkl/
+  mv "$PREFIX"/lib/R/lib/mro_mkl/libRblas.so "$PREFIX"/lib/R/lib/
 fi
 
 pushd unpack$LIBRARY || exit 1

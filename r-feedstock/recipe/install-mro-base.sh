@@ -2,16 +2,6 @@
 
 set -x
 
-exec 1<&-
-# Close STDERR FD
-exec 2<&-
-
-# Open STDOUT as $LOG_FILE file for read and write.
-exec 1<> /c/Users/builder/conda/install-mro-base.log
-
-# Redirect STDERR to STDOUT
-exec 2>&1
-
 contains () {
   local e match="$1"
   shift
@@ -45,6 +35,20 @@ make_mro_base () {
     # Probably needs to be as-per win-64?
     PREFIX_LIB="$PREFIX"/lib/R/library
   fi
+  if [[ $target_platform != win-64 ]]; then
+    declare -a EXES
+    pushd unpack/lib/R/bin
+      for EXE in $(find . -iname "*" -type f -maxdepth 1 -mindepth 1); do
+        EXE=${EXE//.\//}
+        EXES+=($EXE)
+      done
+    popd
+    pushd $PREFIX/bin
+      for EXE in ${EXES[@]}; do
+        ln -s ../lib/R/bin/$EXE $EXE || exit 1
+      done
+    popd
+  fi
 
   mkdir -p "$PREFIX_LIB"
 
@@ -62,10 +66,12 @@ make_mro_base () {
 
   pushd unpack$LIBRARY/.. || exit 1
     mv library ../
+    [[ -d lib/mro_mkl ]] && mv lib/mro_mkl ../
     # We have no m2-rsync unfortunately.
     # rsync -avv . "$PREFIX" || exit 1
     cp -rf * "$PREFIX"/lib/R/
     mv ../library .
+    [[ -d ../mro_mkl ]] && mv ../mro_mkl lib/
     pushd $PREFIX
       find . > $RECIPE_DIR/filelist-mro-base-in-prefix-$target_platform.txt
     popd

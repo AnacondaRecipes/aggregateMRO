@@ -2,16 +2,6 @@
 
 set -x
 
-exec 1<&-
-# Close STDERR FD
-exec 2<&-
-
-# Open STDOUT as $LOG_FILE file for read and write.
-exec 1<> /c/Users/builder/conda/build-mro.log
-
-# Redirect STDERR to STDOUT
-exec 2>&1
-
 if [[ $target_platform == win-64 ]]; then
   # ARCHIVE=SRO_3.4.1.0_1033.cab
   ARCHIVE=microsoft-r-open-3.4.1.exe
@@ -31,6 +21,7 @@ pushd unpack
   if [[ -f $ARCHIVE ]]; then
     if [[ $target_platform == win-64 ]]; then
       pushd $(mktemp -d)
+        chmod +x "$SRC_DIR"/wix/dark.exe
         "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
         rm -f $SRC_DIR/unpack/$ARCHIVE
         msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
@@ -103,8 +94,8 @@ pushd unpack
     popd
     patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
     # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
-    mkdir -p lib/mro_mkl/
-    mv stage/Linux/bin/x64/* lib/mro_mkl/
+    mkdir -p lib/R/lib/mro_mkl/
+    mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
     OLD_RPATH=$(patchelf --print-rpath lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so)
     patchelf --set-rpath '$ORIGIN'/../../../lib/mro_mkl:$OLD_RPATH lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so
   elif [[ $target_platform == osx-64 ]]; then

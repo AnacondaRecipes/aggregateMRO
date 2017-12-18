@@ -306,7 +306,7 @@ outputs:
         - lib/R/lib/
         - lib/
       always_include_files:
-        - lib/libRblas.so  # [linux]
+        - lib/R/lib/libRblas.so  # [linux]
 
     requirements:
       build:
