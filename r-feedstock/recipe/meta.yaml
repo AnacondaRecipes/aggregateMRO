@@ -2,17 +2,6 @@
 {% set pfx = 'r-' %}
 {% set version = '3.4.1' %}
 
-# This does not contain MKL
-# {% set url = 'https://go.microsoft.com/fwlink/?linkid=852724' %}  # [win64]
-# {% set fn = 'SRO_3.4.1.0_1033.cab' %}  # [win64]
-# {% set shasum = 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985' %}  # [win64]
-
-# It is possible to extract from this, but it requires that you install the Wix SDK
-# https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip
-# Then run:
-# dark.exe microsoft-r-open-3.4.1.exe -x $PWD
-# msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w /tmp/test)
-# msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w /tmp/test)
 {% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-3.4.1.exe' %}  # [win64]
 {% set fn = 'microsoft-r-open-3.4.1.exe' %}  # [win64]
 {% set shasum = '04f7be3aaf393937b2edb536f1a3c7f279145b3aeb6e5eefdf9bee1ac137afc6' %}  # [win64]
@@ -60,6 +49,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: MASS
     requirements:
       build:
@@ -80,7 +70,7 @@ outputs:
       license: Unlimited
       summary: 'Functions for kernel smoothing (and density estimation) corresponding to the book:  Wand,
         M.P. and Jones, M.C. (1995) "Kernel Smoothing".'
-
+      
       license_family: MIT
 
   - name: r-mass
@@ -91,6 +81,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: lattice, nlme, nnet, survival
     requirements:
       build:
@@ -121,6 +112,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: expm, MASS
     requirements:
       build:
@@ -154,6 +146,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -182,6 +175,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: knitr, microbenchmark, pryr, testthat, ggplot2, scales
     requirements:
       build:
@@ -216,6 +210,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -245,6 +240,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: RevoUtils
     requirements:
       build:
@@ -276,6 +272,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
 
     requirements:
       build:
@@ -336,6 +333,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: MASS, survival
     requirements:
       build:
@@ -367,6 +365,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: knitr, rmarkdown, testthat(>= 0.9), MASS
     requirements:
       build:
@@ -408,6 +407,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -439,6 +439,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: MASS
     requirements:
       build:
@@ -471,6 +472,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -499,6 +501,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
     requirements:
       build:
@@ -536,6 +539,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -569,6 +573,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: caret, mlbench, rpart
     requirements:
       build:
@@ -602,6 +607,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: randomForest
     requirements:
       build:
@@ -641,6 +647,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -670,6 +677,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: RUnit
     requirements:
       build:
@@ -700,6 +708,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
     requirements:
       build:
@@ -737,6 +746,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: KernSmooth, MASS, latticeExtra
     requirements:
       build:
@@ -769,6 +779,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: splines, parallel, survival, MASS
     requirements:
       build:
@@ -804,6 +815,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: Hmisc, MASS
     requirements:
       build:
@@ -835,6 +847,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: MASS
     requirements:
       build:
@@ -866,6 +879,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -895,6 +909,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: survival
     requirements:
       build:
@@ -926,6 +941,7 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+
     # Suggests: MASS
     requirements:
       build:
@@ -956,6 +972,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
+
     requirements:
       build:
         - m2-base  # [win]
@@ -984,33 +1001,33 @@ outputs:
     version: {{ version }}
     requirements:
       run:
-        - mro-base
+        - mro-base {{ version }}
         - r-boot
         - r-checkpoint
+        - r-class
         - r-cluster
         - r-codetools
         - r-curl
         - r-deployrrserve
+        - r-doparallel
+        - r-foreach
         - r-foreign
         - r-iterators
         - r-jsonlite
         - r-kernsmooth
         - r-lattice
         - r-mass
+        - r-matrix
+        - r-mgcv
         - r-microsoftr
+        - r-nlme
         - r-nnet
         - r-png
         - r-r6
+        - r-revoioq
         - r-revomods
         - r-revoutilsmath
         - r-rpart
         - r-runit
         - r-spatial
-        - r-class
-        - r-foreach
-        - r-matrix
-        - r-nlme
-        - r-revoioq
-        - r-doparallel
-        - r-mgcv
         - r-survival

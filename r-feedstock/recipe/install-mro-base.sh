@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 contains () {
   local e match="$1"
   shift
@@ -15,8 +13,6 @@ make_mro_base () {
     LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
     PREFIX_LIB="$PREFIX"/lib/R
   elif [[ $target_platform == win-64 ]]; then
-    FRAMEWORK=
-    LIBRARY=$FRAMEWORK/library
     # Install the launcher
     mkdir -p "$PREFIX"/Scripts
     cp launcher.exe $PREFIX/Scripts/R.exe
@@ -27,14 +23,15 @@ make_mro_base () {
     cp launcher.exe $PREFIX/Scripts/Rscript.exe
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
+    FRAMEWORK=
     LIBRARY=$FRAMEWORK/lib/R/library
     PREFIX_LIB="$PREFIX"/lib/R/library
   else
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/lib/R/library
-    # Probably needs to be as-per win-64?
     PREFIX_LIB="$PREFIX"/lib/R/library
   fi
+  # Make symlinks in PREFIX/bin for Unix platforms.
   if [[ $target_platform != win-64 ]]; then
     declare -a EXES
     pushd unpack/lib/R/bin

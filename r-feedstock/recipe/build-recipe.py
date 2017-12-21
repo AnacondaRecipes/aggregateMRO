@@ -42,10 +42,15 @@ VERSION_DEPENDENCY_REGEX = re.compile(
     r'?(\s*\[(?P<archs>[\s!\w\-]+)\])?\s*$'
 )
 
-sources = {'win': {      'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
-                          'fn': 'SRO_'+VERSION+'.0_1033.cab',
-                         'sha': 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985',
+sources = {'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-'+VERSION+'.exe',
+                          'fn': 'microsoft-r-open-'+VERSION+'.exe',
+                         'sha': '04f7be3aaf393937b2edb536f1a3c7f279145b3aeb6e5eefdf9bee1ac137afc6',
                      'library': 'library'},
+# This does not contain MKL:
+#           'win': {      'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
+#                          'fn': 'SRO_'+VERSION+'.0_1033.cab',
+#                         'sha': 'cb2632c339ae5211cb3475bf33b8ad9c3159f410c11d34ffca85d0527f872985',
+#                     'library': 'library'},
            'linux': {    'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.tar.gz',
                           'fn': 'microsoft-r-open-'+VERSION+'.tar.gz',
                          'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',
@@ -76,16 +81,19 @@ package:
   version: {{{{ version }}}}
 
 source:
-  fn: {{{{ fn }}}}
-  url: {{{{ url }}}}
-  sha256: {{{{ shasum }}}}
-  folder: unpack
+  - url: {{{{ url }}}}
+    fn: {{{{ fn }}}}
+    sha256: {{{{ shasum }}}}
+    folder: unpack
+  - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
+    sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
+    folder: wix                                                                              # [win64]
 
 requirements:
   build:
     - python-libarchive-c
-  host:
     - m2w64-toolchain  # [win]
+    - m2-base  # [win]
 '''
 
 BASE_PACKAGE='''
@@ -93,6 +101,9 @@ outputs:
   - name: mro-base
     version: {{ version }}
     script: install-mro-base.sh
+    requirements:
+      build:
+        - m2-base  # [win]
 '''
 
 PACKAGE='''
@@ -104,8 +115,11 @@ PACKAGE='''
       rpaths:
         - lib/R/lib/
         - lib/
-    {suggests}
+{always_include_files}
+{suggests}
     requirements:
+      build:
+        - m2-base  # [win]
       host:{run_depends}
       run:{run_depends}
 
@@ -120,6 +134,14 @@ PACKAGE='''
       license: {license}
       {summary_comment}summary:{summary}
       license_family: {license_family}
+'''
+
+MRO_BASICS_METAPACKAGE='''
+  - name: mro-basics
+    version: {{ version }}
+    requirements:
+      run:
+        - mro-base {{ version }}
 '''
 
 BUILD_SH='''#!/bin/bash
@@ -138,8 +160,39 @@ pushd unpack
   # 1. Finish unpacking.
   #    (if conda-build used libarchive to unpack things we could aim to remove this
   #     but it would need a metadata flag to unpack archives within archives too).
-  if [[ -f ../$ARCHIVE ]]; then
-    python -c "import libarchive, os; libarchive.extract_file('../$ARCHIVE')" || true
+  declare -a ARCHIVES
+  if [[ -f $ARCHIVE ]]; then
+    if [[ $target_platform == win-64 ]]; then
+      pushd $(mktemp -d)
+        chmod +x "$SRC_DIR"/wix/dark.exe
+        "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
+        rm -f $SRC_DIR/unpack/$ARCHIVE
+        msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
+        mv Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
+        # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
+        rm -rf Microsoft/MRO-3.4.1.0/Setup
+        mkdir -p "$SRC_DIR"/unpack/lib
+        mv Microsoft/MRO-3.4.1.0 "$SRC_DIR"/unpack/lib/R
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
+        ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R)
+        ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab,lib/R)
+        echo ARCHIVES are ${{ARCHIVES[@]}}
+      popd
+    else
+      ARCHIVES+=($ARCHIVE,.)
+    fi
+    for ARCHIVE_DEST in "${{ARCHIVES[@]}}"; do
+      ARCHIVE=${{ARCHIVE_DEST//,*/}}
+      DEST=${{ARCHIVE_DEST#*,}}
+      mv $ARCHIVE $DEST/
+      pushd $DEST
+        python -c "import libarchive, os; libarchive.extract_file('$ARCHIVE')" || exit 1
+        rm $ARCHIVE
+      popd
+    done
   fi
   # Even on Darwin, libarchive will fail to unpack a .pkg file.
   # if [[ $? != 0 ]]; then  # for some reason the script exits if libarchive fails to unpack?
@@ -150,7 +203,7 @@ pushd unpack
     done
     rm -rf R_Open_App.pkg R_Open_Framework.pkg Distribution
   elif [[ $target_platform == linux-64 ]]; then
-    # TODO :: May need to put the MKL libs into a separate package.
+    # TODO :: May need to put the MKL libs into a separate package (actually they're in r-revoutilsmath)
     for RPM in $(find rpm -name "*.rpm"); do
       echo $RPM
       python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
@@ -162,9 +215,11 @@ pushd unpack
   # 2. Save filelist back to the recipe.
   find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.txt
 
-  # 3. Rearrange layout so it is compatible with conda
+  # 3. Rearrange layout so it is compatible with conda, or at least does not stomp all over
+  #    conda packages (MKL for example).
   if [[ $target_platform == linux-64 ]]; then
     mv opt/microsoft/ropen/3.4.1/lib64 lib
+    mv opt/microsoft/ropen/3.4.1/stage stage
   elif [[ $target_platform == osx-64 ]]; then
     echo "No layout changes necessary for $target_platform"
   else
@@ -181,6 +236,11 @@ pushd unpack
       cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
     popd
     patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
+    # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
+    mkdir -p lib/R/lib/mro_mkl/
+    mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
+    OLD_RPATH=$(patchelf --print-rpath lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so)
+    patchelf --set-rpath '$ORIGIN'/../../../lib/mro_mkl:$OLD_RPATH lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so
   elif [[ $target_platform == osx-64 ]]; then
     echo "No fixes necessary for $target_platform"
   else
@@ -188,9 +248,8 @@ pushd unpack
   fi
 popd
 
-# 5. Compile launcher stub.
+# 6. Compile launcher stub.
 if [[ $target_platform == win-64 ]]; then
-  env
   # Compile the launcher
   # XXX: Should we build Rgui with -DGUI=1 -mwindows?  The only difference is
   # that it does not block the terminal, but we also cannot get the return
@@ -203,8 +262,17 @@ if [[ $target_platform == win-64 ]]; then
       exit 1
     fi
   fi
-  $WINE "$PREFIX"/Library/mingw-w64/bin/gcc.exe -DGUI=0 -O -s -o launcher.exe "$RECIPE_DIR"/launcher.c || exit 1
+  # Wine has trouble finding DLLs on PATH?!
+  pushd "$PREFIX"/Library/mingw-w64/bin
+    PATH="$PREFIX"/Library/mingw-w64/bin:$PATH \\
+      $WINE "$PREFIX"/Library/mingw-w64/bin/gcc.exe -DGUI=0 -O -s -o "$SRC_DIR"/launcher.exe "$RECIPE_DIR"/launcher.c || exit 1
+  popd
 fi
+
+# 7. Save end of build.sh filelist back to the recipe.
+pushd unpack
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$target_platform.end-of-build-sh.txt
+popd
 '''
 
 INSTALL_MRO_BASE_HEADER='''#!/bin/bash
@@ -222,8 +290,6 @@ make_mro_base () {{
     LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
     PREFIX_LIB="$PREFIX"/lib/R
   elif [[ $target_platform == win-64 ]]; then
-    FRAMEWORK=
-    LIBRARY=$FRAMEWORK/library
     # Install the launcher
     mkdir -p "$PREFIX"/Scripts
     cp launcher.exe $PREFIX/Scripts/R.exe
@@ -234,20 +300,37 @@ make_mro_base () {{
     cp launcher.exe $PREFIX/Scripts/Rscript.exe
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
-    PREFIX_LIB="$PREFIX"/R
+    FRAMEWORK=
+    LIBRARY=$FRAMEWORK/lib/R/library
+    PREFIX_LIB="$PREFIX"/lib/R/library
   else
     FRAMEWORK=
     LIBRARY=$FRAMEWORK/lib/R/library
-    PREFIX_LIB="$PREFIX"/library
+    PREFIX_LIB="$PREFIX"/lib/R/library
+  fi
+  # Make symlinks in PREFIX/bin for Unix platforms.
+  if [[ $target_platform != win-64 ]]; then
+    declare -a EXES
+    pushd unpack/lib/R/bin
+      for EXE in $(find . -iname "*" -type f -maxdepth 1 -mindepth 1); do
+        EXE=${{EXE//.\//}}
+        EXES+=($EXE)
+      done
+    popd
+    pushd $PREFIX/bin
+      for EXE in ${{EXES[@]}}; do
+        ln -s ../lib/R/bin/$EXE $EXE || exit 1
+      done
+    popd
   fi
 
-  mkdir -p "$PREFIX"$LIBRARY
+  mkdir -p "$PREFIX_LIB"
 
-  pushd unpack$LIBRARY
+  pushd unpack$LIBRARY || exit 1
     for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
       LIBRARY_CASED=${{LIBRARY_CASED//.\//}}
       if ! contains $LIBRARY_CASED "${{EXCLUDED_PACKAGES[@]}}"; then
-        echo "Including $LIBRARY_CASED"
+        echo "Including $LIBRARY_CASED => $PREFIX_LIB"
         mv $LIBRARY_CASED "$PREFIX_LIB"/
       else
         echo "Skipping $LIBRARY_CASED"
@@ -255,12 +338,16 @@ make_mro_base () {{
     done
   popd
 
-  pushd unpack$LIBRARY/..
+  pushd unpack$LIBRARY/.. || exit 1
     mv library ../
-    rsync -avv . "$PREFIX"
+    [[ -d lib/mro_mkl ]] && mv lib/mro_mkl ../
+    # We have no m2-rsync unfortunately.
+    # rsync -avv . "$PREFIX" || exit 1
+    cp -rf * "$PREFIX"/lib/R/
     mv ../library .
+    [[ -d ../mro_mkl ]] && mv ../mro_mkl lib/
     pushd $PREFIX
-      find . > $RECIPE_DIR/in-prefix.txt
+      find . > $RECIPE_DIR/filelist-mro-base-in-prefix-$target_platform.txt
     popd
   popd
 }}
@@ -281,18 +368,28 @@ if [[ $target_platform == osx-64 ]]; then
   LIBRARY=$FRAMEWORK/Versions/{version}-MRO/Resources/library
 elif [[ $target_platform == win-64 ]]; then
   FRAMEWORK=
-  LIBRARY=$FRAMEWORK/library
-else
   LIBRARY=$FRAMEWORK/lib/R/library
-  PREFIX_LIB="$PREFIX"/library
+  PREFIX_LIB="$PREFIX"/lib/R/library
+else
+FRAMEWORK=
+  LIBRARY=$FRAMEWORK/lib/R/library
+  PREFIX_LIB="$PREFIX"/lib/R/library
 fi
 
 mkdir -p "$PREFIX"$LIBRARY
 
-pushd unpack$LIBRARY
-for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
-  mv $LIBRARY_CASED "$PREFIX_LIB"/
-done
+if [[ "$LIBRARY_NAME" == "revoutilsmath" ]] && [[ $target_platform == linux-64 ]]; then
+  mkdir -p "$PREFIX"/lib/R/lib/mro_mkl/
+  mv unpack/lib/R/lib/mro_mkl/* "$PREFIX"/lib/R/lib/mro_mkl/
+  mv "$PREFIX"/lib/R/lib/mro_mkl/libRblas.so "$PREFIX"/lib/R/lib/
+fi
+
+pushd unpack$LIBRARY || exit 1
+  for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
+    mv $LIBRARY_CASED "$PREFIX_LIB"/
+  done
+popd
+
 find . | wc -l
 '''
 
@@ -437,9 +534,15 @@ def main():
                 d['summary'] = ' ' + yaml_quote_string(cran_package['Description'], indent=6)
 
             if "Suggests" in cran_package:
-                d['suggests'] = "# Suggests: %s" % cran_package['Suggests']
+                d['suggests'] = "    # Suggests: %s" % cran_package['Suggests']
             else:
                 d['suggests'] = ''
+
+            if package.lower() == 'revoutilsmath':
+                d['always_include_files'] = "      always_include_files:\n" \
+                                            "        - lib/R/lib/libRblas.so  # [linux]"
+            else:
+                d['always_include_files'] = ''
 
             # Every package depends on at least R.
             # I'm not sure what the difference between depends and imports is.
@@ -595,6 +698,12 @@ def main():
                     .decode() for k, v in iteritems(d)}
 
                 meta_yaml.write(PACKAGE.format(**d))
+
+            meta_yaml.write(MRO_BASICS_METAPACKAGE)
+            meta_subs = []
+            for package in package_dicts:
+                meta_subs.append('        - {}'.format(package_dicts[package]['packagename']))
+            meta_yaml.write('\n'.join(sorted(meta_subs)))
 
         with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:
             build_sh.write(BUILD_SH.format(**template))

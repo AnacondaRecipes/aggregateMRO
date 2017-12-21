@@ -1,9 +1,6 @@
 #!/bin/bash
 
-set -x
-
 if [[ $target_platform == win-64 ]]; then
-  # ARCHIVE=SRO_3.4.1.0_1033.cab
   ARCHIVE=microsoft-r-open-3.4.1.exe
 elif [[ $target_platform == linux-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.1.tar.gz
@@ -103,13 +100,6 @@ pushd unpack
   else
     echo "No fixes necessary for $target_platform"
   fi
-
-  # 5. Workaround a conda-build bug (you cannot use always_include_files: and script: together).
-  # if [[ $target_platform == linux-64 ]]; then
-  #   set -x
-  #   ls -l lib/R/lib/libRblas.so
-  #   rm lib/R/lib/libRblas.so
-  # fi
 popd
 
 # 6. Compile launcher stub.
