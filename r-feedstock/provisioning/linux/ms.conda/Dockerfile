@@ -9,12 +9,15 @@ VOLUME archive
 RUN yum install -y vim fakechroot wget curl bzip2 file texinfo
 
 RUN wget https://repo.continuum.io/pkgs/misc/preview/Miniconda3-4.3.31-Linux-x86_64.sh && bash \
-         Miniconda3-4.3.31-Linux-x86_64.sh -bfp /opt/conda && \
-         . /opt/conda/bin/activate && \
-         conda install -y gcc_linux-64 gxx_linux-64 autoconf automake pkg-config libtool cmake make git perl gettext libuuid zlib && \
-         echo ". /opt/conda/bin/activate" >> ~/.bashrc
+         Miniconda3-4.3.31-Linux-x86_64.sh -bfp /builddir/vendor/build && \
+         . /builddir/vendor/build/bin/activate && \
+         conda install -y gcc_linux-64 gxx_linux-64 gfortran_linux-64 autoconf automake pkg-config libtool cmake make git perl gettext zlib \
+                          xorg-x11-proto-devel-cos6-x86_64 libxrender-cos6-x86_64 libxext-devel-cos6-x86_64 libuuid-devel-cos6-x86_64 libsm-devel-cos6-x86_64 libice-devel-cos6-x86_64 \
+                          libx11-devel-cos6-x86_64 libxt-cos6-x86_64 libxt-devel-cos6-x86_64 libxcb-cos6-x86_64 libxau-cos6-x86_64 java-1.7.0-openjdk-cos6-x86_64 \
+                          readline ncurses curl xz libpng texlive-core bzip2 pango icu pcre tk zlib gsl libtiff libxml2 libssh2 krb5 && \
+         echo ". /builddir/vendor/build/bin/activate" >> ~/.bashrc
 
-RUN . /opt/conda/bin/activate && \
+RUN . /builddir/vendor/build/bin/activate && \
     wget http://download.mono-project.com/sources/mono/mono-4.2.1.102.tar.bz2 && \
     tar xvfj mono-4.2.1.102.tar.bz2 && \
     pushd mono-4.2.1 && \
@@ -27,7 +30,7 @@ RUN wget -O certdata.txt http://mxr.mozilla.org/seamonkey/source/security/nss/li
 RUN yum install -y java-1.6.0-openjdk-devel && mkdir /usr/java && ln -s /usr/lib/jvm/java-1.6.0-openjdk.x86_64 /usr/java/latest
 # RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm
 
-RUN . /opt/conda/bin/activate && wget "http://ftp.gnu.org/gnu/gdb/gdb-7.12.tar.gz" -O gdb-7.12.tar.gz && \
+RUN . /builddir/vendor/build/bin/activate && wget "http://ftp.gnu.org/gnu/gdb/gdb-7.12.tar.gz" -O gdb-7.12.tar.gz && \
     tar xvzf gdb-7.12.tar.gz && \
     mkdir gdb-build && \
     pushd gdb-build && \
@@ -46,15 +49,15 @@ RUN wget "http://downloads.sourceforge.net/project/ltp/Coverage%20Analysis/LCOV-
     rpm -ivh lcov-1.12-1.noarch.rpm && \
     rm -f lcov-1.12-1.noarch.rpm
 
-RUN . /opt/conda/bin/activate && wget "https://www.samba.org/ftp/ccache/ccache-3.3.3.tar.bz2" -O ccache-3.3.3.tar.bz2 && \
-    tar vxjf ccache-3.3.3.tar.bz2 && \
-    pushd ccache-3.3.3 && \
-    ./configure --prefix=/usr && make -j32 && make install && \
-    popd && \
-    rm -fr ccache-3.3.3 ccache-3.3.3.tar.bz2 && \
-    mkdir /usr/bin/ccache-links && \
-    ln -s /usr/bin/ccache /usr/bin/ccache-links/gcc && \
-    ln -s /usr/bin/ccache /usr/bin/ccache-links/g++
+# RUN . /builddir/vendor/build/bin/activate && wget "https://www.samba.org/ftp/ccache/ccache-3.3.3.tar.bz2" -O ccache-3.3.3.tar.bz2 && \
+#     tar vxjf ccache-3.3.3.tar.bz2 && \
+#     pushd ccache-3.3.3 && \
+#     ./configure --prefix=/usr && make -j32 && make install && \
+#     popd && \
+#     rm -fr ccache-3.3.3 ccache-3.3.3.tar.bz2 && \
+#     mkdir /usr/bin/ccache-links && \
+#     ln -s /usr/bin/ccache /usr/bin/ccache-links/gcc && \
+#     ln -s /usr/bin/ccache /usr/bin/ccache-links/g++
 
 RUN rm -fr /tmp/*
 
