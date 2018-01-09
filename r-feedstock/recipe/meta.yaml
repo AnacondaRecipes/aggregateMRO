@@ -30,6 +30,8 @@ source:
 requirements:
   build:
     - python-libarchive-c
+    - posix
+  host:
     - m2w64-toolchain  # [win]
     - m2-base  # [win]
 
