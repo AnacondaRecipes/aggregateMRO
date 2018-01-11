@@ -2,20 +2,10 @@
 
 LIBRARY_NAME=${PKG_NAME//r-/}
 
-if [[ $target_platform == osx-64 ]]; then
-  FRAMEWORK=/Library/Frameworks/R.framework
-  LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
-elif [[ $target_platform == win-64 ]]; then
-  FRAMEWORK=
-  LIBRARY=$FRAMEWORK/lib/R/library
-  PREFIX_LIB="$PREFIX"/lib/R/library
-else
-FRAMEWORK=
-  LIBRARY=$FRAMEWORK/lib/R/library
-  PREFIX_LIB="$PREFIX"/lib/R/library
-fi
+LIBRARY=/lib/R/library
+PREFIX_LIB="$PREFIX"/$LIBRARY
 
-mkdir -p "$PREFIX"$LIBRARY
+mkdir -p "$PREFIX_LIB"
 
 if [[ "$LIBRARY_NAME" == "revoutilsmath" ]] && [[ $target_platform == linux-64 ]]; then
   mkdir -p "$PREFIX"/lib/R/lib/mro_mkl/

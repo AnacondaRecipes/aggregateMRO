@@ -8,11 +8,9 @@ contains () {
 }
 
 make_mro_base () {
-  if [[ $target_platform == osx-64 ]]; then
-    FRAMEWORK=/Library/Frameworks/R.framework
-    LIBRARY=$FRAMEWORK/Versions/3.4.1-MRO/Resources/library
-    PREFIX_LIB="$PREFIX"/lib/R
-  elif [[ $target_platform == win-64 ]]; then
+  LIBRARY=/lib/R/library
+  PREFIX_LIB="$PREFIX"/lib/R/library
+  if [[ $target_platform == win-64 ]]; then
     # Install the launcher
     mkdir -p "$PREFIX"/Scripts
     cp launcher.exe $PREFIX/Scripts/R.exe
@@ -23,13 +21,6 @@ make_mro_base () {
     cp launcher.exe $PREFIX/Scripts/Rscript.exe
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
-    FRAMEWORK=
-    LIBRARY=$FRAMEWORK/lib/R/library
-    PREFIX_LIB="$PREFIX"/lib/R/library
-  else
-    FRAMEWORK=
-    LIBRARY=$FRAMEWORK/lib/R/library
-    PREFIX_LIB="$PREFIX"/lib/R/library
   fi
   # Make symlinks in PREFIX/bin for Unix platforms.
   if [[ $target_platform != win-64 ]]; then
@@ -42,7 +33,9 @@ make_mro_base () {
     popd
     pushd $PREFIX/bin
       for EXE in ${EXES[@]}; do
-        ln -s ../lib/R/bin/$EXE $EXE || exit 1
+        if [[ ! $EXE =~ .*conda_build.sh ]] && [[ ! $EXE =~ .*install-.*.sh ]]; then
+          ln -s ../lib/R/bin/$EXE $EXE || exit 1
+        fi
       done
     popd
   fi
@@ -70,7 +63,7 @@ make_mro_base () {
     mv ../library .
     [[ -d ../mro_mkl ]] && mv ../mro_mkl lib/
     pushd $PREFIX
-      find . > $RECIPE_DIR/filelist-mro-base-in-prefix-$target_platform.txt
+      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
     popd
   popd
 }
