@@ -77,6 +77,7 @@ pushd unpack
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
     mkdir -p lib/R
+    mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
     mv .$RESOURCES/etc lib/R/
@@ -112,8 +113,6 @@ pushd unpack
     for DYLIB in ${DYLIBS[@]}; do
       echo $DYLIB
     done
-    echo     sed -i'' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
-
     sed -i='' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
     # Use conda's compilers
     sed -i='' "s|/usr/local/clang4|$PREFIX|g" lib/R/etc/Makeconf

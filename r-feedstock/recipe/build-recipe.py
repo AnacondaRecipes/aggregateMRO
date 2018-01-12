@@ -62,7 +62,7 @@ sources = {
                           'fn': 'microsoft-r-open-'+VERSION+'.pkg',
                          'sha': 'f533bcef949162d1036d92e9d12c414a4713c98a81641dee95b7f71717669832',  # 3.4.2
 #                        'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',  # 3.4.1
-                     'library': 'R/library'}}
+                     'library': 'opt/microsoft/ropen/3.4.2/lib64/R/library'}}
 
 HEADER='''
 {{% set pfx = 'r-' %}}
@@ -110,6 +110,14 @@ outputs:
     requirements:
       build:
         - m2-base  # [win]
+        - {{{{ compiler('fortran') }}}}  # [not win]
+        - {{{{ compiler('cxx') }}}}  # [not win]
+        - {{{{ compiler('c') }}}}  # [not win]
+      run:
+        - {{{{ compiler('fortran') }}}}  # [not win]
+        - {{{{ compiler('cxx') }}}}  # [not win]
+        - {{{{ compiler('c') }}}}  # [not win]
+
 '''
 
 PACKAGE='''
@@ -232,6 +240,9 @@ pushd unpack
     mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
+    mv .$RESOURCES/etc lib/R/
+    mv .$RESOURCES/include lib/R/
+    mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/modules lib/R/
   else
     echo "No layout necessary for $target_platform"
@@ -262,6 +273,15 @@ pushd unpack
     for DYLIB in ${{DYLIBS[@]}}; do
       echo $DYLIB
     done
+    sed -i='' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
+    # Use conda's compilers
+    sed -i='' "s|/usr/local/clang4|$PREFIX|g" lib/R/etc/Makeconf
+    sed -i='' "s|/usr/local/gfortran|$PREFIX|g" lib/R/etc/Makeconf
+    sed -i='' "s|/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0|$PREFIX/lib/gcc/x86_64-apple-darwin11.4.2/4.8.5|g" lib/R/etc/Makeconf
+    sed -i='' "s|-F/Library/Frameworks/R.framework/.. -framework R|-L$PREFIX/lib/R/lib -lR|g" lib/R/etc/Makeconf
+    # Others things to fix in: lib/R/etc/Makeconf
+    # JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre
+    # LIBR = -F/Library/Frameworks/R.framework/.. -framework R
   else
     echo "No fixes necessary for $target_platform"
   fi
@@ -318,6 +338,7 @@ make_mro_base () {{
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
   fi
+
   # Make symlinks in PREFIX/bin for Unix platforms.
   if [[ $target_platform != win-64 ]]; then
     declare -a EXES
@@ -333,6 +354,21 @@ make_mro_base () {{
           ln -s ../lib/R/bin/$EXE $EXE || exit 1
         fi
       done
+    popd
+  fi
+
+  # Make symlinks to the Anaconda Distribution compilers on Linux.
+  if [[ $target_platform == linux-64 ]]; then
+    pushd $PREFIX/bin
+      ln -s $HOST-ar ar
+      ln -s $HOST-cc cc
+      ln -s $HOST-c++ c++
+      ln -s $HOST-gcc gcc
+      ln -s $HOST-g++ g++
+      ln -s $HOST-gfortran fc
+      ln -s $HOST-gfortran f77
+      ln -s $HOST-ranlib ranlib
+      ln -s $HOST-strip strip
     popd
   fi
 
@@ -430,9 +466,12 @@ def main():
     # Unpack
     config = Config()
     cran_metadata = {}
+    # Some packages are missing on some systems. Need to mark them so they get skipped.
+    to_be_packaged = set()
     with TemporaryDirectory() as td:
         for platform, details in sources.items():
-            # if platform != 'mac' and platform != 'win': # Cannot extract macOS .pkg files on Linux.
+            # libarchive cannot handle the .exe, just skip it. Means we cannot figure out packages that are not available
+            # for Windows.
             if platform == 'win_no':
                 details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
                 os.chdir(td)
@@ -440,7 +479,7 @@ def main():
                 libdir = os.path.join(td, details['library'])
                 library = os.listdir(libdir)
                 # library.append('foreach')
-                to_be_packaged = set(library) - set(R_BASE_PACKAGE_NAMES)
+                details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
             elif platform == 'linux':
                 details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
                 os.chdir(td)
@@ -452,7 +491,27 @@ def main():
                 libdir = os.path.join(td, details['library'])
                 library = os.listdir(libdir)
                 # library.append('foreach')
-                to_be_packaged = set(library) - set(R_BASE_PACKAGE_NAMES)
+                details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
+            elif platform == 'mac':
+                details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
+                os.chdir(td)
+                os.system("xar -xf {}".format(details['cached_as']))
+                payloads = glob.glob('./**/Payload', recursive=True)
+                print(payloads)
+                for payload in payloads:
+                    libarchive.extract_file(payload)
+                libdir = os.path.join(td, details['library'])
+                library = os.listdir(libdir)
+                details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
+
+        # Fudge until we can unpack the Windows installer .exe on Linux
+        sources['win']['to_be_packaged'] = sources['linux']['to_be_packaged']
+
+        # Get the superset of all packages (note we will no longer have the DESCRIPTION?!)
+        for platform, details in sources.items():
+            if 'to_be_packaged' in details:
+                to_be_packaged.update(details['to_be_packaged'])
+
         package_dicts = {}
         for package in sorted(list(to_be_packaged)):
             p = os.path.join(libdir, package, "DESCRIPTION")
@@ -467,6 +526,9 @@ def main():
             # Make sure package always uses the CRAN capitalization
             package = cran_metadata[package.lower()]['Package']
             package_dicts[package.lower()] = {}
+            package_dicts[package.lower()]['not_osx'] = False if package in sources['mac']['to_be_packaged'] else True
+            package_dicts[package.lower()]['not_win'] = False if package in sources['win']['to_be_packaged'] else True
+            package_dicts[package.lower()]['not_linux'] = False if package in sources['linux']['to_be_packaged'] else True
         for package in sorted(list(to_be_packaged)):
             cran_package = cran_metadata[package.lower()]
 
