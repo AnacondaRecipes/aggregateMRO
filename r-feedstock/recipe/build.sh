@@ -33,7 +33,6 @@ pushd unpack
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
         ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R)
         ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab,lib/R)
-        echo ARCHIVES are ${ARCHIVES[@]}
       popd
     elif [[ $target_platform == osx-64 ]]; then
       # https://github.com/libarchive/libarchive/issues/456
@@ -41,14 +40,14 @@ pushd unpack
       for PAYLOAD in $(find . -name Payload); do
         ARCHIVES+=($PAYLOAD,.)
       done
-      echo ARCHIVES are ${ARCHIVES[@]}
     else
       ARCHIVES+=($ARCHIVE,.)
     fi
+    echo ARCHIVES are ${ARCHIVES[@]}
     for ARCHIVE_DEST in "${ARCHIVES[@]}"; do
       ARCHIVE=${ARCHIVE_DEST//,*/}
       DEST=${ARCHIVE_DEST#*,}
-      if [[ "${DEST}" != "." ]]; then
+      if [[ "$DEST" != "." ]]; then
         mv $ARCHIVE $DEST/
       fi
       pushd $DEST
@@ -107,7 +106,7 @@ pushd unpack
       DYLIBS+=($DYLIB)
       install_name_tool -id $(basename $DYLIB) $DYLIB
     done
-    echo "DYLIBS are: ${DYLIBS[@]}"
+    echo "DYLIBS are:"
     for DYLIB in ${DYLIBS[@]}; do
       echo $DYLIB
     done
