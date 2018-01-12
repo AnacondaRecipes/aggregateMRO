@@ -77,9 +77,11 @@ pushd unpack
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
     mkdir -p lib/R
-    mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
+    mv .$RESOURCES/etc lib/R/
+    mv .$RESOURCES/include lib/R/
+    mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/modules lib/R/
   else
     echo "No layout necessary for $target_platform"
@@ -110,6 +112,17 @@ pushd unpack
     for DYLIB in ${DYLIBS[@]}; do
       echo $DYLIB
     done
+    echo     sed -i'' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
+
+    sed -i='' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
+    # Use conda's compilers
+    sed -i='' "s|/usr/local/clang4|$PREFIX|g" lib/R/etc/Makeconf
+    sed -i='' "s|/usr/local/gfortran|$PREFIX|g" lib/R/etc/Makeconf
+    sed -i='' "s|/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0|$PREFIX/lib/gcc/x86_64-apple-darwin11.4.2/4.8.5|g" lib/R/etc/Makeconf
+    sed -i='' "s|-F/Library/Frameworks/R.framework/.. -framework R|-L$PREFIX/lib/R/lib -lR|g" lib/R/etc/Makeconf
+    # Others things to fix in: lib/R/etc/Makeconf
+    # JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre
+    # LIBR = -F/Library/Frameworks/R.framework/.. -framework R
   else
     echo "No fixes necessary for $target_platform"
   fi

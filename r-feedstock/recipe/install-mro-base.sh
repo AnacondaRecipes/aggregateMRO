@@ -39,6 +39,20 @@ make_mro_base () {
       done
     popd
   fi
+  # Make symlinks to the Anaconda Distribution compilers on Linux.
+  if [[ $target_platform == linux-64 ]]; then
+    pushd $PREFIX/bin
+      ln -s ${HOST}-ar ar
+      ln -s ${HOST}-cc cc
+      ln -s ${HOST}-c++ c++
+      ln -s ${HOST}-gcc gcc
+      ln -s ${HOST}-g++ g++
+      ln -s ${HOST}-gfortran fc
+      ln -s ${HOST}-gfortran f77
+      ln -s ${HOST}-ranlib ranlib
+      ln -s ${HOST}-strip strip
+    popd
+  fi
 
   mkdir -p "$PREFIX_LIB"
 
@@ -97,6 +111,5 @@ EXCLUDED_PACKAGES+=(rpart)
 EXCLUDED_PACKAGES+=(RUnit)
 EXCLUDED_PACKAGES+=(spatial)
 EXCLUDED_PACKAGES+=(survival)
-
 
 make_mro_base

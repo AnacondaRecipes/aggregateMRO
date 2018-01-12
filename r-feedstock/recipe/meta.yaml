@@ -42,6 +42,13 @@ outputs:
     requirements:
       build:
         - m2-base  # [win]
+        - {{ compiler('fortran') }}  # [not win]
+        - {{ compiler('cxx') }}  # [not win]
+        - {{ compiler('c') }}  # [not win]
+      run:
+        - {{ compiler('fortran') }}  # [not win]
+        - {{ compiler('cxx') }}  # [not win]
+        - {{ compiler('c') }}  # [not win]
 
   - name: r-kernsmooth
     version: 2.23_15
@@ -301,6 +308,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+      skip: True  # [osx]
       rpaths:
         - lib/R/lib/
         - lib/
@@ -537,6 +545,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+      skip: True  # [osx]
       rpaths:
         - lib/R/lib/
         - lib/
@@ -1012,7 +1021,7 @@ outputs:
         - r-cluster
         - r-codetools
         - r-curl
-        - r-deployrrserve
+        - r-deployrrserve  # [not osx]
         - r-doparallel
         - r-foreach
         - r-foreign
@@ -1030,7 +1039,7 @@ outputs:
         - r-r6
         - r-revoioq
         - r-revomods
-        - r-revoutilsmath
+        - r-revoutilsmath  # [not osx]
         - r-rpart
         - r-runit
         - r-spatial
