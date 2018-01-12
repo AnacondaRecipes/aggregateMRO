@@ -1,11 +1,11 @@
 #!/bin/bash
 
 if [[ $target_platform == win-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.1.exe
+  ARCHIVE=microsoft-r-open-3.4.2.exe
 elif [[ $target_platform == linux-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.1.tar.gz
+  ARCHIVE=microsoft-r-open-3.4.2.tar.gz
 elif [[ $target_platform == osx-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.1.pkg
+  ARCHIVE=microsoft-r-open-3.4.2.pkg
 fi
 
 mkdir -p unpack
@@ -22,14 +22,14 @@ pushd unpack
         "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
         rm -f $SRC_DIR/unpack/$ARCHIVE
         msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
-        mv Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
-        mv Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
         # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
-        rm -rf Microsoft/MRO-3.4.1.0/Setup
+        rm -rf Microsoft/MRO-$PKG_VERSION.0/Setup
         mkdir -p "$SRC_DIR"/unpack/lib
-        mv Microsoft/MRO-3.4.1.0 "$SRC_DIR"/unpack/lib/R
-        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
-        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        mv Microsoft/MRO-$PKG_VERSION.0 "$SRC_DIR"/unpack/lib/R
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
         ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R)
         ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab,lib/R)
@@ -71,8 +71,8 @@ pushd unpack
   # 3. Rearrange layout so it is compatible with conda, or at least does not stomp all over
   #    conda packages (MKL for example).
   if [[ $target_platform == linux-64 ]]; then
-    mv opt/microsoft/ropen/3.4.1/lib64 lib
-    mv opt/microsoft/ropen/3.4.1/stage stage
+    mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
+    mv opt/microsoft/ropen/$PKG_VERSION/stage stage
   elif [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources

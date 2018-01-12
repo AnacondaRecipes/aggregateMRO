@@ -25,7 +25,7 @@ from conda_build.license_family import allowed_license_families, guess_license_f
 
 from tempfile import TemporaryDirectory
 
-VERSION = '3.4.1'
+VERSION = '3.4.2'
 INDENT = '\n        - '
 
 # The following base/recommended package names are derived from R's source
@@ -42,9 +42,11 @@ VERSION_DEPENDENCY_REGEX = re.compile(
     r'?(\s*\[(?P<archs>[\s!\w\-]+)\])?\s*$'
 )
 
-sources = {'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/3.4.1/microsoft-r-open-'+VERSION+'.exe',
+sources = {
+           'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.exe',
                           'fn': 'microsoft-r-open-'+VERSION+'.exe',
-                         'sha': '04f7be3aaf393937b2edb536f1a3c7f279145b3aeb6e5eefdf9bee1ac137afc6',
+                         'sha': '6ee89d8642d3a153e5c4295e5028b6e70f657b1768b10e23cb5d7da8a9c7552d',  # 3.4.2
+#                        'sha': '04f7be3aaf393937b2edb536f1a3c7f279145b3aeb6e5eefdf9bee1ac137afc6',  # 3.4.1
                      'library': 'library'},
 # This does not contain MKL:
 #           'win': {      'url': 'https://go.microsoft.com/fwlink/?linkid=852724',
@@ -53,11 +55,13 @@ sources = {'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/
 #                     'library': 'library'},
            'linux': {    'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.tar.gz',
                           'fn': 'microsoft-r-open-'+VERSION+'.tar.gz',
-                         'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',
-                     'library': 'opt/microsoft/ropen/3.4.1/lib64/R/library'},
+                         'sha': 'edc783e42911f182c52d1e8623b979042b090295e221bbd2eb9b47a7fb9c8cd3',  # 3.4.2
+#                        'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',  # 3.4.1
+                     'library': 'opt/microsoft/ropen/'+VERSION+'/lib64/R/library'},
            'mac': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.pkg',
                           'fn': 'microsoft-r-open-'+VERSION+'.pkg',
-                         'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',
+                         'sha': 'f533bcef949162d1036d92e9d12c414a4713c98a81641dee95b7f71717669832',  # 3.4.2
+#                        'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',  # 3.4.1
                      'library': 'R/library'}}
 
 HEADER='''
@@ -170,14 +174,14 @@ pushd unpack
         "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
         rm -f $SRC_DIR/unpack/$ARCHIVE
         msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
-        mv Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
-        mv Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.2.0.0_1033.cab "$SRC_DIR"/unpack
         # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
-        rm -rf Microsoft/MRO-3.4.1.0/Setup
+        rm -rf Microsoft/MRO-$PKG_VERSION.0/Setup
         mkdir -p "$SRC_DIR"/unpack/lib
-        mv Microsoft/MRO-3.4.1.0 "$SRC_DIR"/unpack/lib/R
-        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
-        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-3.4.1.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        mv Microsoft/MRO-$PKG_VERSION.0 "$SRC_DIR"/unpack/lib/R
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.2.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
         ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R)
         ARCHIVES+=(MROPKGS_9.2.0.0_1033.cab,lib/R)
@@ -219,8 +223,8 @@ pushd unpack
   # 3. Rearrange layout so it is compatible with conda, or at least does not stomp all over
   #    conda packages (MKL for example).
   if [[ $target_platform == linux-64 ]]; then
-    mv opt/microsoft/ropen/3.4.1/lib64 lib
-    mv opt/microsoft/ropen/3.4.1/stage stage
+    mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
+    mv opt/microsoft/ropen/$PKG_VERSION/stage stage
   elif [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
