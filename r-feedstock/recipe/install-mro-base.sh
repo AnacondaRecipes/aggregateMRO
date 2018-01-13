@@ -22,6 +22,7 @@ make_mro_base () {
     cp launcher.exe $PREFIX/Scripts/Rterm.exe
     cp launcher.exe $PREFIX/Scripts/open.exe
   fi
+
   # Make symlinks in PREFIX/bin for Unix platforms.
   if [[ $target_platform != win-64 ]]; then
     declare -a EXES
@@ -112,5 +113,6 @@ EXCLUDED_PACKAGES+=(rpart)
 EXCLUDED_PACKAGES+=(RUnit)
 EXCLUDED_PACKAGES+=(spatial)
 EXCLUDED_PACKAGES+=(survival)
+
 
 make_mro_base

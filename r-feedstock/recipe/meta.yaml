@@ -42,13 +42,13 @@ outputs:
     requirements:
       build:
         - m2-base  # [win]
-        - {{{{ compiler('fortran') }}}}  # [not win]
-        - {{{{ compiler('cxx') }}}}  # [not win]
-        - {{{{ compiler('c') }}}}  # [not win]
+        - {{ compiler('fortran') }}  # [not win]
+        - {{ compiler('cxx') }}  # [not win]
+        - {{ compiler('c') }}  # [not win]
       run:
-        - {{{{ compiler('fortran') }}}}  # [not win]
-        - {{{{ compiler('cxx') }}}}  # [not win]
-        - {{{{ compiler('c') }}}}  # [not win]
+        - {{ compiler('fortran') }}  # [not win]
+        - {{ compiler('cxx') }}  # [not win]
+        - {{ compiler('c') }}  # [not win]
 
 
   - name: r-kernsmooth
