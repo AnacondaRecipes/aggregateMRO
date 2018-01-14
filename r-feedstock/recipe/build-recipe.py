@@ -14,6 +14,8 @@ try:
 except ImportError:
     from yaml import SafeDumper
 
+import distutils
+from distutils import dir_util
 from itertools import chain
 
 from conda_build.conda_interface import text_type, iteritems
@@ -62,7 +64,7 @@ sources = {
                           'fn': 'microsoft-r-open-'+VERSION+'.pkg',
                          'sha': 'f533bcef949162d1036d92e9d12c414a4713c98a81641dee95b7f71717669832',  # 3.4.2
 #                        'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',  # 3.4.1
-                     'library': 'opt/microsoft/ropen/3.4.2/lib64/R/library'}}
+                     'library': 'Library/Frameworks/R.framework/Resources/library'}}
 
 HEADER='''
 {{% set pfx = 'r-' %}}
@@ -118,6 +120,14 @@ outputs:
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
 
+  - name: r-base
+    version: {{ version }}
+    requirements:
+      build:
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
+      run:
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
+
 '''
 
 PACKAGE='''
@@ -126,6 +136,7 @@ PACKAGE='''
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+{skip}
       rpaths:
         - lib/R/lib/
         - lib/
@@ -156,6 +167,7 @@ MRO_BASICS_METAPACKAGE='''
     requirements:
       run:
         - mro-base {{ version }}
+        - r-base
 '''
 
 BUILD_SH='''#!/bin/bash
@@ -237,7 +249,6 @@ pushd unpack
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
     mkdir -p lib/R
-    mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
     mv .$RESOURCES/etc lib/R/
@@ -430,6 +441,14 @@ popd
 find . | wc -l
 '''
 
+build_and_skip_olw = {(True,  True,  True):  ("", ""),
+                      (True,  True,  False): ("  # [osx or linux]",   "      skip: True  # [win]"),
+                      (True,  False, True):  ("  # [osx or win]",     "      skip: True  # [linux]"),
+                      (False, True,  True):  ("  # [linux or win]",   "      skip: True  # [osx]"),
+                      (True,  False, False): ("  # [osx]",            "      skip: True  # [not osx]"),
+                      (False, False, True):  ("  # [win]",            "      skip: True  # [not win]"),
+                      (False, True,  False): ("  # [linux]",          "      skip: True  # [not linux]")}
+
 
 def cache_file(src_cache, url, fn=None, sha=None, checksummer=hashlib.sha256):
     if fn:
@@ -467,42 +486,46 @@ def main():
     cran_metadata = {}
     # Some packages are missing on some systems. Need to mark them so they get skipped.
     to_be_packaged = set()
-    with TemporaryDirectory() as td:
+    with TemporaryDirectory() as merged_td:
         for platform, details in sources.items():
-            # libarchive cannot handle the .exe, just skip it. Means we cannot figure out packages that are not available
-            # for Windows.
-            if platform == 'win_no':
-                details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
+            with TemporaryDirectory() as td:
                 os.chdir(td)
-                libarchive.extract_file(details['cached_as'])
-                libdir = os.path.join(td, details['library'])
-                library = os.listdir(libdir)
-                # library.append('foreach')
-                details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
-            elif platform == 'linux':
-                details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
-                os.chdir(td)
-                libarchive.extract_file(details['cached_as'])
-                import glob
-                for filename in glob.iglob('**/*.rpm', recursive=True):
-                    print(filename)
-                    libarchive.extract_file(filename)
-                libdir = os.path.join(td, details['library'])
-                library = os.listdir(libdir)
-                # library.append('foreach')
-                details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
-            elif platform == 'mac':
-                details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
-                os.chdir(td)
-                os.system("xar -xf {}".format(details['cached_as']))
-                payloads = glob.glob('./**/Payload', recursive=True)
-                print(payloads)
-                for payload in payloads:
-                    libarchive.extract_file(payload)
-                libdir = os.path.join(td, details['library'])
-                library = os.listdir(libdir)
-                details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
-
+                libdir = None
+                # libarchive cannot handle the .exe, just skip it. Means we cannot figure out packages that are not available
+                # for Windows.
+                if platform == 'win_no':
+                    details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
+                    libarchive.extract_file(details['cached_as'])
+                    libdir = os.path.join(td, details['library'])
+                    library = os.listdir(libdir)
+                    print(library)
+                    details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
+                elif platform == 'linux':
+                    details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
+                    libarchive.extract_file(details['cached_as'])
+                    import glob
+                    for filename in glob.iglob('**/*.rpm', recursive=True):
+                        print(filename)
+                        libarchive.extract_file(filename)
+                    libdir = os.path.join(td, details['library'])
+                    library = os.listdir(libdir)
+                    print(library)
+                    details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
+                elif platform == 'mac':
+                    details['cached_as'], sha256 = cache_file(config.src_cache, details['url'], details['fn'], details['sha'])
+                    os.system("xar -xf {}".format(details['cached_as']))
+                    payloads = glob.glob('./**/Payload', recursive=True)
+                    print(payloads)
+                    for payload in payloads:
+                        libarchive.extract_file(payload)
+                    libdir = os.path.join(td, details['library'])
+                    library = os.listdir(libdir)
+                    print(library)
+                    details['to_be_packaged'] = set(library) - set(R_BASE_PACKAGE_NAMES)
+                if libdir:
+                    distutils.dir_util.copy_tree(libdir, merged_td)
+        os.chdir(merged_td)
+        libdir = merged_td
         # Fudge until we can unpack the Windows installer .exe on Linux
         sources['win']['to_be_packaged'] = sources['linux']['to_be_packaged']
 
@@ -525,9 +548,9 @@ def main():
             # Make sure package always uses the CRAN capitalization
             package = cran_metadata[package.lower()]['Package']
             package_dicts[package.lower()] = {}
-            package_dicts[package.lower()]['not_osx'] = False if package in sources['mac']['to_be_packaged'] else True
-            package_dicts[package.lower()]['not_win'] = False if package in sources['win']['to_be_packaged'] else True
-            package_dicts[package.lower()]['not_linux'] = False if package in sources['linux']['to_be_packaged'] else True
+            package_dicts[package.lower()]['osx'] = True if package in sources['mac']['to_be_packaged'] else False
+            package_dicts[package.lower()]['win'] = True if package in sources['win']['to_be_packaged'] else False
+            package_dicts[package.lower()]['linux'] = True if package in sources['linux']['to_be_packaged'] else False
         for package in sorted(list(to_be_packaged)):
             cran_package = cran_metadata[package.lower()]
 
@@ -553,7 +576,9 @@ def main():
             d['git_url'] = ''
             d['git_tag'] = ''
             d['hash_entry'] = ''
-
+            d['build'], d['skip'] = build_and_skip_olw[(package_dicts[package.lower()]['osx'],
+                                                        package_dicts[package.lower()]['linux'],
+                                                        package_dicts[package.lower()]['win'])]
             d['cran_version'] = cran_package['Version']
             # Conda versions cannot have -. Conda (verlib) will treat _ as a .
             d['conda_version'] = d['cran_version'].replace('-', '_')
@@ -705,7 +730,7 @@ def main():
                         # it can only depend on 'r-base' since anything else can and will cause cycles
                         # in the dependency graph. The cran metadata lists all dependencies anyway, even
                         # those packages that are in the recommended group.
-                        r_name = 'mro-base ' + VERSION
+                        r_name = 'r-base ' + VERSION
                         # We don't include any R version restrictions because we
                         # always build R packages against an exact R version
                         deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
@@ -732,7 +757,12 @@ def main():
                         if '>=' in pinning:
                             deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin=None) }}}}".format(indent, name, pinning.replace('>=', ''))
                         else:
-                            deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin='{}') }}}}".format(indent, name, pinning, pinning)
+                            if name == 'r-base':
+                                # We end up with filenames with 'r34*' in them unless we specify the version here.
+                                # TODO :: Ask @msarahan about this.
+                                deps[i] = "{} {} {{{{ version }}}}".format(indent, name)
+                            else:
+                                deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin='{}') }}}}".format(indent, name, pinning, pinning)
                     else:
                         deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}}}".format(indent, name)
 
@@ -765,7 +795,7 @@ def main():
             meta_yaml.write(MRO_BASICS_METAPACKAGE)
             meta_subs = []
             for package in package_dicts:
-                meta_subs.append('        - {}'.format(package_dicts[package]['packagename']))
+                meta_subs.append('        - {}{}'.format(package_dicts[package]['packagename'], package_dicts[package]['build']))
             meta_yaml.write('\n'.join(sorted(meta_subs)))
 
         with open(os.path.join(this_dir, 'build.sh'), 'w') as build_sh:

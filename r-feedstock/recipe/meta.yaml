@@ -53,14 +53,18 @@ outputs:
   - name: r-base
     version: {{ version }}
     requirements:
+      build:
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
       run:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
+
 
   - name: r-kernsmooth
     version: 2.23_15
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -70,9 +74,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -93,6 +97,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -102,9 +107,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -124,6 +129,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -133,10 +139,10 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -157,6 +163,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -166,9 +173,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -187,6 +194,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -196,9 +204,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -221,6 +229,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -230,9 +239,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -252,6 +261,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -261,10 +271,10 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
 
     test:
@@ -284,6 +294,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -293,9 +304,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -314,6 +325,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+      skip: True  # [osx]
       rpaths:
         - lib/R/lib/
         - lib/
@@ -324,9 +336,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -345,6 +357,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -354,9 +367,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', exact=True) }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', exact=True) }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -377,6 +390,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -386,9 +400,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -418,6 +432,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -427,10 +442,10 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -451,6 +466,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -460,9 +476,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -483,6 +499,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -492,9 +509,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -513,6 +530,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -522,9 +540,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -550,6 +568,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+      skip: True  # [osx]
       rpaths:
         - lib/R/lib/
         - lib/
@@ -559,9 +578,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -585,6 +604,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -594,11 +614,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-foreach', min_pin='1.2.0', max_pin=None) }}
         - {{ pin_subpackage('r-iterators', min_pin='1.0.0', max_pin=None) }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-foreach', min_pin='1.2.0', max_pin=None) }}
         - {{ pin_subpackage('r-iterators', min_pin='1.0.0', max_pin=None) }}
 
@@ -619,6 +639,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -628,11 +649,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
@@ -658,6 +679,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -667,9 +689,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -689,6 +711,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -698,9 +721,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -720,6 +743,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -729,9 +753,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -758,6 +782,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -767,9 +792,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -791,6 +816,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -800,11 +826,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
 
@@ -829,6 +855,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -838,10 +865,10 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -861,6 +888,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -870,9 +898,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -892,6 +920,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -901,9 +930,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -923,6 +952,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -932,9 +962,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -955,6 +985,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -964,9 +995,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
 
     test:
       commands:
@@ -985,6 +1016,7 @@ outputs:
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
+
       rpaths:
         - lib/R/lib/
         - lib/
@@ -994,10 +1026,10 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        - {{ pin_subpackage('r-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        -  r-base {{ version }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -1026,7 +1058,7 @@ outputs:
         - r-cluster
         - r-codetools
         - r-curl
-        - r-deployrrserve
+        - r-deployrrserve  # [linux or win]
         - r-doparallel
         - r-foreach
         - r-foreign
@@ -1044,7 +1076,7 @@ outputs:
         - r-r6
         - r-revoioq
         - r-revomods
-        - r-revoutilsmath
+        - r-revoutilsmath  # [linux or win]
         - r-rpart
         - r-runit
         - r-spatial
