@@ -74,10 +74,10 @@ pushd unpack
     mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
   elif [[ $target_platform == osx-64 ]]; then
+    set -x
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
     mkdir -p lib/R
-    mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
     mv .$RESOURCES/etc lib/R/

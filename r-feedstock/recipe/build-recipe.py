@@ -403,7 +403,6 @@ declare -a EXCLUDED_PACKAGES
 '''
 
 INSTALL_MRO_BASE_FOOTER='''
-
 make_mro_base
 '''
 
