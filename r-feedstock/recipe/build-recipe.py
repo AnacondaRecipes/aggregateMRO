@@ -44,6 +44,10 @@ VERSION_DEPENDENCY_REGEX = re.compile(
     r'?(\s*\[(?P<archs>[\s!\w\-]+)\])?\s*$'
 )
 
+extra_deps = { 'r-deployrrserve': [INDENT + 'libstdcxx-ng >=7.2.0  # [linux]', INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
+               'r-revoutilsmath': [INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
+               'r-mgcv': [INDENT + 'libgcc-ng >=7.2.0  # [linux]']}
+
 sources = {
            'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.exe',
                           'fn': 'microsoft-r-open-'+VERSION+'.exe',
@@ -326,6 +330,9 @@ popd
 '''
 
 INSTALL_MRO_BASE_HEADER='''#!/bin/bash
+
+# activate the build environment
+. activate "$BUILD_PREFIX"
 
 contains () {{
   local e match="$1"
@@ -734,6 +741,10 @@ def main():
                         # We don't include any R version restrictions because we
                         # always build R packages against an exact R version
                         deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
+                        # Bit of a hack since I added overlinking checking.
+                        r_name = 'mro-base ' + VERSION
+                        deps.insert(1, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
+
                     else:
                         conda_name = 'r-' + name.lower()
 
@@ -760,11 +771,19 @@ def main():
                             if name == 'r-base':
                                 # We end up with filenames with 'r34*' in them unless we specify the version here.
                                 # TODO :: Ask @msarahan about this.
-                                deps[i] = "{} {} {{{{ version }}}}".format(indent, name)
+                                deps[i] = "{}{} {{{{ version }}}}".format(indent, name)
                             else:
                                 deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin='{}') }}}}".format(indent, name, pinning, pinning)
                     else:
                         deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}}}".format(indent, name)
+
+                # Add missing conda package dependencies.
+                if dep_type == 'run':
+                    if d['packagename'] in extra_deps:
+                        for extra_dep in extra_deps[d['packagename']]:
+                            print("extra_dep is {}".format(extra_dep))
+                            deps.append(extra_dep)
+                        print(deps)
 
                 d['%s_depends' % dep_type] = ''.join(deps)
 

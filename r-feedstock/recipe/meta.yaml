@@ -74,9 +74,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -107,9 +109,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -139,10 +143,12 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -173,9 +179,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -204,9 +212,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -239,9 +249,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -271,10 +283,12 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
 
     test:
@@ -304,9 +318,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -336,9 +352,13 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libgcc-ng >=7.2.0  # [linux]
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libgcc-ng >=7.2.0  # [linux]
 
     test:
       commands:
@@ -367,9 +387,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -400,9 +422,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -442,10 +466,12 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -476,9 +502,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -509,9 +537,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -540,9 +570,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -578,9 +610,15 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libstdcxx-ng >=7.2.0  # [linux]
+        - libgcc-ng >=7.2.0  # [linux]
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libstdcxx-ng >=7.2.0  # [linux]
+        - libgcc-ng >=7.2.0  # [linux]
 
     test:
       commands:
@@ -614,11 +652,13 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-foreach', min_pin='1.2.0', max_pin=None) }}
         - {{ pin_subpackage('r-iterators', min_pin='1.0.0', max_pin=None) }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-foreach', min_pin='1.2.0', max_pin=None) }}
         - {{ pin_subpackage('r-iterators', min_pin='1.0.0', max_pin=None) }}
 
@@ -649,11 +689,13 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
@@ -689,9 +731,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -721,9 +765,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -753,9 +799,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -792,9 +840,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -826,13 +876,17 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
+        - libgcc-ng >=7.2.0  # [linux]
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
+        - libgcc-ng >=7.2.0  # [linux]
 
     test:
       commands:
@@ -865,10 +919,12 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:
@@ -898,9 +954,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -930,9 +988,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -962,9 +1022,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -995,9 +1057,11 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
 
     test:
       commands:
@@ -1026,10 +1090,12 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
-        -  r-base {{ version }}
+        - r-base {{ version }}
+        - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     test:

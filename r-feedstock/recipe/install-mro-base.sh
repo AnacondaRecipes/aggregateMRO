@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# activate the build environment
+. activate "$BUILD_PREFIX"
+
 contains () {
   local e match="$1"
   shift
