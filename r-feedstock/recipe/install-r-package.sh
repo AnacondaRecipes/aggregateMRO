@@ -15,6 +15,13 @@ fi
 
 pushd unpack$LIBRARY || exit 1
   for LIBRARY_CASED in $(find . -iname "$LIBRARY_NAME" -maxdepth 1 -mindepth 1); do
+    if [[ $target_platform == osx-64 ]]; then
+      # Un-framework-ification.
+      for SHARED_LIB in $(find $LIBRARY_CASED . -iname "*.dylib" -or -iname "*.so"); do
+        install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.2-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+        install_name_tool -change /usr/local/clang4/lib/libomp.dylib "$PREFIX"/lib/libomp.dylib $SHARED_LIB || true
+      done
+    fi
     mv $LIBRARY_CASED "$PREFIX_LIB"/
   done
 popd

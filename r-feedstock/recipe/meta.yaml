@@ -45,10 +45,15 @@ outputs:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
+      host:
+        - libgfortran >=3.0.1  # [osx]
+        - llvm-openmp >=4.0.1  # [osx]
       run:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
+        - libgfortran >=3.0.1  # [osx]
+        - llvm-openmp >=4.0.1  # [osx]
 
   - name: r-base
     version: {{ version }}
@@ -76,9 +81,11 @@ outputs:
       host:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libgfortran >=3.0.1  # [osx]        
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libgfortran >=3.0.1  # [osx]
 
     test:
       commands:
@@ -146,11 +153,12 @@ outputs:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - libgfortran >=3.0.1  # [osx]
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
-
+        - libgfortran >=3.0.1  # [osx]
     test:
       commands:
         # You can put additional test commands to be run here.
@@ -504,9 +512,11 @@ outputs:
       host:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libgfortran >=3.0.1  # [osx]
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
+        - libgfortran >=3.0.1  # [osx]
 
     test:
       commands:
@@ -881,12 +891,16 @@ outputs:
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
         - libgcc-ng >=7.2.0  # [linux]
+        - libgfortran >=3.0.1  # [osx]
+        - llvm-openmp >=4.0.1  # [osx]
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-nlme', min_pin='3.1_64', max_pin=None) }}
         - libgcc-ng >=7.2.0  # [linux]
+        - libgfortran >=3.0.1  # [osx]
+        - llvm-openmp >=4.0.1  # [osx]
 
     test:
       commands:
@@ -922,10 +936,12 @@ outputs:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - libgfortran >=3.0.1  # [osx]
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.2', max_pin='3.4.2') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - libgfortran >=3.0.1  # [osx]
 
     test:
       commands:

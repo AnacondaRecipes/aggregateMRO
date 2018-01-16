@@ -118,8 +118,8 @@
 ./conda-meta/cctools-895-h7512d6f_0.json
 ./conda-meta/clang-4.0.1-h662ec87_0.json
 ./conda-meta/clangxx-4.0.1-hc9b4283_0.json
-./conda-meta/clangxx_osx-64-4.0.1-7.json
-./conda-meta/clang_osx-64-4.0.1-h1ce6c1d_7.json
+./conda-meta/clangxx_osx-64-4.0.1-h22b1bf0_8.json
+./conda-meta/clang_osx-64-4.0.1-h1ce6c1d_8.json
 ./conda-meta/compiler-rt-4.0.1-h5487866_0.json
 ./conda-meta/gfortran_osx-64-4.8.5-h22b1bf0_3.json
 ./conda-meta/history
@@ -129,6 +129,7 @@
 ./conda-meta/libgfortran-3.0.1-h93005f0_2.json
 ./conda-meta/llvm-4.0.1-hc748206_0.json
 ./conda-meta/llvm-lto-tapi-4.0.1-h6701bc3_0.json
+./conda-meta/llvm-openmp-4.0.1-hda82c8b_0.json
 ./etc
 ./etc/conda
 ./etc/conda/activate.d
@@ -1988,6 +1989,7 @@
 ./lib/clang/4.0.1/include/msa.h
 ./lib/clang/4.0.1/include/mwaitxintrin.h
 ./lib/clang/4.0.1/include/nmmintrin.h
+./lib/clang/4.0.1/include/omp.h
 ./lib/clang/4.0.1/include/opencl-c.h
 ./lib/clang/4.0.1/include/pkuintrin.h
 ./lib/clang/4.0.1/include/pmmintrin.h
@@ -2350,6 +2352,7 @@
 ./lib/libLLVMXRay.a
 ./lib/libLTO.dylib
 ./lib/libmacho.a
+./lib/libomp.dylib
 ./lib/libquadmath.0.dylib
 ./lib/libquadmath.dylib
 ./lib/libstdc++.6.dylib
@@ -2390,7 +2393,6 @@
 ./lib/R/etc/javaconf
 ./lib/R/etc/ldpaths
 ./lib/R/etc/Makeconf
-./lib/R/etc/Makeconf=
 ./lib/R/etc/Renviron
 ./lib/R/etc/Renviron.site
 ./lib/R/etc/repositories
@@ -2442,14 +2444,7 @@
 ./lib/R/include/R_ext/Visibility.h
 ./lib/R/include/S.h
 ./lib/R/lib
-./lib/R/lib/libc++.1.dylib
-./lib/R/lib/libc++abi.1.dylib
-./lib/R/lib/libgcc_s.1.dylib
-./lib/R/lib/libgfortran.3.dylib
-./lib/R/lib/libomp.dylib
-./lib/R/lib/libquadmath.0.dylib
 ./lib/R/lib/libR.dylib
-./lib/R/lib/libunwind.1.dylib
 ./lib/R/library
 ./lib/R/library/base
 ./lib/R/library/base/CITATION

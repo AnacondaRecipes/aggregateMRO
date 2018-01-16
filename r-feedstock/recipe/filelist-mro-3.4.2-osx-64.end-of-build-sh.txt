@@ -34,7 +34,6 @@
 ./lib/R/etc/javaconf
 ./lib/R/etc/ldpaths
 ./lib/R/etc/Makeconf
-./lib/R/etc/Makeconf=
 ./lib/R/etc/Renviron
 ./lib/R/etc/Renviron.site
 ./lib/R/etc/repositories
@@ -86,14 +85,7 @@
 ./lib/R/include/R_ext/Visibility.h
 ./lib/R/include/S.h
 ./lib/R/lib
-./lib/R/lib/libc++.1.dylib
-./lib/R/lib/libc++abi.1.dylib
-./lib/R/lib/libgcc_s.1.dylib
-./lib/R/lib/libgfortran.3.dylib
-./lib/R/lib/libomp.dylib
-./lib/R/lib/libquadmath.0.dylib
 ./lib/R/lib/libR.dylib
-./lib/R/lib/libunwind.1.dylib
 ./lib/R/library
 ./lib/R/library/base
 ./lib/R/library/base/CITATION

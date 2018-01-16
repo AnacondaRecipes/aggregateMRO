@@ -46,7 +46,8 @@ VERSION_DEPENDENCY_REGEX = re.compile(
 
 extra_deps = { 'r-deployrrserve': [INDENT + 'libstdcxx-ng >=7.2.0  # [linux]', INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
                'r-revoutilsmath': [INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
-               'r-mgcv': [INDENT + 'libgcc-ng >=7.2.0  # [linux]']}
+               'r-mgcv': [INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
+               'mro-base': [INDENT + 'libgfortran >=3.0.1  # [osx]']}
 
 sources = {
            'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.exe',
@@ -123,6 +124,7 @@ outputs:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
+        - libgfortran >=3.0.1  # [osx]
 
   - name: r-base
     version: {{ version }}

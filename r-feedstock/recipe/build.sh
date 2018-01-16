@@ -83,6 +83,15 @@ pushd unpack
     mv .$RESOURCES/include lib/R/
     mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/modules lib/R/
+    # Get rid of all MS-provided clang compiler runtime DSOs
+    rm lib/R/lib/libc++.1.dylib
+    rm lib/R/lib/libc++abi.1.dylib
+    rm lib/R/lib/libunwind.1.dylib
+    rm lib/R/lib/libomp.dylib
+    # And all og the MS-provided GCC compiler runtime DSOs
+    rm lib/R/lib/libgfortran.3.dylib
+    rm lib/R/lib/libquadmath.0.dylib
+    rm lib/R/lib/libgcc_s.1.dylib
   else
     echo "No layout necessary for $target_platform"
   fi
@@ -114,13 +123,32 @@ pushd unpack
     done
     sed -i='' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
     # Use conda's compilers
-    sed -i='' "s|/usr/local/clang4|$PREFIX|g" lib/R/etc/Makeconf
-    sed -i='' "s|/usr/local/gfortran|$PREFIX|g" lib/R/etc/Makeconf
-    sed -i='' "s|/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0|$PREFIX/lib/gcc/x86_64-apple-darwin11.4.2/4.8.5|g" lib/R/etc/Makeconf
-    sed -i='' "s|-F/Library/Frameworks/R.framework/.. -framework R|-L$PREFIX/lib/R/lib -lR|g" lib/R/etc/Makeconf
+    sed -i'.bak' "s|/usr/local/clang4|$PREFIX|g" lib/R/etc/Makeconf
+    sed -i'.bak' "s|/usr/local/gfortran|$PREFIX|g" lib/R/etc/Makeconf
+    sed -i'.bak' "s|/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0|$PREFIX/lib/gcc/x86_64-apple-darwin11.4.2/4.8.5|g" lib/R/etc/Makeconf
+    sed -i.'bak' "s|-F/Library/Frameworks/R.framework/.. -framework R|-L$PREFIX/lib/R/lib -lR|g" lib/R/etc/Makeconf
+    rm lib/R/etc/Makeconf.bak
     # Others things to fix in: lib/R/etc/Makeconf
     # JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre
     # LIBR = -F/Library/Frameworks/R.framework/.. -framework R
+    # Fix the LC_LOAD_DYLIB entries:
+    for libdir in lib/R/lib lib/R/modules lib/R/library lib/R/bin/exec; do
+      pushd $libdir || exit 1
+      echo "Pushed to libdir $libdir"
+        for SHARED_LIB in $(find . -type f -iname "*.dylib" -or -iname "*.so" -or -iname "R"); do
+          echo "fixing SHARED_LIB $SHARED_LIB"
+          install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.2-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/local/clang4/lib/libomp.dylib "$PREFIX"/lib/libomp.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/local/gfortran/lib/libgfortran.3.dylib "$PREFIX"/lib/libgfortran.3.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/local/gfortran/lib/libquadmath.0.dylib "$PREFIX"/lib/libquadmath.0.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libgcc_s.1.dylib "$PREFIX"/lib/libgcc_s.1.dylib $SHARED_LIB || true
+        done
+      popd
+    done
+    # One-off fixups. It seems some packages were not rebuilt against R 3.4.2 (doing them for every dylib would be pointlessly slow):
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || true
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || true
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || true
   else
     echo "No fixes necessary for $target_platform"
   fi
