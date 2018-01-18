@@ -27,7 +27,7 @@ from conda_build.license_family import allowed_license_families, guess_license_f
 
 from tempfile import TemporaryDirectory
 
-VERSION = '3.4.2'
+VERSION = '3.4.3'
 INDENT = '\n        - '
 
 # The following base/recommended package names are derived from R's source
@@ -52,7 +52,8 @@ extra_deps = { 'r-deployrrserve': [INDENT + 'libstdcxx-ng >=7.2.0  # [linux]', I
 sources = {
            'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.exe',
                           'fn': 'microsoft-r-open-'+VERSION+'.exe',
-                         'sha': '6ee89d8642d3a153e5c4295e5028b6e70f657b1768b10e23cb5d7da8a9c7552d',  # 3.4.2
+                         'sha': 'c8d50172ec8173cef503a616f9ef310dc5b274ac045ea71b9c8aed248098cbdd',  # 3.4.3
+#                        'sha': '6ee89d8642d3a153e5c4295e5028b6e70f657b1768b10e23cb5d7da8a9c7552d',  # 3.4.2
 #                        'sha': '04f7be3aaf393937b2edb536f1a3c7f279145b3aeb6e5eefdf9bee1ac137afc6',  # 3.4.1
                      'library': 'library'},
 # This does not contain MKL:
@@ -62,12 +63,14 @@ sources = {
 #                     'library': 'library'},
            'linux': {    'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.tar.gz',
                           'fn': 'microsoft-r-open-'+VERSION+'.tar.gz',
-                         'sha': 'edc783e42911f182c52d1e8623b979042b090295e221bbd2eb9b47a7fb9c8cd3',  # 3.4.2
+                         'sha': 'bf2cd35a11db604b1fa8f5f0c0acf0ae05756020d90fb3f6cbb639337efcee5b',  # 3.4.3
+#                        'sha': 'edc783e42911f182c52d1e8623b979042b090295e221bbd2eb9b47a7fb9c8cd3',  # 3.4.2
 #                        'sha': '83c2f36f255483e49cefa91a143c020ad9dfdfd70a101432f1eae066825261cb',  # 3.4.1
                      'library': 'opt/microsoft/ropen/'+VERSION+'/lib64/R/library'},
            'mac': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.pkg',
                           'fn': 'microsoft-r-open-'+VERSION+'.pkg',
-                         'sha': 'f533bcef949162d1036d92e9d12c414a4713c98a81641dee95b7f71717669832',  # 3.4.2
+                         'sha': '4998500839389821f995d3ebb89ee7e8e5a35a61a63ba0ac54d63adf53288947',  # 3.4.3
+#                        'sha': 'f533bcef949162d1036d92e9d12c414a4713c98a81641dee95b7f71717669832',  # 3.4.2
 #                        'sha': '643c5e953a02163ae73273da27f9c1752180f55bf836b127b6e1829fd1756fc8',  # 3.4.1
                      'library': 'Library/Frameworks/R.framework/Resources/library'}}
 

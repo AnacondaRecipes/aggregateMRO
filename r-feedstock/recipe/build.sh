@@ -1,11 +1,11 @@
 #!/bin/bash
 
 if [[ $target_platform == win-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.2.exe
+  ARCHIVE=microsoft-r-open-3.4.3.exe
 elif [[ $target_platform == linux-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.2.tar.gz
+  ARCHIVE=microsoft-r-open-3.4.3.tar.gz
 elif [[ $target_platform == osx-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.2.pkg
+  ARCHIVE=microsoft-r-open-3.4.3.pkg
 fi
 
 mkdir -p unpack
