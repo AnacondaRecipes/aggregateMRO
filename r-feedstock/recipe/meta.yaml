@@ -48,12 +48,17 @@ outputs:
       host:
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
+        - expat  # [osx]
+        - curl  # [osx]
+        - libiconv  # [osx]
+        - ncurses  # [osx]
       run:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
+        - curl  # [osx]
 
   - name: r-base
     version: {{ version }}

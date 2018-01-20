@@ -137,15 +137,21 @@ pushd unpack
       echo "Pushed to libdir $libdir"
         for SHARED_LIB in $(find . -type f -iname "*.dylib" -or -iname "*.so" -or -iname "R"); do
           echo "fixing SHARED_LIB $SHARED_LIB"
-          install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.2-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+          install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.3-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/clang4/lib/libomp.dylib "$PREFIX"/lib/libomp.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/gfortran/lib/libgfortran.3.dylib "$PREFIX"/lib/libgfortran.3.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/gfortran/lib/libquadmath.0.dylib "$PREFIX"/lib/libquadmath.0.dylib $SHARED_LIB || true
           install_name_tool -change /usr/lib/libgcc_s.1.dylib "$PREFIX"/lib/libgcc_s.1.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libiconv.2.dylib "$PREFIX"/lib/libiconv.2.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libncurses.5.4.dylib "$PREFIX"/lib/libncursesw.6.dylib $SHARED_LIB || true
+          # Cannot find a good single replacement for icucore.
+          # install_name_tool -change /usr/lib/libicucore.A.dylib "$PREFIX"/lib/libiconv.6.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libexpat.1.dylib "$PREFIX"/lib/libexpat.1.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libcurl.4.dylib "$PREFIX"/lib/libcurl.4.dylib $SHARED_LIB || true
         done
       popd
     done
-    # One-off fixups. It seems some packages were not rebuilt against R 3.4.2 (doing them for every dylib would be pointlessly slow):
+    # One-off fixups. It seems some packages were not rebuilt against R 3.4.3 (doing them for every dylib would be pointlessly slow):
     install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || true
     install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || true
     install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || true
