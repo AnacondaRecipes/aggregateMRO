@@ -37,6 +37,7 @@ pushd unpack
     elif [[ $target_platform == osx-64 ]]; then
       # https://github.com/libarchive/libarchive/issues/456
       xar -xf $ARCHIVE
+      rm $ARCHIVE
       for PAYLOAD in $(find . -name Payload); do
         ARCHIVES+=($PAYLOAD,.)
       done
@@ -112,8 +113,13 @@ pushd unpack
     OLD_RPATH=$(patchelf --print-rpath lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so)
     patchelf --set-rpath '$ORIGIN'/../../../lib/mro_mkl:$OLD_RPATH lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so
   elif [[ $target_platform == osx-64 ]]; then
+    mkdir -p sysroot/usr/lib/
+    cp /usr/lib/libicucore.A.dylib sysroot/usr/lib/
+    cp /usr/lib/libncurses.5.4.dylib sysroot/usr/lib/
+    cp /usr/lib/libiconv.2.dylib sysroot/usr/lib/
+    chmod u+w sysroot/usr/lib/*
     declare -a DYLIBS
-    for DYLIB in $(find . -name "*.dylib" -or -name "*.so"); do
+    for DYLIB in $(find . -type f -iname "*.dylib" -or -iname "*.so"); do
       DYLIBS+=($DYLIB)
       install_name_tool -id $(basename $DYLIB) $DYLIB
     done
@@ -121,7 +127,8 @@ pushd unpack
     for DYLIB in ${DYLIBS[@]}; do
       echo $DYLIB
     done
-    sed -i='' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
+    sed -i'.bak' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
+    rm lib/R/bin/R.bak
     # Use conda's compilers
     sed -i'.bak' "s|/usr/local/clang4|$PREFIX|g" lib/R/etc/Makeconf
     sed -i'.bak' "s|/usr/local/gfortran|$PREFIX|g" lib/R/etc/Makeconf
@@ -132,7 +139,7 @@ pushd unpack
     # JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre
     # LIBR = -F/Library/Frameworks/R.framework/.. -framework R
     # Fix the LC_LOAD_DYLIB entries:
-    for libdir in lib/R/lib lib/R/modules lib/R/library lib/R/bin/exec; do
+    for libdir in lib/R/lib lib/R/modules lib/R/library lib/R/bin/exec sysroot/usr/lib; do
       pushd $libdir || exit 1
       echo "Pushed to libdir $libdir"
         for SHARED_LIB in $(find . -type f -iname "*.dylib" -or -iname "*.so" -or -iname "R"); do
@@ -142,19 +149,19 @@ pushd unpack
           install_name_tool -change /usr/local/gfortran/lib/libgfortran.3.dylib "$PREFIX"/lib/libgfortran.3.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/gfortran/lib/libquadmath.0.dylib "$PREFIX"/lib/libquadmath.0.dylib $SHARED_LIB || true
           install_name_tool -change /usr/lib/libgcc_s.1.dylib "$PREFIX"/lib/libgcc_s.1.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libiconv.2.dylib "$PREFIX"/lib/libiconv.2.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libncurses.5.4.dylib "$PREFIX"/lib/libncursesw.6.dylib $SHARED_LIB || true
-          # Cannot find a good single replacement for icucore.
-          # install_name_tool -change /usr/lib/libicucore.A.dylib "$PREFIX"/lib/libiconv.6.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libiconv.2.dylib "$PREFIX"/sysroot/usr/lib/libiconv.2.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libncurses.5.4.dylib "$PREFIX"/sysroot/usr/lib/libncurses.5.4.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libicucore.A.dylib "$PREFIX"/sysroot/usr/lib/libicucore.A.dylib $SHARED_LIB || true
           install_name_tool -change /usr/lib/libexpat.1.dylib "$PREFIX"/lib/libexpat.1.dylib $SHARED_LIB || true
           install_name_tool -change /usr/lib/libcurl.4.dylib "$PREFIX"/lib/libcurl.4.dylib $SHARED_LIB || true
+          install_name_tool -change /usr/lib/libc++.1.dylib "$PREFIX"/lib/libc++.1.dylib $SHARED_LIB || true
         done
       popd
     done
-    # One-off fixups. It seems some packages were not rebuilt against R 3.4.3 (doing them for every dylib would be pointlessly slow):
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || true
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || true
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || true
+    # One-off fixups. It seems some packages were not rebuilt against R 3.4.3 (doing them for every dylib would be slow):
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
   else
     echo "No fixes necessary for $target_platform"
   fi

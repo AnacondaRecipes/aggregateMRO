@@ -73,6 +73,8 @@ make_mro_base () {
     done
   popd
 
+  [[ -d unpack/sysroot ]] && mv unpack/sysroot $PREFIX
+
   pushd unpack$LIBRARY/.. || exit 1
     mv library ../
     [[ -d lib/mro_mkl ]] && mv lib/mro_mkl ../

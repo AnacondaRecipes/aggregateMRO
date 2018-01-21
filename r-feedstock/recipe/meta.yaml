@@ -587,9 +587,12 @@ outputs:
       host:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
+        - curl  # [osx]
+
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
+        - curl  # [osx]
 
     test:
       commands:
