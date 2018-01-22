@@ -70,7 +70,7 @@ outputs:
 
 
   - name: r-kernsmooth
-    version: 2.23_15
+    version: '2.23_15'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -86,7 +86,7 @@ outputs:
       host:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
-        - libgfortran >=3.0.1  # [osx]        
+        - libgfortran >=3.0.1  # [osx]
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
@@ -107,7 +107,7 @@ outputs:
       license_family: MIT
 
   - name: r-mass
-    version: 7.3_47
+    version: '7.3_47'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -141,7 +141,7 @@ outputs:
       license_family: GPL3
 
   - name: r-matrix
-    version: 1.2_11
+    version: '1.2_12'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -164,6 +164,7 @@ outputs:
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
         - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - libgfortran >=3.0.1  # [osx]
+
     test:
       commands:
         # You can put additional test commands to be run here.
@@ -173,12 +174,13 @@ outputs:
     about:
       home: http://Matrix.R-forge.R-project.org/
       license: GPL (>= 2) | file LICENCE
-      summary: Classes and methods for dense and sparse matrices and operations on them using 'LAPACK'
-        and 'SuiteSparse'.
+      summary: A rich hierarchy of matrix classes, including triangular, symmetric, and diagonal
+        matrices, both dense and sparse and with pattern, logical and numeric entries.   Numerous
+        methods for and operations on these matrices, using 'LAPACK' and 'SuiteSparse' libraries.
       license_family: GPL3
 
   - name: r-microsoftr
-    version: 3.4.3.0085
+    version: '3.4.3.0097'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -211,7 +213,7 @@ outputs:
       license_family: OTHER
 
   - name: r-r6
-    version: 2.2.0
+    version: '2.2.2'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -248,7 +250,7 @@ outputs:
       license_family: MIT
 
   - name: r-runit
-    version: 0.4.26
+    version: '0.4.26'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -282,7 +284,7 @@ outputs:
       license_family: GPL2
 
   - name: r-revoioq
-    version: 8.0.8
+    version: '8.0.9'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -317,7 +319,7 @@ outputs:
       license_family: GPL2
 
   - name: r-revomods
-    version: 11.0.0
+    version: '11.0.0'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -350,7 +352,7 @@ outputs:
       license_family: GPL2
 
   - name: r-revoutilsmath
-    version: 10.0.1
+    version: '10.0.1'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -386,7 +388,7 @@ outputs:
       license_family: OTHER
 
   - name: r-boot
-    version: 1.3_20
+    version: '1.3_20'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -421,7 +423,7 @@ outputs:
       license_family: MIT
 
   - name: r-checkpoint
-    version: 0.4.0
+    version: '0.4.3'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -430,7 +432,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
-    # Suggests: knitr, rmarkdown, testthat(>= 0.9), MASS
+    # Suggests: knitr, rmarkdown, testthat(>= 0.9), MASS, darts, mockery, cli
     requirements:
       build:
         - m2-base  # [win]
@@ -465,7 +467,7 @@ outputs:
       license_family: GPL2
 
   - name: r-class
-    version: 7.3_14
+    version: '7.3_14'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -501,7 +503,7 @@ outputs:
       license_family: GPL3
 
   - name: r-cluster
-    version: 2.0.6
+    version: '2.0.6'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -538,7 +540,7 @@ outputs:
       license_family: GPL3
 
   - name: r-codetools
-    version: 0.2_15
+    version: '0.2_15'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -571,7 +573,7 @@ outputs:
       license_family: GPL
 
   - name: r-curl
-    version: 2.6
+    version: '3.1'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -588,7 +590,6 @@ outputs:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
         - curl  # [osx]
-
       run:
         - r-base {{ version }}
         - {{ pin_subpackage('mro-base', min_pin='3.4.3', max_pin='3.4.3') }}
@@ -614,7 +615,7 @@ outputs:
       license_family: MIT
 
   - name: r-deployrrserve
-    version: 9.0.0
+    version: '9.0.0'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -656,7 +657,7 @@ outputs:
       license_family: GPL2
 
   - name: r-doparallel
-    version: 1.0.10
+    version: '1.0.12'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -693,7 +694,7 @@ outputs:
       license_family: GPL2
 
   - name: r-foreach
-    version: 1.4.4
+    version: '1.4.5'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -735,7 +736,7 @@ outputs:
       license_family: APACHE
 
   - name: r-foreign
-    version: 0.8_69
+    version: '0.8_69'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -769,7 +770,7 @@ outputs:
       license_family: GPL3
 
   - name: r-iterators
-    version: 1.0.8
+    version: '1.0.9'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -803,7 +804,7 @@ outputs:
       license_family: APACHE
 
   - name: r-jsonlite
-    version: 1.4
+    version: '1.5'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -844,7 +845,7 @@ outputs:
       license_family: MIT
 
   - name: r-lattice
-    version: 0.20_35
+    version: '0.20_35'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -880,7 +881,7 @@ outputs:
       license_family: GPL3
 
   - name: r-mgcv
-    version: 1.8_20
+    version: '1.8_22'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -927,7 +928,7 @@ outputs:
       license_family: GPL3
 
   - name: r-nlme
-    version: 3.1_131
+    version: '3.1_131'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -964,7 +965,7 @@ outputs:
       license_family: GPL3
 
   - name: r-nnet
-    version: 7.3_12
+    version: '7.3_12'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -998,7 +999,7 @@ outputs:
       license_family: GPL3
 
   - name: r-png
-    version: 0.1_7
+    version: '0.1_7'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -1032,7 +1033,7 @@ outputs:
       license_family: GPL3
 
   - name: r-rpart
-    version: 4.1_11
+    version: '4.1_11'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -1067,7 +1068,7 @@ outputs:
       license_family: GPL3
 
   - name: r-spatial
-    version: 7.3_11
+    version: '7.3_11'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -1100,7 +1101,7 @@ outputs:
       license_family: GPL3
 
   - name: r-survival
-    version: 2.41_3
+    version: '2.41_3'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:

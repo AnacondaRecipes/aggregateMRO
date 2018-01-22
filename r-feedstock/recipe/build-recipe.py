@@ -46,8 +46,13 @@ VERSION_DEPENDENCY_REGEX = re.compile(
 
 extra_deps = { 'r-deployrrserve': [INDENT + 'libstdcxx-ng >=7.2.0  # [linux]', INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
                'r-revoutilsmath': [INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
-               'r-mgcv': [INDENT + 'libgcc-ng >=7.2.0  # [linux]'],
-               'mro-base': [INDENT + 'libgfortran >=3.0.1  # [osx]']}
+               'mro-base': [INDENT + 'libgfortran >=3.0.1  # [osx]'],
+               'r-kernsmooth': [INDENT + 'libgfortran >=3.0.1  # [osx]'],
+               'r-matrix': [INDENT + 'libgfortran >=3.0.1  # [osx]'],
+               'r-cluster': [INDENT + 'libgfortran >=3.0.1  # [osx]'],
+               'r-curl': [INDENT + 'curl  # [osx]'],
+               'r-mgcv': [INDENT + 'libgcc-ng >=7.2.0  # [linux]', INDENT + 'libgfortran >=3.0.1  # [osx]', INDENT + 'llvm-openmp >=4.0.1  # [osx]'],
+               'r-nlme': [INDENT + 'libgfortran >=3.0.1  # [osx]']}
 
 sources = {
            'win': {      'url': 'https://mran.blob.core.windows.net/install/mro/'+VERSION+'/microsoft-r-open-'+VERSION+'.exe',
@@ -150,7 +155,7 @@ outputs:
 
 PACKAGE='''
   - name: {packagename}
-    version: {conda_version}
+    version: '{conda_version}'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:

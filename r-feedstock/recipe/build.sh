@@ -89,7 +89,7 @@ pushd unpack
     rm lib/R/lib/libc++abi.1.dylib
     rm lib/R/lib/libunwind.1.dylib
     rm lib/R/lib/libomp.dylib
-    # And all og the MS-provided GCC compiler runtime DSOs
+    # And all of the MS-provided GCC compiler runtime DSOs
     rm lib/R/lib/libgfortran.3.dylib
     rm lib/R/lib/libquadmath.0.dylib
     rm lib/R/lib/libgcc_s.1.dylib
