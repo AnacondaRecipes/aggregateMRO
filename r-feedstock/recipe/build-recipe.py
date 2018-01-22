@@ -128,6 +128,19 @@ outputs:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libxrender') }}            # [linux]
+        - {{ cdt('libxext') }}               # [linux]
+        - {{ cdt('libuuid') }}               # [linux]
+        - {{ cdt('libsm-devel') }}           # [linux]
+        - {{ cdt('libice-devel') }}          # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libxft') }}                # [linux]
+        - {{ cdt('libxt') }}                 # [linux]
+        - {{ cdt('libxt-devel') }}           # [linux]
+        - {{ cdt('libxcb') }}                # [linux]
+        - {{ cdt('libxau') }}                # [linux]
+        - {{ cdt('java-1.7.0-openjdk') }}    # [linux]
       host:
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
@@ -135,6 +148,12 @@ outputs:
         - curl  # [osx]
         - libiconv  # [osx]
         - ncurses  # [osx]
+        - libgcc-ng >=7.2.0  # [linux]
+        - zlib  # [linux]
+        - libgfortran-ng >=7.2.0 # [linux]
+        - pango 1.40.*  # [not win]
+        - cairo 1.14.*  # [linux]
+        - glib 2.*  # [linux]
       run:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
@@ -142,14 +161,17 @@ outputs:
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
         - curl  # [osx]
+        - pango 1.*             # [not win]
+        - cairo 1.14.*  # [linux]
+        - glib 2.*  # [linux]
 
-  - name: r-base
-    version: {{ version }}
-    requirements:
-      build:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
-      run:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
+#  - name: r-base
+#    version: {{ version }}
+#    requirements:
+#      build:
+#        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
+#      run:
+#        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
 
 '''
 
@@ -189,8 +211,7 @@ MRO_BASICS_METAPACKAGE='''
     version: {{ version }}
     requirements:
       run:
-        - mro-base {{ version }}
-        - r-base
+        - mro-base
 '''
 
 BUILD_SH='''#!/bin/bash
@@ -300,8 +321,25 @@ pushd unpack
       curl -SLO http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
       "$RECIPE_DIR"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
       cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
+      cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/library/grDevices/libs/
     popd
-    patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
+    patchelf --set-rpath '$ORIGIN' lib/R/lib/libR.so
+
+    # Add a missing RPATH (MRO probably used LD_LIBRARY_PATH for this):
+    pushd lib/R/modules
+      for SHARED_LIB in $(find . -type f -iname "*.so"); do
+        patchelf --set-rpath '$ORIGIN':'$ORIGIN'/../lib $SHARED_LIB
+      done
+    popd
+    patchelf --set-rpath '$ORIGIN'/../../lib lib/R/bin/exec/R
+    patchelf --set-rpath '$ORIGIN' lib/R/lib/libRblas.so
+    patchelf --set-rpath '$ORIGIN' lib/R/lib/libRlapack.so
+    pushd lib/R/library
+      for SHARED_LIB in $(find . -type f -iname "*.so"); do
+        patchelf --set-rpath '$ORIGIN':'$ORIGIN'/../../../lib $SHARED_LIB
+      done
+    popd
+
     # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
     mkdir -p lib/R/lib/mro_mkl/
     mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
@@ -802,18 +840,17 @@ def main():
                         continue
                     if name == 'R':
                         # Put R first
-                        # Regarless of build or run, and whether this is a recommended package or not,
+                        # Regardless of build or run, and whether this is a recommended package or not,
                         # it can only depend on 'r-base' since anything else can and will cause cycles
                         # in the dependency graph. The cran metadata lists all dependencies anyway, even
                         # those packages that are in the recommended group.
-                        r_name = 'r-base ' + VERSION
+                        # r_name = 'r-base ' + VERSION
                         # We don't include any R version restrictions because we
                         # always build R packages against an exact R version
-                        deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
+                        # deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
                         # Bit of a hack since I added overlinking checking.
                         r_name = 'mro-base ' + VERSION
-                        deps.insert(1, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
-
+                        deps.insert(0, '{indent}{r_name}'.format(indent=INDENT, r_name=r_name))
                     else:
                         conda_name = 'r-' + name.lower()
 
@@ -837,7 +874,7 @@ def main():
                         if '>=' in pinning:
                             deps[i] = "{}{{{{ pin_subpackage('{}', min_pin='{}', max_pin=None) }}}}".format(indent, name, pinning.replace('>=', ''))
                         else:
-                            if name == 'r-base':
+                            if name == 'mro-base':
                                 # We end up with filenames with 'r34*' in them unless we specify the version here.
                                 # TODO :: Ask @msarahan about this.
                                 deps[i] = "{}{} {{{{ version }}}}".format(indent, name)

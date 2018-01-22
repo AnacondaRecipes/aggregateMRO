@@ -105,8 +105,25 @@ pushd unpack
       curl -SLO http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
       "$RECIPE_DIR"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
       cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
+      cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/library/grDevices/libs/
     popd
-    patchelf --set-rpath '$ORIGIN' lib/R/modules/R_X11.so
+    patchelf --set-rpath '$ORIGIN' lib/R/lib/libR.so
+
+    # Add a missing RPATH (MRO probably used LD_LIBRARY_PATH for this):
+    pushd lib/R/modules
+      for SHARED_LIB in $(find . -type f -iname "*.so"); do
+        patchelf --set-rpath '$ORIGIN':'$ORIGIN'/../lib $SHARED_LIB
+      done
+    popd
+    patchelf --set-rpath '$ORIGIN'/../../lib lib/R/bin/exec/R
+    patchelf --set-rpath '$ORIGIN' lib/R/lib/libRblas.so
+    patchelf --set-rpath '$ORIGIN' lib/R/lib/libRlapack.so
+    pushd lib/R/library
+      for SHARED_LIB in $(find . -type f -iname "*.so"); do
+        patchelf --set-rpath '$ORIGIN':'$ORIGIN'/../../../lib $SHARED_LIB
+      done
+    popd
+
     # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
     mkdir -p lib/R/lib/mro_mkl/
     mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
@@ -187,6 +204,8 @@ if [[ $target_platform == win-64 ]]; then
       $WINE "$PREFIX"/Library/mingw-w64/bin/gcc.exe -DGUI=0 -O -s -o "$SRC_DIR"/launcher.exe "$RECIPE_DIR"/launcher.c || exit 1
   popd
 fi
+
+# TODO :: Patch out LD_LIBRARY_PATH stuff.
 
 # 7. Save end of build.sh filelist back to the recipe.
 pushd unpack
