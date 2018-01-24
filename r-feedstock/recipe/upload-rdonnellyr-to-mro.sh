@@ -32,8 +32,11 @@ EXCLUDED_PACKAGES+=(r-spatial)
 EXCLUDED_PACKAGES+=(r-survival)
 
 pushd $(mktemp -d)
-  python ~/conda/private_conda_recipes/rays-scratch-scripts/binstar_copy.py --owner rdonnellyr --platform linux-64
+  python ~/conda/private_conda_recipes/rays-scratch-scripts/binstar_copy.py --owner rdonnellyr --platform linux-64 --operation download --dest $PWD --package-name "r-gsl*"
   declare -a tbzs
   tbzs=$(find $PWD -name *.tar.bz2)
-  echo tbzs: ${tbzs[@]}
+  echo tbzs are:
+  for tbz in ${tbzs[@]}; do
+    echo $tbz
+  done
 popd
