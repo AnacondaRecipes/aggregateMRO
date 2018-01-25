@@ -16,7 +16,7 @@
 {% set shasum = '4998500839389821f995d3ebb89ee7e8e5a35a61a63ba0ac54d63adf53288947' %}  # [osx]
 
 package:
-  name: r
+  name: mro-suite
   version: {{ version }}
 
 source:
