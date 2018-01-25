@@ -79,6 +79,8 @@ pushd unpack
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
     patch -p1 < $RECIPE_DIR/0001-r-client-Relocate-bin-R-R.patch
     pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries
+      echo r-client libraries are:
+      ls -l *
       mv * $SRC_DIR/unpack/lib/R/library/
     popd
 
