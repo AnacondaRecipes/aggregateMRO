@@ -1,5 +1,7 @@
 #!/bin/bash
 
+RC_PKG_VERSION=3.4.1
+
 if [[ $target_platform == win-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.3.exe
 elif [[ $target_platform == linux-64 ]]; then
@@ -43,6 +45,7 @@ pushd unpack
       done
     else
       ARCHIVES+=($ARCHIVE,.)
+      ARCHIVES+=($PWD/../unpack-r-client,.)
     fi
     echo ARCHIVES are ${ARCHIVES[@]}
     for ARCHIVE_DEST in "${ARCHIVES[@]}"; do
@@ -74,6 +77,11 @@ pushd unpack
   if [[ $target_platform == linux-64 ]]; then
     mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
+    patch -p1 < ${RECIPE_DIR}/0001-r-client-Relocate-bin-R-R.patch
+    pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries
+      mv * ${PREFIX}/lib/R/library/
+    popd
+
   elif [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources

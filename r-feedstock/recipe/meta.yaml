@@ -1,6 +1,7 @@
 
 {% set pfx = 'r-' %}
 {% set version = '3.4.3' %}
+{% set rc_version = '3.4.1' %}
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.3/microsoft-r-open-3.4.3.exe' %}  # [win64]
 {% set fn = 'microsoft-r-open-3.4.3.exe' %}  # [win64]
@@ -23,6 +24,9 @@ source:
     fn: {{ fn }}
     sha256: {{ shasum }}
     folder: unpack
+  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux]
+    sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux]
+    folder: unpack-r-client
   - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
     sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
     folder: wix                                                                              # [win64]
@@ -1100,6 +1104,15 @@ outputs:
         and Aalen-Johansen (multi-state) curves, Cox models, and parametric accelerated
         failure time models.
       license_family: LGPL
+
+  - name: r-client
+    version: '3.4.1'
+    script: install-r-client.sh
+    about:
+      home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client
+      license: Proprietary
+      summary: A free, community-supported, data science tool for high performance analytics
+      license_family: Proprietary
 
   - name: mro-basics
     version: {{ version }}

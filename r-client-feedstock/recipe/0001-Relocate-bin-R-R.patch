@@ -1,0 +1,141 @@
+--- opt/microsoft/rclient/3.4.1/bin/R/R.orig	2018-01-24 21:05:32.428165619 +0000
++++ opt/microsoft/rclient/3.4.1/bin/R/R	2018-01-24 21:11:15.371262504 +0000
+@@ -29,8 +29,7 @@
+ 
+ function setup_runtime()
+ {
+-    local expected_runtime=$(cat ${SCRIPT_DIR}/DEFAULT_RUNTIME)
+-    local r_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R"
++    local r_path="${PREFIX}/lib64/R"
+     
+     if [[ -d ${ML_SERVER_ROOT}/runtime/R ]]; then
+         return 0
+@@ -56,7 +55,7 @@
+       cp -r ${r_path} ${ML_SERVER_ROOT}/runtime/R
+       return 0
+     else
+-      echo "FATAL: Could not find a sutable default R runtime. Please ensure Microsoft R Open ${EXPECTED_RUNTIME} is installed"
++      echo "FATAL: Could not find a sutable default R runtime. Please ensure Microsoft R Open is installed"
+       return 1
+     fi
+ }
+@@ -84,41 +83,40 @@
+     return 1
+   fi
+ 
+-  local expected_runtime=$(cat ${SCRIPT_DIR}/DEFAULT_RUNTIME)
+-  local r_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R/bin/R"
+-  local rscript_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R/bin/Rscript"
+-
+-  if [[ -f /usr/bin/R ]]; then
+-    local r_link=$(readlink -f /usr/bin/R)
+-    echo "Found /usr/bin/R => ${r_link}"
++  local r_path="${PREFIX}/lib/R/bin/R"
++  local rscript_path="${PREFIX}/lib/R/bin/Rscript"
++
++  if [[ -f ${PREFIX}/bin/R ]]; then
++    local r_link=$(readlink -f ${PREFIX}/bin/R)
++    echo "Found ${PREFIX}/bin/R => ${r_link}"
+     if [[ ${r_link} == ${r_path} ]]; then
+-      echo "Replacing /usr/bin/R with ${SCRIPT_DIR}/R"
+-      rm /usr/bin/R
+-      ln -s ${SCRIPT_DIR}/R /usr/bin/R
++      echo "Replacing ${PREFIX}/bin/R with ${SCRIPT_DIR}/R"
++      rm ${PREFIX}/bin/R
++      ln -s ${SCRIPT_DIR}/R ${PREFIX}/bin/R
+     fi
+   fi
+   
+-  if [[ -f /usr/bin/Rscript ]]; then
+-    local rscript_link=$(readlink -f /usr/bin/Rscript)
+-    echo "Found /usr/bin/Rscript => ${rscript_link}"
++  if [[ -f ${PREFIX}/bin/Rscript ]]; then
++    local rscript_link=$(readlink -f ${PREFIX}/bin/Rscript)
++    echo "Found ${PREFIX}/bin/Rscript => ${rscript_link}"
+     if [[ ${rscript_link} == ${rscript_path} ]]; then
+-      echo "Replacing /usr/bin/Rscript with ${SCRIPT_DIR}/Rscript"
+-      rm /usr/bin/Rscript
+-      ln -s ${SCRIPT_DIR}/Rscript /usr/bin/Rscript
++      echo "Replacing ${PREFIX}/bin/Rscript with ${SCRIPT_DIR}/Rscript"
++      rm ${PREFIX}/bin/Rscript
++      ln -s ${SCRIPT_DIR}/Rscript ${PREFIX}/bin/Rscript
+     fi
+   fi
+ 
+-  if [[ -f /usr/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
+-    rm /usr/bin/mlserver-R-${ML_SERVER_VERSION}
++  if [[ -f ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
++    rm ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}
+   fi
+ 
+-  ln -s "${SCRIPT_DIR}/R" "/usr/bin/mlserver-R-${ML_SERVER_VERSION}"
++  ln -s "${SCRIPT_DIR}/R" "${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}"
+ 
+-  if [[ -f /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
+-    rm /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION}
++  if [[ -f ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
++    rm ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}
+   fi
+ 
+-  ln -s "${SCRIPT_DIR}/Rscript" "/usr/bin/mlserver-Rscript-${ML_SERVER_VERSION}"
++  ln -s "${SCRIPT_DIR}/Rscript" "${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}"
+ }
+ 
+ function unsymlink_mlserver()
+@@ -128,37 +126,36 @@
+     return 1
+   fi
+ 
+-  local expected_runtime=$(cat ${SCRIPT_DIR}/DEFAULT_RUNTIME)
+-  local r_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R/bin/R"
+-  local r_script_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R/bin/Rscript"
+-
+-  if [[ -f /usr/bin/R ]]; then
+-    local r_link=$(readlink -f /usr/bin/R)
+-    echo "Found /usr/bin/R => ${r_link}"
++  local r_path="${PREFIX}/lib/R/bin/R"
++  local r_script_path="${PREFIX}/lib/R/bin/Rscript"
++
++  if [[ -f ${PREFIX}/bin/R ]]; then
++    local r_link=$(readlink -f ${PREFIX}/bin/R)
++    echo "Found ${PREFIX}/bin/R => ${r_link}"
+     if [[ ${r_link} == ${SCRIPT_DIR}/R ]]; then
+-      echo "Replacing /usr/bin/R with ${r_path}"
+-      rm /usr/bin/R
+-      ln -s ${r_path} /usr/bin/R
++      echo "Replacing ${PREFIX}/bin/R with ${r_path}"
++      rm ${PREFIX}/bin/R
++      ln -s ${r_path} ${PREFIX}/bin/R
+     fi
+   fi
+ 
+-  if [[ -f /usr/bin/Rscript ]]; then
+-    local r_script_link=$(readlink -f /usr/bin/Rscript)
+-    echo "Found /usr/bin/Rscript => ${r_script_link}"
++  if [[ -f ${PREFIX}/bin/Rscript ]]; then
++    local r_script_link=$(readlink -f ${PREFIX}/bin/Rscript)
++    echo "Found ${PREFIX}/bin/Rscript => ${r_script_link}"
+     if [[ ${r_script_link} == ${SCRIPT_DIR}/Rscript ]]; then
+-      echo "Replacing /usr/bin/Rscript with ${r_script_path}"
+-      rm /usr/bin/Rscript
+-      ln -s ${r_script_path} /usr/bin/Rscript
++      echo "Replacing ${PREFIX}/bin/Rscript with ${r_script_path}"
++      rm ${PREFIX}/bin/Rscript
++      ln -s ${r_script_path} ${PREFIX}/bin/Rscript
+     fi
+   fi
+ 
+-  if [[ -f /usr/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
+-    rm /usr/bin/mlserver-R-${ML_SERVER_VERSION}
++  if [[ -f ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
++    rm ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}
+   fi
+ 
+ 
+-  if [[ -f /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
+-    rm /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION}
++  if [[ -f ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
++    rm ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}
+   fi
+ }
+ 

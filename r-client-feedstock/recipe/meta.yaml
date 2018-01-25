@@ -1,14 +1,16 @@
+{% set version = '3.4.1' %}
+
 package:
   name: r-client
-  version: 3.4.1
+  version: {{ version }}
 
 source:
-  url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-3.4.1.rpm  # [linux]
+  url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ version }}.rpm  # [linux]
   sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux]
 
 requirements:
   build:
     - python-libarchive-c
+    - mro-basics
   run:
     - mro-basics
-
