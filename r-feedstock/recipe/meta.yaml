@@ -1105,14 +1105,14 @@ outputs:
         failure time models.
       license_family: LGPL
 
-  - name: r-client
-    version: '3.4.1'
-    script: install-r-client.sh
-    about:
-      home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client
-      license: Proprietary
-      summary: A free, community-supported, data science tool for high performance analytics
-      license_family: Proprietary
+  - name: r-client  # [linux or win]
+    version: '3.4.1'  # [linux or win]
+    script: install-r-client.sh  # [linux or win]
+    about:  # [linux or win]
+      home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
+      license: Proprietary  # [linux or win]
+      summary: A free, community-supported, data science tool for high performance analytics  # [linux or win]
+      license_family: Proprietary  # [linux or win]
 
   - name: mro-basics
     version: {{ version }}
