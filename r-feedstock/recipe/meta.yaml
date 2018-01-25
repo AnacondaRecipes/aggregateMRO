@@ -26,7 +26,7 @@ source:
     folder: unpack
   - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux]
     sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux]
-    folder: unpack-r-client
+    folder: unpack-r-client  # [linux]
   - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
     sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
     folder: wix                                                                              # [win64]
@@ -66,13 +66,13 @@ outputs:
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
         - expat  # [osx]
-        - curl  # [osx]
+        - libcurl  # [osx]
         - libiconv  # [osx]
         - ncurses  # [osx]
         - libgcc-ng >=7.2.0  # [linux]
         - zlib  # [linux]
         - libgfortran-ng >=7.2.0 # [linux]
-        - pango 1.40.*  # [not win]
+        - pango 1.40.*  # [linux]
         - cairo 1.14.*  # [linux]
         - glib 2.*  # [linux]
       run:
@@ -81,8 +81,8 @@ outputs:
         - {{ compiler('c') }}  # [not win]
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
-        - curl  # [osx]
-        - pango 1.*             # [not win]
+        - libcurl  # [osx]
+        - pango 1.*             # [linux]
         - cairo 1.14.*  # [linux]
         - glib 2.*  # [linux]
 
@@ -586,10 +586,10 @@ outputs:
         - m2-base  # [win]
       host:
         - mro-base {{ version }}
-        - curl  # [osx]
+        - libcurl  # [osx]
       run:
         - mro-base {{ version }}
-        - curl  # [osx]
+        - libcurl  # [osx]
 
     test:
       commands:

@@ -20,7 +20,6 @@
 ./bin/COMPILE
 ./bin/conda
 ./bin/config
-./bin/curl
 ./bin/curl-config
 ./bin/c_rehash
 ./bin/deactivate
@@ -138,16 +137,16 @@
 ./conda-meta/clangxx_osx-64-4.0.1-h22b1bf0_8.json
 ./conda-meta/clang_osx-64-4.0.1-h1ce6c1d_8.json
 ./conda-meta/compiler-rt-4.0.1-h5487866_0.json
-./conda-meta/curl-7.55.1-h2e228d0_4.json
 ./conda-meta/expat-2.2.5-hb8e80ba_0.json
 ./conda-meta/gfortran_osx-64-4.8.5-h22b1bf0_3.json
 ./conda-meta/history
 ./conda-meta/ld64-274.2-h7c2db76_0.json
+./conda-meta/libcurl-7.57.0-hf30b1f0_0.json
 ./conda-meta/libcxx-4.0.1-h579ed51_0.json
 ./conda-meta/libcxxabi-4.0.1-hebd6815_0.json
 ./conda-meta/libgfortran-3.0.1-h93005f0_2.json
 ./conda-meta/libiconv-1.15-hdd342a3_7.json
-./conda-meta/libssh2-1.8.0-h9feafcd_3.json
+./conda-meta/libssh2-1.8.0-h322a93b_4.json
 ./conda-meta/llvm-4.0.1-hc748206_0.json
 ./conda-meta/llvm-lto-tapi-4.0.1-h6701bc3_0.json
 ./conda-meta/llvm-openmp-4.0.1-hda82c8b_0.json
