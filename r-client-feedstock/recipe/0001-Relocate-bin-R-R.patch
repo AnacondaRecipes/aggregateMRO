@@ -1,15 +1,28 @@
---- opt/microsoft/rclient/3.4.1/bin/R/R.orig	2018-01-24 21:05:32.428165619 +0000
-+++ opt/microsoft/rclient/3.4.1/bin/R/R	2018-01-24 21:11:15.371262504 +0000
-@@ -29,8 +29,7 @@
+--- unpack/opt/microsoft/rclient/3.4.1/bin/R/R.orig	2018-01-24 21:23:15.612866647 +0000
++++ unpack/opt/microsoft/rclient/3.4.1/bin/R/R	2018-01-24 21:23:41.049170514 +0000
+@@ -29,17 +29,16 @@
  
  function setup_runtime()
  {
 -    local expected_runtime=$(cat ${SCRIPT_DIR}/DEFAULT_RUNTIME)
 -    local r_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R"
-+    local r_path="${PREFIX}/lib64/R"
++    local r_path="${PREFIX}/lib/R"
      
      if [[ -d ${ML_SERVER_ROOT}/runtime/R ]]; then
          return 0
+     fi
+ 
+-    if [[ $(id -u) -ne 0 ]]; then
+-      echo "FATAL: Sudo or Root permissions are needed to setup the runtime"
+-      return 1
+-    fi
++    # if [[ $(id -u) -ne 0 ]]; then
++    #   echo "FATAL: Sudo or Root permissions are needed to setup the runtime"
++    #   return 1
++    # fi
+ 
+     if [[ ! -d ${ML_SERVER_ROOT}/runtime ]]; then
+       mkdir ${ML_SERVER_ROOT}/runtime
 @@ -56,7 +55,7 @@
        cp -r ${r_path} ${ML_SERVER_ROOT}/runtime/R
        return 0

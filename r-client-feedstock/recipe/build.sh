@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 if [[ $target_platform == win-64 ]]; then
   ARCHIVE=$SRC_DIR/microsoft-r-client-packages-3.4.1.exe
 elif [[ $target_platform == linux-64 ]]; then
@@ -61,10 +59,11 @@ pushd unpack
   fi
 popd
 
-pushd unpaack
+pushd unpack
   patch -p1 < ${RECIPE_DIR}/0001-Relocate-bin-R-R.patch
-  ./opt/microsoft/rclient/3.4.1/bin/R/R
+  pushd opt/microsoft/rclient/3.4.1/libraries
+    mv * ${PREFIX}/lib/R/library/
+    cp ${RECIPE_DIR}/post-link.sh ${PREFIX}/bin/.${PKG_NAME}-post-link.sh
+    cp ${RECIPE_DIR}/pre-unlink.sh ${PREFIX}/bin/.${PKG_NAME}-pre-unlink.sh
+  popd
 popd
-
-exit 1
-

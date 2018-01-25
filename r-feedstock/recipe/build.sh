@@ -44,8 +44,8 @@ pushd unpack
         ARCHIVES+=($PAYLOAD,.)
       done
     else
+      # THIS IS NEVER HIT
       ARCHIVES+=($ARCHIVE,.)
-      ARCHIVES+=($PWD/../unpack-r-client,.)
     fi
     echo ARCHIVES are ${ARCHIVES[@]}
     for ARCHIVE_DEST in "${ARCHIVES[@]}"; do
@@ -65,8 +65,8 @@ pushd unpack
     for RPM in $(find rpm -name "*.rpm"); do
       echo $RPM
       python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
-      find .
     done
+    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client/microsoft-r-client-packages-$RC_PKG_VERSION.rpm')" || true
   fi
 
   # 2. Save filelist back to the recipe.
@@ -77,9 +77,9 @@ pushd unpack
   if [[ $target_platform == linux-64 ]]; then
     mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
-    patch -p1 < ${RECIPE_DIR}/0001-r-client-Relocate-bin-R-R.patch
+    patch -p1 < $RECIPE_DIR/0001-r-client-Relocate-bin-R-R.patch
     pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries
-      mv * ${PREFIX}/lib/R/library/
+      mv * $SRC_DIR/unpack/lib/R/library/
     popd
 
   elif [[ $target_platform == osx-64 ]]; then
