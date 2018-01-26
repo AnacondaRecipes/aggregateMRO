@@ -96,7 +96,7 @@ pushd unpack
       ls -l *
       mv * $SRC_DIR/unpack/lib/R/library/
     popd
-
+    mv opt/microsoft/rclient $SRC_DIR/unpack/
   elif [[ $target_platform == osx-64 ]]; then
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
@@ -157,6 +157,7 @@ pushd unpack
       rp2=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib)
       patchelf --set-rpath '$ORIGIN'/$rp:'$ORIGIN'/$rp2:$OLD_RPATH $LIBRARY
     done
+    rm -rf opt rpm stage
   elif [[ $target_platform == osx-64 ]]; then
     mkdir -p sysroot/usr/lib/
     cp /usr/lib/libicucore.A.dylib sysroot/usr/lib/
