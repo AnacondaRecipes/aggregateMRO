@@ -75,6 +75,8 @@ make_mro_base () {
 
   [[ -d unpack/sysroot ]] && mv unpack/sysroot $PREFIX
 
+  set -x
+  echo "LIZZY"
   pushd unpack$LIBRARY/.. || exit 1
     mv library ../
     [[ -d lib/mro_mkl ]] && mv lib/mro_mkl ../
@@ -118,6 +120,15 @@ EXCLUDED_PACKAGES+=(rpart)
 EXCLUDED_PACKAGES+=(RUnit)
 EXCLUDED_PACKAGES+=(spatial)
 EXCLUDED_PACKAGES+=(survival)
+# RClient parts:
 EXCLUDED_PACKAGES+=(RServer)
+EXCLUDED_PACKAGES+=(CompatibilityAPI)
+EXCLUDED_PACKAGES+=(RevoPemaR)
+EXCLUDED_PACKAGES+=(RevoScaleR)
+EXCLUDED_PACKAGES+=(RevoTDUtils)
+EXCLUDED_PACKAGES+=(RevoTreeView)
+EXCLUDED_PACKAGES+=(doRSR)
+EXCLUDED_PACKAGES+=(mrsdeploy)
+EXCLUDED_PACKAGES+=(mrupdate)
 
 make_mro_base

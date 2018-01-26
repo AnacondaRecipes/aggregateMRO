@@ -1108,6 +1108,34 @@ outputs:
   - name: r-client  # [linux or win]
     version: '3.4.1'  # [linux or win]
     script: install-r-client.sh  # [linux or win]
+    build:
+      missing_dso_whitelist:
+        - libmpiCC.so
+        - libcoll.so
+        - librxmpiCC.so
+        - libmpio.so.1
+        - libmpi.so.1
+        - libmtmpi.so.1
+    requirements:  # [linux or win]
+      host:  # [linux or win]
+        - mro-base {{ version }}  # [linux or win]
+        - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+        - libstdcxx-ng >=7.2.0  # [linux]
+        - libgcc-ng >=7.2.0  # [linux]
+        - libcurl  # [linux]
+        - libuuid  # [linux]
+        - zlib  # [linux]
+        - unixodbc  # [linux]
+        - openssl  # [linux]
+      run:  # [linux or win]
+        - mro-base {{ version }}  # [linux or win]
+        - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+        - libstdcxx-ng >=7.2.0  # [linux]
+        - libgcc-ng >=7.2.0  # [linux]
+        - libcurl  # [linux]
+        - libuuid  # [linux]
+        - zlib  # [linux]
+        - unixodbc  # [linux]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
       license: Proprietary  # [linux or win]

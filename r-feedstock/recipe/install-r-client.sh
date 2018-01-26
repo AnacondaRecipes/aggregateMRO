@@ -24,6 +24,10 @@ PREFIX_LIB="$PREFIX"/$LIBRARY
 
 mkdir -p "$PREFIX_LIB"
 
+# TODO :: Talk to MS about this, we may need to ignore it, it is probably
+#         meant to come from MSSQLServer?
+ln -s $PREFIX/lib/libodbc.so.2 $PREFIX/lib/libodbc.so.1
+
 pushd unpack$LIBRARY || exit 1
   for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
     LIBRARY_CASED=${LIBRARY_CASED//.\//}

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. "${RECIPE_DIR}"/find_relative_path.sh
+
 RC_PKG_VERSION=3.4.1
 
 if [[ $target_platform == win-64 ]]; then
@@ -9,6 +11,17 @@ elif [[ $target_platform == linux-64 ]]; then
 elif [[ $target_platform == osx-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.3.pkg
 fi
+
+declare -a MKL_USING_LIBS
+MKL_USING_LIBS+=(lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libExaServer.so.2)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libExaCore.so.2)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libExaMpiComm.so.2)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libBxServerLink.so.2)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libExacorePredict.so.2)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/BxlServer)
+# Does not use MKL, but we need its RPATHs modified to include lib/R/lib
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libRxLink.so.2)
 
 mkdir -p unpack
 pushd unpack
@@ -78,7 +91,7 @@ pushd unpack
     mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
     patch -p1 < $RECIPE_DIR/0001-r-client-Relocate-bin-R-R.patch
-    pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries
+    pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries/RServer
       echo r-client libraries are:
       ls -l *
       mv * $SRC_DIR/unpack/lib/R/library/
@@ -137,8 +150,13 @@ pushd unpack
     # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
     mkdir -p lib/R/lib/mro_mkl/
     mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
-    OLD_RPATH=$(patchelf --print-rpath lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so)
-    patchelf --set-rpath '$ORIGIN'/../../../lib/mro_mkl:$OLD_RPATH lib/R/library/RevoUtilsMath/libs/RevoUtilsMath.so
+    for LIBRARY in ${MKL_USING_LIBS[@]}; do
+      OLD_RPATH=$(patchelf --print-rpath $LIBRARY)
+      rp=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib/mro_mkl)
+      echo rp from $PWD/$LIBRARY to $PWD/lib/R/lib/mro_mkl is $rp
+      rp2=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib)
+      patchelf --set-rpath '$ORIGIN'/$rp:'$ORIGIN'/$rp2:$OLD_RPATH $LIBRARY
+    done
   elif [[ $target_platform == osx-64 ]]; then
     mkdir -p sysroot/usr/lib/
     cp /usr/lib/libicucore.A.dylib sysroot/usr/lib/
