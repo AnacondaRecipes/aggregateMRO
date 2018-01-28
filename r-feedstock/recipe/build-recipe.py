@@ -483,6 +483,7 @@ make_mro_base () {{
       ln -s $HOST-g++ g++
       ln -s $HOST-gfortran fc
       ln -s $HOST-gfortran f77
+      ln -s $HOST-gfortran gfortran
       ln -s $HOST-ranlib ranlib
       ln -s $HOST-strip strip
     popd
