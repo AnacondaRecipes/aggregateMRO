@@ -1,0 +1,92 @@
+{% set version = '0.2.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-gtable
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: gtable_0.2.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gtable_0.2.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gtable/gtable_0.2.0.tar.gz  # [linux or win32]
+  sha256: 801e4869830ff3da1d38e41f5a2296a54fc10a7419c6ffb108582850c701e76f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gtable_0.2.0.zip  # [win64]
+  sha256: 6610831cf21ca8e24f04b2a795bc08c1aa0f10e420215c26cb32d715756f996c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gtable_0.2.0.tgz  # [osx]
+  sha256: 612a41a58fe5c5f5c5d7b95bec13aeca7b444ad08cc544eaa7fc08c4e728eebf  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, covr
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('gtable')"           # [not win]
+    - "\"%R%\" -e \"library('gtable')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=gtable
+  license: GPL-2
+  summary: Tools to make it easier to work with "tables" of 'grobs'.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: gtable
+# Version: 0.2.0
+# Title: Arrange 'Grobs' in Tables
+# Description: Tools to make it easier to work with "tables" of 'grobs'.
+# Authors@R: person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre"))
+# Depends: R (>= 2.14)
+# Imports: grid
+# Suggests: testthat, covr
+# License: GPL-2
+# Collate: 'add-grob.r' 'add-rows-cols.r' 'add-space.r' 'grid.r' 'gtable-layouts.r' 'gtable.r' 'rbind-cbind.r' 'utils.r' 'trim.r' 'filter.r' 'align.r' 'padding.r' 'z.r'
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2016-02-26 13:06:10 UTC; hadley
+# Author: Hadley Wickham [aut, cre]
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2016-02-26 15:23:14
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

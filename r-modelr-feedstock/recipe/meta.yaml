@@ -1,0 +1,109 @@
+{% set version = '0.1.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-modelr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: modelr_0.1.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/modelr_0.1.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/modelr/modelr_0.1.1.tar.gz  # [linux or win32]
+  sha256: 25b95198d6aa23e28a0bd97dcdc78264ef168ae403928bff01e1ee81ca021ce7  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/modelr_0.1.1.zip  # [win64]
+  sha256: 5028bedd1615695996eb6795c18d9014ea49f537350c8a35efb0d295ca1ee3b9  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/modelr_0.1.1.tgz  # [osx]
+  sha256: dcd22c905aa87b506532514e9076daa586e85b4439f8328fe3f5a6ea9cdd5aad  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, ggplot2, covr, compiler
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-broom
+    - r-dplyr
+    - r-lazyeval >=0.2.0
+    - r-magrittr
+    - r-purrr >=0.2.2
+    - r-tibble
+    - r-tidyr >=0.6.0
+
+  run:
+    - mro-base
+    - r-broom
+    - r-dplyr
+    - r-lazyeval >=0.2.0
+    - r-magrittr
+    - r-purrr >=0.2.2
+    - r-tibble
+    - r-tidyr >=0.6.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('modelr')"           # [not win]
+    - "\"%R%\" -e \"library('modelr')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/hadley/modelr
+  license: GPL-3
+  summary: Functions for modelling that help you seamlessly integrate modelling into a pipeline
+    of data manipulation and visualisation.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: modelr
+# Version: 0.1.1
+# Title: Modelling Functions that Work with the Pipe
+# Description: Functions for modelling that help you seamlessly integrate modelling into a pipeline of data manipulation and visualisation.
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("RStudio", role = "cph") )
+# License: GPL-3
+# LazyData: true
+# Depends: R (>= 3.1.0)
+# Imports: magrittr, purrr (>= 0.2.2), lazyeval (>= 0.2.0), tibble, broom, dplyr, tidyr (>= 0.6.0)
+# Suggests: testthat, ggplot2, covr, compiler
+# URL: https://github.com/hadley/modelr
+# BugReports: https://github.com/hadley/modelr/issues
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-07-22 21:47:57 UTC; hadley
+# Author: Hadley Wickham [aut, cre], RStudio [cph]
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-07-24 18:28:20 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

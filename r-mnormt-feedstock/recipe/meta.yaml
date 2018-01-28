@@ -1,0 +1,99 @@
+{% set version = '1.5-5' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-mnormt
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: mnormt_1.5-5.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/mnormt_1.5-5.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/mnormt/mnormt_1.5-5.tar.gz  # [linux or win32]
+  sha256: ff78d5f935278935f1814a69e5a913d93d6dd2ac1b5681ba86b30c6773ef64ac  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/mnormt_1.5-5.zip  # [win64]
+  sha256: a3524ab05a7107aa5c036a98841bcd93fca69a5c6b020d1acf7a1add27e61721  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/mnormt_1.5-5.tgz  # [osx]
+  sha256: 834292eaf9074063ebefe6ac10174cab2920c7e3d2f2ecf849b03ac65e1971da  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('mnormt')"           # [not win]
+    - "\"%R%\" -e \"library('mnormt')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://azzalini.stat.unipd.it/SW/Pkg-mnormt
+  license: GPL-2 | GPL-3
+  summary: Functions are provided for computing the density and the distribution function of
+    multivariate normal and "t" random variables, and for generating random vectors
+    sampled from these distributions.   Probabilities are computed via non-Monte Carlo
+    methods; different routines  are used in the case d=1, d=2, d>2, if d denotes the
+    number of dimensions.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: mnormt
+# Version: 1.5-5
+# Date: 2016-10-15
+# Title: The Multivariate Normal and t Distributions
+# Author: Fortran code by Alan Genz, R code by Adelchi Azzalini
+# Maintainer: Adelchi Azzalini <adelchi.azzalini@unipd.it>
+# Depends: R (>= 2.2.0)
+# Description: Functions are provided for computing the density and the distribution function of multivariate normal and "t" random variables, and for generating random vectors sampled from these distributions.   Probabilities are computed via non-Monte Carlo methods; different routines  are used in the case d=1, d=2, d>2, if d denotes the number of dimensions.
+# License: GPL-2 | GPL-3
+# URL: http://azzalini.stat.unipd.it/SW/Pkg-mnormt
+# NeedsCompilation: yes
+# Packaged: 2016-10-14 12:26:21 UTC; aa
+# Repository: CRAN
+# Date/Publication: 2016-10-15 13:08:50
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

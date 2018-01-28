@@ -1,0 +1,93 @@
+{% set version = '2.0.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pkgconfig
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: pkgconfig_2.0.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pkgconfig_2.0.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pkgconfig/pkgconfig_2.0.1.tar.gz  # [linux or win32]
+  sha256: ab02b2a4b639ba94dcba882a059fe9cddae5498a4309841f764b62ec46ba5a40  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/pkgconfig_2.0.1.zip  # [win64]
+  sha256: 6ddbf85db8fc9907309d660badc28ef58158edf16bcb81b2a258758a8f31fa6c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/pkgconfig_2.0.1.tgz  # [osx]
+  sha256: faef8a68178d28d2e03decf300d6b5bb70a2b56795a6a6cfc0b31d93425174df  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: covr, testthat, disposables (>= 1.0.3)
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('pkgconfig')"           # [not win]
+    - "\"%R%\" -e \"library('pkgconfig')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/gaborcsardi/pkgconfig
+  license: MIT + file LICENSE
+  summary: Set configuration options on a per-package basis. Options set by a given package only
+    apply to that package, other packages are unaffected.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: pkgconfig
+# Title: Private Configuration for 'R' Packages
+# Version: 2.0.1
+# Author: Gabor Csardi
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# Description: Set configuration options on a per-package basis. Options set by a given package only apply to that package, other packages are unaffected.
+# License: MIT + file LICENSE
+# LazyData: true
+# Imports: utils
+# Suggests: covr, testthat, disposables (>= 1.0.3)
+# URL: https://github.com/gaborcsardi/pkgconfig
+# BugReports: https://github.com/gaborcsardi/pkgconfig/issues
+# Encoding: UTF-8
+# NeedsCompilation: no
+# Packaged: 2017-03-21 10:15:26 UTC; gaborcsardi
+# Repository: CRAN
+# Date/Publication: 2017-03-21 15:20:20 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

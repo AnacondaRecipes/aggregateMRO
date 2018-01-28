@@ -1,0 +1,115 @@
+{% set version = '6.0-78' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-caret
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: caret_6.0-78.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/caret_6.0-78.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/caret/caret_6.0-78.tar.gz  # [linux or win32]
+  sha256: dea8799853b9b0843d994b4dad09d1535547f36752ff70a956004111e3ef3640  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/caret_6.0-78.zip  # [win64]
+  sha256: 06a890379ae5bdfba1e2c9349e5faa55f9bc564dc0229ddc42ae4d0158475b58  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/caret_6.0-78.tgz  # [osx]
+  sha256: fcad7c59776de1435a3d13200b13345e634c5411ce55785211907f8bf64ef146  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: BradleyTerry2, e1071, earth (>= 2.2-3), fastICA, gam, ipred, kernlab, klaR, MASS, ellipse, mda, mgcv, mlbench, MLmetrics, nnet, party (>= 0.9-99992), pls, pROC, proxy, randomForest, RANN, spls, subselect, pamr, superpc, Cubist, testthat (>= 0.9.1)
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-modelmetrics >=1.1.0
+    - r-foreach
+    - r-ggplot2
+    - r-lattice >=0.20
+    - r-nlme
+    - r-plyr
+    - r-recipes >=0.0.1
+    - r-reshape2
+    - r-withr >=2.0.0
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-modelmetrics >=1.1.0
+    - r-foreach
+    - r-ggplot2
+    - r-lattice >=0.20
+    - r-nlme
+    - r-plyr
+    - r-recipes >=0.0.1
+    - r-reshape2
+    - r-withr >=2.0.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('caret')"           # [not win]
+    - "\"%R%\" -e \"library('caret')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/topepo/caret/
+  license: GPL (>= 2)
+  summary: Misc functions for training and plotting classification and regression models.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: caret
+# Version: 6.0-78
+# Title: Classification and Regression Training
+# Author: Max Kuhn. Contributions from Jed Wing, Steve Weston, Andre Williams, Chris Keefer, Allan Engelhardt, Tony Cooper, Zachary Mayer, Brenton Kenkel, the R Core Team, Michael Benesty, Reynald Lescarbeau, Andrew Ziem, Luca Scrucca, Yuan Tang, Can Candan, and Tyler Hunt.
+# Description: Misc functions for training and plotting classification and regression models.
+# Maintainer: Max Kuhn <mxkuhn@gmail.com>
+# Depends: R (>= 2.10), lattice (>= 0.20), ggplot2
+# URL: https://github.com/topepo/caret/
+# BugReports: https://github.com/topepo/caret/issues
+# Imports: foreach, methods, plyr, ModelMetrics (>= 1.1.0), nlme, reshape2, stats, stats4, utils, grDevices, recipes (>= 0.0.1), withr (>= 2.0.0)
+# Suggests: BradleyTerry2, e1071, earth (>= 2.2-3), fastICA, gam, ipred, kernlab, klaR, MASS, ellipse, mda, mgcv, mlbench, MLmetrics, nnet, party (>= 0.9-99992), pls, pROC, proxy, randomForest, RANN, spls, subselect, pamr, superpc, Cubist, testthat (>= 0.9.1)
+# License: GPL (>= 2)
+# RoxygenNote: 6.0.1
+# NeedsCompilation: yes
+# Packaged: 2017-11-28 20:04:04 UTC; max
+# Repository: CRAN
+# Date/Publication: 2017-12-10 20:28:28 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

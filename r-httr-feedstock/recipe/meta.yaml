@@ -1,0 +1,106 @@
+{% set version = '1.3.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-httr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: httr_1.3.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/httr_1.3.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/httr/httr_1.3.1.tar.gz  # [linux or win32]
+  sha256: 22134d7426b2eba37f0cc34b99285499b8bac9fe75a7bc3222fbad179bf8f258  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/httr_1.3.1.zip  # [win64]
+  sha256: 5e9d2700da22e861708efa13160f61905dc35e39e1c7bf1f5d2287d2c741a71c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/httr_1.3.1.tgz  # [osx]
+  sha256: 7f4134a74d80ef50bd1a8e4dd2b659491f2619dc9d58ffe7b3eaf6a969f2faff  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: httpuv, jpeg, knitr, png, testthat (>= 0.8.0), readr, xml2, rmarkdown, covr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-r6
+    - r-curl >=0.9.1
+    - r-jsonlite
+    - r-mime
+    - r-openssl >=0.8
+
+  run:
+    - mro-base
+    - r-r6
+    - r-curl >=0.9.1
+    - r-jsonlite
+    - r-mime
+    - r-openssl >=0.8
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('httr')"           # [not win]
+    - "\"%R%\" -e \"library('httr')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/r-lib/httr
+  license: MIT + file LICENSE
+  summary: Useful tools for working with HTTP organised by HTTP verbs (GET(), POST(), etc). Configuration
+    functions make it easy to control additional request components (authenticate(),
+    add_headers() and so on).
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: httr
+# Version: 1.3.1
+# Title: Tools for Working with URLs and HTTP
+# Description: Useful tools for working with HTTP organised by HTTP verbs (GET(), POST(), etc). Configuration functions make it easy to control additional request components (authenticate(), add_headers() and so on).
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("RStudio", role = "cph") )
+# Depends: R (>= 3.0.0)
+# Imports: jsonlite, mime, curl (>= 0.9.1), openssl (>= 0.8), R6
+# Suggests: httpuv, jpeg, knitr, png, testthat (>= 0.8.0), readr, xml2, rmarkdown, covr
+# VignetteBuilder: knitr
+# License: MIT + file LICENSE
+# RoxygenNote: 6.0.1
+# URL: https://github.com/r-lib/httr
+# BugReports: https://github.com/r-lib/httr/issues
+# NeedsCompilation: no
+# Packaged: 2017-08-18 17:47:58 UTC; hadley
+# Author: Hadley Wickham [aut, cre], RStudio [cph]
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-08-20 14:44:14 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

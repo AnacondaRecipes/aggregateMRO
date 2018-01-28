@@ -1,0 +1,94 @@
+{% set version = '1.0.9' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-iterators
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: iterators_1.0.9.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/iterators_1.0.9.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/iterators/iterators_1.0.9.tar.gz  # [linux or win32]
+  sha256: de001e063805fdd124953b571ccb0ed2838c55e40cca2e9d283d8a90b0645e9b  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/iterators_1.0.9.zip  # [win64]
+  sha256: dd5db08542a68b1b4c998207970f1b0b776cba720515e3b58acce34e2c84725a  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/iterators_1.0.9.tgz  # [osx]
+  sha256: d2f52b78ee5bd16f5c432e5361d55df09ef9916f9205d2bc565a3e886190af08  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: RUnit
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('iterators')"           # [not win]
+    - "\"%R%\" -e \"library('iterators')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=iterators
+  license: Apache License (== 2.0)
+  summary: Support for iterators, which allow a programmer to traverse through all the elements
+    of a vector, list, or other collection of data.
+  license_family: APACHE
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: iterators
+# Type: Package
+# Title: Provides Iterator Construct for R
+# Version: 1.0.9
+# Authors@R: c(person("Rich", "Calaway", role="cre", email="richcala@microsoft.com"), person("Revolution", "Analytics", role=c("aut", "cph")), person("Steve", "Weston", role="aut"))
+# Description: Support for iterators, which allow a programmer to traverse through all the elements of a vector, list, or other collection of data.
+# Depends: R (>= 2.5.0), utils
+# Suggests: RUnit
+# License: Apache License (== 2.0)
+# Author: Rich Calaway [cre], Revolution Analytics [aut, cph], Steve Weston [aut]
+# Maintainer: Rich Calaway <richcala@microsoft.com>
+# Repository: CRAN
+# Repository/R-Forge/Project: foreach
+# Repository/R-Forge/Revision: 31
+# Repository/R-Forge/DateTimeStamp: 2017-12-08 23:08:19
+# Date/Publication: 2017-12-12 15:26:15 UTC
+# NeedsCompilation: no
+# Packaged: 2017-12-08 23:33:40 UTC; rforge
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

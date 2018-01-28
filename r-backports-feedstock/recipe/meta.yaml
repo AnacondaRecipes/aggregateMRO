@@ -1,0 +1,103 @@
+{% set version = '1.1.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-backports
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: backports_1.1.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/backports_1.1.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/backports/backports_1.1.2.tar.gz  # [linux or win32]
+  sha256: e85b93675c6703e1da790dce1f8fb61f27b87e92722c7f0909273ed5074cb456  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/backports_1.1.2.zip  # [win64]
+  sha256: 3d1fb13f1fca32affcaf34c16e0b8f9eba55a502af5672091a0bca4d77269ec1  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/backports_1.1.2.tgz  # [osx]
+  sha256: b7d5e6c3f6803a87acf70490fa1846f21c27bdeb173b2453a475f47b6a373a12  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('backports')"           # [not win]
+    - "\"%R%\" -e \"library('backports')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/mllg/backports
+  license: GPL-2
+  summary: Implementations of functions which have been introduced in R since version 3.0.0.
+    The backports are conditionally exported which results in R resolving the function
+    names to the version shipped with R (if available) and uses the implemented backports
+    as fallback. This way package developers can make use of the new functions without
+    worrying about the minimum required R version.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: backports
+# Type: Package
+# Title: Reimplementations of Functions Introduced Since R-3.0.0
+# Version: 1.1.2
+# Authors@R: c(person("Michel", "Lang", NULL, "michellang@gmail.com", role = c("cre", "aut"), comment = c(ORCID = "0000-0001-9754-0393")))
+# Maintainer: Michel Lang <michellang@gmail.com>
+# Description: Implementations of functions which have been introduced in R since version 3.0.0. The backports are conditionally exported which results in R resolving the function names to the version shipped with R (if available) and uses the implemented backports as fallback. This way package developers can make use of the new functions without worrying about the minimum required R version.
+# URL: https://github.com/mllg/backports
+# BugReports: https://github.com/mllg/backports/issues
+# License: GPL-2
+# NeedsCompilation: yes
+# ByteCompile: yes
+# Depends: R (>= 3.0.0)
+# Imports: utils
+# RoxygenNote: 6.0.1
+# Packaged: 2017-12-13 12:28:04 UTC; michel
+# Author: Michel Lang [cre, aut] (0000-0001-9754-0393)
+# Repository: CRAN
+# Date/Publication: 2017-12-13 17:33:42 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,105 @@
+{% set version = '1.6.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-prodlim
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: prodlim_1.6.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/prodlim_1.6.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/prodlim/prodlim_1.6.1.tar.gz  # [linux or win32]
+  sha256: 3f2665257118a3db8682731a500b1ae4d669af344672dc2037f987bee3cca154  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/prodlim_1.6.1.zip  # [win64]
+  sha256: 61da9e2cdf390451ea20569278e22b2a664630fbb8632b5b81646a69f8b5096d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/prodlim_1.6.1.tgz  # [osx]
+  sha256: 80056de57bc7f9477220a69b489547b424b3340763a34ab32c79623d179dbfd9  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-kernsmooth
+    - r-rcpp >=0.11.5
+    - r-lava
+    - r-survival
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-kernsmooth
+    - r-rcpp >=0.11.5
+    - r-lava
+    - r-survival
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('prodlim')"           # [not win]
+    - "\"%R%\" -e \"library('prodlim')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=prodlim
+  license: GPL (>= 2)
+  summary: Fast and user friendly implementation of nonparametric estimators for censored event
+    history (survival) analysis. Kaplan-Meier and Aalen-Johansen method.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: prodlim
+# Title: Product-Limit Estimation for Censored Event History Analysis
+# Version: 1.6.1
+# Author: Thomas A. Gerds
+# Description: Fast and user friendly implementation of nonparametric estimators for censored event history (survival) analysis. Kaplan-Meier and Aalen-Johansen method.
+# Depends: R (>= 2.9.0)
+# Imports: Rcpp (>= 0.11.5), stats, graphics, survival, KernSmooth, lava
+# LinkingTo: Rcpp
+# Maintainer: Thomas A. Gerds <tag@biostat.ku.dk>
+# License: GPL (>= 2)
+# Packaged: 2017-03-06 12:06:02 UTC; tag
+# RoxygenNote: 5.0.1
+# NeedsCompilation: yes
+# Repository: CRAN
+# Date/Publication: 2017-03-06 13:53:09
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

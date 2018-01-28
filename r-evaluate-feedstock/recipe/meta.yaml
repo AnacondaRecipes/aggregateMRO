@@ -1,0 +1,98 @@
+{% set version = '0.10.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-evaluate
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: evaluate_0.10.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/evaluate_0.10.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/evaluate/evaluate_0.10.1.tar.gz  # [linux or win32]
+  sha256: c9a763895d3f460dbf87c43a6469e4b41a251a74477df8c5d7e7d2b66cdd1b1c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/evaluate_0.10.1.zip  # [win64]
+  sha256: ea8a97f0bf0fe20c007e33804e48546da24d653c63cfe9cb4b7fbe0b98d76094  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/evaluate_0.10.1.tgz  # [osx]
+  sha256: 6d73c00a76ffa95da0e8db65dcc7681ea58375a90b301b9a2916000b6aba2d3f  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, lattice, ggplot2
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-stringr >=0.6.2
+
+  run:
+    - mro-base
+    - r-stringr >=0.6.2
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('evaluate')"           # [not win]
+    - "\"%R%\" -e \"library('evaluate')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/hadley/evaluate
+  license: MIT + file LICENSE
+  summary: Parsing and evaluation tools that make it easy to recreate the command line behaviour
+    of R.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: evaluate
+# Type: Package
+# Title: Parsing and Evaluation Tools that Provide More Details than the Default
+# Version: 0.10.1
+# Date: 2017-06-24
+# Authors@R: c( person("Hadley", "Wickham", role = "aut"), person("Yihui", "Xie", role = c("cre", "ctb"), email = "xie@yihui.name"), person("Michael", "Lawrence", role = "ctb"), person("Thomas", "Kluyver", role = "ctb"), person("Barret", "Schloerke", role = "ctb"), person("Adam", "Ryczkowski", role = "ctb") )
+# Description: Parsing and evaluation tools that make it easy to recreate the command line behaviour of R.
+# License: MIT + file LICENSE
+# URL: https://github.com/hadley/evaluate
+# BugReports: https://github.com/hadley/evaluate/issues
+# Depends: R (>= 3.0.2)
+# Imports: methods, stringr (>= 0.6.2)
+# Suggests: testthat, lattice, ggplot2
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-06-23 22:15:15 UTC; yihui
+# Author: Hadley Wickham [aut], Yihui Xie [cre, ctb], Michael Lawrence [ctb], Thomas Kluyver [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb]
+# Maintainer: Yihui Xie <xie@yihui.name>
+# Repository: CRAN
+# Date/Publication: 2017-06-24 07:25:41 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

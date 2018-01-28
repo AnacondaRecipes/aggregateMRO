@@ -1,0 +1,115 @@
+{% set version = '0.4.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-broom
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: broom_0.4.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/broom_0.4.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/broom/broom_0.4.3.tar.gz  # [linux or win32]
+  sha256: 2e261b40006432e787dc208c2a8943c6ae714968879dd3361ba1ee6ea5603785  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/broom_0.4.3.zip  # [win64]
+  sha256: 971e401dbb9c21f4c8477ed384051a116bd355c60681d78dbe6f4e722983bb77  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/broom_0.4.3.tgz  # [osx]
+  sha256: 448cdcb021080ef34a3ade4d3e7596e2225aa8460c0eab1ea5fb651369ef2ad9  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: knitr, boot, survival, gam, glmnet, lfe, Lahman, MASS, sp, maps, maptools, multcomp, testthat, lme4, zoo, lmtest, plm, biglm, ggplot2, nnet, geepack, AUC, ergm, network, statnet.common, xergm, btergm, binGroup, Hmisc, bbmle, gamlss, rstan, rstanarm, brms, coda, gmm, Matrix, ks, purrr, orcutt, mgcv, lmodel2, poLCA, mclust, covr, lsmeans, emmeans, betareg, robust, akima, AER, muhaz, speedglm, tibble
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-dplyr
+    - r-nlme
+    - r-plyr
+    - r-psych
+    - r-reshape2
+    - r-stringr
+    - r-tidyr
+
+  run:
+    - mro-base
+    - r-dplyr
+    - r-nlme
+    - r-plyr
+    - r-psych
+    - r-reshape2
+    - r-stringr
+    - r-tidyr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('broom')"           # [not win]
+    - "\"%R%\" -e \"library('broom')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://github.com/tidyverse/broom
+  license: MIT + file LICENSE
+  summary: 'Convert statistical analysis objects from R into tidy data frames, so that they can
+    more easily be combined, reshaped and otherwise processed with tools like ''dplyr'',
+    ''tidyr'' and ''ggplot2''. The package provides three S3 generics: tidy, which summarizes
+    a model''s statistical findings such as coefficients of a regression; augment, which
+    adds columns to the original data such as predictions, residuals and cluster assignments;
+    and glance, which provides a one-row summary of model-level statistics.'
+
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: broom
+# Type: Package
+# Title: Convert Statistical Analysis Objects into Tidy Data Frames
+# Version: 0.4.3
+# Date: 2017-11-20
+# Authors@R: c( person("David", "Robinson", email = "admiral.david@gmail.com", role = c("aut", "cre")), person("Matthieu", "Gomez", email = "mattg@princeton.edu", role = "ctb"), person("Boris", "Demeshev", email = "boris.demeshev@gmail.com", role = "ctb"), person("Dieter", "Menne", email = "dieter.menne@menne-biomed.de", role = "ctb"), person("Benjamin", "Nutter", email = "nutter@battelle.org", role = "ctb"), person("Luke", "Johnston", email = "luke.johnston@mail.utoronto.ca", role = "ctb"), person("Ben", "Bolker", email = "bolker@mcmaster.ca", role = "ctb"), person("Francois", "Briatte", email = "f.briatte@gmail.com", role = "ctb"), person("Jeffrey", "Arnold", email = "jeffrey.arnold@gmail.com", role = "ctb"), person("Jonah", "Gabry", email = "jsg2201@columbia.edu", role = "ctb"), person("Luciano", "Selzer", email = "luciano.selzer@gmail.com", role = "ctb"), person("Gavin", "Simpson", email = "ucfagls@gmail.com", role = "ctb"), person("Jens", "Preussner", email = " jens.preussner@mpi-bn.mpg.de", role = "ctb"), person("Jay", "Hesselberth", email = "jay.hesselberth@gmail.com", role = "ctb"), person("Hadley", "Wickham", email = "hadley@rstudio.com", role = "ctb"), person("Matthew", "Lincoln", email = "matthew.d.lincoln@gmail.com", role = "ctb"))
+# Maintainer: David Robinson <admiral.david@gmail.com>
+# Description: Convert statistical analysis objects from R into tidy data frames, so that they can more easily be combined, reshaped and otherwise processed with tools like 'dplyr', 'tidyr' and 'ggplot2'. The package provides three S3 generics: tidy, which summarizes a model's statistical findings such as coefficients of a regression; augment, which adds columns to the original data such as predictions, residuals and cluster assignments; and glance, which provides a one-row summary of model-level statistics.
+# Imports: plyr, dplyr, tidyr, psych, stringr, reshape2, nlme, methods
+# Suggests: knitr, boot, survival, gam, glmnet, lfe, Lahman, MASS, sp, maps, maptools, multcomp, testthat, lme4, zoo, lmtest, plm, biglm, ggplot2, nnet, geepack, AUC, ergm, network, statnet.common, xergm, btergm, binGroup, Hmisc, bbmle, gamlss, rstan, rstanarm, brms, coda, gmm, Matrix, ks, purrr, orcutt, mgcv, lmodel2, poLCA, mclust, covr, lsmeans, emmeans, betareg, robust, akima, AER, muhaz, speedglm, tibble
+# URL: http://github.com/tidyverse/broom
+# BugReports: http://github.com/tidyverse/broom/issues
+# VignetteBuilder: knitr
+# License: MIT + file LICENSE
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-11-20 12:08:18 UTC; drobinson
+# Author: David Robinson [aut, cre], Matthieu Gomez [ctb], Boris Demeshev [ctb], Dieter Menne [ctb], Benjamin Nutter [ctb], Luke Johnston [ctb], Ben Bolker [ctb], Francois Briatte [ctb], Jeffrey Arnold [ctb], Jonah Gabry [ctb], Luciano Selzer [ctb], Gavin Simpson [ctb], Jens Preussner [ctb], Jay Hesselberth [ctb], Hadley Wickham [ctb], Matthew Lincoln [ctb]
+# Repository: CRAN
+# Date/Publication: 2017-11-20 13:02:37 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

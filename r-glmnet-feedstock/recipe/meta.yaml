@@ -1,0 +1,113 @@
+{% set version = '2.0-13' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-glmnet
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: glmnet_2.0-13.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/glmnet_2.0-13.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_2.0-13.tar.gz  # [linux or win32]
+  sha256: f3288dcaddb2f7014d42b755bede6563f73c17bc87f8292c2ef7776cb9b9b8fd  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/glmnet_2.0-13.zip  # [win64]
+  sha256: 36d98d36b57baa1d226d3ecd8b15fc96a7ae0f95aba75a85e384aa57f347c000  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/glmnet_2.0-13.tgz  # [osx]
+  sha256: 0713646e085f0676b453a134c743b50481cb847e04a531c65a1954bd960c0ae9  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: survival, knitr, lars
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-matrix >=1.0_6
+    - r-foreach
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-matrix >=1.0_6
+    - r-foreach
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('glmnet')"           # [not win]
+    - "\"%R%\" -e \"library('glmnet')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.jstatsoft.org/v33/i01/.
+  license: GPL-2
+  summary: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization
+    path for linear regression, logistic and multinomial regression models, Poisson
+    regression and the Cox model. Two recent additions are the multiple-response Gaussian,
+    and the grouped multinomial regression. The algorithm uses cyclical coordinate descent
+    in a path-wise fashion, as described in the paper linked to via the URL below.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: glmnet
+# Type: Package
+# Title: Lasso and Elastic-Net Regularized Generalized Linear Models
+# Version: 2.0-13
+# Date: 2017-09-21
+# Author: Jerome Friedman [aut, cre], Trevor Hastie [aut, cre], Noah Simon [aut, ctb], Junyang Qian [ctb], Rob Tibshirani [aut, cre]
+# Maintainer: Trevor Hastie <hastie@stanford.edu>
+# Depends: Matrix (>= 1.0-6), utils, foreach
+# Imports: methods
+# Suggests: survival, knitr, lars
+# Description: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regression, logistic and multinomial regression models, Poisson regression and the Cox model. Two recent additions are the multiple-response Gaussian, and the grouped multinomial regression. The algorithm uses cyclical coordinate descent in a path-wise fashion, as described in the paper linked to via the URL below.
+# License: GPL-2
+# VignetteBuilder: knitr
+# URL: http://www.jstatsoft.org/v33/i01/.
+# NeedsCompilation: yes
+# Packaged: 2017-09-21 22:42:34 UTC; hastie
+# Repository: CRAN
+# Date/Publication: 2017-09-22 05:43:14 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,103 @@
+{% set version = '0.9' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-htmlwidgets
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: htmlwidgets_0.9.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/htmlwidgets_0.9.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/htmlwidgets/htmlwidgets_0.9.tar.gz  # [linux or win32]
+  sha256: 1154b541ccd868e41d3cf0d7f188f7275ec99f61fe2c7de21c8a05edb19b985e  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/htmlwidgets_0.9.zip  # [win64]
+  sha256: f2b16d8b2da9f71aa2cb9b50d2dcfe38ee062eefb76fef12c1e0246a7df3daf2  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/htmlwidgets_0.9.tgz  # [osx]
+  sha256: b918fb45702e5189a69ad1f7ea90263078862ecbc7b1069344e7e5c52c06d6f8  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: knitr (>= 1.8)
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-htmltools >=0.3
+    - r-jsonlite >=0.9.16
+    - r-yaml
+
+  run:
+    - mro-base
+    - r-htmltools >=0.3
+    - r-jsonlite >=0.9.16
+    - r-yaml
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('htmlwidgets')"           # [not win]
+    - "\"%R%\" -e \"library('htmlwidgets')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/ramnathv/htmlwidgets
+  license: MIT + file LICENSE
+  summary: A framework for creating HTML widgets that render in various contexts including the
+    R console, 'R Markdown' documents, and 'Shiny' web applications.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: htmlwidgets
+# Type: Package
+# Title: HTML Widgets for R
+# Version: 0.9
+# Date: 2017-07-10
+# Authors@R: c( person("Ramnath", "Vaidyanathan", role = c("aut", "cph")), person("Yihui", "Xie", role = c("aut")), person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person("Joe", "Cheng", role = c("aut")), person("Kenton", "Russell", role = c("aut", "cph")), person(family = "RStudio", role = "cph") )
+# Description: A framework for creating HTML widgets that render in various contexts including the R console, 'R Markdown' documents, and 'Shiny' web applications.
+# License: MIT + file LICENSE
+# VignetteBuilder: knitr
+# Imports: htmltools (>= 0.3), jsonlite (>= 0.9.16), yaml
+# Suggests: knitr (>= 1.8)
+# Enhances: shiny (>= 0.12)
+# URL: https://github.com/ramnathv/htmlwidgets
+# BugReports: https://github.com/ramnathv/htmlwidgets/issues
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-07-10 10:49:02 UTC; jjallaire
+# Author: Ramnath Vaidyanathan [aut, cph], Yihui Xie [aut], JJ Allaire [aut, cre], Joe Cheng [aut], Kenton Russell [aut, cph], RStudio [cph]
+# Maintainer: JJ Allaire <jj@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-07-10 12:42:24 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

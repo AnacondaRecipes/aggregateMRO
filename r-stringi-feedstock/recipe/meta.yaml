@@ -1,0 +1,115 @@
+{% set version = '1.1.6' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-stringi
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: stringi_1.1.6.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stringi_1.1.6.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stringi/stringi_1.1.6.tar.gz  # [linux or win32]
+  sha256: 9590360b96627b18d7bed273deedabda4283dbae7d41c0a0ba78a58e6aa95188  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/stringi_1.1.6.zip  # [win64]
+  sha256: 82bd734440c99540935b36a3f0b8c978b4a3220d8ff25d6b7e8737c9bf4e2315  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/stringi_1.1.6.tgz  # [osx]
+  sha256: 40c5a682176c10ab4576a4bfee67767f506de5e2efc2f20dd191545f11afeb58  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('stringi')"           # [not win]
+    - "\"%R%\" -e \"library('stringi')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.gagolewski.com/software/stringi/ http://site.icu-project.org/ http://www.unicode.org/
+  license: file LICENSE (FOSS)
+  summary: 'Allows for fast, correct, consistent, portable, as well as convenient character string/text
+    processing in every locale and any native encoding. Owing to the use of the ICU
+    library, the package provides R users with platform-independent functions known
+    to Java, Perl, Python, PHP, and Ruby programmers. Available features include: pattern
+    searching (e.g., with ICU Java-like regular expressions or the Unicode Collation
+    Algorithm), random string generation, case mapping, string transliteration, concatenation,
+    Unicode normalization, date-time formatting and parsing, etc.'
+
+  license_family: OTHER
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: stringi
+# Version: 1.1.6
+# Date: 2017-11-10
+# Title: Character String Processing Facilities
+# Description: Allows for fast, correct, consistent, portable, as well as convenient character string/text processing in every locale and any native encoding. Owing to the use of the ICU library, the package provides R users with platform-independent functions known to Java, Perl, Python, PHP, and Ruby programmers. Available features include: pattern searching (e.g., with ICU Java-like regular expressions or the Unicode Collation Algorithm), random string generation, case mapping, string transliteration, concatenation, Unicode normalization, date-time formatting and parsing, etc.
+# URL: http://www.gagolewski.com/software/stringi/ http://site.icu-project.org/ http://www.unicode.org/
+# BugReports: http://github.com/gagolews/stringi/issues
+# SystemRequirements: ICU4C (>= 52, optional)
+# Type: Package
+# Depends: R (>= 2.14)
+# Imports: tools, utils, stats
+# Biarch: TRUE
+# License: file LICENSE
+# Author: Marek Gagolewski [aut, cre], Bartek Tartanus [ctb], and other contributors (stringi source code); IBM and other contributors (ICU4C 55.1 source code); Unicode, Inc. (Unicode Character Database)
+# Maintainer: Marek Gagolewski <gagolews@rexamine.com>
+# RoxygenNote: 6.0.1
+# NeedsCompilation: yes
+# Packaged: 2017-11-10 13:42:04 UTC; gagolews
+# License_is_FOSS: yes
+# Repository: CRAN
+# Date/Publication: 2017-11-17 13:13:14 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

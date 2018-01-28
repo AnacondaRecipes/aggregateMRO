@@ -1,0 +1,108 @@
+{% set version = '1.2-12' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-matrix
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: Matrix_1.2-12.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Matrix_1.2-12.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/Matrix/Matrix_1.2-12.tar.gz  # [linux or win32]
+  sha256: 16e51aef69dca94dc4fcba8aa35a0039d9d0e6abd9cc017c095e954e1e2ca4f2  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/Matrix_1.2-12.zip  # [win64]
+  sha256: f890b28d3877d288aece3ef8202af431c7070b191d3bc839ea4311f18a0a069d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/Matrix_1.2-12.tgz  # [osx]
+  sha256: ab4505461fec6be387885d41c57de6b20eec9f189f10ea2eda1850f5d2f65c10  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: expm, MASS
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-lattice
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-lattice
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('Matrix')"           # [not win]
+    - "\"%R%\" -e \"library('Matrix')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://Matrix.R-forge.R-project.org/
+  license: GPL (>= 2) | file LICENCE
+  summary: A rich hierarchy of matrix classes, including triangular, symmetric, and diagonal
+    matrices, both dense and sparse and with pattern, logical and numeric entries.   Numerous
+    methods for and operations on these matrices, using 'LAPACK' and 'SuiteSparse' libraries.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: Matrix
+# Version: 1.2-12
+# Date: 2017-11-16
+# Priority: recommended
+# Title: Sparse and Dense Matrix Classes and Methods
+# Contact: Doug and Martin <Matrix-authors@R-project.org>
+# Maintainer: Martin Maechler <mmaechler+Matrix@gmail.com>
+# Authors@R: c(person("Douglas","Bates", role="aut") , person("Martin","Maechler", email="mmaechler+Matrix@gmail.com", role = c("aut","cre")) , person("Timothy A.", "Davis", role="ctb", comment = c("SuiteSparse and 'cs' C libraries, notably CHOLMOD, AMD; collaborators listed in dir(pattern = '^[A-Z]+[.]txt$', full.names=TRUE, system.file('doc', 'SuiteSparse', package='Matrix'))")) , person("Jens", "Oehlschlagel", role="ctb", comment="initial nearPD()") , person("Jason", "Riedy", role="ctb", comment = c("condest() and onenormest() for octave", "Copyright: Regents of the University of California")) , person("R Core Team", role = "ctb", comment="base R matrix implementation") )
+# Description: A rich hierarchy of matrix classes, including triangular, symmetric, and diagonal matrices, both dense and sparse and with pattern, logical and numeric entries.   Numerous methods for and operations on these matrices, using 'LAPACK' and 'SuiteSparse' libraries.
+# Depends: R (>= 3.0.1)
+# Imports: methods, graphics, grid, stats, utils, lattice
+# Suggests: expm, MASS
+# Enhances: MatrixModels, graph, SparseM, sfsmisc
+# Encoding: UTF-8
+# LazyData: no
+# LazyDataNote: not possible, since we use data/*.R *and* our classes
+# BuildResaveData: no
+# License: GPL (>= 2) | file LICENCE
+# URL: http://Matrix.R-forge.R-project.org/
+# NeedsCompilation: yes
+# Packaged: 2017-11-16 14:56:25 UTC; maechler
+# Author: Douglas Bates [aut], Martin Maechler [aut, cre], Timothy A. Davis [ctb] (SuiteSparse and 'cs' C libraries, notably CHOLMOD, AMD; collaborators listed in dir(pattern = '^[A-Z]+[.]txt$', full.names=TRUE, system.file('doc', 'SuiteSparse', package='Matrix'))), Jens Oehlschlagel [ctb] (initial nearPD()), Jason Riedy [ctb] (condest() and onenormest() for octave, Copyright: Regents of the University of California), R Core Team [ctb] (base R matrix implementation)
+# Repository: CRAN
+# Date/Publication: 2017-11-16 16:04:57
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

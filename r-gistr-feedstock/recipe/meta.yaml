@@ -1,0 +1,114 @@
+{% set version = '0.4.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-gistr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: gistr_0.4.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gistr_0.4.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gistr/gistr_0.4.0.tar.gz  # [linux or win32]
+  sha256: 51771a257379a17552d0c88ada72ca6263954bbe896997f8a66cde3bf0b83ce0  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gistr_0.4.0.zip  # [win64]
+  sha256: bfcf5ba573dbfe0232fa7b1fbbe7d0a207e8e5896ec5b24d875b51220c839b3f  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gistr_0.4.0.tgz  # [osx]
+  sha256: 3ee5b09137669edf4d7db49599c0f424c5e26872f093ca91e2123437aa2ff398  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: roxygen2 (>= 6.0.1), git2r, testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-assertthat
+    - r-dplyr
+    - r-httr >=1.2.0
+    - r-jsonlite >=1.4
+    - r-knitr
+    - r-magrittr
+    - r-rmarkdown
+
+  run:
+    - mro-base
+    - r-assertthat
+    - r-dplyr
+    - r-httr >=1.2.0
+    - r-jsonlite >=1.4
+    - r-knitr
+    - r-magrittr
+    - r-rmarkdown
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('gistr')"           # [not win]
+    - "\"%R%\" -e \"library('gistr')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/ropensci/gistr
+  license: MIT + file LICENSE
+  summary: 'Work with ''GitHub'' ''gists'' from ''R'' (e.g.,  <http://en.wikipedia.org/wiki/GitHub#Gist>,  <https://help.github.com/articles/about-gists/>).
+    A ''gist'' is simply one or more files with code/text/images/etc. This package allows
+    the user to create new ''gists'', update ''gists'' with new files, rename files,
+    delete files, get and delete ''gists'', star and ''un-star'' ''gists'', fork ''gists'',
+    open a ''gist'' in your default browser, get embed code for a ''gist'', list ''gist''
+    ''commits'', and get rate limit information when ''authenticated''. Some requests
+    require authentication and some do not. ''Gists'' website:  <https://gist.github.com/>.'
+
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: gistr
+# Title: Work with 'GitHub' 'Gists'
+# Description: Work with 'GitHub' 'gists' from 'R' (e.g.,  <http://en.wikipedia.org/wiki/GitHub#Gist>,  <https://help.github.com/articles/about-gists/>). A 'gist' is simply one or more files with code/text/images/etc. This package allows the user to create new 'gists', update 'gists' with new files, rename files, delete files, get and delete 'gists', star and 'un-star' 'gists', fork 'gists', open a 'gist' in your default browser, get embed code for a 'gist', list 'gist' 'commits', and get rate limit information when 'authenticated'. Some requests require authentication and some do not. 'Gists' website:  <https://gist.github.com/>.
+# Version: 0.4.0
+# Authors@R: c( person("Scott", "Chamberlain", role = c("aut", "cre"), email = "myrmecocystus@gmail.com"), person("Ramnath", "Vaidyanathan", role = "aut"), person("Karthik", "Ram", role = "aut") )
+# License: MIT + file LICENSE
+# URL: https://github.com/ropensci/gistr
+# BugReports: https://github.com/ropensci/gistr/issues
+# VignetteBuilder: knitr
+# Imports: jsonlite (>= 1.4), httr (>= 1.2.0), magrittr, assertthat, knitr, rmarkdown, dplyr
+# Suggests: roxygen2 (>= 6.0.1), git2r, testthat
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-04-20 19:42:16 UTC; sacmac
+# Author: Scott Chamberlain [aut, cre], Ramnath Vaidyanathan [aut], Karthik Ram [aut]
+# Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-04-20 23:40:22 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

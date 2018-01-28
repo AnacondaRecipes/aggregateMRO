@@ -1,0 +1,94 @@
+{% set version = '1.1-1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-sfsmisc
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: sfsmisc_1.1-1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/sfsmisc_1.1-1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/sfsmisc/sfsmisc_1.1-1.tar.gz  # [linux or win32]
+  sha256: 0eaab03d3023233f4e869616a5cbc58939f8ac8fa0f94ae1d1dd7d4fb95ff54b  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/sfsmisc_1.1-1.zip  # [win64]
+  sha256: b7b8fe09a6c22706a5e1e5af37302dfe9169c766944dac1f0254c87044a4f586  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/sfsmisc_1.1-1.tgz  # [osx]
+  sha256: c9447c032fc373fd7a5326d72f2d14b17389dc19a0f696e0bc10ca6e575a84cd  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('sfsmisc')"           # [not win]
+    - "\"%R%\" -e \"library('sfsmisc')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=sfsmisc
+  license: GPL (>= 2)
+  summary: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich, quite a few related
+    to graphics; some were ported from S-plus.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: sfsmisc
+# Title: Utilities from 'Seminar fuer Statistik' ETH Zurich
+# Version: 1.1-1
+# Date: 2017-06-08
+# Author: Martin Maechler et al.
+# Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+# Description: Useful utilities ['goodies'] from Seminar fuer Statistik ETH Zurich, quite a few related to graphics; some were ported from S-plus.
+# Depends: R (>= 3.0.1)
+# Imports: grDevices, methods, utils, stats
+# Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
+# Enhances: mgcv, rpart, nor1mix, polycor, sm, tikzDevice
+# Encoding: latin1
+# ByteCompile: yes
+# License: GPL (>= 2)
+# NeedsCompilation: no
+# Packaged: 2017-06-08 08:37:43 UTC; maechler
+# Repository: CRAN
+# Date/Publication: 2017-06-08 16:46:33 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

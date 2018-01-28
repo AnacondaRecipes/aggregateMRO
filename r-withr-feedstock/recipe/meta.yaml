@@ -1,0 +1,99 @@
+{% set version = '2.1.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-withr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: withr_2.1.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/withr_2.1.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/withr/withr_2.1.1.tar.gz  # [linux or win32]
+  sha256: bd5fae3846b8f89081a0991375402266dccf49bfa5d614690deea1b03ba5eb9e  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/withr_2.1.1.zip  # [win64]
+  sha256: a2d7ecaeff0e0a5fcf937c6fac52b55569f2ed41fe0a6c4ef70461afa5053be8  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/withr_2.1.1.tgz  # [osx]
+  sha256: e2c4d374676f07e53904a9e7ad4b44acb2ef0417199595f730cdc9b71b0fbeb1  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, covr, lattice, DBI, RSQLite, methods, knitr, rmarkdown
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('withr')"           # [not win]
+    - "\"%R%\" -e \"library('withr')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://github.com/r-lib/withr#readme
+  license: GPL (>= 2)
+  summary: A set of functions to run code 'with' safely and temporarily modified global state.
+    Many of these functions were originally a part of the 'devtools' package, this provides
+    a simple package with limited dependencies to provide access to these functions.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Encoding: UTF-8
+# Package: withr
+# Title: Run Code 'With' Temporarily Modified Global State
+# Version: 2.1.1
+# Authors@R: c( person("Jim", "Hester", , "james.f.hester@gmail.com", role = c("aut", "cre")), person("Kirill", "Muller", , "krlmlr+r@mailbox.org", role = "aut"), person("Kevin", "Ushey", email = "kevinushey@gmail.com", role = c("aut")), person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"), person("Winston", "Chang", role = "aut"), person("Richard", "Cotton", role = c("ctb")), person("RStudio", role = "cph"))
+# Description: A set of functions to run code 'with' safely and temporarily modified global state. Many of these functions were originally a part of the 'devtools' package, this provides a simple package with limited dependencies to provide access to these functions.
+# URL: http://github.com/r-lib/withr#readme
+# BugReports: http://github.com/r-lib/withr/issues
+# Depends: R (>= 3.0.2)
+# License: GPL (>= 2)
+# LazyData: true
+# Imports: stats, graphics, grDevices
+# Suggests: testthat, covr, lattice, DBI, RSQLite, methods, knitr, rmarkdown
+# RoxygenNote: 6.0.1
+# Collate: 'local_.R' 'with_.R' 'collate.R' 'connection.R' 'db.R' 'defer.R' 'wrap.R' 'devices.R' 'dir.R' 'env.R' 'file.R' 'libpaths.R' 'locale.R' 'makevars.R' 'namespace.R' 'options.R' 'par.R' 'path.R' 'seed.R' 'sink.R' 'tempfile.R' 'torture.R' 'utils.R' 'with.R'
+# VignetteBuilder: knitr
+# NeedsCompilation: no
+# Packaged: 2017-12-19 17:41:51 UTC; jhester
+# Author: Jim Hester [aut, cre], Kirill Muller [aut], Kevin Ushey [aut], Hadley Wickham [aut], Winston Chang [aut], Richard Cotton [ctb], RStudio [cph]
+# Maintainer: Jim Hester <james.f.hester@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-12-19 20:22:01 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

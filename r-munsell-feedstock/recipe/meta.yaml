@@ -1,0 +1,95 @@
+{% set version = '0.4.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-munsell
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: munsell_0.4.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/munsell_0.4.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/munsell/munsell_0.4.3.tar.gz  # [linux or win32]
+  sha256: 397c3c90af966f48eebe8f5d9e40c41b17541f0baaa102eec3ea4faae5a2bd49  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/munsell_0.4.3.zip  # [win64]
+  sha256: ee24254c1659ec567b0d5f2ca6171bee252b3ec99ad7aa4602753416d6dfb7ff  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/munsell_0.4.3.tgz  # [osx]
+  sha256: f7fd00d0f2c9fb685b84d7b22cb61930393dc5d08a9de5039be7d52a411486a8  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: ggplot2, testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-colorspace
+
+  run:
+    - mro-base
+    - r-colorspace
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('munsell')"           # [not win]
+    - "\"%R%\" -e \"library('munsell')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=munsell
+  license: MIT + file LICENSE
+  summary: Provides easy access to, and manipulation of, the Munsell  colours. Provides a mapping
+    between Munsell's  original notation (e.g. "5R 5/10") and hexadecimal strings suitable  for
+    use directly in R graphics. Also provides utilities  to explore slices through the
+    Munsell colour tree, to transform  Munsell colours and display colour palettes.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: munsell
+# Type: Package
+# Title: Utilities for Using Munsell Colours
+# Version: 0.4.3
+# Author: Charlotte Wickham <cwickham@gmail.com>
+# Maintainer: Charlotte Wickham <cwickham@gmail.com>
+# Description: Provides easy access to, and manipulation of, the Munsell  colours. Provides a mapping between Munsell's  original notation (e.g. "5R 5/10") and hexadecimal strings suitable  for use directly in R graphics. Also provides utilities  to explore slices through the Munsell colour tree, to transform  Munsell colours and display colour palettes.
+# Suggests: ggplot2, testthat
+# Imports: colorspace, methods
+# License: MIT + file LICENSE
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2016-02-12 19:58:18 UTC; wickhamc
+# Repository: CRAN
+# Date/Publication: 2016-02-13 00:46:00
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

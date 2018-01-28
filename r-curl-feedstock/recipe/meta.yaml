@@ -1,0 +1,114 @@
+{% set version = '3.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-curl
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: curl_3.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/curl_3.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/curl/curl_3.1.tar.gz  # [linux or win32]
+  sha256: 270f2596be50a11fe43fe63bcacbf4a4aa9c75cc6ebc0d619ac2e52e9497cb95  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/curl_3.1.zip  # [win64]
+  sha256: 34ac8a5ea3ad38bd3e5c79e2fc821bc6fcb815fbc2dc470cb0c5387ab83cc6b7  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/curl_3.1.tgz  # [osx]
+  sha256: daca54bb0bae530dddc7d8a583781364b5ae2aebdf306d76a091491efec25e8f  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('curl')"           # [not win]
+    - "\"%R%\" -e \"library('curl')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/jeroen/curl#readme (devel) https://curl.haxx.se/libcurl/ (upstream)
+  license: MIT + file LICENSE
+  summary: The curl() and curl_download() functions provide highly configurable drop-in replacements
+    for base url() and download.file() with better performance, support for encryption
+    (https, ftps), gzip compression, authentication, and other 'libcurl' goodies. The
+    core of the package implements a framework for performing fully customized requests
+    where data can be processed either in memory, on disk, or streaming via the callback
+    or connection interfaces. Some knowledge of 'libcurl' is recommended; for a more-user-friendly
+    web client see the 'httr' package which builds on this package with http specific
+    tools and logic.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: curl
+# Type: Package
+# Title: A Modern and Flexible Web Client for R
+# Version: 3.1
+# Authors@R: c( person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("cre", "aut")), person("Hadley", "Wickham", , "hadley@rstudio.com", role = "ctb"), person("RStudio", role = "cph") )
+# Description: The curl() and curl_download() functions provide highly configurable drop-in replacements for base url() and download.file() with better performance, support for encryption (https, ftps), gzip compression, authentication, and other 'libcurl' goodies. The core of the package implements a framework for performing fully customized requests where data can be processed either in memory, on disk, or streaming via the callback or connection interfaces. Some knowledge of 'libcurl' is recommended; for a more-user-friendly web client see the 'httr' package which builds on this package with http specific tools and logic.
+# License: MIT + file LICENSE
+# SystemRequirements: libcurl: libcurl-devel (rpm) or libcurl4-openssl-dev (deb).
+# URL: https://github.com/jeroen/curl#readme (devel) https://curl.haxx.se/libcurl/ (upstream)
+# BugReports: https://github.com/jeroen/curl/issues
+# Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
+# VignetteBuilder: knitr
+# Depends: R (>= 3.0.0)
+# LazyData: true
+# RoxygenNote: 6.0.1.9000
+# NeedsCompilation: yes
+# Packaged: 2017-12-12 13:28:58 UTC; jeroen
+# Author: Jeroen Ooms [cre, aut], Hadley Wickham [ctb], RStudio [cph]
+# Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+# Repository: CRAN
+# Date/Publication: 2017-12-12 22:20:59 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,90 @@
+{% set version = '1.1-2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rcolorbrewer
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: RColorBrewer_1.1-2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/RColorBrewer_1.1-2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/RColorBrewer/RColorBrewer_1.1-2.tar.gz  # [linux or win32]
+  sha256: f3e9781e84e114b7a88eb099825936cc5ae7276bbba5af94d35adb1b3ea2ccdd  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RColorBrewer_1.1-2.zip  # [win64]
+  sha256: b9789649d9d91753b44b586d8c7074cbf15b2e67b0c5e710aa7b8b24b5860d35  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RColorBrewer_1.1-2.tgz  # [osx]
+  sha256: 016869abac59bc3faf7a1363343dfeca39e2e6c7f385efda830b2404e216e5f8  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('RColorBrewer')"           # [not win]
+    - "\"%R%\" -e \"library('RColorBrewer')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=RColorBrewer
+  license: Apache License 2.0
+  summary: Provides color schemes for maps (and other graphics) designed by Cynthia Brewer as
+    described at http://colorbrewer2.org
+  license_family: APACHE
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: RColorBrewer
+# Version: 1.1-2
+# Date: 2014-12-07
+# Title: ColorBrewer Palettes
+# Authors@R: c(person(given = "Erich", family = "Neuwirth", role = c("aut", "cre"), email = "erich.neuwirth@univie.ac.at"))
+# Author: Erich Neuwirth [aut, cre]
+# Maintainer: Erich Neuwirth <erich.neuwirth@univie.ac.at>
+# Depends: R (>= 2.0.0)
+# Description: Provides color schemes for maps (and other graphics) designed by Cynthia Brewer as described at http://colorbrewer2.org
+# License: Apache License 2.0
+# Packaged: 2014-12-06 23:59:42 UTC; neuwirth
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2014-12-07 08:28:55
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

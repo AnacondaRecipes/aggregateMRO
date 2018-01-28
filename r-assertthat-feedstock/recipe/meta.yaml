@@ -1,0 +1,93 @@
+{% set version = '0.2.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-assertthat
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: assertthat_0.2.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/assertthat_0.2.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/assertthat/assertthat_0.2.0.tar.gz  # [linux or win32]
+  sha256: d73ef79b1e75293ed889a99571b237a95829c099f7da094d4763f83ea6fde5f2  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/assertthat_0.2.0.zip  # [win64]
+  sha256: 9c5d8c335906f0c62d81fcfdce3c0b8c8d53e67480f925e05361cfad02f8b797  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/assertthat_0.2.0.tgz  # [osx]
+  sha256: 9fe3168b7ad14a95cffdf5f92d3db6aee1397291ec4783fa06ee2c7932871b19  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('assertthat')"           # [not win]
+    - "\"%R%\" -e \"library('assertthat')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=assertthat
+  license: GPL-3
+  summary: assertthat is an extension to stopifnot() that makes it easy to declare the pre and
+    post conditions that you code should satisfy, while also producing friendly error
+    messages so that your users know what they've done wrong.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: assertthat
+# Title: Easy Pre and Post Assertions
+# Version: 0.2.0
+# Authors@R:  person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre"))
+# Description: assertthat is an extension to stopifnot() that makes it easy to declare the pre and post conditions that you code should satisfy, while also producing friendly error messages so that your users know what they've done wrong.
+# License: GPL-3
+# Imports: tools
+# Suggests: testthat
+# Collate: 'assert-that.r' 'on-failure.r' 'assertions-file.r' 'assertions-scalar.R' 'assertions.r' 'base.r' 'base-comparison.r' 'base-is.r' 'base-logical.r' 'base-misc.r' 'utils.r' 'validate-that.R'
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-04-10 19:00:43 UTC; hadley
+# Author: Hadley Wickham [aut, cre]
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-04-11 21:28:45 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

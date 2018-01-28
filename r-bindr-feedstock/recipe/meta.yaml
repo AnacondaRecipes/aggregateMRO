@@ -1,0 +1,95 @@
+{% set version = '0.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-bindr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: bindr_0.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bindr_0.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bindr/bindr_0.1.tar.gz  # [linux or win32]
+  sha256: cca166612eeafd6e1c961b34aaf177f9b47f8b4bc37520e277b9920eaa8b2535  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/bindr_0.1.zip  # [win64]
+  sha256: 1a4f67ef82b4f4e36ece1d9382f916a63813545390f7aac88778b286109749f7  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/bindr_0.1.tgz  # [osx]
+  sha256: ac3213acaa14bc3b96c4465c6b08d07791bb2d71485fe38e4798683fd9d9c882  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('bindr')"           # [not win]
+    - "\"%R%\" -e \"library('bindr')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/krlmlr/bindr, https://krlmlr.github.io/bindr
+  license: MIT + file LICENSE
+  summary: Provides a simple interface for creating active bindings where the bound function
+    accepts additional arguments.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: bindr
+# Title: Parametrized Active Bindings
+# Version: 0.1
+# Authors@R: c( person("Kirill", "Muller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"), person("RStudio", role = "cph") )
+# Description: Provides a simple interface for creating active bindings where the bound function accepts additional arguments.
+# Suggests: testthat
+# LazyData: true
+# Date: 2016-11-12
+# BugReports: https://github.com/krlmlr/bindr/issues
+# URL: https://github.com/krlmlr/bindr, https://krlmlr.github.io/bindr
+# RoxygenNote: 5.0.1.9000
+# License: MIT + file LICENSE
+# Encoding: UTF-8
+# NeedsCompilation: no
+# Packaged: 2016-11-12 22:17:21 UTC; muelleki
+# Author: Kirill Muller [aut, cre], RStudio [cph]
+# Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
+# Repository: CRAN
+# Date/Publication: 2016-11-13 01:48:48
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,100 @@
+{% set version = '0.4.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-hms
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: hms_0.4.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/hms_0.4.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/hms/hms_0.4.0.tar.gz  # [linux or win32]
+  sha256: f41bfec3713a16d17111012e0a31992fe54e00ec76680096e8b4844b5d39501f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/hms_0.4.0.zip  # [win64]
+  sha256: 6b374d833168aa24b4c8214fe81f691bf16796630e487e89fdfea148a9c86d17  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/hms_0.4.0.tgz  # [osx]
+  sha256: 3fc7d19c1f8b7caa44cf0080c5784147272a52673aa78cf5dc695090e28d49f2  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: crayon, lubridate, pillar, testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-pkgconfig
+    - r-rlang
+
+  run:
+    - mro-base
+    - r-pkgconfig
+    - r-rlang
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('hms')"           # [not win]
+    - "\"%R%\" -e \"library('hms')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/tidyverse/hms
+  license: GPL-3
+  summary: Implements an S3 class for storing and formatting time-of-day values, based on the
+    'difftime' class.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: hms
+# Title: Pretty Time of Day
+# Date: 2017-11-16
+# Version: 0.4.0
+# Authors@R: c( person("Kirill", "Muller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"), person("The R Consortium", role = "cph") )
+# Description: Implements an S3 class for storing and formatting time-of-day values, based on the 'difftime' class.
+# Imports: methods, pkgconfig, rlang
+# Suggests: crayon, lubridate, pillar, testthat
+# License: GPL-3
+# Encoding: UTF-8
+# LazyData: true
+# URL: https://github.com/tidyverse/hms
+# BugReports: https://github.com/tidyverse/hms/issues
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-11-22 10:27:35 UTC; muelleki
+# Author: Kirill Muller [aut, cre], The R Consortium [cph]
+# Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
+# Repository: CRAN
+# Date/Publication: 2017-11-23 00:45:05 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

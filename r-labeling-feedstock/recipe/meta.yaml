@@ -1,0 +1,93 @@
+{% set version = '0.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-labeling
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: labeling_0.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/labeling_0.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/labeling/labeling_0.3.tar.gz  # [linux or win32]
+  sha256: 0d8069eb48e91f6f6d6a9148f4e2dc5026cabead15dd15fc343eff9cf33f538f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/labeling_0.3.zip  # [win64]
+  sha256: eca35b756d08242e9b2199ee99a2cf19eed146544a226bd0496a0d707138c709  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/labeling_0.3.tgz  # [osx]
+  sha256: 2b4776e4731618344572f61a2fe81cf44c77852d37e364f5b5aef94bb1790e8c  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('labeling')"           # [not win]
+    - "\"%R%\" -e \"library('labeling')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=labeling
+  license: MIT + file LICENSE | Unlimited
+  summary: Provides a range of axis labeling algorithms
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: labeling
+# Type: Package
+# Title: Axis Labeling
+# Version: 0.3
+# Date: 2014-08-22
+# Author: Justin Talbot
+# Maintainer: Justin Talbot <justintalbot@gmail.com>
+# Description: Provides a range of axis labeling algorithms
+# License: MIT + file LICENSE | Unlimited
+# LazyLoad: no
+# Collate: 'labeling.R'
+# Repository: CRAN
+# Repository/R-Forge/Project: labeling
+# Repository/R-Forge/Revision: 16
+# Repository/R-Forge/DateTimeStamp: 2014-08-23 05:53:23
+# Date/Publication: 2014-08-23 14:57:53
+# Packaged: 2014-08-23 06:15:07 UTC; rforge
+# NeedsCompilation: no
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

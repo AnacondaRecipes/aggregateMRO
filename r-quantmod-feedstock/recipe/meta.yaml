@@ -1,0 +1,103 @@
+{% set version = '0.4-12' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-quantmod
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: quantmod_0.4-12.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/quantmod_0.4-12.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/quantmod/quantmod_0.4-12.tar.gz  # [linux or win32]
+  sha256: 18d61d869180670cd5e97bc6cc12ab2939b8b63ae720c89c6e1b041d2680ef78  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/quantmod_0.4-12.zip  # [win64]
+  sha256: c8977626903c74191074ca15815eadb42f218603100ab836f2e8ba282053067d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/quantmod_0.4-12.tgz  # [osx]
+  sha256: b90068c0da50997101789d992b70362b001cc2aefc4bcf3fded0aacaf9d7a3ea  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: DBI,RMySQL,RSQLite,timeSeries,XML,downloader,jsonlite(>= 1.1)
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-ttr >=0.2
+    - r-curl
+    - r-xts >=0.9_0
+    - r-zoo
+
+  run:
+    - mro-base
+    - r-ttr >=0.2
+    - r-curl
+    - r-xts >=0.9_0
+    - r-zoo
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('quantmod')"           # [not win]
+    - "\"%R%\" -e \"library('quantmod')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.quantmod.com https://github.com/joshuaulrich/quantmod
+  license: GPL-3
+  summary: Specify, build, trade, and analyse quantitative financial trading strategies.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: quantmod
+# Type: Package
+# Title: Quantitative Financial Modelling Framework
+# Version: 0.4-12
+# Date: 2017-12-02
+# Authors@R: c( person(given=c("Jeffrey","A."), family="Ryan", role=c("aut","cph")), person(given=c("Joshua","M."), family="Ulrich", role=c("cre","aut"), email="josh.m.ulrich@gmail.com"), person(given="Wouter", family="Thielen", role="ctb"), person(given="Paul", family="Teetor", role="ctb") )
+# Depends: R (>= 3.2.0), xts(>= 0.9-0), zoo, TTR(>= 0.2), methods
+# Imports: curl
+# Suggests: DBI,RMySQL,RSQLite,timeSeries,XML,downloader,jsonlite(>= 1.1)
+# Description: Specify, build, trade, and analyse quantitative financial trading strategies.
+# LazyLoad: yes
+# License: GPL-3
+# URL: http://www.quantmod.com https://github.com/joshuaulrich/quantmod
+# BugReports: https://github.com/joshuaulrich/quantmod/issues
+# NeedsCompilation: no
+# Packaged: 2017-12-02 16:45:04 UTC; josh
+# Author: Jeffrey A. Ryan [aut, cph], Joshua M. Ulrich [cre, aut], Wouter Thielen [ctb], Paul Teetor [ctb]
+# Maintainer: Joshua M. Ulrich <josh.m.ulrich@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-12-10 17:13:49 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

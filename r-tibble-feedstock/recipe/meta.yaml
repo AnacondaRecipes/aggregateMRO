@@ -1,0 +1,107 @@
+{% set version = '1.4.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-tibble
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: tibble_1.4.1.tar.gz  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/tibble_1.4.1.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/tibble/tibble_1.4.1.tar.gz  # [linux or win32 or osx]
+  sha256: 32267fae1ca86abdd37c4683f9d2b1a47b8b65e1977ea3900aa197066c57aa29  # [linux or win32 or osx]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tibble_1.4.1.zip  # [win64]
+  sha256: f776e025f85b25804c88cf9d20473b5e796cf988a1cbe6f7574a9efecbfeb6db  # [win64]
+
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: covr, dplyr, import, knitr (>= 1.5.32), microbenchmark, mockr, nycflights13, testthat, rmarkdown, withr
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux or osx]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32 or osx]
+
+  host:
+    - mro-base
+    - r-crayon
+    - r-pillar
+    - r-rlang
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-crayon
+    - r-pillar
+    - r-rlang
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('tibble')"           # [not win]
+    - "\"%R%\" -e \"library('tibble')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://tibble.tidyverse.org/, https://github.com/tidyverse/tibble
+  license: MIT + file LICENSE
+  summary: Provides a 'tbl_df' class (the 'tibble') that provides stricter checking and better
+    formatting than the traditional data frame.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: tibble
+# Encoding: UTF-8
+# Version: 1.4.1
+# Title: Simple Data Frames
+# Description: Provides a 'tbl_df' class (the 'tibble') that provides stricter checking and better formatting than the traditional data frame.
+# Authors@R: c( person("Kirill", "Muller", , "krlmlr+r@mailbox.org", c("aut", "cre")), person("Hadley", "Wickham", , "hadley@rstudio.com", "aut"), person("Romain", "Francois", , "romain@r-enthusiasts.com", "ctb"), person("RStudio", role = "cph") )
+# URL: http://tibble.tidyverse.org/, https://github.com/tidyverse/tibble
+# BugReports: https://github.com/tidyverse/tibble/issues
+# Depends: R (>= 3.1.0)
+# Imports: crayon, methods, pillar, rlang, utils
+# Suggests: covr, dplyr, import, knitr (>= 1.5.32), microbenchmark, mockr, nycflights13, testthat, rmarkdown, withr
+# LazyData: yes
+# License: MIT + file LICENSE
+# RoxygenNote: 6.0.1
+# VignetteBuilder: knitr
+# Collate: 'add.R' 'as_tibble.R' 'check-names.R' 'compat-lazyeval.R' 'compat-purrr.R' 'enframe.R' 'exports.R' 'glimpse.R' 'has-name.R' 'tibble.R' 'lst.R' 'new.R' 'repair-names.R' 'rownames.R' 'strrep.R' 'tbl-df.r' 'tibble-pkg.R' 'tribble.R' 'type-sum.r' 'utils-format.r' 'utils.r' 'wrap.R'
+# NeedsCompilation: yes
+# Packaged: 2017-12-24 15:05:17 UTC; muelleki
+# Author: Kirill Muller [aut, cre], Hadley Wickham [aut], Romain Francois [ctb], RStudio [cph]
+# Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
+# Repository: CRAN
+# Date/Publication: 2017-12-25 23:02:26 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

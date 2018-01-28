@@ -1,0 +1,102 @@
+{% set version = '0.2.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-forcats
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: forcats_0.2.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/forcats_0.2.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/forcats/forcats_0.2.0.tar.gz  # [linux or win32]
+  sha256: b5bce370422d4c0ec9509249ae645373949bfbe9217cdf50dce2bfbdad9f7cd7  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/forcats_0.2.0.zip  # [win64]
+  sha256: 1dd7096cbaf68800129e9f6e9297cf8c6bf8f33ac2f7e665f2a5462fa43a0a95  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/forcats_0.2.0.tgz  # [osx]
+  sha256: b0ba928dca5184c48fa92aaa1741fe3716c56d6e9c0158d696b247508c566758  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: ggplot2, testthat, covr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-magrittr
+    - r-tibble
+
+  run:
+    - mro-base
+    - r-magrittr
+    - r-tibble
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('forcats')"           # [not win]
+    - "\"%R%\" -e \"library('forcats')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://forcats.tidyverse.org, https://github.com/tidyverse/forcats
+  license: GPL-3
+  summary: Helpers for reordering factor levels (including moving specified levels to front,
+    ordering by first appearance, reversing, and randomly shuffling), and tools for
+    modifying factor levels (including collapsing rare levels into other, 'anonymising',
+    and manually 'recoding').
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: forcats
+# Title: Tools for Working with Categorical Variables (Factors)
+# Version: 0.2.0
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("RStudio", role = c("cph", "fnd")) )
+# Description: Helpers for reordering factor levels (including moving specified levels to front, ordering by first appearance, reversing, and randomly shuffling), and tools for modifying factor levels (including collapsing rare levels into other, 'anonymising', and manually 'recoding').
+# License: GPL-3
+# Encoding: UTF-8
+# LazyData: true
+# URL: http://forcats.tidyverse.org, https://github.com/tidyverse/forcats
+# BugReports: https://github.com/tidyverse/forcats/issues
+# Depends: R (>= 2.10)
+# Imports: tibble, magrittr
+# RoxygenNote: 5.0.1.9000
+# Suggests: ggplot2, testthat, covr
+# NeedsCompilation: no
+# Packaged: 2017-01-22 19:24:31 UTC; hornik
+# Author: Hadley Wickham [aut, cre], RStudio [cph, fnd]
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-01-23 16:39:48
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

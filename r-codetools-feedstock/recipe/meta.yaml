@@ -1,0 +1,88 @@
+{% set version = '0.2-15' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-codetools
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: codetools_0.2-15.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/codetools_0.2-15.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/codetools/codetools_0.2-15.tar.gz  # [linux or win32]
+  sha256: 4e0798ed79281a614f8cdd199e25f2c1bd8f35ecec902b03016544bd7795fa40  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/codetools_0.2-15.zip  # [win64]
+  sha256: 52cc6ac087e706bd36f02e26a07d3933358c605bb454481e4c5a69421d6c29b9  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/codetools_0.2-15.tgz  # [osx]
+  sha256: 26c48f090b0b18adad8c5fd6eab6792e7be542bb34d0d306269078fa3f78d9ff  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('codetools')"           # [not win]
+    - "\"%R%\" -e \"library('codetools')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=codetools
+  license: GPL
+  summary: Code analysis tools for R.
+  license_family: GPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: codetools
+# Version: 0.2-15
+# Priority: recommended
+# Author: Luke Tierney <luke-tierney@uiowa.edu>
+# Description: Code analysis tools for R.
+# Title: Code Analysis Tools for R
+# Depends: R (>= 2.1)
+# Maintainer: Luke Tierney <luke-tierney@uiowa.edu>
+# License: GPL
+# NeedsCompilation: no
+# Packaged: 2016-10-05 12:32:32 UTC; luke
+# Repository: CRAN
+# Date/Publication: 2016-10-05 16:36:47
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

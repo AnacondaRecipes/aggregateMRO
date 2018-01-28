@@ -1,0 +1,98 @@
+{% set version = '1.3.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-crayon
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: crayon_1.3.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/crayon_1.3.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/crayon/crayon_1.3.4.tar.gz  # [linux or win32]
+  sha256: fc6e9bf990e9532c4fcf1a3d2ce22d8cf12d25a95e4779adfa17713ed836fa68  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/crayon_1.3.4.zip  # [win64]
+  sha256: 4149ba4e1a8d9f3eda54c19997909935463e44098191e8c9b5b380f92cfa9173  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/crayon_1.3.4.tgz  # [osx]
+  sha256: bf8997e5447d58aa6a19064a0f5e55fef4da6e1cbd5f91c70b4bae2ff56503cf  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: mockery, rstudioapi, testthat, withr
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('crayon')"           # [not win]
+    - "\"%R%\" -e \"library('crayon')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/r-lib/crayon#readme
+  license: MIT + file LICENSE
+  summary: Colored terminal output on terminals that support 'ANSI' color and highlight codes.
+    It also works in 'Emacs' 'ESS'. 'ANSI' color support is automatically detected.
+    Colors and highlighting can be combined and nested. New styles can also be created
+    easily. This package was inspired by the 'chalk' 'JavaScript' project.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: crayon
+# Title: Colored Terminal Output
+# Version: 1.3.4
+# Authors@R: c( person("Gabor", "Csardi", , "csardi.gabor@gmail.com", role = c("aut", "cre")), person( "Brodie", "Gaslam", email="brodie.gaslam@yahoo.com", role=c("ctb")) )
+# Description: Colored terminal output on terminals that support 'ANSI' color and highlight codes. It also works in 'Emacs' 'ESS'. 'ANSI' color support is automatically detected. Colors and highlighting can be combined and nested. New styles can also be created easily. This package was inspired by the 'chalk' 'JavaScript' project.
+# License: MIT + file LICENSE
+# LazyData: true
+# URL: https://github.com/r-lib/crayon#readme
+# BugReports: https://github.com/r-lib/crayon/issues
+# Collate: 'ansi-256.r' 'combine.r' 'string.r' 'utils.r' 'crayon-package.r' 'disposable.r' 'has_ansi.r' 'has_color.r' 'styles.r' 'machinery.r' 'parts.r' 'print.r' 'style-var.r' 'show.r' 'string_operations.r'
+# Imports: grDevices, methods, utils
+# Suggests: mockery, rstudioapi, testthat, withr
+# RoxygenNote: 6.0.1.9000
+# Encoding: UTF-8
+# NeedsCompilation: no
+# Packaged: 2017-09-15 18:14:04 UTC; gaborcsardi
+# Author: Gabor Csardi [aut, cre], Brodie Gaslam [ctb]
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-09-16 19:49:46 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

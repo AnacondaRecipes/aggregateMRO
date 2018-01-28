@@ -1,0 +1,100 @@
+{% set version = '0.5' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-mime
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: mime_0.5.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/mime_0.5.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/mime/mime_0.5.tar.gz  # [linux or win32]
+  sha256: fcc72115afb0eb43237da872754464f37ae9ae097f332ec7984149b5e3a82145  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/mime_0.5.zip  # [win64]
+  sha256: ae8ed289d52f046fd0dd5b8614e1725f9294e7f785c99d4bf66eedcce69348ff  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/mime_0.5.tgz  # [osx]
+  sha256: 10f19653ce256e1f3321cefe7ca21d2e152da12dd57f96402fe6df602d9f8241  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('mime')"           # [not win]
+    - "\"%R%\" -e \"library('mime')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/yihui/mime
+  license: GPL
+  summary: Guesses the MIME type from a filename extension using the data derived from /etc/mime.types
+    in UNIX-type systems.
+  license_family: GPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: mime
+# Type: Package
+# Title: Map Filenames to MIME Types
+# Version: 0.5
+# Date: 2016-07-07
+# Authors@R: c(person("Jeffrey", "Horner", role = "ctb"), person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name"))
+# Maintainer: Yihui Xie <xie@yihui.name>
+# Description: Guesses the MIME type from a filename extension using the data derived from /etc/mime.types in UNIX-type systems.
+# Imports: tools
+# License: GPL
+# URL: https://github.com/yihui/mime
+# BugReports: https://github.com/yihui/mime/issues
+# LazyData: TRUE
+# RoxygenNote: 5.0.1
+# NeedsCompilation: yes
+# Packaged: 2016-07-07 04:44:41 UTC; yihui
+# Author: Jeffrey Horner [ctb], Yihui Xie [aut, cre]
+# Repository: CRAN
+# Date/Publication: 2016-07-07 07:38:00
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

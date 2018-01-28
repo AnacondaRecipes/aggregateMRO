@@ -1,0 +1,93 @@
+{% set version = '1.0.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rematch
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rematch_1.0.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rematch_1.0.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rematch/rematch_1.0.1.tar.gz  # [linux or win32]
+  sha256: a409dec978cd02914cdddfedc974d9b45bd2975a124d8870d52cfd7d37d47578  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rematch_1.0.1.zip  # [win64]
+  sha256: 39a779e61cda3429ffeee17182325ff86bc4f42d8ba5dbe628130bf0b61f4442  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rematch_1.0.1.tgz  # [osx]
+  sha256: cedf7ddfab8d6f0cc0d03e9d424d6fb1d0952ec1652a100980b3ca9c57e71c52  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: covr, testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rematch')"           # [not win]
+    - "\"%R%\" -e \"library('rematch')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/MangoTheCat/rematch
+  license: MIT + file LICENSE
+  summary: A small wrapper on 'regexpr' to extract the matches and captured groups from the match
+    of a regular expression to a character vector.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rematch
+# Title: Match Regular Expressions with a Nicer 'API'
+# Version: 1.0.1
+# Author: Gabor Csardi
+# Maintainer: Gabor Csardi <gcsardi@mango-solutions.com>
+# Description: A small wrapper on 'regexpr' to extract the matches and captured groups from the match of a regular expression to a character vector.
+# License: MIT + file LICENSE
+# LazyData: true
+# URL: https://github.com/MangoTheCat/rematch
+# BugReports: https://github.com/MangoTheCat/rematch/issues
+# RoxygenNote: 5.0.1.9000
+# Suggests: covr, testthat
+# Encoding: UTF-8
+# NeedsCompilation: no
+# Packaged: 2016-04-20 19:54:37 UTC; gaborcsardi
+# Repository: CRAN
+# Date/Publication: 2016-04-21 08:20:46
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
