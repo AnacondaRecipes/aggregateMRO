@@ -1,0 +1,11 @@
+package:
+  name: rwinlib
+  version: 1
+
+source:
+  git_url: https://github.com/rwinlib/base
+
+requirements:
+  build:
+    - m2-git  # [win]
+    - git     # [not win]

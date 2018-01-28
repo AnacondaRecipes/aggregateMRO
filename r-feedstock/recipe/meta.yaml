@@ -27,6 +27,9 @@ source:
   - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux]
     sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux]
     folder: unpack-r-client  # [linux]
+  - url: https://rserverdistribution.azureedge.net/production/RClient/3.4.1.0/1360/1033/0900ccb335c04a048f26b4bb3320aef8/RClientSetup.exe  # [win64]
+    sha256: 011cb6eddb4ad58cb8c3de4032a2243187c879eefa7cf82896dbdc3823c1944f  # [win64]
+    folder: unpack-r-client  # [win64]
   - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
     sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
     folder: wix                                                                              # [win64]
@@ -35,6 +38,7 @@ requirements:
   build:
     - python-libarchive-c
     - posix  # [win]
+    - m2-p7zip  # [win]
   host:
     - m2w64-toolchain  # [win]
     - m2-base  # [win]
@@ -1160,10 +1164,10 @@ outputs:
         - libuuid  # [linux]
         - zlib  # [linux]
         - unixodbc  # [linux]
-    test:
-      files: test-rclient.R
-      commands:
-        - $R CMD BATCH test-rclient.R
+    test:  # [linux]
+      files: test-rclient.R  # [linux]
+      commands:  # [linux]
+        - $R CMD BATCH test-rclient.R  # [linux]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
       license: Proprietary  # [linux or win]
