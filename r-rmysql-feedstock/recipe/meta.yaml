@@ -52,11 +52,13 @@ requirements:
   host:
     - mro-base
     - r-dbi >=0.4
+    - {{native}}mysql              # [linux or win32]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
     - r-dbi >=0.4
+    - {{native}}mysql              # [linux or win32]
 
 test:
   commands:
