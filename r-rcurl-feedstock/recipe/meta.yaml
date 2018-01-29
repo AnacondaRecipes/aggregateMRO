@@ -52,11 +52,15 @@ requirements:
   host:
     - mro-base
     - r-bitops
+    - {{native}}curl               # [win32]
+    - {{native}}libcurl            # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
     - r-bitops
+    - {{native}}curl               # [win32]
+    - {{native}}libcurl            # [linux]
 
 test:
   commands:
