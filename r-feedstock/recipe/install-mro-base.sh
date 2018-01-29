@@ -89,12 +89,20 @@ make_mro_base () {
     popd
   popd
 
-  # patch Makeconf to prefer our various flags.
+  # Patch Makeconf to prefer our various flags.
   if [[ $target_platform != win-64 ]]; then
     pushd $PREFIX
       patch -p1 < $RECIPE_DIR/0002-mro-base-prefer-compiler-env-vars.patch || exit 1
     popd
   fi
+  # Call R CMD javareconf upon activation.
+  pushd $PREFIX
+    patch -p1 < $RECIPE_DIR/0010-javareconf-Do-not-fail-on-compile-fail.patch
+    patch -p1 < $RECIPE_DIR/0011-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
+    if [[ $target_platform != win-64 ]]; then
+      cp "${RECIPE_DIR}"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
+    fi
+  popd
 }
 declare -a EXCLUDED_PACKAGES
 EXCLUDED_PACKAGES+=(boot)
