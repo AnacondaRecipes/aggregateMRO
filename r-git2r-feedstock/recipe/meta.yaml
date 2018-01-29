@@ -51,10 +51,21 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}libssh2 1.*      # [not win]
+    - {{native}}zlib 1.2.8       # [win32]
+    - {{native}}zlib             # [linux]
+    - {{native}}openssl          # [linux or win32]
+    - {{native}}curl             # [win32]
+    - {{native}}libcurl          # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
+    - {{native}}libssh2 1.*      # [linux]
+    - {{native}}zlib 1.2.8       # [win32]
+    - {{native}}openssl          # [win32]
+    - {{native}}curl             # [win32]
+    - {{native}}libcurl          # [linux]
 
 test:
   commands:
