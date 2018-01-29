@@ -1,0 +1,103 @@
+{% set version = '1.2-5' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-sp
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: sp_1.2-5.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/sp_1.2-5.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/sp/sp_1.2-5.tar.gz  # [linux or win32]
+  sha256: 0d2f84102591ed57d4b5d361a7a42bc72d2a9d49f38c6227e87e8ccb946dde27  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/sp_1.2-5.zip  # [win64]
+  sha256: 9bb8b7f0ca88bfe0d475c9182b888946702c826fc5bd253f5cc71e05c4de2686  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/sp_1.2-5.tgz  # [osx]
+  sha256: a2edac713ecc18a2da05cd6e7ca08dca4fb5a86c234ff7cf6cb7ab51119651d3  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.3-13), gstat, maptools, deldir
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-lattice
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-lattice
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('sp')"           # [not win]
+    - "\"%R%\" -e \"library('sp')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/edzer/sp/ https://edzer.github.io/sp/
+  license: GPL (>= 2)
+  summary: Classes and methods for spatial data; the classes document where the spatial location
+    information resides, for 2D or 3D data. Utility functions are provided, e.g. for
+    plotting data as maps, spatial selection, as well as methods for retrieving coordinates,
+    for subsetting, print, summary, etc.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: sp
+# Version: 1.2-5
+# Title: Classes and Methods for Spatial Data
+# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de"), person("Roger", "Bivand", role = "aut", email = "Roger.Bivand@nhh.no"), person("Barry", "Rowlingson", role = "ctb"), person("Virgilio", "Gomez-Rubio", role = "ctb"), person("Robert", "Hijmans", role = "ctb"), person("Michael", "Sumner", role = "ctb"), person("Don", "MacQueen", role = "ctb"), person("Jim", "Lemon", role = "ctb"), person("Josh", "O'Brien", role = "ctb"))
+# Depends: R (>= 3.0.0), methods
+# Imports: utils, stats, graphics, grDevices, lattice, grid
+# Suggests: RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.3-13), gstat, maptools, deldir
+# Description: Classes and methods for spatial data; the classes document where the spatial location information resides, for 2D or 3D data. Utility functions are provided, e.g. for plotting data as maps, spatial selection, as well as methods for retrieving coordinates, for subsetting, print, summary, etc.
+# License: GPL (>= 2)
+# URL: https://github.com/edzer/sp/ https://edzer.github.io/sp/
+# BugReports: https://github.com/edzer/sp/issues
+# Collate: bpy.colors.R AAA.R Class-CRS.R CRS-methods.R Class-Spatial.R Spatial-methods.R projected.R Class-SpatialPoints.R SpatialPoints-methods.R Class-SpatialPointsDataFrame.R SpatialPointsDataFrame-methods.R Class-SpatialMultiPoints.R SpatialMultiPoints-methods.R Class-SpatialMultiPointsDataFrame.R SpatialMultiPointsDataFrame-methods.R Class-GridTopology.R Class-SpatialGrid.R Class-SpatialGridDataFrame.R Class-SpatialLines.R SpatialLines-methods.R Class-SpatialLinesDataFrame.R SpatialLinesDataFrame-methods.R Class-SpatialPolygons.R Class-SpatialPolygonsDataFrame.R SpatialPolygons-methods.R SpatialPolygonsDataFrame-methods.R GridTopology-methods.R SpatialGrid-methods.R SpatialGridDataFrame-methods.R SpatialPolygons-internals.R point.in.polygon.R SpatialPolygons-displayMethods.R zerodist.R image.R stack.R bubble.R mapasp.R select.spatial.R gridded.R asciigrid.R spplot.R over.R spsample.R recenter.R dms.R gridlines.R spdists.R rbind.R flipSGDF.R chfids.R loadmeuse.R compassRose.R surfaceArea.R spOptions.R subset.R disaggregate.R sp_spat1.R merge.R aggregate.R
+# NeedsCompilation: yes
+# Packaged: 2017-06-27 12:59:17 UTC; edzer
+# Author: Edzer Pebesma [aut, cre], Roger Bivand [aut], Barry Rowlingson [ctb], Virgilio Gomez-Rubio [ctb], Robert Hijmans [ctb], Michael Sumner [ctb], Don MacQueen [ctb], Jim Lemon [ctb], Josh O'Brien [ctb]
+# Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+# Repository: CRAN
+# Date/Publication: 2017-06-29 09:07:36 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

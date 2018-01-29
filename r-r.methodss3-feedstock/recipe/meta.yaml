@@ -1,0 +1,97 @@
+{% set version = '1.7.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-r.methodss3
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: R.methodsS3_1.7.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/R.methodsS3_1.7.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/R.methodsS3/R.methodsS3_1.7.1.tar.gz  # [linux or win32]
+  sha256: 44b840399266cd27f8f9157777b4d9d85ab7bd31bfdc143b3fc45079a2d8e687  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/R.methodsS3_1.7.1.zip  # [win64]
+  sha256: c2aa26eba82648cccdf2063d598995c23c79233bde18590377636ea858cc4a87  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/R.methodsS3_1.7.1.tgz  # [osx]
+  sha256: f6ae77cc93bc00b0bdc69f91422e95e0c2fee402da4dcd58ed48b531c017c123  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('R.methodsS3')"           # [not win]
+    - "\"%R%\" -e \"library('R.methodsS3')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=R.methodsS3
+  license: LGPL (>= 2.1)
+  summary: Methods that simplify the setup of S3 generic functions and S3 methods.  Major effort
+    has been made in making definition of methods as simple as possible with a minimum
+    of maintenance for package developers.  For example, generic functions are created
+    automatically, if missing, and naming conflict are automatically solved, if possible.  The
+    method setMethodS3() is a good start for those who in the future may want to migrate
+    to S4.  This is a cross-platform package implemented in pure R that generates standard
+    S3 methods.
+  license_family: LGPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: R.methodsS3
+# Version: 1.7.1
+# Depends: R (>= 2.13.0)
+# Imports: utils
+# Date: 2016-02-15
+# Title: S3 Methods Simplified
+# Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"), email = "henrikb@braju.com"))
+# Author: Henrik Bengtsson [aut, cre, cph]
+# Maintainer: Henrik Bengtsson <henrikb@braju.com>
+# Description: Methods that simplify the setup of S3 generic functions and S3 methods.  Major effort has been made in making definition of methods as simple as possible with a minimum of maintenance for package developers.  For example, generic functions are created automatically, if missing, and naming conflict are automatically solved, if possible.  The method setMethodS3() is a good start for those who in the future may want to migrate to S4.  This is a cross-platform package implemented in pure R that generates standard S3 methods.
+# License: LGPL (>= 2.1)
+# LazyLoad: TRUE
+# NeedsCompilation: no
+# Packaged: 2016-02-16 03:21:35 UTC; hb
+# Repository: CRAN
+# Date/Publication: 2016-02-16 13:48:09
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,93 @@
+{% set version = '0.7-1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-stabledist
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: stabledist_0.7-1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stabledist_0.7-1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stabledist/stabledist_0.7-1.tar.gz  # [linux or win32]
+  sha256: 06c5704d3a3c179fa389675c537c39a006867bc6e4f23dd7e406476ed2c88a69  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/stabledist_0.7-1.zip  # [win64]
+  sha256: 4e6d1e890017a576d8946fbaeb73d4650a24015f0fb6afc63060f310d41cf5ed  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/stabledist_0.7-1.tgz  # [osx]
+  sha256: 91f60f3a59ed4e3b7d8d0398bd97e25142d241802a09787d79bf1ca6347172c6  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: Matrix, fBasics, FMStable, RUnit, Rmpfr, sfsmisc
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('stabledist')"           # [not win]
+    - "\"%R%\" -e \"library('stabledist')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.rmetrics.org, https://r-forge.r-project.org/scm/viewvc.php/pkg/stabledist/?root=rmetrics
+  license: GPL (>= 2)
+  summary: Density, Probability and Quantile functions, and random number generation for (skew)
+    stable distributions, using the parametrizations of Nolan.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: stabledist
+# Version: 0.7-1
+# Date: 2016-09-12
+# Title: Stable Distribution Functions
+# Author: Diethelm Wuertz, Martin Maechler and Rmetrics core team members.
+# Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+# Depends: R (>= 3.1.0)
+# Imports: stats
+# Suggests: Matrix, fBasics, FMStable, RUnit, Rmpfr, sfsmisc
+# Description: Density, Probability and Quantile functions, and random number generation for (skew) stable distributions, using the parametrizations of Nolan.
+# LazyData: yes
+# License: GPL (>= 2)
+# URL: http://www.rmetrics.org, https://r-forge.r-project.org/scm/viewvc.php/pkg/stabledist/?root=rmetrics
+# NeedsCompilation: no
+# Packaged: 2016-09-12 13:21:29 UTC; maechler
+# Repository: CRAN
+# Date/Publication: 2016-09-12 20:55:10
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

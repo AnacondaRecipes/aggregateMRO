@@ -1,0 +1,125 @@
+{% set version = '2.17.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rstan
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rstan_2.17.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rstan_2.17.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rstan/rstan_2.17.2.tar.gz  # [linux or win32]
+  sha256: a7b197e6e42f8f0c302da9205afc19a0261eaf6af1425854303d2ce6cbd36729  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rstan_2.17.2.zip  # [win64]
+  sha256: 0b2a675f9317f5e631dd26f0f1c82c1ba09f5faacd6ebd3fcc25ad1c9b72c58b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rstan_2.17.2.tgz  # [osx]
+  sha256: 25be34b889878e4568f9cf9f2dea69056cd5aa3a5fdadf78831752be3f9a1c2e  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: RUnit, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65), parallel, KernSmooth, loo (>= 1.0.0), shinystan (>= 2.2.1), bayesplot, rstantools, rstudioapi, Matrix, knitr (>= 1.15.1)
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-bh >=1.65
+    - r-rcpp >=0.12.0
+    - r-rcppeigen >=0.3.3.3.0
+    - r-stanheaders >=2.17.1
+    - r-ggplot2 >=2.0.0
+    - r-gridextra >=2.0.0
+    - r-inline
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-bh >=1.65
+    - r-rcpp >=0.12.0
+    - r-rcppeigen >=0.3.3.3.0
+    - r-stanheaders >=2.17.1
+    - r-ggplot2 >=2.0.0
+    - r-gridextra >=2.0.0
+    - r-inline
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rstan')"           # [not win]
+    - "\"%R%\" -e \"library('rstan')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://discourse.mc-stan.org, http://mc-stan.org
+  license: GPL (>= 3)
+  summary: User-facing R functions are provided to parse, compile, test, estimate, and analyze
+    Stan models by accessing the header-only Stan library provided by the 'StanHeaders'
+    package. The Stan project develops a probabilistic programming language that implements
+    full Bayesian statistical inference via Markov Chain Monte Carlo, rough Bayesian
+    inference via 'variational' approximation, and (optionally penalized) maximum likelihood
+    estimation via optimization. In all three cases, automatic differentiation is used
+    to quickly and accurately evaluate gradients without burdening the user with the
+    need to derive the partial derivatives.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rstan
+# Type: Package
+# Title: R Interface to Stan
+# Version: 2.17.2
+# Date: 2017-12-20
+# Authors@R: c(person("Jiqiang", "Guo", email = "guojq28@gmail.com", role = "aut"), person("Jonah", "Gabry", email = "jsg2201@columbia.edu", role = "aut"), person("Ben", "Goodrich", email = "benjamin.goodrich@columbia.edu", role = c("cre", "aut")), person("Daniel", "Lee", role = "ctb"), person("Krzysztof", "Sakrejda", role = "ctb"), person("Trustees of", "Columbia University", role = "cph"), person("Oleg", "Sklyar", role = "cph", comment = "R/cxxfunplus.R"), person("The R", "Core Team", role = "cph", comment = "R/pairs.R, R/dynGet.R"), person("Jens", "Oehlschlaegel-Akiyoshi", role = "cph", comment = "R/pairs.R"), person("Hadley", "Wickham", role = "cph", comment = "R/rtools.R"), person("Joel", "de Guzman", role = "cph", comment = "Boost"), person("John", "Fletcher", role = "cph",  comment = "Boost"), person("Thomas", "Heller", role = "cph",  comment = "Boost"), person("Eric", "Niebler", role = "cph",   comment = "Boost"))
+# Description: User-facing R functions are provided to parse, compile, test, estimate, and analyze Stan models by accessing the header-only Stan library provided by the 'StanHeaders' package. The Stan project develops a probabilistic programming language that implements full Bayesian statistical inference via Markov Chain Monte Carlo, rough Bayesian inference via 'variational' approximation, and (optionally penalized) maximum likelihood estimation via optimization. In all three cases, automatic differentiation is used to quickly and accurately evaluate gradients without burdening the user with the need to derive the partial derivatives.
+# License: GPL (>= 3)
+# NeedsCompilation: yes
+# Imports: methods, stats4, inline, gridExtra (>= 2.0.0), Rcpp (>= 0.12.0)
+# Depends: R (>= 3.0.2), ggplot2 (>= 2.0.0), StanHeaders (>= 2.17.1)
+# LinkingTo: Rcpp (>= 0.12.0), RcppEigen (>= 0.3.3.3.0), BH (>= 1.65), StanHeaders (>= 2.17.1)
+# Suggests: RUnit, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65), parallel, KernSmooth, loo (>= 1.0.0), shinystan (>= 2.2.1), bayesplot, rstantools, rstudioapi, Matrix, knitr (>= 1.15.1)
+# URL: http://discourse.mc-stan.org, http://mc-stan.org
+# BugReports: https://github.com/stan-dev/rstan/issues/
+# VignetteBuilder: knitr
+# SystemRequirements: pandoc
+# RoxygenNote: 5.0.1
+# Packaged: 2017-12-20 07:32:11 UTC; goodrich
+# Author: Jiqiang Guo [aut], Jonah Gabry [aut], Ben Goodrich [cre, aut], Daniel Lee [ctb], Krzysztof Sakrejda [ctb], Trustees of Columbia University [cph], Oleg Sklyar [cph] (R/cxxfunplus.R), The R Core Team [cph] (R/pairs.R, R/dynGet.R), Jens Oehlschlaegel-Akiyoshi [cph] (R/pairs.R), Hadley Wickham [cph] (R/rtools.R), Joel de Guzman [cph] (Boost), John Fletcher [cph] (Boost), Thomas Heller [cph] (Boost), Eric Niebler [cph] (Boost)
+# Maintainer: Ben Goodrich <benjamin.goodrich@columbia.edu>
+# Repository: CRAN
+# Date/Publication: 2017-12-21 00:25:58 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

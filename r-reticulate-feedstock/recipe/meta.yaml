@@ -1,0 +1,112 @@
+{% set version = '1.3.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-reticulate
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: reticulate_1.3.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/reticulate_1.3.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/reticulate/reticulate_1.3.1.tar.gz  # [linux or win32]
+  sha256: 2e117194ecad9546c66da112c9bdcd0f3c38cd1895d755ce010dfe3f9f8df183  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/reticulate_1.3.1.zip  # [win64]
+  sha256: 22a2014932b2b33a86aa299e02584d30803fddb31442518b4805b7f2b34aa8f0  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/reticulate_1.3.1.tgz  # [osx]
+  sha256: 05b83502ae7d91c41171991b90f05bbf1b2877cbe30056db956bbdae9ff6a6f7  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, knitr
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-rcpp >=0.12.7
+    - r-jsonlite
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-rcpp >=0.12.7
+    - r-jsonlite
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('reticulate')"           # [not win]
+    - "\"%R%\" -e \"library('reticulate')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/rstudio/reticulate
+  license: Apache License 2.0
+  summary: R interface to Python modules, classes, and functions. When calling into Python R
+    data types are automatically converted to their equivalent Python types. When values
+    are returned from Python to R they are converted back to R types. Compatible with
+    all versions of Python >= 2.7.
+  license_family: APACHE
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: reticulate
+# Type: Package
+# Title: R Interface to Python
+# Version: 1.3.1
+# Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person("Kevin", "Ushey", role = c("ctb"), email = "kevin@rstudio.com"), person("RStudio", role = c("cph", "fnd")), person("Yuan", "Tang", role = c("aut", "cph"), email = "terrytangyuan@gmail.com"), person("Dirk", "Eddelbuettel", role = c("ctb", "cph"), email = "edd@debian.org"), person("Bryan", "Lewis", role = c("ctb", "cph"), email = "blewis@illposed.net"), person("Marcus", "Geelnard", role = c("aut", "cph"), comment = "TinyThread library, http://tinythreadpp.bitsnbites.eu/") )
+# Description: R interface to Python modules, classes, and functions. When calling into Python R data types are automatically converted to their equivalent Python types. When values are returned from Python to R they are converted back to R types. Compatible with all versions of Python >= 2.7.
+# License: Apache License 2.0
+# URL: https://github.com/rstudio/reticulate
+# BugReports: https://github.com/rstudio/reticulate/issues
+# SystemRequirements: Python (>= 2.7.0)
+# Encoding: UTF-8
+# LazyData: true
+# Depends: R (>= 3.0)
+# Imports: utils, graphics, jsonlite, Rcpp (>= 0.12.7)
+# Suggests: testthat, knitr
+# LinkingTo: Rcpp
+# RoxygenNote: 6.0.1
+# VignetteBuilder: knitr
+# NeedsCompilation: yes
+# Packaged: 2017-11-24 12:28:55 UTC; jjallaire
+# Author: JJ Allaire [aut, cre], Kevin Ushey [ctb], RStudio [cph, fnd], Yuan Tang [aut, cph], Dirk Eddelbuettel [ctb, cph], Bryan Lewis [ctb, cph], Marcus Geelnard [aut, cph] (TinyThread library, http://tinythreadpp.bitsnbites.eu/)
+# Maintainer: JJ Allaire <jj@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-11-24 18:12:29 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

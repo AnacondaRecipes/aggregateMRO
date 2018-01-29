@@ -1,0 +1,139 @@
+{% set version = '0.6.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-sparklyr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: sparklyr_0.6.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/sparklyr_0.6.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/sparklyr/sparklyr_0.6.4.tar.gz  # [linux or win32]
+  sha256: 21e40a53fd6041f026d26f84199762a92270754114db8ffa82159cdc12c952bf  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/sparklyr_0.6.4.zip  # [win64]
+  sha256: 0fb759258981126d31839ae8303fffd1c01dbbf520f8d561992479f7c110b466  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/sparklyr_0.6.4.tgz  # [osx]
+  sha256: bd1edae88c7d02c7726d2a21eeba71ab3ab4bae20695442a85bd75571de5f0e5  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: ggplot2, janeaustenr, nycflights13, testthat, RCurl
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-dbi >=0.6_1
+    - r-assertthat
+    - r-base64enc
+    - r-broom
+    - r-config >=0.2
+    - r-dbplyr >=1.1.0
+    - r-digest
+    - r-dplyr >=0.7.2
+    - r-httr >=1.2.1
+    - r-jsonlite >=1.4
+    - r-lazyeval >=0.2.0
+    - r-openssl >=0.8
+    - r-rappdirs
+    - r-readr >=1.1.0
+    - r-rlang >=0.1
+    - r-rprojroot
+    - r-rstudioapi
+    - r-shiny >=1.0.1
+    - r-withr
+    - r-xml2
+
+  run:
+    - mro-base
+    - r-dbi >=0.6_1
+    - r-assertthat
+    - r-base64enc
+    - r-broom
+    - r-config >=0.2
+    - r-dbplyr >=1.1.0
+    - r-digest
+    - r-dplyr >=0.7.2
+    - r-httr >=1.2.1
+    - r-jsonlite >=1.4
+    - r-lazyeval >=0.2.0
+    - r-openssl >=0.8
+    - r-rappdirs
+    - r-readr >=1.1.0
+    - r-rlang >=0.1
+    - r-rprojroot
+    - r-rstudioapi
+    - r-shiny >=1.0.1
+    - r-withr
+    - r-xml2
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('sparklyr')"           # [not win]
+    - "\"%R%\" -e \"library('sparklyr')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://spark.rstudio.com
+  license: Apache License 2.0 | file LICENSE
+  summary: R interface to Apache Spark, a fast and general engine for big data processing, see
+    <http://spark.apache.org>. This package supports connecting to local and remote
+    Apache Spark clusters, provides a 'dplyr' compatible back-end, and provides an interface
+    to Spark's built-in machine learning algorithms.
+  license_family: APACHE
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: sparklyr
+# Type: Package
+# Title: R Interface to Apache Spark
+# Version: 0.6.4
+# Authors@R: c( person("Javier", "Luraschi", email = "javier@rstudio.com", role = c("aut", "cre")), person("Kevin", "Ushey", role = "aut", email = "kevin@rstudio.com"), person("JJ", "Allaire", role = "aut", email = "jj@rstudio.com"), person(family = "RStudio", role = c("cph")), person(family = "The Apache Software Foundation", role = c("aut", "cph")) )
+# Maintainer: Javier Luraschi <javier@rstudio.com>
+# Description: R interface to Apache Spark, a fast and general engine for big data processing, see <http://spark.apache.org>. This package supports connecting to local and remote Apache Spark clusters, provides a 'dplyr' compatible back-end, and provides an interface to Spark's built-in machine learning algorithms.
+# License: Apache License 2.0 | file LICENSE
+# SystemRequirements: Spark: 1.6.x or 2.x
+# URL: http://spark.rstudio.com
+# BugReports: https://github.com/rstudio/sparklyr/issues
+# LazyData: TRUE
+# RoxygenNote: 6.0.1.9000
+# Depends: R (>= 3.1.2)
+# Imports: assertthat, base64enc, broom, config (>= 0.2), DBI (>= 0.6-1), dplyr (>= 0.7.2), dbplyr (>= 1.1.0), digest, httr (>= 1.2.1), jsonlite (>= 1.4), lazyeval (>= 0.2.0), methods, openssl (>= 0.8), rappdirs, readr (>= 1.1.0), rlang (>= 0.1), rprojroot, rstudioapi, shiny (>= 1.0.1), withr, xml2
+# Suggests: ggplot2, janeaustenr, nycflights13, testthat, RCurl
+# NeedsCompilation: no
+# Packaged: 2017-11-01 22:42:08 UTC; javierluraschi
+# Author: Javier Luraschi [aut, cre], Kevin Ushey [aut], JJ Allaire [aut], RStudio [cph], The Apache Software Foundation [aut, cph]
+# Repository: CRAN
+# Date/Publication: 2017-11-02 00:57:51 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

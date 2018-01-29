@@ -1,0 +1,120 @@
+{% set version = '1.4.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-tensorflow
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: tensorflow_1.4.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tensorflow_1.4.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tensorflow/tensorflow_1.4.3.tar.gz  # [linux or win32]
+  sha256: 65012ad1d7af91b438c79a944975cd544bbe69189c0f0ac25f7ffce900018008  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tensorflow_1.4.3.zip  # [win64]
+  sha256: 9d523146b369e9a7183b099aface22356cd8175cd0ef3525d7ad5a79222d6a56  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tensorflow_1.4.3.tgz  # [osx]
+  sha256: f087f02964debcda7d2c4b18e07625f5a78787a4b9176ca6ae211e56df5020fe  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-config
+    - r-jsonlite >=1.2
+    - r-processx
+    - r-reticulate >=1.3
+    - r-rstudioapi >=0.7
+    - r-tfruns >=1.0
+    - r-yaml
+
+  run:
+    - mro-base
+    - r-config
+    - r-jsonlite >=1.2
+    - r-processx
+    - r-reticulate >=1.3
+    - r-rstudioapi >=0.7
+    - r-tfruns >=1.0
+    - r-yaml
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('tensorflow')"           # [not win]
+    - "\"%R%\" -e \"library('tensorflow')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/rstudio/tensorflow
+  license: Apache License 2.0
+  summary: Interface to 'TensorFlow' <https://www.tensorflow.org/>,  an open source software
+    library for numerical computation using data flow graphs. Nodes in the graph represent
+    mathematical operations,  while the graph edges represent the multidimensional data
+    arrays  (tensors) communicated between them. The flexible architecture allows you
+    to deploy computation to one or more 'CPUs' or 'GPUs' in a desktop,  server, or
+    mobile device with a single 'API'. 'TensorFlow' was originally developed by researchers
+    and engineers working on the Google Brain Team  within Google's Machine Intelligence
+    research organization for the  purposes of conducting machine learning and deep
+    neural networks research, but the system is general enough to be applicable in a
+    wide variety of other domains as well.
+  license_family: APACHE
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: tensorflow
+# Type: Package
+# Title: R Interface to 'TensorFlow'
+# Version: 1.4.3
+# Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person(family = "RStudio", role = c("cph", "fnd")), person("Yuan", "Tang", role = c("aut", "cph"), email = "terrytangyuan@gmail.com"), person("Dirk", "Eddelbuettel", role = c("ctb", "cph"), email = "edd@debian.org"), person("Nick", "Golding", role = c("ctb", "cph"), email = "nick.golding.research@gmail.com"), person(family = "Google Inc.", role = c("ctb", "cph"), comment = "Examples and Tutorials") )
+# Description: Interface to 'TensorFlow' <https://www.tensorflow.org/>,  an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations,  while the graph edges represent the multidimensional data arrays  (tensors) communicated between them. The flexible architecture allows you to deploy computation to one or more 'CPUs' or 'GPUs' in a desktop,  server, or mobile device with a single 'API'. 'TensorFlow' was originally developed by researchers and engineers working on the Google Brain Team  within Google's Machine Intelligence research organization for the  purposes of conducting machine learning and deep neural networks research, but the system is general enough to be applicable in a wide variety of other domains as well.
+# License: Apache License 2.0
+# URL: https://github.com/rstudio/tensorflow
+# BugReports: https://github.com/rstudio/tensorflow/issues
+# SystemRequirements: TensorFlow (https://www.tensorflow.org/)
+# Encoding: UTF-8
+# LazyData: true
+# Depends: R (>= 3.1)
+# Imports: config, jsonlite (>= 1.2), processx, reticulate (>= 1.3), tfruns (>= 1.0), utils, yaml, rstudioapi (>= 0.7)
+# Suggests: testthat
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-12-18 10:32:00 UTC; jjallaire
+# Author: JJ Allaire [aut, cre], RStudio [cph, fnd], Yuan Tang [aut, cph], Dirk Eddelbuettel [ctb, cph], Nick Golding [ctb, cph], Google Inc. [ctb, cph] (Examples and Tutorials)
+# Maintainer: JJ Allaire <jj@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-12-18 16:34:05 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

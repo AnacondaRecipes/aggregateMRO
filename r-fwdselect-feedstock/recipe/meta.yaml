@@ -1,0 +1,100 @@
+{% set version = '2.1.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-fwdselect
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: FWDselect_2.1.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/FWDselect_2.1.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/FWDselect/FWDselect_2.1.0.tar.gz  # [linux or win32]
+  sha256: e77313b3066806333edec3904d05e4fd51b596737edc337ba4019ecf609d1070  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/FWDselect_2.1.0.zip  # [win64]
+  sha256: 2061543822b26a0898e329ee2139e43d0cceab20394add133e02e0aecce87624  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/FWDselect_2.1.0.tgz  # [osx]
+  sha256: 55e65e75a987920c7619c79551a02b68661629f47e7c8206a6556bf59690116c  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-cvtools
+    - r-mgcv
+
+  run:
+    - mro-base
+    - r-cvtools
+    - r-mgcv
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('FWDselect')"           # [not win]
+    - "\"%R%\" -e \"library('FWDselect')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://cran.r-project.org/package=FWDselect
+  license: MIT + file LICENSE
+  summary: A simple method to select the best model or best subset of variables using different
+    types of data (binary, Gaussian or Poisson) and applying it in different contexts
+    (parametric or non-parametric).
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: FWDselect
+# Title: Selecting Variables in Regression Models
+# Version: 2.1.0
+# Date: 2015-12-18
+# Author: Marta Sestelo [aut, cre], Nora M. Villanueva [aut], Javier Roca-Pardinas [aut]
+# Maintainer: Marta Sestelo <sestelo@uvigo.es>
+# Authors@R: c( person("Marta", "Sestelo",email= "sestelo@uvigo.es", role = c("aut", "cre")), person("Nora", "M. Villanueva",email= "nmvillanueva@uvigo.es", role = "aut"), person("Javier", "Roca-Pardinas",email= "roca@uvigo.es", role = "aut"))
+# Description: A simple method to select the best model or best subset of variables using different types of data (binary, Gaussian or Poisson) and applying it in different contexts (parametric or non-parametric).
+# URL: http://cran.r-project.org/package=FWDselect
+# BugReports: http://github.com/sestelo/fwdselect/issues
+# Depends: R (>= 3.1.0)
+# License: MIT + file LICENSE
+# LazyData: true
+# Imports: cvTools, mgcv, parallel, graphics, stats
+# RoxygenNote: 5.0.0
+# NeedsCompilation: no
+# Packaged: 2015-12-18 18:21:53 UTC; Sestelo
+# Repository: CRAN
+# Date/Publication: 2015-12-19 09:34:15
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

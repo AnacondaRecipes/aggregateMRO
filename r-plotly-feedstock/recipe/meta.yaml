@@ -1,0 +1,134 @@
+{% set version = '4.7.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-plotly
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: plotly_4.7.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/plotly_4.7.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/plotly/plotly_4.7.1.tar.gz  # [linux or win32]
+  sha256: 7cd4b040f9bfd9356a8a2aba59ccf318cae6b5d94ded7463e2e823c10fa74972  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/plotly_4.7.1.zip  # [win64]
+  sha256: 01c5f6b1589cc8c85f88441f4ca30486c3ac548add0af6cbbd9b4dc01b77a35a  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/plotly_4.7.1.tgz  # [osx]
+  sha256: 29301575a31cb12bee73aca81938681dee836b401b99e75f0144dbcbf16fec75  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, maps, ggthemes, GGally, testthat, knitr, devtools, shiny (>= 0.14), curl, rmarkdown, Rserve, RSclient, Cairo, broom, webshot, listviewer, dendextend, sf, RSelenium, png, IRdisplay
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-rcolorbrewer
+    - r-base64enc
+    - r-crosstalk
+    - r-data.table
+    - r-digest
+    - r-dplyr
+    - r-ggplot2 >=2.2.1
+    - r-hexbin
+    - r-htmltools
+    - r-htmlwidgets >=0.9
+    - r-httr
+    - r-jsonlite
+    - r-lazyeval >=0.2.0
+    - r-magrittr
+    - r-purrr
+    - r-scales
+    - r-tibble
+    - r-tidyr
+    - r-viridislite
+
+  run:
+    - mro-base
+    - r-rcolorbrewer
+    - r-base64enc
+    - r-crosstalk
+    - r-data.table
+    - r-digest
+    - r-dplyr
+    - r-ggplot2 >=2.2.1
+    - r-hexbin
+    - r-htmltools
+    - r-htmlwidgets >=0.9
+    - r-httr
+    - r-jsonlite
+    - r-lazyeval >=0.2.0
+    - r-magrittr
+    - r-purrr
+    - r-scales
+    - r-tibble
+    - r-tidyr
+    - r-viridislite
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('plotly')"           # [not win]
+    - "\"%R%\" -e \"library('plotly')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://plot.ly/r, https://cpsievert.github.io/plotly_book/, https://github.com/ropensci/plotly
+  license: MIT + file LICENSE
+  summary: Easily translate 'ggplot2' graphs to an interactive web-based version and/or create
+    custom web-based visualizations directly from R. Once uploaded to a 'plotly' account,
+    'plotly' graphs (and the data behind them) can be viewed and modified in a web browser.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: plotly
+# Title: Create Interactive Web Graphics via 'plotly.js'
+# Version: 4.7.1
+# Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"), person("Chris", "Parmer", role = "aut", email = "chris@plot.ly"), person("Toby", "Hocking", role = "aut", email = "tdhock5@gmail.com"), person("Scott", "Chamberlain", role = "aut", email = "myrmecocystus@gmail.com"), person("Karthik", "Ram", role = "aut", email = "karthik.ram@gmail.com"), person("Marianne", "Corvellec", role = "aut", email = "marianne@plot.ly"), person("Pedro", "Despouy", role = "aut", email = "pedro@plot.ly"), person("Plotly Technologies Inc.", role = "cph"))
+# License: MIT + file LICENSE
+# Description: Easily translate 'ggplot2' graphs to an interactive web-based version and/or create custom web-based visualizations directly from R. Once uploaded to a 'plotly' account, 'plotly' graphs (and the data behind them) can be viewed and modified in a web browser.
+# URL: https://plot.ly/r, https://cpsievert.github.io/plotly_book/, https://github.com/ropensci/plotly
+# BugReports: https://github.com/ropensci/plotly/issues
+# Depends: R (>= 3.2.0), ggplot2 (>= 2.2.1)
+# Imports: tools, scales, httr, jsonlite, magrittr, digest, viridisLite, base64enc, htmltools, htmlwidgets (>= 0.9), tidyr, hexbin, RColorBrewer, dplyr, tibble, lazyeval (>= 0.2.0), crosstalk, purrr, data.table
+# Suggests: MASS, maps, ggthemes, GGally, testthat, knitr, devtools, shiny (>= 0.14), curl, rmarkdown, Rserve, RSclient, Cairo, broom, webshot, listviewer, dendextend, sf, RSelenium, png, IRdisplay
+# LazyData: true
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-07-28 15:49:30 UTC; cpsievert
+# Author: Carson Sievert [aut, cre], Chris Parmer [aut], Toby Hocking [aut], Scott Chamberlain [aut], Karthik Ram [aut], Marianne Corvellec [aut], Pedro Despouy [aut], Plotly Technologies Inc. [cph]
+# Maintainer: Carson Sievert <cpsievert1@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-07-29 05:16:25 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

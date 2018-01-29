@@ -1,0 +1,92 @@
+{% set version = '0.7-103' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-logging
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: logging_0.7-103.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/logging_0.7-103.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/logging/logging_0.7-103.tar.gz  # [linux or win32]
+  sha256: aca8153206cc815a49470844c48f44f84e6d7a6ce52686a8593f727582c0e7ea  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/logging_0.7-103.zip  # [win64]
+  sha256: ce0f970d12bea6e9f45f2c5766e99f00b4c0af6fd445736f2f3ef97dbff0a14b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/logging_0.7-103.tgz  # [osx]
+  sha256: cde2d5fb977b34406a98c3ce8e7ffaee593a775b5b5c39bbe3800c2b0b3f78d8  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: svUnit, XML
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('logging')"           # [not win]
+    - "\"%R%\" -e \"library('logging')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=logging
+  license: GPL (>= 2)
+  summary: logging is a pure R package that implements the ubiquitous log4j package.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: logging
+# Version: 0.7-103
+# Date: 2013-04-08
+# Title: R logging package
+# Author: Mario Frasca <mariotomo@gmail.com>
+# Maintainer: Mario Frasca <mariotomo@gmail.com>
+# Description: logging is a pure R package that implements the ubiquitous log4j package.
+# License: GPL (>= 2)
+# Depends: R (>= 2.12.0), methods
+# Suggests: svUnit, XML
+# Repository: CRAN
+# Repository/R-Forge/Project: logging
+# Repository/R-Forge/Revision: 103
+# Repository/R-Forge/DateTimeStamp: 2013-04-08 09:57:38
+# Date/Publication: 2013-04-12 08:30:00
+# Packaged: 2013-04-10 01:16:35 UTC; rforge
+# NeedsCompilation: no
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

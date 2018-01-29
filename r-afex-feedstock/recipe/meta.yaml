@@ -1,0 +1,121 @@
+{% set version = '0.18-0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-afex
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: afex_0.18-0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/afex_0.18-0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/afex/afex_0.18-0.tar.gz  # [linux or win32]
+  sha256: 65bf137d1cffa97ac0bd79923612d29738d8dea3d1efa572875c0b570eab4453  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/afex_0.18-0.zip  # [win64]
+  sha256: 6435c2099e4ada421f42cb75cf4f9ab7c41503c30242d775f65069876e594119  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/afex_0.18-0.tgz  # [osx]
+  sha256: 2925977573afcf028bc0cabd2b8d2875b83f665cbfa46b8f577e5c74fce95949  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: xtable, parallel, plyr, optimx, nloptr, knitr, rmarkdown, lattice, latticeExtra, multcomp, testthat, mlmRev, dplyr, tidyr, dfoptim, Matrix, psych
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-car
+    - r-coin
+    - r-lme4 >=1.1_8
+    - r-lmertest
+    - r-lsmeans >=2.17
+    - r-pbkrtest >=0.4_1
+    - r-reshape2
+    - r-stringr
+
+  run:
+    - mro-base
+    - r-car
+    - r-coin
+    - r-lme4 >=1.1_8
+    - r-lmertest
+    - r-lsmeans >=2.17
+    - r-pbkrtest >=0.4_1
+    - r-reshape2
+    - r-stringr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('afex')"           # [not win]
+    - "\"%R%\" -e \"library('afex')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://afex.singmann.science/, https://github.com/singmann/afex
+  license: GPL (>= 2)
+  summary: Convenience functions for analyzing factorial experiments using ANOVA or mixed models.
+    aov_ez(), aov_car(), and aov_4() allow specification of between, within (i.e., repeated-measures),
+    or mixed between-within (i.e., split-plot) ANOVAs for data in long format (i.e.,
+    one observation per row), aggregating multiple observations per individual and cell
+    of the design. mixed() fits mixed models using lme4::lmer() and computes p-values
+    for all fixed effects using either Kenward-Roger or Satterthwaite approximation
+    for degrees of freedom (LMM only), parametric bootstrap (LMMs and GLMMs), or likelihood
+    ratio tests (LMMs and GLMMs). afex uses type 3 sums of squares as default (imitating
+    commercial statistical software).
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: afex
+# Type: Package
+# Title: Analysis of Factorial Experiments
+# Depends: R (>= 3.1.0), lme4 (>= 1.1-8), lsmeans (>= 2.17)
+# Suggests: xtable, parallel, plyr, optimx, nloptr, knitr, rmarkdown, lattice, latticeExtra, multcomp, testthat, mlmRev, dplyr, tidyr, dfoptim, Matrix, psych
+# Imports: stringr, coin, pbkrtest (>= 0.4-1), lmerTest, car, reshape2, stats, methods
+# Description: Convenience functions for analyzing factorial experiments using ANOVA or mixed models. aov_ez(), aov_car(), and aov_4() allow specification of between, within (i.e., repeated-measures), or mixed between-within (i.e., split-plot) ANOVAs for data in long format (i.e., one observation per row), aggregating multiple observations per individual and cell of the design. mixed() fits mixed models using lme4::lmer() and computes p-values for all fixed effects using either Kenward-Roger or Satterthwaite approximation for degrees of freedom (LMM only), parametric bootstrap (LMMs and GLMMs), or likelihood ratio tests (LMMs and GLMMs). afex uses type 3 sums of squares as default (imitating commercial statistical software).
+# URL: http://afex.singmann.science/, https://github.com/singmann/afex
+# BugReports: https://github.com/singmann/afex/issues
+# License: GPL (>= 2)
+# Encoding: UTF-8
+# VignetteBuilder: knitr
+# Authors@R: c(person(given="Henrik", family="Singmann", role=c("aut", "cre"), email="singmann+afex@gmail.com"), person(given="Ben", family="Bolker", role=c("aut")), person(given="Jake", family="Westfall", role=c("aut")), person(given="Frederik", family="Aust", role=c("aut")), person(given="Sren", family="Hjsgaard", role=c("ctb")), person(given="John", family="Fox", role=c("ctb")), person(given="Michael A.", family="Lawrence", role=c("ctb")), person(given="Ulf", family="Mertens", role=c("ctb")), person(given="Jonathan", family="Love", role=c("ctb")) )
+# Version: 0.18-0
+# Date: 2017-05-25
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-05-25 12:25:31 UTC; henrik
+# Author: Henrik Singmann [aut, cre], Ben Bolker [aut], Jake Westfall [aut], Frederik Aust [aut], Sren Hjsgaard [ctb], John Fox [ctb], Michael A. Lawrence [ctb], Ulf Mertens [ctb], Jonathan Love [ctb]
+# Maintainer: Henrik Singmann <singmann+afex@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-05-25 22:17:48 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

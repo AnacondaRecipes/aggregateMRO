@@ -1,0 +1,113 @@
+{% set version = '0.9-22' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-oce
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: oce_0.9-22.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/oce_0.9-22.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/oce/oce_0.9-22.tar.gz  # [linux or win32]
+  sha256: 50da1c1d047b82045f513fd7632e599cdd76d1cdfc1fbff0f813e8922199af73  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/oce_0.9-22.zip  # [win64]
+  sha256: 708ea6c0d254bbca2c2c3b8587b6c0c63ecfa472647b7dda126e66a83b7c2043  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/oce_0.9-22.tgz  # [osx]
+  sha256: 5f359311fcf1ef1ff99a222dd4aeccc8166b174dc33a13c3e52dc8a123c33576  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: ocedata, foreign, ncdf4, tiff, akima, RSQLite, DBI, rgdal (>= 1.1-9), R.utils, knitr, rmarkdown, marmap, lubridate
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-gsw
+    - r-testthat
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-gsw
+    - r-testthat
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('oce')"           # [not win]
+    - "\"%R%\" -e \"library('oce')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://dankelley.github.io/oce
+  license: GPL (>= 2)
+  summary: Supports the analysis of Oceanographic data, including 'ADCP' measurements, measurements
+    made with 'argo' floats, 'CTD' measurements, sectional data, sea-level time series,
+    coastline and topographic data, etc. Provides specialized functions for calculating
+    seawater properties such as potential temperature in either the 'UNESCO' or 'TEOS-10'
+    equation of state. Produces graphical displays that conform to the conventions of
+    the Oceanographic literature.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: oce
+# Type: Package
+# Title: Analysis of Oceanographic Data
+# Version: 0.9-22
+# Authors@R: c(person(given="Dan", family="Kelley", email="Dan.Kelley@Dal.Ca", role=c("aut", "cre")), person(given="Clark", family="Richards", email="clark.richards@gmail.com", role=c("aut")), person(given="Chantelle", family="Layton", email="chantelle.layton@dal.ca", role=c("ctb"), comment="curl() coauthor"), person(given="British Geological Survey", role=c("ctb","cph"), comment="magnetic-field subroutine"))
+# Maintainer: Dan Kelley <Dan.Kelley@Dal.Ca>
+# Depends: R (>= 2.15), utils, methods, gsw, testthat
+# Suggests: ocedata, foreign, ncdf4, tiff, akima, RSQLite, DBI, rgdal (>= 1.1-9), R.utils, knitr, rmarkdown, marmap, lubridate
+# BugReports: https://github.com/dankelley/oce/issues
+# Description: Supports the analysis of Oceanographic data, including 'ADCP' measurements, measurements made with 'argo' floats, 'CTD' measurements, sectional data, sea-level time series, coastline and topographic data, etc. Provides specialized functions for calculating seawater properties such as potential temperature in either the 'UNESCO' or 'TEOS-10' equation of state. Produces graphical displays that conform to the conventions of the Oceanographic literature.
+# License: GPL (>= 2)
+# Encoding: UTF-8
+# URL: https://dankelley.github.io/oce
+# LazyData: false
+# RoxygenNote: 6.0.1
+# BuildVignettes: true
+# VignetteBuilder: knitr
+# NeedsCompilation: yes
+# Packaged: 2017-08-28 15:25:38 UTC; kelley
+# Author: Dan Kelley [aut, cre], Clark Richards [aut], Chantelle Layton [ctb] (curl() coauthor), British Geological Survey [ctb, cph] (magnetic-field subroutine)
+# Repository: CRAN
+# Date/Publication: 2017-08-28 18:50:30 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

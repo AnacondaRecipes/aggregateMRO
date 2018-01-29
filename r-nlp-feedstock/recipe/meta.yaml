@@ -1,0 +1,89 @@
+{% set version = '0.1-11' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-nlp
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: NLP_0.1-11.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/NLP_0.1-11.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/NLP/NLP_0.1-11.tar.gz  # [linux or win32]
+  sha256: 580551a463c14d7186f62e029504f2e95dd9cbbaaef3f979221ddffafb036597  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/NLP_0.1-11.zip  # [win64]
+  sha256: dbb8606879410941cf511ffa06746f8f0a6f3bf7b69ec6fee8ead259d8f31055  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/NLP_0.1-11.tgz  # [osx]
+  sha256: cac549291cd5732636488f52627d9170d4a6ddd657f5204649db26736933d9c1  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('NLP')"           # [not win]
+    - "\"%R%\" -e \"library('NLP')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=NLP
+  license: GPL-3
+  summary: Basic classes and methods for Natural Language Processing.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: NLP
+# Version: 0.1-11
+# Title: Natural Language Processing Infrastructure
+# Authors@R: person("Kurt", "Hornik", role = c("aut", "cre"), email = "Kurt.Hornik@R-project.org")
+# Description: Basic classes and methods for Natural Language Processing.
+# License: GPL-3
+# Imports: utils
+# Depends: R (>= 3.2.0)
+# NeedsCompilation: no
+# Packaged: 2017-08-15 08:54:14 UTC; hornik
+# Author: Kurt Hornik [aut, cre]
+# Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-08-15 09:13:23 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

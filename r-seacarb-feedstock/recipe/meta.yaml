@@ -1,0 +1,98 @@
+{% set version = '3.2.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-seacarb
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: seacarb_3.2.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/seacarb_3.2.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/seacarb/seacarb_3.2.2.tar.gz  # [linux or win32]
+  sha256: b462a1f8f8e45e4b020c510b5eedb641be45f433842d09a2806504c4fa9c55f8  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/seacarb_3.2.2.zip  # [win64]
+  sha256: 05520b68cd809ffcac87b93d84f456d7bf08500fa3d364355d33df6c958fe31f  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/seacarb_3.2.2.tgz  # [osx]
+  sha256: e053238a49a16ac852becd3efee8de74857278bee772c9c2b60739017fef08f8  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-gsw
+    - r-oce
+
+  run:
+    - mro-base
+    - r-gsw
+    - r-oce
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('seacarb')"           # [not win]
+    - "\"%R%\" -e \"library('seacarb')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=seacarb
+  license: GPL (>= 2)
+  summary: Calculates parameters of the seawater carbonate system and assists the design of ocean
+    acidification perturbation experiments.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: seacarb
+# Title: Seawater Carbonate Chemistry
+# Version: 3.2.2
+# Date: 2017-08-22
+# LazyData: true
+# Authors@R: c(person("Jean-Pierre", "Gattuso", role = c("aut", "cre", "cph"), email = "gattuso@obs-vlfr.fr"), person("Jean-Marie", "Epitalon", role = "aut", email = "Jean-Marie.Epitalon@orange.fr"), person("Heloise", "Lavigne", role = "aut", email = "lavigne@obs-vlfr.fr"), person("James", "Orr", role = "aut"), person("Bernard", "Gentili", role = "ctb"), person("Mathilde", "Hagens", role = "ctb"), person("Andreas", "Hofmann", role = "ctb"), person("Aurelien", "Proye", role = "ctb"), person("Karline", "Soetaert", role = "ctb"), person("James", "Rae", role = "ctb") )
+# Depends: R (>= 2.10), oce, gsw
+# Description: Calculates parameters of the seawater carbonate system and assists the design of ocean acidification perturbation experiments.
+# Encoding: UTF-8
+# URL: https://CRAN.R-project.org/package=seacarb
+# License: GPL (>= 2)
+# Repository: CRAN
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2017-09-26 04:29:34 UTC; gattuso
+# Author: Jean-Pierre Gattuso [aut, cre, cph], Jean-Marie Epitalon [aut], Heloise Lavigne [aut], James Orr [aut], Bernard Gentili [ctb], Mathilde Hagens [ctb], Andreas Hofmann [ctb], Aurelien Proye [ctb], Karline Soetaert [ctb], James Rae [ctb]
+# Maintainer: Jean-Pierre Gattuso <gattuso@obs-vlfr.fr>
+# Date/Publication: 2017-09-27 09:15:37 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

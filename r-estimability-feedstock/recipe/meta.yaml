@@ -1,0 +1,93 @@
+{% set version = '1.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-estimability
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: estimability_1.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/estimability_1.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/estimability/estimability_1.2.tar.gz  # [linux or win32]
+  sha256: 30a5b0abae9525209531fe8dea44750f6b296948d35ebbe55759e565ef02688d  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/estimability_1.2.zip  # [win64]
+  sha256: 61311ef8445e0033ec425235b23608ef12c7ff2688cd29df16cd8ac8aa937a5d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/estimability_1.2.tgz  # [osx]
+  sha256: d303eef1ed02a6b9d0decdeaeb2492ff4b7b8bc6e12d24480a912dc48e57a502  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('estimability')"           # [not win]
+    - "\"%R%\" -e \"library('estimability')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=estimability
+  license: GPL (>= 3)
+  summary: Provides tools for determining estimability of linear functions of regression coefficients,  and
+    'epredict' methods that handle non-estimable cases correctly.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: estimability
+# Type: Package
+# Title: Tools for Assessing Estimability of Linear Predictions
+# Version: 1.2
+# Date: 2016-11-16
+# Authors@R: c(person("Russell", "Lenth", role = c("aut", "cre", "cph"),  email = "russell-lenth@uiowa.edu"))
+# Depends: stats
+# Description: Provides tools for determining estimability of linear functions of regression coefficients,  and 'epredict' methods that handle non-estimable cases correctly.
+# LazyData: yes
+# ByteCompile: yes
+# License: GPL (>= 3)
+# NeedsCompilation: no
+# Packaged: 2016-11-19 01:48:37 UTC; rlenth
+# Author: Russell Lenth [aut, cre, cph]
+# Maintainer: Russell Lenth <russell-lenth@uiowa.edu>
+# Repository: CRAN
+# Date/Publication: 2016-11-19 10:13:47
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

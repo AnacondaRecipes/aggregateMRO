@@ -1,0 +1,96 @@
+{% set version = '0.1.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-miniui
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: miniUI_0.1.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/miniUI_0.1.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/miniUI/miniUI_0.1.1.tar.gz  # [linux or win32]
+  sha256: 9c92032071ee75ee9c26c4cfd3115877fbcb15de2fd2023109c670784b51cce1  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/miniUI_0.1.1.zip  # [win64]
+  sha256: c2dff574c99071bced0df6685525ae6be6b1bcfc17eae13f612859c707518f5e  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/miniUI_0.1.1.tgz  # [osx]
+  sha256: 887fe19f00601e2ec6a363bd02c9786631c0812019926d01c55780774cc5ffb6  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-htmltools >=0.3
+    - r-shiny >=0.13
+
+  run:
+    - mro-base
+    - r-htmltools >=0.3
+    - r-shiny >=0.13
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('miniUI')"           # [not win]
+    - "\"%R%\" -e \"library('miniUI')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=miniUI
+  license: GPL-3
+  summary: Provides UI widget and layout functions for writing Shiny apps that work well on small
+    screens.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: miniUI
+# Type: Package
+# Title: Shiny UI Widgets for Small Screens
+# Version: 0.1.1
+# Authors@R: c( person("Joe", "Cheng", role = c("cre", "aut"), email = "joe@rstudio.com"), person(family = "RStudio", role = "cph") )
+# Description: Provides UI widget and layout functions for writing Shiny apps that work well on small screens.
+# License: GPL-3
+# LazyData: TRUE
+# Imports: shiny (>= 0.13), htmltools (>= 0.3), utils
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2016-01-15 17:31:47 UTC; jcheng
+# Author: Joe Cheng [cre, aut], RStudio [cph]
+# Maintainer: Joe Cheng <joe@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2016-01-15 19:33:16
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

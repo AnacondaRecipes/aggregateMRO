@@ -1,0 +1,103 @@
+{% set version = '2.3.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-irlba
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: irlba_2.3.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/irlba_2.3.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/irlba/irlba_2.3.1.tar.gz  # [linux or win32]
+  sha256: 6082f8b5e32e9541747f0ac7d59f9e5a708b291492e9a21a5e4b9753e7ff94b5  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/irlba_2.3.1.zip  # [win64]
+  sha256: ffe99f209e14e4645383ee47baa61cd072b2bef708d2ae094063dd424148d1a9  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/irlba_2.3.1.tgz  # [osx]
+  sha256: ec6cd9e0a37fcdcb357b2531f2186282e2c5e84b9d8adb33e15abacf7bf403a0  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: PMA
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-matrix
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-matrix
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('irlba')"           # [not win]
+    - "\"%R%\" -e \"library('irlba')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=irlba
+  license: GPL-3
+  summary: Fast and memory efficient methods for truncated singular value decomposition and principal
+    components analysis of large sparse and dense matrices.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: irlba
+# Type: Package
+# Title: Fast Truncated Singular Value Decomposition and Principal Components Analysis for Large Dense and Sparse Matrices
+# Version: 2.3.1
+# Date: 2017-10-18
+# Authors@R: c( person("Jim", "Baglama", rol=c("aut", "cph"), email="jbaglama@uri.edu"), person("Lothar", "Reichel", role=c("aut", "cph"), email="reichel@math.kent.edu"), person("B. W.", "Lewis", role=c("aut","cre","cph"), email="blewis@illposed.net"))
+# Description: Fast and memory efficient methods for truncated singular value decomposition and principal components analysis of large sparse and dense matrices.
+# Depends: Matrix
+# LinkingTo: Matrix
+# Imports: stats, methods
+# Suggests: PMA
+# License: GPL-3
+# BugReports: https://github.com/bwlewis/irlba/issues
+# RoxygenNote: 6.0.1
+# NeedsCompilation: yes
+# Packaged: 2017-10-18 19:45:21 UTC; blewis
+# Author: Jim Baglama [aut, cph], Lothar Reichel [aut, cph], B. W. Lewis [aut, cre, cph]
+# Maintainer: B. W. Lewis <blewis@illposed.net>
+# Repository: CRAN
+# Date/Publication: 2017-10-18 20:15:08 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

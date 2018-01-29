@@ -1,0 +1,112 @@
+{% set version = '0.22' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pkgmaker
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: pkgmaker_0.22.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pkgmaker_0.22.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pkgmaker/pkgmaker_0.22.tar.gz  # [linux or win32]
+  sha256: 19ad78c16bd5757333e7abbd5eebcec081deb494c9a4b6eec6919a3747b3386f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/pkgmaker_0.22.zip  # [win64]
+  sha256: c7df5de264f10aceb652bd4cb1c49755cc13573649a2e1cf94b6271fb0fade31  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/pkgmaker_0.22.tgz  # [osx]
+  sha256: 269c8ffc01480b00d3f1bc8fbd654c1bde7d5b1b656d7a2a777441a52176f61c  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: devtools (>= 0.8), bibtex, RUnit, testthat, knitr, ReportingTools, hwriter, argparse
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-codetools
+    - r-digest
+    - r-registry
+    - r-stringr
+    - r-xtable
+
+  run:
+    - mro-base
+    - r-codetools
+    - r-digest
+    - r-registry
+    - r-stringr
+    - r-xtable
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('pkgmaker')"           # [not win]
+    - "\"%R%\" -e \"library('pkgmaker')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://renozao.github.io/pkgmaker
+  license: GPL (>= 2)
+  summary: This package provides some low-level utilities to use for package development. It
+    currently provides managers for multiple package specific options and registries,
+    vignette, unit test and bibtex related utilities. It serves as a base package for
+    packages like NMF, RcppOctave, doRNG, and as an incubator package for other general
+    purposes utilities, that will eventually be packaged separately. It is still under
+    heavy development and changes in the interface(s) are more than likely to happen.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: pkgmaker
+# Type: Package
+# Title: Package development utilities
+# Version: 0.22
+# Date: 2013-09-17
+# Author: Renaud Gaujoux
+# Maintainer: Renaud Gaujoux <renaud@tx.technion.ac.il>
+# Description: This package provides some low-level utilities to use for package development. It currently provides managers for multiple package specific options and registries, vignette, unit test and bibtex related utilities. It serves as a base package for packages like NMF, RcppOctave, doRNG, and as an incubator package for other general purposes utilities, that will eventually be packaged separately. It is still under heavy development and changes in the interface(s) are more than likely to happen.
+# License: GPL (>= 2)
+# URL: https://renozao.github.io/pkgmaker
+# BugReports: http://github.com/renozao/pkgmaker/issues
+# SCM: github:renozao, r-forge
+# LazyLoad: yes
+# Depends: R (>= 3.0.0), stats, registry
+# Imports: methods, tools, codetools, digest, stringr, xtable, grDevices
+# Suggests: devtools (>= 0.8), bibtex, RUnit, testthat, knitr, ReportingTools, hwriter, argparse
+# Collate: 'utils.R' 'logging.R' 'unitTests.R' 'data.R' 'namespace.R' 'devutils.R' 'package.R' 'options.R' 'is.R' 'registry.R' 'bibtex.R' 'packages.R' 'vignette.R' 'files.R' 'package-extra.R' 'colors.R' 'graphics.R' 'rd.R' 'project.R' 'CLI.R' 'knitr.R' 'repositories.R'
+# VignetteBuilder: knitr
+# Packaged: 2014-05-14 11:49:09 UTC; renaud
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2014-05-14 16:18:51
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

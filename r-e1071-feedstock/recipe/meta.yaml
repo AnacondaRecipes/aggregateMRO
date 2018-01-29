@@ -1,0 +1,106 @@
+{% set version = '1.6-8' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-e1071
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: e1071_1.6-8.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/e1071_1.6-8.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/e1071/e1071_1.6-8.tar.gz  # [linux or win32]
+  sha256: f68601743b9b49e1d1f8b9ec9963d6500d66158417c53f65bf7232678d88c622  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/e1071_1.6-8.zip  # [win64]
+  sha256: 136882e565cfdcced0086d3a035177a621f51eb02c21f038b2394a493388d2d1  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/e1071_1.6-8.tgz  # [osx]
+  sha256: 1d9bb9a5001386aebbb6407308c53d6baba6db47541eb0ee2ccac71c4bf9783e  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: cluster, mlbench, nnet, randomForest, rpart, SparseM, xtable, Matrix, MASS
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-class
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-class
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('e1071')"           # [not win]
+    - "\"%R%\" -e \"library('e1071')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=e1071
+  license: GPL-2
+  summary: Functions for latent class analysis, short time Fourier transform, fuzzy clustering,
+    support vector machines, shortest path computation, bagged clustering, naive Bayes
+    classifier, ...
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: e1071
+# Version: 1.6-8
+# Title: Misc Functions of the Department of Statistics, Probability Theory Group (Formerly: E1071), TU Wien
+# Imports: graphics, grDevices, class, stats, methods, utils
+# Suggests: cluster, mlbench, nnet, randomForest, rpart, SparseM, xtable, Matrix, MASS
+# Authors@R: c(person(given = "David", family = "Meyer", role = c("aut", "cre"), email = "David.Meyer@R-project.org"), person(given = "Evgenia", family = "Dimitriadou", role = c("aut","cph")), person(given = "Kurt", family = "Hornik", role = "aut"), person(given = "Andreas", family = "Weingessel", role = "aut"), person(given = "Friedrich", family = "Leisch", role = "aut"), person(given = "Chih-Chung", family = "Chang", role = c("ctb","cph"), comment = "libsvm C++-code"), person(given = "Chih-Chen", family = "Lin", role = c("ctb","cph"), comment = "libsvm C++-code"))
+# Description: Functions for latent class analysis, short time Fourier transform, fuzzy clustering, support vector machines, shortest path computation, bagged clustering, naive Bayes classifier, ...
+# License: GPL-2
+# LazyLoad: yes
+# NeedsCompilation: yes
+# Packaged: 2017-02-01 16:13:21 UTC; meyer
+# Author: David Meyer [aut, cre], Evgenia Dimitriadou [aut, cph], Kurt Hornik [aut], Andreas Weingessel [aut], Friedrich Leisch [aut], Chih-Chung Chang [ctb, cph] (libsvm C++-code), Chih-Chen Lin [ctb, cph] (libsvm C++-code)
+# Maintainer: David Meyer <David.Meyer@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-02-02 12:37:10
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

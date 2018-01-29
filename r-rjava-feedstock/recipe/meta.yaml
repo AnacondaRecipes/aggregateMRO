@@ -1,0 +1,101 @@
+{% set version = '0.9-9' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rjava
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rJava_0.9-9.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rJava_0.9-9.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rJava/rJava_0.9-9.tar.gz  # [linux or win32]
+  sha256: 932b153f2b5c546d614bb5ac4124df3d103c9f8e09a608a14fd036dfe15e9146  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rJava_0.9-9.zip  # [win64]
+  sha256: 1ac2972e38aee4aa6c63a075a5141a26a64033783029b259153cc4b8623e4459  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rJava_0.9-9.tgz  # [osx]
+  sha256: 5977f73031f0110e810954c8acbeb9c866a66a1fd7d1196e53a1f6ab8c1ac5a4  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rJava')"           # [not win]
+    - "\"%R%\" -e \"library('rJava')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.rforge.net/rJava/
+  license: GPL-2
+  summary: Low-level interface to Java VM very much like .C/.Call and friends. Allows creation
+    of objects, calling methods and accessing fields.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rJava
+# Version: 0.9-9
+# Title: Low-Level R to Java Interface
+# Author: Simon Urbanek <simon.urbanek@r-project.org>
+# Maintainer: Simon Urbanek <simon.urbanek@r-project.org>
+# Depends: R (>= 2.5.0), methods
+# Description: Low-level interface to Java VM very much like .C/.Call and friends. Allows creation of objects, calling methods and accessing fields.
+# License: GPL-2
+# URL: http://www.rforge.net/rJava/
+# SystemRequirements: Java JDK 1.2 or higher (for JRI/REngine JDK 1.4 or higher), GNU make
+# NeedsCompilation: yes
+# Packaged: 2017-10-12 07:21:38 UTC; ripley
+# Repository: CRAN
+# Date/Publication: 2017-10-12 10:54:13 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

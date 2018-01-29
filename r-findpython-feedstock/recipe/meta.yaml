@@ -1,0 +1,92 @@
+{% set version = '1.0.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-findpython
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: findpython_1.0.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/findpython_1.0.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/findpython/findpython_1.0.3.tar.gz  # [linux or win32]
+  sha256: 5486535ae2f0a123b630d8eabf93a61b730765f55dfcc8ef4f6e56e7c49408f8  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/findpython_1.0.3.zip  # [win64]
+  sha256: 6c68d09c5ae08c4edc5cd318818e3970aa5c5731ab79228e4ea8e627c1ff768a  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/findpython_1.0.3.tgz  # [osx]
+  sha256: 5d71e0d7055d9091cde712326e99a953523a1c7c1d7be1b006d64f4e0548998e  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: reticulate, testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('findpython')"           # [not win]
+    - "\"%R%\" -e \"library('findpython')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/trevorld/findpython
+  license: MIT + file LICENSE
+  summary: Package designed to find an acceptable python binary.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: findpython
+# Type: Package
+# Title: Functions to Find an Acceptable Python Binary
+# Version: 1.0.3
+# Author: Trevor L Davis and Paul Gilbert.
+# Maintainer: Trevor L Davis <trevor.l.davis@gmail.com>
+# URL: https://github.com/trevorld/findpython
+# BugReports: https://github.com/trevorld/findpython/issues
+# Description: Package designed to find an acceptable python binary.
+# Suggests: reticulate, testthat
+# License: MIT + file LICENSE
+# Collate: 'find_python_cmd.r'
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-12-01 06:16:17 UTC; trevorld
+# Repository: CRAN
+# Date/Publication: 2017-12-01 12:03:05 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

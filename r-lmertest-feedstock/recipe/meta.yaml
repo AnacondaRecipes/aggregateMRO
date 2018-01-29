@@ -1,0 +1,108 @@
+{% set version = '2.0-36' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-lmertest
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: lmerTest_2.0-36.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lmerTest_2.0-36.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lmerTest/lmerTest_2.0-36.tar.gz  # [linux or win32]
+  sha256: 178717ce9dbfa54d11f0ed320759ddd231b9c7cce4d9cf712faa3757883745c9  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lmerTest_2.0-36.zip  # [win64]
+  sha256: 324d064d5f36d9d4c04beb988401aada978f2390abdcfd884c5a8d398011e0f5  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lmerTest_2.0-36.tgz  # [osx]
+  sha256: 49a0405196d56fa3ad46ede7a1702e4a70e890d1a491171e61f57715e5b9fb84  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: pbkrtest, nlme, estimability
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-hmisc
+    - r-mass
+    - r-matrix
+    - r-ggplot2
+    - r-lme4 >=1.0
+    - r-plyr
+
+  run:
+    - mro-base
+    - r-hmisc
+    - r-mass
+    - r-matrix
+    - r-ggplot2
+    - r-lme4 >=1.0
+    - r-plyr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('lmerTest')"           # [not win]
+    - "\"%R%\" -e \"library('lmerTest')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=lmerTest
+  license: GPL (>= 2)
+  summary: Different kinds of tests for linear mixed effects models as implemented in 'lme4'
+    package are provided. The tests comprise types I - III F tests for fixed effects,
+    LR tests for random effects. The package also provides the calculation of population
+    means for fixed factors with confidence intervals  and corresponding plots. Finally
+    the backward elimination of non-significant effects is implemented.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: lmerTest
+# Type: Package
+# Title: Tests in Linear Mixed Effects Models
+# Version: 2.0-36
+# Authors@R: c(person("Alexandra", "Kuznetsova", role = c("aut")), person("Per", "Bruun Brockhoff", role = c("aut", "ths", "cre"), email = "perbb@dtu.dk"), person("Rune", "Haubo Bojesen Christensen", role =  c("aut"), email = "Rune@ChristensenStatistics.dk"))
+# Depends: R (>= 3.0.0), Matrix, stats, methods, lme4 (>= 1.0)
+# Imports: plyr, MASS, Hmisc, ggplot2
+# Suggests: pbkrtest, nlme, estimability
+# Description: Different kinds of tests for linear mixed effects models as implemented in 'lme4' package are provided. The tests comprise types I - III F tests for fixed effects, LR tests for random effects. The package also provides the calculation of population means for fixed factors with confidence intervals  and corresponding plots. Finally the backward elimination of non-significant effects is implemented.
+# LazyData: TRUE
+# License: GPL (>= 2)
+# NeedsCompilation: no
+# Packaged: 2017-11-29 20:49:20 UTC; rhbc
+# Author: Alexandra Kuznetsova [aut], Per Bruun Brockhoff [aut, ths, cre], Rune Haubo Bojesen Christensen [aut]
+# Maintainer: Per Bruun Brockhoff <perbb@dtu.dk>
+# Repository: CRAN
+# Date/Publication: 2017-11-30 13:00:11 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

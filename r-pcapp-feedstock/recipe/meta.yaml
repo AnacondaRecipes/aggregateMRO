@@ -1,0 +1,98 @@
+{% set version = '1.9-72' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pcapp
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: pcaPP_1.9-72.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pcaPP_1.9-72.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_1.9-72.tar.gz  # [linux or win32]
+  sha256: 58bd0bfb5931aecd734801654bac95f28dab6d30fd043c66c5b719b497104844  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/pcaPP_1.9-72.zip  # [win64]
+  sha256: 965d6505f2e3c403ad3a1ccfcb8bfd14fbb58ce0acc8ed8c039f0e2c1c82b218  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/pcaPP_1.9-72.tgz  # [osx]
+  sha256: a048831ff28e801a83af621c87ab84067f66c94ebdc9edb66a83a19c4bc2f74c  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-mvtnorm
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-mvtnorm
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('pcaPP')"           # [not win]
+    - "\"%R%\" -e \"library('pcaPP')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=pcaPP
+  license: GPL (>= 3)
+  summary: Provides functions for robust PCA by projection pursuit. The methods are described
+    in Croux et al. (2006) <doi:10.2139/ssrn.968376>, Croux et al. (2013) <doi:10.1080/00401706.2012.727746>,
+    Todorov and Filzmoser (2013) <doi:10.1007/978-3-642-33042-1_31>.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: pcaPP
+# Version: 1.9-72
+# Date: 2017-06-27
+# Title: Robust PCA by Projection Pursuit
+# Author: Peter Filzmoser, Heinrich Fritz, Klaudius Kalcher
+# Maintainer: Valentin Todorov <valentin.todorov@chello.at>
+# Imports: mvtnorm
+# Description: Provides functions for robust PCA by projection pursuit. The methods are described in Croux et al. (2006) <doi:10.2139/ssrn.968376>, Croux et al. (2013) <doi:10.1080/00401706.2012.727746>, Todorov and Filzmoser (2013) <doi:10.1007/978-3-642-33042-1_31>.
+# License: GPL (>= 3)
+# NeedsCompilation: yes
+# Repository: CRAN
+# Packaged: 2017-06-27 15:36:56 UTC; TodorovV
+# Date/Publication: 2017-06-27 21:53:35 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

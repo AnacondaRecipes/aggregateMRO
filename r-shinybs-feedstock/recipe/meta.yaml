@@ -1,0 +1,96 @@
+{% set version = '0.61' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-shinybs
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: shinyBS_0.61.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/shinyBS_0.61.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/shinyBS/shinyBS_0.61.tar.gz  # [linux or win32]
+  sha256: 51be29541e066d30c66e243393f20b0da705eba1b7ce7eeadea993bb2aa91166  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/shinyBS_0.61.zip  # [win64]
+  sha256: 3c9fe2bff7fa3ed19cc90965f67e76eff1e4f730888b65e99c8de1a4247fc9ba  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/shinyBS_0.61.tgz  # [osx]
+  sha256: 71b0fc0354fad01674c5d68704f00a11b70216f5e0225287588edd6b49cb4695  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-htmltools
+    - r-shiny >=0.11
+
+  run:
+    - mro-base
+    - r-htmltools
+    - r-shiny >=0.11
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('shinyBS')"           # [not win]
+    - "\"%R%\" -e \"library('shinyBS')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://ebailey78.github.io/shinyBS
+  license: GPL-3
+  summary: 'Adds additional Twitter Bootstrap components to Shiny. '
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: shinyBS
+# Type: Package
+# Title: Twitter Bootstrap Components for Shiny
+# Version: 0.61
+# Date: 2015-03-30
+# Author: Eric Bailey
+# Maintainer: Eric Bailey <ebailey@idem.in.gov>
+# Description: Adds additional Twitter Bootstrap components to Shiny.
+# Imports: shiny (>= 0.11), htmltools
+# URL: https://ebailey78.github.io/shinyBS
+# BugReports: https://github.com/ebailey78/shinyBS/issues
+# License: GPL-3
+# Packaged: 2015-03-30 12:16:24 UTC; ebailey
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2015-03-31 07:52:38
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

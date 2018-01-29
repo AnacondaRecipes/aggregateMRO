@@ -1,0 +1,92 @@
+{% set version = '1.0.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-praise
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: praise_1.0.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/praise_1.0.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/praise/praise_1.0.0.tar.gz  # [linux or win32]
+  sha256: 5c035e74fd05dfa59b03afe0d5f4c53fbf34144e175e90c53d09c6baedf5debd  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/praise_1.0.0.zip  # [win64]
+  sha256: 42d9a880f53cd409ef4a1df42b72710e9b45a231c1315ae39f86525d7adb9275  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/praise_1.0.0.tgz  # [osx]
+  sha256: ccb07d2e8f3f39dacb32a57585dc8743d2e983a7fed737aa28ccd49d53b7cbc3  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('praise')"           # [not win]
+    - "\"%R%\" -e \"library('praise')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/gaborcsardi/praise
+  license: MIT + file LICENSE
+  summary: Build friendly R packages that praise their users if they have done something good,
+    or they just need it to feel better.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: praise
+# Title: Praise Users
+# Version: 1.0.0
+# Author: Gabor Csardi, Sindre Sorhus
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# Description: Build friendly R packages that praise their users if they have done something good, or they just need it to feel better.
+# License: MIT + file LICENSE
+# LazyData: true
+# URL: https://github.com/gaborcsardi/praise
+# BugReports: https://github.com/gaborcsardi/praise/issues
+# Suggests: testthat
+# Collate: 'adjective.R' 'adverb.R' 'exclamation.R' 'verb.R' 'rpackage.R' 'package.R'
+# NeedsCompilation: no
+# Packaged: 2015-08-11 02:01:43 UTC; gaborcsardi
+# Repository: CRAN
+# Date/Publication: 2015-08-11 08:22:28
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

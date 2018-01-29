@@ -1,0 +1,111 @@
+{% set version = '2.9' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-hunspell
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: hunspell_2.9.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/hunspell_2.9.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/hunspell/hunspell_2.9.tar.gz  # [linux or win32]
+  sha256: 33e6fa939f3458d151cce1855c6743e850dd736f111ca29668de1a4d48312880  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/hunspell_2.9.zip  # [win64]
+  sha256: b4ccb9ffd3cd119601e5339851487918731e74ef506d807e4653c65b25ab8a0c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/hunspell_2.9.tgz  # [osx]
+  sha256: 7a2724aaf6a5ed7c49f57aeceac3719d5835722d6360828297496a3b911a94c8  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: spelling, testthat, pdftools, janeaustenr, wordcloud2, knitr, rmarkdown
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-rcpp
+    - r-digest
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-rcpp
+    - r-digest
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('hunspell')"           # [not win]
+    - "\"%R%\" -e \"library('hunspell')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/ropensci/hunspell#readme (devel) https://hunspell.github.io (upstream)
+  license: GPL-2 | LGPL-2.1 | MPL-1.1
+  summary: Low level spell checker and morphological analyzer based on the  famous 'hunspell'
+    library <https://hunspell.github.io>. The package can analyze or check individual
+    words as well as parse text, latex, html or xml documents. For a more user-friendly
+    interface use the 'spelling' package which builds on this package to automate checking
+    of files, documentation and vignettes in all common formats.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: hunspell
+# Type: Package
+# Title: High-Performance Stemmer, Tokenizer, and Spell Checker
+# Version: 2.9
+# Depends: R (>= 3.0.2)
+# Encoding: UTF-8
+# Authors@R: c( person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre")), person("Authors of libhunspell", role = "cph", comment = "see AUTHORS file"))
+# Description: Low level spell checker and morphological analyzer based on the  famous 'hunspell' library <https://hunspell.github.io>. The package can analyze or check individual words as well as parse text, latex, html or xml documents. For a more user-friendly interface use the 'spelling' package which builds on this package to automate checking of files, documentation and vignettes in all common formats.
+# License: GPL-2 | LGPL-2.1 | MPL-1.1
+# URL: https://github.com/ropensci/hunspell#readme (devel) https://hunspell.github.io (upstream)
+# BugReports: https://github.com/ropensci/hunspell/issues
+# Imports: Rcpp, digest
+# LinkingTo: Rcpp (>= 0.12.12)
+# Suggests: spelling, testthat, pdftools, janeaustenr, wordcloud2, knitr, rmarkdown
+# VignetteBuilder: knitr
+# RoxygenNote: 6.0.1.9000
+# NeedsCompilation: yes
+# Packaged: 2017-12-16 16:51:56 UTC; jeroen
+# Author: Jeroen Ooms [aut, cre], Authors of libhunspell [cph] (see AUTHORS file)
+# Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+# Repository: CRAN
+# Date/Publication: 2017-12-16 22:00:37 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

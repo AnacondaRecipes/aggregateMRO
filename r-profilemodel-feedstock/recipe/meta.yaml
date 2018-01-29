@@ -1,0 +1,93 @@
+{% set version = '0.5-9' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-profilemodel
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: profileModel_0.5-9.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/profileModel_0.5-9.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/profileModel/profileModel_0.5-9.tar.gz  # [linux or win32]
+  sha256: c94f25d222521867ddc86021bd0b9a6b9f7b055212985652a8511054b24c2bdd  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/profileModel_0.5-9.zip  # [win64]
+  sha256: d3f0fa9fc0eb886b60116aab1e4fba9a955316e786bba112fa8be8c43b0d744c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/profileModel_0.5-9.tgz  # [osx]
+  sha256: deb9ce3c09238d93d26dbcca61b37a2f7c875d53c702f1e1db0073e610681d06  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, gnm
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('profileModel')"           # [not win]
+    - "\"%R%\" -e \"library('profileModel')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.ucl.ac.uk/~ucakiko/index.html
+  license: GPL (>= 2)
+  summary: profileModel provides tools that can be used to calculate, evaluate, plot and use
+    for inference the profiles of *arbitrary* inference functions for *arbitrary* 'glm'-like
+    fitted models with linear predictors.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: profileModel
+# Type: Package
+# Title: Tools for profiling inference functions for various model classes
+# Version: 0.5-9
+# Date: 2013-08-07
+# Author: Ioannis Kosmidis <i.kosmidis@ucl.ac.uk>
+# Maintainer: Ioannis Kosmidis <i.kosmidis@ucl.ac.uk>
+# URL: http://www.ucl.ac.uk/~ucakiko/index.html
+# Description: profileModel provides tools that can be used to calculate, evaluate, plot and use for inference the profiles of *arbitrary* inference functions for *arbitrary* 'glm'-like fitted models with linear predictors.
+# License: GPL (>= 2)
+# Depends: R (>= 2.6.0)
+# Suggests: MASS, gnm
+# Packaged: 2013-08-14 23:43:03 UTC; yiannis
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2013-08-17 09:49:42
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

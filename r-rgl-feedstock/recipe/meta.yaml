@@ -1,0 +1,121 @@
+{% set version = '0.98.22' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rgl
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rgl_0.98.22.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rgl_0.98.22.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rgl/rgl_0.98.22.tar.gz  # [linux or win32]
+  sha256: ea6e97f1a983fcf109223189472bae1d7be8c911a0ce997f74b4b0e8d59a9539  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rgl_0.98.22.zip  # [win64]
+  sha256: 36f7d40b5682a2a632dd85dfc5993c055222a7fe7f9e74664f4555a725b21fa4  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rgl_0.98.22.tgz  # [osx]
+  sha256: c1494784c5695f1a0e8a420a82f32a8b15dc9199d2aa12dd013492beb9758505  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, rmarkdown, deldir, orientlib, lattice, misc3d, rstudioapi, magick
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-htmltools
+    - r-htmlwidgets
+    - r-jsonlite >=0.9.20
+    - r-knitr
+    - r-magrittr
+    - r-shiny
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-htmltools
+    - r-htmlwidgets
+    - r-jsonlite >=0.9.20
+    - r-knitr
+    - r-magrittr
+    - r-shiny
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rgl')"           # [not win]
+    - "\"%R%\" -e \"library('rgl')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://r-forge.r-project.org/projects/rgl/
+  license: GPL
+  summary: Provides medium to high level functions for 3D interactive graphics, including functions
+    modelled on base graphics (plot3d(), etc.) as well as functions for constructing
+    representations of geometric objects (cube3d(), etc.).  Output may be on screen
+    using OpenGL, or to various standard 3D file formats including WebGL, PLY, OBJ,
+    STL as well as 2D image formats, including PNG, Postscript, SVG, PGF.
+  license_family: GPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rgl
+# Version: 0.98.22
+# Title: 3D Visualization Using OpenGL
+# Author: Daniel Adler <dadler@uni-goettingen.de>, Duncan Murdoch <murdoch@stats.uwo.ca>, and others (see README)
+# Maintainer: Duncan Murdoch <murdoch@stats.uwo.ca>
+# Depends: R (>= 3.2.0)
+# Suggests: MASS, rmarkdown, deldir, orientlib, lattice, misc3d, rstudioapi, magick
+# Imports: graphics, grDevices, stats, utils, htmlwidgets, htmltools, knitr, jsonlite (>= 0.9.20), shiny, magrittr
+# Description: Provides medium to high level functions for 3D interactive graphics, including functions modelled on base graphics (plot3d(), etc.) as well as functions for constructing representations of geometric objects (cube3d(), etc.).  Output may be on screen using OpenGL, or to various standard 3D file formats including WebGL, PLY, OBJ, STL as well as 2D image formats, including PNG, Postscript, SVG, PGF.
+# License: GPL
+# URL: https://r-forge.r-project.org/projects/rgl/
+# SystemRequirements: OpenGL, GLU Library, XQuartz (on OSX), zlib (optional), libpng (>=1.2.9, optional), FreeType (optional), pandoc (>=1.13.1, needed for vignettes)
+# BugReports: https://r-forge.r-project.org/projects/rgl/
+# VignetteBuilder: knitr
+# NeedsCompilation: yes
+# Packaged: 2017-12-12 14:23:50 UTC; murdoch
+# Repository: CRAN
+# Date/Publication: 2017-12-13 17:12:19 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

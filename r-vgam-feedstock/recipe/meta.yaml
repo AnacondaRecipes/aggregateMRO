@@ -1,0 +1,112 @@
+{% set version = '1.0-4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-vgam
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: VGAM_1.0-4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/VGAM_1.0-4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/VGAM/VGAM_1.0-4.tar.gz  # [linux or win32]
+  sha256: e581985f78ef8b866d0e810b2727061bb9c9bc177b2c9090aebb3a35ae87a964  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/VGAM_1.0-4.zip  # [win64]
+  sha256: 00d9c066a330c5166886b04663a331ff118a16b81f3f51b426202df490c3004c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/VGAM_1.0-4.tgz  # [osx]
+  sha256: 56b803f7100ebabe1a15658aa68b50027df8d30e8ff595b7929ff8553cd75321  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: VGAMdata, MASS, mgcv
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('VGAM')"           # [not win]
+    - "\"%R%\" -e \"library('VGAM')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://www.stat.auckland.ac.nz/~yee/VGAM
+  license: GPL-3
+  summary: 'An implementation of about 6 major classes of statistical regression models. At the
+    heart of it are the vector generalized linear and additive model (VGLM/VGAM) classes,
+    and the book "Vector Generalized Linear and Additive Models: With an Implementation
+    in R" (Yee, 2015) <DOI:10.1007/978-1-4939-2818-7> gives details of the statistical
+    framework and VGAM package. Currently only fixed-effects models are implemented,
+    i.e., no random-effects models. Many (150+) models and distributions are estimated
+    by maximum likelihood estimation (MLE) or penalized MLE, using Fisher scoring. VGLMs
+    can be loosely thought of as multivariate GLMs. VGAMs are data-driven VGLMs (i.e.,
+    with smoothing). The other classes are RR-VGLMs (reduced-rank VGLMs), quadratic
+    RR-VGLMs, reduced-rank VGAMs, RCIMs (row-column interaction models)---these classes
+    perform constrained and unconstrained quadratic ordination (CQO/UQO) models in ecology,
+    as well as constrained additive ordination (CAO). Note that these functions are
+    subject to change; see the NEWS and ChangeLog files for latest changes.'
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: VGAM
+# Version: 1.0-4
+# Date: 2017-07-24
+# Title: Vector Generalized Linear and Additive Models
+# Author: Thomas W. Yee <t.yee@auckland.ac.nz>
+# Maintainer: Thomas Yee <t.yee@auckland.ac.nz>
+# Depends: R (>= 3.4.0), methods, stats, stats4, splines
+# Suggests: VGAMdata, MASS, mgcv
+# Description: An implementation of about 6 major classes of statistical regression models. At the heart of it are the vector generalized linear and additive model (VGLM/VGAM) classes, and the book "Vector Generalized Linear and Additive Models: With an Implementation in R" (Yee, 2015) <DOI:10.1007/978-1-4939-2818-7> gives details of the statistical framework and VGAM package. Currently only fixed-effects models are implemented, i.e., no random-effects models. Many (150+) models and distributions are estimated by maximum likelihood estimation (MLE) or penalized MLE, using Fisher scoring. VGLMs can be loosely thought of as multivariate GLMs. VGAMs are data-driven VGLMs (i.e., with smoothing). The other classes are RR-VGLMs (reduced-rank VGLMs), quadratic RR-VGLMs, reduced-rank VGAMs, RCIMs (row-column interaction models)---these classes perform constrained and unconstrained quadratic ordination (CQO/UQO) models in ecology, as well as constrained additive ordination (CAO). Note that these functions are subject to change; see the NEWS and ChangeLog files for latest changes.
+# License: GPL-3
+# URL: https://www.stat.auckland.ac.nz/~yee/VGAM
+# NeedsCompilation: yes
+# BuildVignettes: yes
+# LazyLoad: yes
+# LazyData: yes
+# Packaged: 2017-07-24 04:56:17 UTC; tyee001
+# Repository: CRAN
+# Date/Publication: 2017-07-25 21:01:44 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

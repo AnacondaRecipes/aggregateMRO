@@ -1,0 +1,98 @@
+{% set version = '1.77' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-sparsem
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: SparseM_1.77.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/SparseM_1.77.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/SparseM/SparseM_1.77.tar.gz  # [linux or win32]
+  sha256: a9329fef14ae4fc646df1f4f6e57efb0211811599d015f7bc04c04285495d45c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/SparseM_1.77.zip  # [win64]
+  sha256: 025e0a9c153d14d456aca71410d465e51f835f0dc81ce91036782bed5b196afb  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/SparseM_1.77.tgz  # [osx]
+  sha256: b244b0a91b3bca92121439e1ea1c245bcfa033dc9cc43e16a49b9e7e7684c670  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('SparseM')"           # [not win]
+    - "\"%R%\" -e \"library('SparseM')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.econ.uiuc.edu/~roger/research/sparse/sparse.html
+  license: GPL (>= 2)
+  summary: 'Some basic linear algebra functionality for sparse matrices is provided:  including
+    Cholesky decomposition and backsolving as well as  standard R subsetting and Kronecker
+    products.'
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: SparseM
+# Version: 1.77
+# Author: Roger Koenker <rkoenker@uiuc.edu> and Pin Ng <Pin.Ng@NAU.EDU>
+# Maintainer: Roger Koenker <rkoenker@uiuc.edu>
+# Depends: R (>= 2.15), methods
+# Imports: graphics, stats, utils
+# Description: Some basic linear algebra functionality for sparse matrices is provided:  including Cholesky decomposition and backsolving as well as  standard R subsetting and Kronecker products.
+# License: GPL (>= 2)
+# Title: Sparse Linear Algebra
+# URL: http://www.econ.uiuc.edu/~roger/research/sparse/sparse.html
+# NeedsCompilation: yes
+# Repository: CRAN
+# Packaged: 2017-04-23 17:52:11 UTC; roger
+# Date/Publication: 2017-04-23 18:26:30 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,111 @@
+{% set version = '0.7-3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-tm
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: tm_0.7-3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tm_0.7-3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tm/tm_0.7-3.tar.gz  # [linux or win32]
+  sha256: f3c3e151e621ffb0c82048b5bf9c2a34c8fb34cf5d2943544979b4fcc2cc1c11  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tm_0.7-3.zip  # [win64]
+  sha256: 3f0a6fb57950f9c513596b1df086d3637b54ba747fadeca1f5f2119ebfc74c18  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tm_0.7-3.tgz  # [osx]
+  sha256: 9b9150ae9a5fcac014b1856d88029175716e43bbd0bac59f769ad6747b49a1a2  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: antiword, filehash, methods, pdftools, Rcampdf, Rgraphviz, Rpoppler, SnowballC, testthat, tm.lexicon.GeneralInquirer
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-bh
+    - r-nlp >=0.1_6.2
+    - r-rcpp
+    - r-slam >=0.1_37
+    - r-xml2
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-bh
+    - r-nlp >=0.1_6.2
+    - r-rcpp
+    - r-slam >=0.1_37
+    - r-xml2
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('tm')"           # [not win]
+    - "\"%R%\" -e \"library('tm')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://tm.r-forge.r-project.org/
+  license: GPL-3
+  summary: A framework for text mining applications within R.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: tm
+# Title: Text Mining Package
+# Version: 0.7-3
+# Date: 2017-12-06
+# Authors@R: c(person("Ingo", "Feinerer", role = c("aut", "cre"), email = "feinerer@logic.at"), person("Kurt", "Hornik", role = "aut", comment = c(ORCID = "0000-0003-4198-9911")), person("Artifex Software, Inc.", role = c("ctb", "cph"), comment = "pdf_info.ps taken from GPL Ghostscript"))
+# Depends: R (>= 3.2.0), NLP (>= 0.1-6.2)
+# Imports: Rcpp, parallel, slam (>= 0.1-37), stats, tools, utils, graphics, xml2
+# LinkingTo: BH, Rcpp
+# Suggests: antiword, filehash, methods, pdftools, Rcampdf, Rgraphviz, Rpoppler, SnowballC, testthat, tm.lexicon.GeneralInquirer
+# SystemRequirements: C++11
+# Description: A framework for text mining applications within R.
+# License: GPL-3
+# URL: http://tm.r-forge.r-project.org/
+# Additional_repositories: http://datacube.wu.ac.at
+# NeedsCompilation: yes
+# Packaged: 2017-12-06 09:38:32 UTC; hornik
+# Author: Ingo Feinerer [aut, cre], Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>), Artifex Software, Inc. [ctb, cph] (pdf_info.ps taken from GPL Ghostscript)
+# Maintainer: Ingo Feinerer <feinerer@logic.at>
+# Repository: CRAN
+# Date/Publication: 2017-12-06 18:26:44 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

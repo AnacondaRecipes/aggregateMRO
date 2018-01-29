@@ -1,0 +1,114 @@
+{% set version = '1.11.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-htmltable
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: htmlTable_1.11.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/htmlTable_1.11.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/htmlTable/htmlTable_1.11.1.tar.gz  # [linux or win32]
+  sha256: 98cf29e3a884c45149885d2fde8cb356ee4e63a4fbee3a51a07818482a93b79e  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/htmlTable_1.11.1.zip  # [win64]
+  sha256: d2c6a233c2460b4ca35f5e62af78d35ce872c3a1631b8dd820fcae468b3c687f  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/htmlTable_1.11.1.tgz  # [osx]
+  sha256: 365a153be55b40d17b17ee7e6a59a4783e25d9e268b237928287b6039ec07188  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, XML, xtable, ztable, Hmisc, reshape, rmarkdown, pander, chron, lubridate, tibble, tidyr (>= 0.7.2), dplyr (>= 0.7.4)
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-checkmate
+    - r-htmltools
+    - r-htmlwidgets
+    - r-knitr >=1.6
+    - r-magrittr >=1.5
+    - r-rstudioapi >=0.6
+    - r-stringr
+
+  run:
+    - mro-base
+    - r-checkmate
+    - r-htmltools
+    - r-htmlwidgets
+    - r-knitr >=1.6
+    - r-magrittr >=1.5
+    - r-rstudioapi >=0.6
+    - r-stringr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('htmlTable')"           # [not win]
+    - "\"%R%\" -e \"library('htmlTable')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://gforge.se/packages/
+  license: GPL (>= 3)
+  summary: Tables with state-of-the-art layout elements such as row spanners, column spanners,
+    table spanners, zebra striping, and more. While allowing advanced layout, the underlying
+    css-structure is simple in order to maximize compatibility with word processors
+    such as 'MS Word' or 'LibreOffice'. The package also contains a few text formatting
+    functions that help outputting text compatible with HTML/'LaTeX'.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: htmlTable
+# Version: 1.11.1
+# Date: 2017-12-27
+# Title: Advanced Tables for Markdown/HTML
+# Authors@R: c( person("Max", "Gordon", email = "max@gforge.se", role = c("aut", "cre")), person("Stephen", "Gragg", role=c("aut")), person("Peter", "Konings", role=c("aut")))
+# Maintainer: Max Gordon <max@gforge.se>
+# Description: Tables with state-of-the-art layout elements such as row spanners, column spanners, table spanners, zebra striping, and more. While allowing advanced layout, the underlying css-structure is simple in order to maximize compatibility with word processors such as 'MS Word' or 'LibreOffice'. The package also contains a few text formatting functions that help outputting text compatible with HTML/'LaTeX'.
+# License: GPL (>= 3)
+# URL: http://gforge.se/packages/
+# BugReports: https://github.com/gforge/htmlTable/issues
+# Biarch: yes
+# Imports: stringr, knitr (>= 1.6), magrittr (>= 1.5), methods, checkmate, htmlwidgets, htmltools, rstudioapi (>= 0.6)
+# Suggests: testthat, XML, xtable, ztable, Hmisc, reshape, rmarkdown, pander, chron, lubridate, tibble, tidyr (>= 0.7.2), dplyr (>= 0.7.4)
+# Encoding: UTF-8
+# NeedsCompilation: no
+# VignetteBuilder: knitr
+# RoxygenNote: 6.0.1
+# Packaged: 2017-12-27 10:11:01 UTC; Max
+# Author: Max Gordon [aut, cre], Stephen Gragg [aut], Peter Konings [aut]
+# Repository: CRAN
+# Date/Publication: 2017-12-27 15:03:34 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,96 @@
+{% set version = '1.5-5' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-quadprog
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: quadprog_1.5-5.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/quadprog_1.5-5.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/quadprog/quadprog_1.5-5.tar.gz  # [linux or win32]
+  sha256: d999620688354c283de5bb305203f5db70271b4dfdc23577cae8c2ba94c9e349  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/quadprog_1.5-5.zip  # [win64]
+  sha256: 9d7e42d8c9e033e084111a2c77a5f5d721a74132794ee7142cc35403f733a4f6  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/quadprog_1.5-5.tgz  # [osx]
+  sha256: 5dc86f78a791407a3aebfcd9a8e0d955a5e12e70e372885a466683af54bf09df  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('quadprog')"           # [not win]
+    - "\"%R%\" -e \"library('quadprog')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=quadprog
+  license: GPL (>= 2)
+  summary: This package contains routines and documentation for solving quadratic programming
+    problems.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: quadprog
+# Type: Package
+# Title: Functions to solve Quadratic Programming Problems.
+# Version: 1.5-5
+# Date: 2013-04-17
+# Author: S original by Berwin A. Turlach <Berwin.Turlach@gmail.com> R port by Andreas Weingessel <Andreas.Weingessel@ci.tuwien.ac.at>
+# Maintainer: Berwin A. Turlach <Berwin.Turlach@gmail.com>
+# Description: This package contains routines and documentation for solving quadratic programming problems.
+# Depends: R (>= 2.15.0)
+# License: GPL (>= 2)
+# Packaged: 2013-04-17 08:35:43 UTC; berwin
+# NeedsCompilation: yes
+# Repository: CRAN
+# Date/Publication: 2013-04-17 13:42:49
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

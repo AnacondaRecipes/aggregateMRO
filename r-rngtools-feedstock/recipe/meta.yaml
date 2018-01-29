@@ -1,0 +1,104 @@
+{% set version = '1.2.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rngtools
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rngtools_1.2.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rngtools_1.2.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rngtools/rngtools_1.2.4.tar.gz  # [linux or win32]
+  sha256: 27019835b750f470b13dbb7fecd3b839a61b52774e23fffa191f919533768fb9  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rngtools_1.2.4.zip  # [win64]
+  sha256: 68a6b7c2bafcbf5978e15573980eebcc952b7c1c5ebcc602525517da888e2e72  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rngtools_1.2.4.tgz  # [osx]
+  sha256: 1b0d206c101c9eaa37d72e4687f4f9bf867e2ec3259d394a52ca9dc32cb23b7a  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: parallel, RUnit, knitr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-digest
+    - r-pkgmaker >=0.20
+    - r-stringr
+
+  run:
+    - mro-base
+    - r-digest
+    - r-pkgmaker >=0.20
+    - r-stringr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rngtools')"           # [not win]
+    - "\"%R%\" -e \"library('rngtools')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://renozao.github.io/rngtools
+  license: GPL-3
+  summary: This package contains a set of functions for working with Random Number Generators
+    (RNGs). In particular, it defines a generic S4 framework for getting/setting the
+    current RNG, or RNG data that are embedded into objects for reproducibility. Notably,
+    convenient default methods greatly facilitate the way current RNG settings can be
+    changed.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rngtools
+# Maintainer: Renaud Gaujoux <renaud@tx.technion.ac.il>
+# Author: Renaud Gaujoux
+# Version: 1.2.4
+# License: GPL-3
+# Title: Utility functions for working with Random Number Generators
+# Description: This package contains a set of functions for working with Random Number Generators (RNGs). In particular, it defines a generic S4 framework for getting/setting the current RNG, or RNG data that are embedded into objects for reproducibility. Notably, convenient default methods greatly facilitate the way current RNG settings can be changed.
+# URL: https://renozao.github.io/rngtools
+# BugReports: http://github.com/renozao/rngtools/issues
+# SCM: github:renozao, r-forge
+# Depends: R (>= 3.0.0), methods, pkgmaker (>= 0.20)
+# Imports: stringr, digest
+# Suggests: parallel, RUnit, knitr
+# Collate: 'rngtools-package.r' 'format.R' 'RNG.R' 'RNGseq.R'
+# VignetteBuilder: knitr
+# Packaged: 2014-03-06 13:11:11 UTC; renaud
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2014-03-06 22:18:10
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,121 @@
+{% set version = '0.8.300.1.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rcpparmadillo
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: RcppArmadillo_0.8.300.1.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/RcppArmadillo_0.8.300.1.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/RcppArmadillo/RcppArmadillo_0.8.300.1.0.tar.gz  # [linux or win32]
+  sha256: 03793702727fabf3f1d4d7602cd8c077343b72eb1b435cec712ffed7b95dcc5c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RcppArmadillo_0.8.300.1.0.zip  # [win64]
+  sha256: f4663b990e82d5a67d25a2772e3fbf7d1a83f12abcaf08ace42bbdc292421c5a  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RcppArmadillo_0.8.300.1.0.tgz  # [osx]
+  sha256: b00081461fc28f681fe71cb09d7874abe17b24f3f8287bcbea35b611816b7f3f  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: RUnit, Matrix, pkgKitten, reticulate, rmarkdown, knitr, pinp
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-rcpp >=0.11.0
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-rcpp >=0.11.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('RcppArmadillo')"           # [not win]
+    - "\"%R%\" -e \"library('RcppArmadillo')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://dirk.eddelbuettel.com/code/rcpp.armadillo.html
+  license: GPL (>= 2)
+  summary: '''Armadillo'' is a templated C++ linear algebra library (by Conrad Sanderson) that
+    aims towards a good balance between speed and ease of use. Integer, floating point
+    and complex numbers are supported, as well as a subset of trigonometric and statistics
+    functions. Various matrix decompositions are provided through optional integration
+    with LAPACK and ATLAS libraries. The ''RcppArmadillo'' package includes the header
+    files from the templated ''Armadillo'' library. Thus users do not need to install
+    ''Armadillo'' itself in order to use ''RcppArmadillo''. From release 7.800.0 on,
+    ''Armadillo'' is licensed under Apache License 2; previous releases were under licensed
+    as MPL 2.0 from version 3.800.0 onwards and LGPL-3 prior to that; ''RcppArmadillo''
+    (the ''Rcpp'' bindings/bridge to Armadillo) is licensed under the GNU GPL version
+    2 or later, as is the rest of ''Rcpp''. Note that Armadillo requires a fairly recent
+    compiler; for the g++ family at least version 4.6.* is required. '
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: RcppArmadillo
+# Type: Package
+# Title: 'Rcpp' Integration for the 'Armadillo' Templated Linear Algebra Library
+# Version: 0.8.300.1.0
+# Date: 2017-12-04
+# Author: Dirk Eddelbuettel, Romain Francois, Doug Bates and Binxiang Ni
+# Maintainer: Dirk Eddelbuettel <edd@debian.org>
+# Description: 'Armadillo' is a templated C++ linear algebra library (by Conrad Sanderson) that aims towards a good balance between speed and ease of use. Integer, floating point and complex numbers are supported, as well as a subset of trigonometric and statistics functions. Various matrix decompositions are provided through optional integration with LAPACK and ATLAS libraries. The 'RcppArmadillo' package includes the header files from the templated 'Armadillo' library. Thus users do not need to install 'Armadillo' itself in order to use 'RcppArmadillo'. From release 7.800.0 on, 'Armadillo' is licensed under Apache License 2; previous releases were under licensed as MPL 2.0 from version 3.800.0 onwards and LGPL-3 prior to that; 'RcppArmadillo' (the 'Rcpp' bindings/bridge to Armadillo) is licensed under the GNU GPL version 2 or later, as is the rest of 'Rcpp'. Note that Armadillo requires a fairly recent compiler; for the g++ family at least version 4.6.* is required.
+# License: GPL (>= 2)
+# LazyLoad: yes
+# LinkingTo: Rcpp
+# Imports: Rcpp (>= 0.11.0), stats, utils, methods
+# Suggests: RUnit, Matrix, pkgKitten, reticulate, rmarkdown, knitr, pinp
+# VignetteBuilder: knitr
+# URL: http://dirk.eddelbuettel.com/code/rcpp.armadillo.html
+# BugReports: https://github.com/RcppCore/RcppArmadillo/issues
+# NeedsCompilation: yes
+# Packaged: 2017-12-04 21:30:47.422515 UTC; deddelbuettel
+# Repository: CRAN
+# Date/Publication: 2017-12-06 15:43:34 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

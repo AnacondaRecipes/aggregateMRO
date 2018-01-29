@@ -1,0 +1,97 @@
+{% set version = '0.2.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-nycflights13
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: nycflights13_0.2.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/nycflights13_0.2.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/nycflights13/nycflights13_0.2.2.tar.gz  # [linux or win32]
+  sha256: cc13051face739eecf3a5a2654a53d51110b0aa3968cb47b5bfb95053dbfa7a0  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/nycflights13_0.2.2.zip  # [win64]
+  sha256: d655a23d00e2adca5aa57df3b33107d542c8a68e3715771880eb6f0ea3acc161  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/nycflights13_0.2.2.tgz  # [osx]
+  sha256: 977836abe08e8b4422c6c1fb635085ac0c559f8c01c0b4c5a07d4467cd687d5a  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: dplyr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-tibble
+
+  run:
+    - mro-base
+    - r-tibble
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('nycflights13')"           # [not win]
+    - "\"%R%\" -e \"library('nycflights13')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://github.com/hadley/nycflights13
+  license: CC0
+  summary: Airline on-time data for all flights departing NYC in 2013. Also includes useful 'metadata'
+    on airlines, airports, weather, and planes.
+  license_family: OTHER
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: nycflights13
+# Title: Flights that Departed NYC in 2013
+# Version: 0.2.2
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")), person("RStudio", role = "cph") )
+# Description: Airline on-time data for all flights departing NYC in 2013. Also includes useful 'metadata' on airlines, airports, weather, and planes.
+# License: CC0
+# LazyData: true
+# Depends: R (>= 2.10)
+# Imports: tibble
+# Suggests: dplyr
+# URL: http://github.com/hadley/nycflights13
+# BugReports: https://github.com/hadley/nycflights13/issues
+# RoxygenNote: 5.0.1.9000
+# NeedsCompilation: no
+# Packaged: 2017-01-27 14:44:04 UTC; hadley
+# Author: Hadley Wickham [aut, cre], RStudio [cph]
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-01-27 15:54:20
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

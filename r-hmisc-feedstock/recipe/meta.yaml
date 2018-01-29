@@ -1,0 +1,133 @@
+{% set version = '4.0-3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-hmisc
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: Hmisc_4.0-3.tar.gz  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Hmisc_4.0-3.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/Hmisc/Hmisc_4.0-3.tar.gz  # [linux or win32 or osx]
+  sha256: 5d395286d699bcabb6460c91798019d84b1cfa7a033841aa3ac5a02f4407e4fd  # [linux or win32 or osx]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/Hmisc_4.0-3.zip  # [win64]
+  sha256: 9417fd5a804d548b70e1e96c1bfc416dbf2d64206817b7169a8463ab5c84890b  # [win64]
+
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: chron, rms, mice, tables, knitr, ff, ffbase, plotly (>= 4.5.6)
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux or osx]
+    - {{ compiler('fortran') }}    # [linux or osx]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32 or osx]
+
+  host:
+    - mro-base
+    - r-formula
+    - r-acepack
+    - r-base64enc
+    - r-cluster
+    - r-data.table
+    - r-foreign
+    - r-ggplot2 >=2.2
+    - r-gridextra
+    - r-gtable
+    - r-htmltable
+    - r-htmltools
+    - r-lattice
+    - r-latticeextra
+    - r-nnet
+    - r-rpart
+    - r-survival >=2.40_1
+    - r-viridis
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-formula
+    - r-acepack
+    - r-base64enc
+    - r-cluster
+    - r-data.table
+    - r-foreign
+    - r-ggplot2 >=2.2
+    - r-gridextra
+    - r-gtable
+    - r-htmltable
+    - r-htmltools
+    - r-lattice
+    - r-latticeextra
+    - r-nnet
+    - r-rpart
+    - r-survival >=2.40_1
+    - r-viridis
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('Hmisc')"           # [not win]
+    - "\"%R%\" -e \"library('Hmisc')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://biostat.mc.vanderbilt.edu/Hmisc, https://github.com/harrelfe/Hmisc
+  license: GPL (>= 2)
+  summary: Contains many functions useful for data analysis, high-level graphics, utility operations,
+    functions for computing sample size and power, importing and annotating datasets,
+    imputing missing values, advanced table making, variable clustering, character string
+    manipulation, conversion of R objects to LaTeX and html code, and recoding variables.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: Hmisc
+# Version: 4.0-3
+# Date: 2017-04-30
+# Title: Harrell Miscellaneous
+# Author: Frank E Harrell Jr <f.harrell@vanderbilt.edu>, with contributions from Charles Dupont and many others.
+# Maintainer: Frank E Harrell Jr <f.harrell@vanderbilt.edu>
+# Depends: lattice, survival (>= 2.40-1), Formula, ggplot2 (>= 2.2)
+# Imports: methods, latticeExtra, cluster, rpart, nnet, acepack, foreign, gtable, grid, gridExtra, data.table, htmlTable, viridis, htmltools, base64enc
+# Suggests: chron, rms, mice, tables, knitr, ff, ffbase, plotly (>= 4.5.6)
+# Description: Contains many functions useful for data analysis, high-level graphics, utility operations, functions for computing sample size and power, importing and annotating datasets, imputing missing values, advanced table making, variable clustering, character string manipulation, conversion of R objects to LaTeX and html code, and recoding variables.
+# License: GPL (>= 2)
+# LazyLoad: Yes
+# URL: http://biostat.mc.vanderbilt.edu/Hmisc, https://github.com/harrelfe/Hmisc
+# NeedsCompilation: yes
+# Packaged: 2017-05-01 18:00:23 UTC; harrelfe
+# Repository: CRAN
+# Date/Publication: 2017-05-02 06:31:42 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

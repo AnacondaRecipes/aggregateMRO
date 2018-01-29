@@ -1,0 +1,95 @@
+{% set version = '2.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-gridextra
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: gridExtra_2.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gridExtra_2.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gridExtra/gridExtra_2.3.tar.gz  # [linux or win32]
+  sha256: 81b60ce6f237ec308555471ae0119158b115463df696d2eca9b177ded8988e3b  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gridExtra_2.3.zip  # [win64]
+  sha256: e5e101bbf36d04c1bec4cd23610b7f65b8e0200aa25da635c12b96dea1948cfc  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gridExtra_2.3.tgz  # [osx]
+  sha256: 721fe0117a1c6f4bb1458e59350d07eedd5bc95770dcb0c232c1f5ed392d3181  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: ggplot2, egg, lattice, knitr, testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-gtable
+
+  run:
+    - mro-base
+    - r-gtable
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('gridExtra')"           # [not win]
+    - "\"%R%\" -e \"library('gridExtra')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=gridExtra
+  license: GPL (>= 2)
+  summary: Provides a number of user-level functions to work with "grid" graphics, notably to
+    arrange multiple grid-based plots on a page, and draw tables.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: gridExtra
+# Authors@R: c(person("Baptiste", "Auguie", email = "baptiste.auguie@gmail.com", role = c("aut", "cre")), person("Anton", "Antonov", email = "tonytonov@gmail.com", role = c("ctb")))
+# License: GPL (>= 2)
+# Title: Miscellaneous Functions for "Grid" Graphics
+# Type: Package
+# Description: Provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
+# Version: 2.3
+# VignetteBuilder: knitr
+# Imports: gtable, grid, grDevices, graphics, utils
+# Suggests: ggplot2, egg, lattice, knitr, testthat
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-09-08 22:52:09 UTC; baptiste
+# Author: Baptiste Auguie [aut, cre], Anton Antonov [ctb]
+# Maintainer: Baptiste Auguie <baptiste.auguie@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-09-09 14:12:08 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

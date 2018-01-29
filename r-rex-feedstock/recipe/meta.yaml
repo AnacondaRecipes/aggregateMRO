@@ -1,0 +1,99 @@
+{% set version = '1.1.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rex
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rex_1.1.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rex_1.1.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rex/rex_1.1.2.tar.gz  # [linux or win32]
+  sha256: bd3c74ceaf335336f5dd04314d0a791f6311e421a2158f321f5aab275f539a2a  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rex_1.1.2.zip  # [win64]
+  sha256: 2506ab76234bb3dcb8f6d445c61297aed978ee04b950365b68d589523b483822  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rex_1.1.2.tgz  # [osx]
+  sha256: 4344a4ebc72e41098677732e14af551d9671adb1089293d33655a4adcb19fd99  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, knitr, rmarkdown, dplyr, ggplot2, Hmisc, stringr, rvest, roxygen2, covr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-lazyeval
+    - r-magrittr
+
+  run:
+    - mro-base
+    - r-lazyeval
+    - r-magrittr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rex')"           # [not win]
+    - "\"%R%\" -e \"library('rex')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/kevinushey/rex
+  license: MIT + file LICENSE
+  summary: A friendly interface for the construction of regular expressions.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rex
+# Type: Package
+# Title: Friendly Regular Expressions
+# Version: 1.1.2
+# Authors@R: c( person("Kevin", "Ushey", email = "kevinushey@gmail.com", role = "aut"), person("Jim", "Hester", email = "james.f.hester@gmail.com", role = c("aut", "cre")), person("Robert", "Krzyzanowski", email = "rkrzyzanowski@gmail.com", role = "aut") )
+# Maintainer: Jim Hester <james.f.hester@gmail.com>
+# URL: https://github.com/kevinushey/rex
+# BugReports: https://github.com/kevinushey/rex/issues
+# Description: A friendly interface for the construction of regular expressions.
+# Imports: magrittr, lazyeval
+# License: MIT + file LICENSE
+# Suggests: testthat, knitr, rmarkdown, dplyr, ggplot2, Hmisc, stringr, rvest, roxygen2, covr
+# VignetteBuilder: knitr
+# Collate: 'aaa.R' 'utils.R' 'escape.R' 'capture.R' 'character_class.R' 'counts.R' 'lookarounds.R' 'match.R' 'or.R' 'rex-mode.R' 'rex.R' 'shortcuts.R' 'wildcards.R' 'zzz.R'
+# RoxygenNote: 6.0.1.9000
+# NeedsCompilation: no
+# Packaged: 2017-10-19 19:22:40 UTC; jhester
+# Author: Kevin Ushey [aut], Jim Hester [aut, cre], Robert Krzyzanowski [aut]
+# Repository: CRAN
+# Date/Publication: 2017-10-19 19:54:00 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,104 @@
+{% set version = '0.36' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-bestglm
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: bestglm_0.36.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bestglm_0.36.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bestglm/bestglm_0.36.tar.gz  # [linux or win32]
+  sha256: 90f9b1e0a718cdc1ea273ae5a6717fa849cc01e0d0d12b333484bfcf2c0e5ab5  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/bestglm_0.36.zip  # [win64]
+  sha256: 6c5f1ee5e111542c1ad0acccac769d17261edf750e0be5412860ac1241d280a9  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/bestglm_0.36.tgz  # [osx]
+  sha256: 2aac61eb92e6267dd02e36c9628d0f2a5322fdcb2f4bdd6e6db5cb3f6b2e156a  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: xtable, MASS
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-glmnet
+    - r-grpreg
+    - r-lattice
+    - r-leaps
+
+  run:
+    - mro-base
+    - r-glmnet
+    - r-grpreg
+    - r-lattice
+    - r-leaps
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('bestglm')"           # [not win]
+    - "\"%R%\" -e \"library('bestglm')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.stats.uwo.ca/faculty/aim
+  license: GPL (>= 2)
+  summary: Best subset glm using information criteria or cross-validation.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: bestglm
+# Type: Package
+# Title: Best Subset GLM
+# Version: 0.36
+# Date: 2017-02-23
+# Author: A.I. McLeod  and Changjiang Xu
+# Maintainer: A.I. McLeod <aimcleod@uwo.ca>
+# Depends: R (>= 2.0.0), leaps
+# Suggests: xtable, MASS
+# Imports: lattice, glmnet, grpreg
+# Description: Best subset glm using information criteria or cross-validation.
+# LazyLoad: yes
+# LazyData: yes
+# Classification/ACM: G.3, G.4, I.5.1
+# Classification/MSC: 62M10, 91B84
+# License: GPL (>= 2)
+# URL: http://www.stats.uwo.ca/faculty/aim
+# NeedsCompilation: yes
+# Packaged: 2017-02-23 17:54:29 UTC; IanMcLeod
+# Repository: CRAN
+# Date/Publication: 2017-02-23 23:44:05
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

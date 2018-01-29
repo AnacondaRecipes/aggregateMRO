@@ -1,0 +1,104 @@
+{% set version = '0.1-5.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pki
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: PKI_0.1-5.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/PKI_0.1-5.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/PKI/PKI_0.1-5.1.tar.gz  # [linux or win32]
+  sha256: d2f76d17388aae17695073e97693174941ce64805e70cfceb57dc2cf569743f7  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/PKI_0.1-5.1.zip  # [win64]
+  sha256: 9ed730229308d4edc2f8662d471251482f4b011575c55cd509c5ed8c35df69b3  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/PKI_0.1-5.1.tgz  # [osx]
+  sha256: b6a28a5ba4a75abbb6f00a3989c26aae333472938720bc4ca1f914a7b9e58a6b  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-base64enc
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-base64enc
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('PKI')"           # [not win]
+    - "\"%R%\" -e \"library('PKI')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.rforge.net/PKI
+  license: GPL-2 | GPL-3 | file LICENSE
+  summary: PKI functions such as verifying certificates, RSA encription and signing which can
+    be used to build PKI infrastructure and perform cryptographic tasks.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: PKI
+# Version: 0.1-5.1
+# Title: Public Key Infrastucture for R Based on the X.509 Standard
+# Author: Simon Urbanek <Simon.Urbanek@r-project.org>
+# Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
+# Depends: R (>= 2.9.0), base64enc
+# Enhances: gmp
+# Description: PKI functions such as verifying certificates, RSA encription and signing which can be used to build PKI infrastructure and perform cryptographic tasks.
+# License: GPL-2 | GPL-3 | file LICENSE
+# URL: http://www.rforge.net/PKI
+# SystemRequirements: OpenSSL library and headers
+# NeedsCompilation: yes
+# Packaged: 2017-09-15 18:16:25 UTC; ripley
+# Repository: CRAN
+# Date/Publication: 2017-09-16 10:16:16 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

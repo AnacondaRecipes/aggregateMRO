@@ -1,0 +1,111 @@
+{% set version = '3.0.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-gplots
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: gplots_3.0.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gplots_3.0.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gplots/gplots_3.0.1.tar.gz  # [linux or win32]
+  sha256: 343df84327ac3d03494992e79ee3afc78ba3bdc08af9a305ee3fb0a38745cb0a  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gplots_3.0.1.zip  # [win64]
+  sha256: a4d906979b870da477ad921f698f971a8792d2a096d85257ada216bc51323c77  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gplots_3.0.1.tgz  # [osx]
+  sha256: cdec42a4c0634afb3f2514b9b2031655844bca336dc5976908b193f03ec0f209  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: grid, MASS
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-kernsmooth
+    - r-catools
+    - r-gdata
+    - r-gtools
+
+  run:
+    - mro-base
+    - r-kernsmooth
+    - r-catools
+    - r-gdata
+    - r-gtools
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('gplots')"           # [not win]
+    - "\"%R%\" -e \"library('gplots')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=gplots
+  license: GPL-2
+  summary: 'Various R programming tools for plotting data, including: - calculating and plotting
+    locally smoothed summary function as (''bandplot'', ''wapply''), - enhanced versions
+    of standard plots (''barplot2'', ''boxplot2'', ''heatmap.2'', ''smartlegend''),
+    - manipulating colors (''col2hex'', ''colorpanel'', ''redgreen'', ''greenred'',
+    ''bluered'', ''redblue'', ''rich.colors''), - calculating and plotting two-dimensional
+    data summaries (''ci2d'', ''hist2d''), - enhanced regression diagnostic plots (''lmplot2'',
+    ''residplot''), - formula-enabled interface to ''stats::lowess'' function (''lowess''),
+    - displaying textual data in plots (''textplot'', ''sinkplot''), - plotting a matrix
+    where each cell contains a dot whose size reflects the relative magnitude of the
+    elements (''balloonplot''), - plotting "Venn" diagrams (''venn''), - displaying
+    Open-Office style plots (''ooplot''), - plotting multiple data on same region, with
+    separate axes (''overplot''), - plotting means and confidence intervals (''plotCI'',
+    ''plotmeans''), - spacing points in an x-y plot so they don''t overlap (''space'').'
+
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: gplots
+# Title: Various R Programming Tools for Plotting Data
+# Description: Various R programming tools for plotting data, including: - calculating and plotting locally smoothed summary function as ('bandplot', 'wapply'), - enhanced versions of standard plots ('barplot2', 'boxplot2', 'heatmap.2', 'smartlegend'), - manipulating colors ('col2hex', 'colorpanel', 'redgreen', 'greenred', 'bluered', 'redblue', 'rich.colors'), - calculating and plotting two-dimensional data summaries ('ci2d', 'hist2d'), - enhanced regression diagnostic plots ('lmplot2', 'residplot'), - formula-enabled interface to 'stats::lowess' function ('lowess'), - displaying textual data in plots ('textplot', 'sinkplot'), - plotting a matrix where each cell contains a dot whose size reflects the relative magnitude of the elements ('balloonplot'), - plotting "Venn" diagrams ('venn'), - displaying Open-Office style plots ('ooplot'), - plotting multiple data on same region, with separate axes ('overplot'), - plotting means and confidence intervals ('plotCI', 'plotmeans'), - spacing points in an x-y plot so they don't overlap ('space').
+# Depends: R (>= 3.0)
+# Imports: gtools, gdata, stats, caTools, KernSmooth
+# Suggests: grid, MASS
+# Version: 3.0.1
+# Date: 2016-03-30
+# Author: Gregory R. Warnes, Ben Bolker, Lodewijk Bonebakker, Robert Gentleman, Wolfgang Huber Andy Liaw, Thomas Lumley, Martin Maechler, Arni Magnusson, Steffen Moeller, Marc Schwartz, Bill Venables
+# Maintainer: Gregory R. Warnes <greg@warnes.net>
+# License: GPL-2
+# NeedsCompilation: no
+# Packaged: 2016-03-30 17:32:42 UTC; gwarnes1
+# Repository: CRAN
+# Date/Publication: 2016-03-30 21:04:18
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

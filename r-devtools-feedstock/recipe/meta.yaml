@@ -1,0 +1,117 @@
+{% set version = '1.13.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-devtools
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: devtools_1.13.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/devtools_1.13.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/devtools/devtools_1.13.4.tar.gz  # [linux or win32]
+  sha256: ab82ca75ea301df098191ab68fa3d812317c07c7dc28310d2715fa0d8ac3e1ab  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/devtools_1.13.4.zip  # [win64]
+  sha256: df15881f463f87298dae870223091c1af2bfdd6af5a8d4ba292929adc5c3341e  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/devtools_1.13.4.tgz  # [osx]
+  sha256: 2389a363553de738c7a4ab81d638d5cf626399c16acdd6734d415b3b84c62b36  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: curl (>= 0.9), crayon, testthat (>= 1.0.2), BiocInstaller, Rcpp (>= 0.10.0), MASS, rmarkdown, knitr, hunspell (>= 2.0), lintr (>= 0.2.1), bitops, roxygen2 (>= 5.0.0), evaluate, rversions, covr, gmailr (> 0.7.0)
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-digest
+    - r-git2r >=0.11.0
+    - r-httr >=0.4
+    - r-jsonlite
+    - r-memoise >=1.0.0
+    - r-rstudioapi >=0.2.0
+    - r-whisker
+    - r-withr
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-digest
+    - r-git2r >=0.11.0
+    - r-httr >=0.4
+    - r-jsonlite
+    - r-memoise >=1.0.0
+    - r-rstudioapi >=0.2.0
+    - r-whisker
+    - r-withr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('devtools')"           # [not win]
+    - "\"%R%\" -e \"library('devtools')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/hadley/devtools
+  license: GPL (>= 2)
+  summary: Collection of package development tools.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: devtools
+# Title: Tools to Make Developing R Packages Easier
+# Version: 1.13.4
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("Winston", "Chang", role = "aut"), person("RStudio", role = "cph"), person("R Core team", role = "ctb", comment = "Some namespace and vignette code extracted from base R") )
+# Encoding: UTF-8
+# Description: Collection of package development tools.
+# URL: https://github.com/hadley/devtools
+# BugReports: https://github.com/hadley/devtools/issues
+# Depends: R (>= 3.0.2)
+# Imports: httr (>= 0.4), utils, tools, methods, memoise (>= 1.0.0), whisker, digest, rstudioapi (>= 0.2.0), jsonlite, stats, git2r (>= 0.11.0), withr
+# Suggests: curl (>= 0.9), crayon, testthat (>= 1.0.2), BiocInstaller, Rcpp (>= 0.10.0), MASS, rmarkdown, knitr, hunspell (>= 2.0), lintr (>= 0.2.1), bitops, roxygen2 (>= 5.0.0), evaluate, rversions, covr, gmailr (> 0.7.0)
+# License: GPL (>= 2)
+# VignetteBuilder: knitr
+# RoxygenNote: 6.0.1
+# NeedsCompilation: yes
+# Packaged: 2017-11-08 19:37:59 UTC; jhester
+# Author: Hadley Wickham [aut, cre], Winston Chang [aut], RStudio [cph], R Core team [ctb] (Some namespace and vignette code extracted from base R)
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-11-09 10:44:37 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

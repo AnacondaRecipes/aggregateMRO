@@ -1,0 +1,110 @@
+{% set version = '0.4.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-plumber
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: plumber_0.4.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/plumber_0.4.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/plumber/plumber_0.4.4.tar.gz  # [linux or win32]
+  sha256: 331a4850a436f715eea3493bbf12ddf50201803c8fce3e670ba293d3cfc5ab3b  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/plumber_0.4.4.zip  # [win64]
+  sha256: f568ac5b7d2c4894f7b04f45f5195f381bdcf0a9e98490f56d24207e01c209c9  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/plumber_0.4.4.tgz  # [osx]
+  sha256: f3073a9a35cfdaa42647c5b180d4f7fee9eb2a19fb84b20cab9066f4e641a4bd  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat (>= 0.11.0), XML, rmarkdown, PKI, base64enc, htmlwidgets, visNetwork, analogsea
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-r6 >=2.0.0
+    - r-crayon
+    - r-httpuv >=1.2.3
+    - r-jsonlite >=0.9.16
+    - r-stringi >=0.3.0
+
+  run:
+    - mro-base
+    - r-r6 >=2.0.0
+    - r-crayon
+    - r-httpuv >=1.2.3
+    - r-jsonlite >=0.9.16
+    - r-stringi >=0.3.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('plumber')"           # [not win]
+    - "\"%R%\" -e \"library('plumber')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://www.rplumber.io (site) https://github.com/trestletech/plumber (dev)
+  license: MIT + file LICENSE
+  summary: Gives the ability to automatically generate and serve an HTTP API from R functions
+    using the annotations in the R documentation around your functions.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Encoding: UTF-8
+# Package: plumber
+# Type: Package
+# Title: An API Generator for R
+# Version: 0.4.4
+# Date: 2017-12-01
+# Authors@R: c( person(family="Trestle Technology, LLC", role="aut", email="cran@trestletech.com"), person("Jeff", "Allen", role="cre", email="cran@trestletech.com"), person("Frans", "van Dunne", role="ctb", email="frans@ixpantia.com"), person(family="SmartBear Software", role=c("ctb", "cph"), comment="swagger-ui"))
+# License: MIT + file LICENSE
+# BugReports: https://github.com/trestletech/plumber/issues
+# URL: https://www.rplumber.io (site) https://github.com/trestletech/plumber (dev)
+# Description: Gives the ability to automatically generate and serve an HTTP API from R functions using the annotations in the R documentation around your functions.
+# Depends: R (>= 3.0.0)
+# Imports: R6 (>= 2.0.0), stringi (>= 0.3.0), jsonlite (>= 0.9.16), httpuv (>= 1.2.3), crayon
+# LazyData: TRUE
+# ByteCompile: TRUE
+# Suggests: testthat (>= 0.11.0), XML, rmarkdown, PKI, base64enc, htmlwidgets, visNetwork, analogsea
+# Collate: 'content-types.R' 'cookie-parser.R' 'parse-globals.R' 'images.R' 'parse-block.R' 'globals.R' 'serializer-json.R' 'shared-secret-filter.R' 'post-body.R' 'query-string.R' 'plumber.R' 'default-handlers.R' 'digital-ocean.R' 'find-port.R' 'includes.R' 'paths.R' 'plumber-static.R' 'plumber-step.R' 'response.R' 'serializer-content-type.R' 'serializer-html.R' 'serializer-htmlwidget.R' 'serializer-xml.R' 'serializer.R' 'session-cookie.R' 'swagger.R'
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-12-01 20:33:36 UTC; jeff
+# Author: Trestle Technology, LLC [aut], Jeff Allen [cre], Frans van Dunne [ctb], SmartBear Software [ctb, cph] (swagger-ui)
+# Maintainer: Jeff Allen <cran@trestletech.com>
+# Repository: CRAN
+# Date/Publication: 2017-12-01 23:17:12 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

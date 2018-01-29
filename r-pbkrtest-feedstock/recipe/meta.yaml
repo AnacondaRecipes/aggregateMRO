@@ -1,0 +1,101 @@
+{% set version = '0.4-7' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pbkrtest
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: pbkrtest_0.4-7.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pbkrtest_0.4-7.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pbkrtest/pbkrtest_0.4-7.tar.gz  # [linux or win32]
+  sha256: 5cbb03ad2b2468720a5a610a0ebda48ac08119a34fca77810a85f554225c23ea  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/pbkrtest_0.4-7.zip  # [win64]
+  sha256: 08a64df8373633392f6e5b0665cab5f3a8f210e98b842f87c20777fa41f39a49  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/pbkrtest_0.4-7.tgz  # [osx]
+  sha256: 8773fde415c738ae5662db976ea6a773c3f07af1fc893cc30fbdb02315c06bd4  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-mass
+    - r-matrix >=1.2.3
+    - r-lme4 >=1.1.10
+
+  run:
+    - mro-base
+    - r-mass
+    - r-matrix >=1.2.3
+    - r-lme4 >=1.1.10
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('pbkrtest')"           # [not win]
+    - "\"%R%\" -e \"library('pbkrtest')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://people.math.aau.dk/~sorenh/software/pbkrtest/
+  license: GPL (>= 2)
+  summary: Test in mixed effects models. Attention is on mixed effects models as implemented
+    in the 'lme4' package. This package implements a parametric bootstrap test and a
+    Kenward Roger modification of F-tests for linear mixed effects models and a parametric
+    bootstrap test for generalized linear mixed models.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: pbkrtest
+# Version: 0.4-7
+# Title: Parametric Bootstrap and Kenward Roger Based Methods for Mixed Model Comparison
+# Author: Ulrich Halekoh <uhalekoh@health.sdu.dk> Sren Hjsgaard <sorenh@math.aau.dk>
+# Maintainer: Sren Hjsgaard <sorenh@math.aau.dk>
+# Description: Test in mixed effects models. Attention is on mixed effects models as implemented in the 'lme4' package. This package implements a parametric bootstrap test and a Kenward Roger modification of F-tests for linear mixed effects models and a parametric bootstrap test for generalized linear mixed models.
+# URL: http://people.math.aau.dk/~sorenh/software/pbkrtest/
+# Depends: R (>= 3.2.3), lme4 (>= 1.1.10)
+# Imports: Matrix (>= 1.2.3), parallel, MASS, methods
+# Encoding: UTF-8
+# ZipData: no
+# License: GPL (>= 2)
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2017-03-12 20:05:38 UTC; sorenh
+# Repository: CRAN
+# Date/Publication: 2017-03-15 08:49:25
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

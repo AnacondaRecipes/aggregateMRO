@@ -1,0 +1,93 @@
+{% set version = '0.8-3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-ctv
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: ctv_0.8-3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ctv_0.8-3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ctv/ctv_0.8-3.tar.gz  # [linux or win32]
+  sha256: 16f377a6f15d43a6ca8b3933a60faf63b69d0966f011032862b55df5be2f03af  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ctv_0.8-3.zip  # [win64]
+  sha256: f355c183d9e7ca5f2dd1ea8647be645dc36c365d6ac4af80d17ac8ab2b38f24d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ctv_0.8-3.tgz  # [osx]
+  sha256: f99e74500e130b9a8094c06128326214c1150b561250a92f598a032155acd513  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: XML
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('ctv')"           # [not win]
+    - "\"%R%\" -e \"library('ctv')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=ctv
+  license: GPL-2 | GPL-3
+  summary: 'Infrastructure for task views to CRAN-style repositories: Querying task views and
+    installing the associated packages (client-side tools), generating HTML pages and
+    storing task view information in the repository (server-side tools).'
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: ctv
+# Version: 0.8-3
+# Date: 2017-10-07
+# Title: CRAN Task Views
+# Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")), person(given = "Kurt", family = "Hornik", role = "aut", email = "Kurt.Hornik@R-project.org"))
+# Description: Infrastructure for task views to CRAN-style repositories: Querying task views and installing the associated packages (client-side tools), generating HTML pages and storing task view information in the repository (server-side tools).
+# Depends: R (>= 2.13.0), utils
+# Suggests: XML
+# License: GPL-2 | GPL-3
+# NeedsCompilation: no
+# Packaged: 2017-10-08 07:47:14 UTC; hornik
+# Author: Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Kurt Hornik [aut]
+# Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-10-08 09:50:54
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

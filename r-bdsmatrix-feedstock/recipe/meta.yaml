@@ -1,0 +1,97 @@
+{% set version = '1.3-3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-bdsmatrix
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: bdsmatrix_1.3-3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bdsmatrix_1.3-3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bdsmatrix/bdsmatrix_1.3-3.tar.gz  # [linux or win32]
+  sha256: 70ea81708c97dedd483a5d3866d2e906fa0e9098ff854c41cf0746fbc8dfad9d  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/bdsmatrix_1.3-3.zip  # [win64]
+  sha256: eda597f6061a777cc0b8d66d2d31c5d60f05dd1645f1adcd26c1ec7f516d5009  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/bdsmatrix_1.3-3.tgz  # [osx]
+  sha256: 47c1adc401dae1d273a0a0985cf6f7392e6da7817a40ddef2caa6261eff9cad1  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('bdsmatrix')"           # [not win]
+    - "\"%R%\" -e \"library('bdsmatrix')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=bdsmatrix
+  license: LGPL-2
+  summary: 'This is a special case of sparse matrices, used by coxme. '
+
+  license_family: LGPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: bdsmatrix
+# Title: Routines for Block Diagonal Symmetric Matrices
+# Maintainer: Terry Therneau <therneau@mayo.edu>
+# Version: 1.3-3
+# Date: 2017-12-20
+# Depends: methods, R (>= 2.0.0)
+# LazyData: Yes
+# LazyLoad: Yes
+# Author: Terry Therneau
+# Description: This is a special case of sparse matrices, used by coxme.
+# License: LGPL-2
+# Collate: bdsmatrix.R gchol.R gchol.bdsmatrix.R as.matrix.bdsmatrix.R bdsBlock.R bdsI.R bdsmatrix.ibd.R bdsmatrix.reconcile.R diag.bdsmatrix.R listbdsmatrix.R multiply.bdsmatrix.R solve.bdsmatrix.R solve.gchol.R solve.gchol.bdsmatrix.R backsolve.R
+# NeedsCompilation: yes
+# Packaged: 2017-12-21 15:52:14 UTC; therneau
+# Repository: CRAN
+# Date/Publication: 2017-12-21 21:24:50 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

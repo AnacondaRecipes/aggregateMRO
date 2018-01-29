@@ -1,0 +1,109 @@
+{% set version = '1.1.1.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-dygraphs
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: dygraphs_1.1.1.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/dygraphs_1.1.1.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/dygraphs/dygraphs_1.1.1.4.tar.gz  # [linux or win32]
+  sha256: 69d1c97573b650cfbf24d11948e5904b103fdb4b3396d244aab3f3dc0f4e8f6f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/dygraphs_1.1.1.4.zip  # [win64]
+  sha256: ce9a344e929d944211565342083270f9a613b5208a928943adda05f225ba938d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/dygraphs_1.1.1.4.tgz  # [osx]
+  sha256: 97d9252b7e24f1c15f5c77d8cc571361cb14c2bb1f1ed0739bb4a7cb176bb290  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-htmltools >=0.3.5
+    - r-htmlwidgets >=0.6
+    - r-magrittr
+    - r-xts >=0.9_7
+    - r-zoo >=1.7_10
+
+  run:
+    - mro-base
+    - r-htmltools >=0.3.5
+    - r-htmlwidgets >=0.6
+    - r-magrittr
+    - r-xts >=0.9_7
+    - r-zoo >=1.7_10
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('dygraphs')"           # [not win]
+    - "\"%R%\" -e \"library('dygraphs')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/rstudio/dygraphs
+  license: MIT + file LICENSE
+  summary: An R interface to the 'dygraphs' JavaScript charting library (a copy of which is included
+    in the package). Provides rich facilities for charting time-series data in R, including
+    highly configurable series- and axis-display and interactive features like zoom/pan
+    and series/point highlighting.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: dygraphs
+# Type: Package
+# Title: Interface to 'Dygraphs' Interactive Time Series Charting Library
+# Version: 1.1.1.4
+# Date: 2017-01-04
+# Authors@R: c( person("Dan", "Vanderkam", role = c("aut", "cph"), comment = "dygraphs library in htmlwidgets/lib, http://dygraphs.com/"), person("JJ", "Allaire", role = c("aut", "cre"), comment = "R interface", email = "jj@rstudio.com"), person(family = "RStudio", role = "cph"), person("Jonathan", "Owen", role = c("aut", "cph")), person("Daniel", "Gromer", role = c("aut", "cph")), person("Petr", "Shevtsov", role = c("aut", "cph")), person("Benoit", "Thieurmel", role = c("aut", "cph")), person(family = "jQuery Foundation", role = "cph", comment = "jQuery library"), person(family = "jQuery contributors", role = c("ctb", "cph"), comment = "jQuery library; authors listed in inst/htmlwidgets/lib/jquery/AUTHORS.txt") )
+# Maintainer: JJ Allaire <jj@rstudio.com>
+# URL: https://github.com/rstudio/dygraphs
+# BugReports: https://github.com/rstudio/dygraphs/issues
+# Description: An R interface to the 'dygraphs' JavaScript charting library (a copy of which is included in the package). Provides rich facilities for charting time-series data in R, including highly configurable series- and axis-display and interactive features like zoom/pan and series/point highlighting.
+# License: MIT + file LICENSE
+# Depends: R (>= 3.0)
+# Imports: magrittr, htmlwidgets (>= 0.6), htmltools (>= 0.3.5), zoo (>= 1.7-10), xts (>= 0.9-7)
+# Suggests: testthat
+# Enhances: rmarkdown (>= 0.3.3), shiny (>= 0.10.2.1)
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2017-01-04 13:43:02 UTC; jjallaire
+# Author: Dan Vanderkam [aut, cph] (dygraphs library in htmlwidgets/lib, http://dygraphs.com/), JJ Allaire [aut, cre] (R interface), RStudio [cph], Jonathan Owen [aut, cph], Daniel Gromer [aut, cph], Petr Shevtsov [aut, cph], Benoit Thieurmel [aut, cph], jQuery Foundation [cph] (jQuery library), jQuery contributors [ctb, cph] (jQuery library; authors listed in inst/htmlwidgets/lib/jquery/AUTHORS.txt)
+# Repository: CRAN
+# Date/Publication: 2017-01-04 16:34:56
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

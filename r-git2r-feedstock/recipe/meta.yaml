@@ -1,0 +1,111 @@
+{% set version = '0.20.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-git2r
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: git2r_0.20.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/git2r_0.20.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/git2r/git2r_0.20.0.tar.gz  # [linux or win32]
+  sha256: 86a0ffd6734f61d0720f3176e286d1231c3da4e3afe42b182b8b2abd657c0fdf  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/git2r_0.20.0.zip  # [win64]
+  sha256: 1ab8a6116342177fb8c8e7585996a12a024b1bc80c7231cea9cb70755ca148dc  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/git2r_0.20.0.tgz  # [osx]
+  sha256: b87a6eb0ab2189a8cb2540556a12530277a20af5a03bd719bdf75dc16ad143c7  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: getPass
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('git2r')"           # [not win]
+    - "\"%R%\" -e \"library('git2r')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/ropensci/git2r
+  license: GPL-2
+  summary: Interface to the 'libgit2' library, which is a pure C implementation of the 'Git'
+    core methods. Provides access to 'Git' repositories to extract data and running
+    some basic 'Git' commands.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: git2r
+# Title: Provides Access to Git Repositories
+# Description: Interface to the 'libgit2' library, which is a pure C implementation of the 'Git' core methods. Provides access to 'Git' repositories to extract data and running some basic 'Git' commands.
+# Version: 0.20.0
+# License: GPL-2
+# Copyright: See COPYRIGHTS file.
+# URL: https://github.com/ropensci/git2r
+# BugReports: https://github.com/ropensci/git2r/issues
+# Maintainer: Stefan Widgren <stefan.widgren@gmail.com>
+# Author: See AUTHORS file.
+# Imports: graphics, utils
+# Depends: R (>= 3.0.2), methods
+# Suggests: getPass
+# Type: Package
+# LazyData: true
+# Biarch: true
+# NeedsCompilation: yes
+# SystemRequirements: zlib headers and library. OpenSSL headers and library. LibSSH2 (optional on non-Windows) to enable the SSH transport.
+# Collate: 'S4_classes.r' 'blame.r' 'blob.r' 'branch.r' 'bundle_r_package.r' 'checkout.r' 'commit.r' 'config.r' 'contributions.r' 'credential.r' 'diff.r' 'fetch.r' 'git2r.r' 'index.r' 'libgit2.r' 'merge.r' 'note.r' 'odb.r' 'plot.r' 'pull.r' 'punch_card.r' 'refspec.r' 'push.r' 'reference.r' 'reflog.r' 'remote.r' 'repository.r' 'reset.r' 'revparse.r' 'signature.r' 'stash.r' 'status.r' 'tag.r' 'time.r' 'tree.r' 'when.r'
+# RoxygenNote: 6.0.1
+# Packaged: 2017-12-17 19:25:41 UTC; stefan
+# Repository: CRAN
+# Date/Publication: 2017-12-17 22:56:21 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

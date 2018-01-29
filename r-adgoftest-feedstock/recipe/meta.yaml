@@ -1,0 +1,90 @@
+{% set version = '0.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-adgoftest
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: ADGofTest_0.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ADGofTest_0.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ADGofTest/ADGofTest_0.3.tar.gz  # [linux or win32]
+  sha256: 9cd9313954f6ecd82480d373f6c5371ca84ab33e3f5c39d972d35cfcf1096846  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ADGofTest_0.3.zip  # [win64]
+  sha256: dae3f53119c6905045823a77c8d0cbbfd1dee7ddd758891e8ed1f91a7793f00b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ADGofTest_0.3.tgz  # [osx]
+  sha256: fac42777b5a9e92912c3c3bffbcf9342dfe2ac11190b8d917603f7a222776af9  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('ADGofTest')"           # [not win]
+    - "\"%R%\" -e \"library('ADGofTest')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=ADGofTest
+  license: GPL
+  summary: Anderson-Darling GoF test with p-value calculation based on Marsaglia's 2004 paper
+    "Evaluating the Anderson-Darling Distribution"
+  license_family: GPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: ADGofTest
+# Type: Package
+# Title: Anderson-Darling GoF test
+# Version: 0.3
+# Date: 2011-12-28
+# Author: Carlos J. Gil Bellosta
+# Maintainer: Carlos J. Gil Bellosta <cgb@datanalytics.com>
+# Description: Anderson-Darling GoF test with p-value calculation based on Marsaglia's 2004 paper "Evaluating the Anderson-Darling Distribution"
+# License: GPL
+# LazyLoad: yes
+# Packaged: 2011-12-28 01:41:10 UTC; carlos
+# Repository: CRAN
+# Date/Publication: 2011-12-28 13:50:19
+# NeedsCompilation: no
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

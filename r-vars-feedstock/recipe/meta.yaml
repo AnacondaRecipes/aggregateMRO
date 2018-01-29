@@ -1,0 +1,107 @@
+{% set version = '1.5-2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-vars
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: vars_1.5-2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/vars_1.5-2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/vars/vars_1.5-2.tar.gz  # [linux or win32]
+  sha256: 50fa365a24885f021f7f5a3bd4d898ecfec0c14784ca9d9db284f30356f985e0  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/vars_1.5-2.zip  # [win64]
+  sha256: 816d0e21826c001aad3987380b5210523a967ab5e452db1baf4affcd4a3771c8  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/vars_1.5-2.tgz  # [osx]
+  sha256: 54d6e21fe0b22ff182376e4537b220b93e5a1d8fa3d9109cd9a679aeec0c26d6  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-mass
+    - r-lmtest >=0.9_26
+    - r-sandwich >=2.2_4
+    - r-strucchange
+    - r-urca >=1.1_6
+
+  run:
+    - mro-base
+    - r-mass
+    - r-lmtest >=0.9_26
+    - r-sandwich >=2.2_4
+    - r-strucchange
+    - r-urca >=1.1_6
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('vars')"           # [not win]
+    - "\"%R%\" -e \"library('vars')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.pfaffikus.de
+  license: GPL (>= 2)
+  summary: Estimation, lag selection, diagnostic testing, forecasting, causality analysis, forecast
+    error variance decomposition and impulse response functions of VAR models and estimation
+    of SVAR and SVEC models.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: vars
+# Type: Package
+# Title: VAR Modelling
+# Version: 1.5-2
+# Date: 2013-07-22
+# Authors@R: c(person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de", role = c("aut", "cre")), person("Matthieu", "Stigler", role = "ctb"))
+# Depends: R (>= 2.0.0), MASS, strucchange, urca (>= 1.1-6), lmtest (>= 0.9-26), sandwich (>= 2.2-4)
+# LazyLoad: yes
+# Description: Estimation, lag selection, diagnostic testing, forecasting, causality analysis, forecast error variance decomposition and impulse response functions of VAR models and estimation of SVAR and SVEC models.
+# License: GPL (>= 2)
+# URL: http://www.pfaffikus.de
+# Author: Bernhard Pfaff [aut, cre], Matthieu Stigler [ctb]
+# Maintainer: Bernhard Pfaff <bernhard@pfaffikus.de>
+# Repository: CRAN
+# Repository/R-Forge/Project: vars
+# Repository/R-Forge/Revision: 99
+# Repository/R-Forge/DateTimeStamp: 2013-07-21 14:35:42
+# Date/Publication: 2013-07-22 10:42:44
+# Packaged: 2013-07-21 18:20:24 UTC; rforge
+# NeedsCompilation: no
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

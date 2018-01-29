@@ -1,0 +1,110 @@
+{% set version = '0.4.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-ggvis
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: ggvis_0.4.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ggvis_0.4.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ggvis/ggvis_0.4.3.tar.gz  # [linux or win32]
+  sha256: 34d517783016aaa1c4bef8972f4c06df5cd9ca0568035b647e60a8369043ecdc  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ggvis_0.4.3.zip  # [win64]
+  sha256: 57bb6bba4d4aa75c4310cef63dcb0d2f23324442614c02bfee59454cc5dff17e  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ggvis_0.4.3.tgz  # [osx]
+  sha256: e008fae32303024485f5ad12f4158c97ba1b1f1fc2d04e3b8126a1bacb4af1e1  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, mgcv, lubridate, testthat (>= 0.8.1), knitr (>= 1.6), rmarkdown
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-assertthat
+    - r-dplyr >=0.4.0
+    - r-htmltools >=0.2.4
+    - r-jsonlite >=0.9.11
+    - r-lazyeval
+    - r-magrittr
+    - r-shiny >=0.11.1
+
+  run:
+    - mro-base
+    - r-assertthat
+    - r-dplyr >=0.4.0
+    - r-htmltools >=0.2.4
+    - r-jsonlite >=0.9.11
+    - r-lazyeval
+    - r-magrittr
+    - r-shiny >=0.11.1
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('ggvis')"           # [not win]
+    - "\"%R%\" -e \"library('ggvis')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://ggvis.rstudio.com/
+  license: GPL-2 | file LICENSE
+  summary: An implementation of an interactive grammar of graphics, taking the best parts of
+    'ggplot2', combining them with the reactive framework of 'shiny' and drawing web
+    graphics using 'vega'.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: ggvis
+# Title: Interactive Grammar of Graphics
+# Description: An implementation of an interactive grammar of graphics, taking the best parts of 'ggplot2', combining them with the reactive framework of 'shiny' and drawing web graphics using 'vega'.
+# Version: 0.4.3
+# Authors@R: c( person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"), person("Hadley", "Wickham", role = "aut", email = "hadley@rstudio.com"), person(family = "RStudio", role = "cph"), person(family = "jQuery Foundation", role = "cph", comment = "jQuery library and jQuery UI library"), person(family = "jQuery contributors", role = c("ctb", "cph"), comment = "jQuery library; authors listed in inst/www/lib/jquery/AUTHORS.txt"), person(family = "jQuery UI contributors", role = c("ctb", "cph"), comment = "jQuery UI library; authors listed in inst/www/lib/jquery-ui/AUTHORS.txt"), person("Mike", "Bostock", role = c("ctb", "cph"), comment = "D3 library"), person(family = "D3 contributors", role = "ctb", comment = "D3 library; authors listed at https://github.com/mbostock/d3/graphs/contributors"), person(family = "Trifacta Inc.", role = "cph", comment = "Vega library"), person(family = "Vega contributors", role = "ctb", comment = "Vega library; authors listed at https://github.com/trifacta/vega/graphs/contributors"), person("Sebastian", "Decima", role = c("ctb", "cph"), comment = "javascript-detect-element-resize library") )
+# URL: http://ggvis.rstudio.com/
+# Depends: R (>= 3.0)
+# Imports: assertthat, jsonlite (>= 0.9.11), shiny (>= 0.11.1), magrittr, dplyr (>= 0.4.0), lazyeval, htmltools (>= 0.2.4), methods
+# Suggests: MASS, mgcv, lubridate, testthat (>= 0.8.1), knitr (>= 1.6), rmarkdown
+# Encoding: UTF-8
+# License: GPL-2 | file LICENSE
+# LazyData: true
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2016-07-22 16:15:28 UTC; winston
+# Author: Winston Chang [aut, cre], Hadley Wickham [aut], RStudio [cph], jQuery Foundation [cph] (jQuery library and jQuery UI library), jQuery contributors [ctb, cph] (jQuery library; authors listed in inst/www/lib/jquery/AUTHORS.txt), jQuery UI contributors [ctb, cph] (jQuery UI library; authors listed in inst/www/lib/jquery-ui/AUTHORS.txt), Mike Bostock [ctb, cph] (D3 library), D3 contributors [ctb] (D3 library; authors listed at https://github.com/mbostock/d3/graphs/contributors), Trifacta Inc. [cph] (Vega library), Vega contributors [ctb] (Vega library; authors listed at https://github.com/trifacta/vega/graphs/contributors), Sebastian Decima [ctb, cph] (javascript-detect-element-resize library)
+# Maintainer: Winston Chang <winston@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2016-07-22 18:45:42
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

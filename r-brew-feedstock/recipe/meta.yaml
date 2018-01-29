@@ -1,0 +1,90 @@
+{% set version = '1.0-6' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-brew
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: brew_1.0-6.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/brew_1.0-6.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/brew/brew_1.0-6.tar.gz  # [linux or win32]
+  sha256: d70d1a9a01cf4a923b4f11e4374ffd887ad3ff964f35c6f9dc0f29c8d657f0ed  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/brew_1.0-6.zip  # [win64]
+  sha256: 82ce428019f51764bf6327e4926d9cb4c4e4253dfb3e40de5421e04092d95800  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/brew_1.0-6.tgz  # [osx]
+  sha256: d948d5d7254f321b181619ef69873625a6c55797457dd5e8b60f19f3a712462d  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('brew')"           # [not win]
+    - "\"%R%\" -e \"library('brew')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=brew
+  license: GPL-2
+  summary: brew implements a templating framework for mixing text and R code for report generation.
+    brew template syntax is similar to PHP, Ruby's erb module, Java Server Pages, and
+    Python's psp module.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: brew
+# Type: Package
+# Title: Templating Framework for Report Generation
+# Version: 1.0-6
+# Date: 2010-09-30
+# Author: Jeffrey Horner
+# Maintainer: Jeffrey Horner <jeffrey.horner@gmail.com>
+# Description: brew implements a templating framework for mixing text and R code for report generation. brew template syntax is similar to PHP, Ruby's erb module, Java Server Pages, and Python's psp module.
+# License: GPL-2
+# Packaged: 2011-04-13 14:36:39 UTC; hornerj
+# Repository: CRAN
+# Date/Publication: 2011-04-13 15:16:08
+# NeedsCompilation: no
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

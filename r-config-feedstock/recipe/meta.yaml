@@ -1,0 +1,98 @@
+{% set version = '0.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-config
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: config_0.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/config_0.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/config/config_0.2.tar.gz  # [linux or win32]
+  sha256: 40cc2969cc655214817edc053c9649b9226f4b24368fccca9d2d338833560fdc  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/config_0.2.zip  # [win64]
+  sha256: f00acb0ff57d88710945a709de05faec774e864e47149ce21bb8069df0731b2b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/config_0.2.tgz  # [osx]
+  sha256: bf773cd3560b36695067028decc573e9bd702d85c692a46d6d9871d07b1c2be7  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, knitr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-yaml >=2.1.13
+
+  run:
+    - mro-base
+    - r-yaml >=2.1.13
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('config')"           # [not win]
+    - "\"%R%\" -e \"library('config')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/rstudio/config
+  license: GPL-3
+  summary: Manage configuration values across multiple environments (e.g. development, test,
+    production). Read values using a function that determines the current environment
+    and returns the appropriate value.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: config
+# Type: Package
+# Title: Manage Environment Specific Configuration Values
+# Version: 0.2
+# Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person(family = "RStudio, Inc.", role = "cph"))
+# Imports: yaml (>= 2.1.13)
+# Suggests: testthat, knitr
+# Description: Manage configuration values across multiple environments (e.g. development, test, production). Read values using a function that determines the current environment and returns the appropriate value.
+# License: GPL-3
+# URL: https://github.com/rstudio/config
+# BugReports: https://github.com/rstudio/config/issues
+# RoxygenNote: 5.0.1
+# VignetteBuilder: knitr
+# NeedsCompilation: no
+# Packaged: 2016-08-02 13:24:09 UTC; jjallaire
+# Author: JJ Allaire [aut, cre], RStudio, Inc. [cph]
+# Maintainer: JJ Allaire <jj@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2016-08-02 16:59:45
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

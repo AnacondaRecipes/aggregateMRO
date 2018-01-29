@@ -1,0 +1,108 @@
+{% set version = '2.6-7' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-raster
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: raster_2.6-7.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/raster_2.6-7.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/raster/raster_2.6-7.tar.gz  # [linux or win32]
+  sha256: fb91804fd465a4a6d9d9858e29fd05f41a99b8efdcc5cf4370ea253b68e42b01  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/raster_2.6-7.zip  # [win64]
+  sha256: 8da3a6c3e03e082c0c7c89e193b9737489bdf6bafd3de441baa4e002f51f7e8b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/raster_2.6-7.tgz  # [osx]
+  sha256: f557e60113145f146b58561d203c4280a69fe958152905704c9ed03ef01751a1  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: rgdal (>= 0.9-1), rgeos (>= 0.3-8), ncdf4, igraph, tcltk, parallel, rasterVis, MASS, sf
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-rcpp
+    - r-sp >=1.2_0
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-rcpp
+    - r-sp >=1.2_0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('raster')"           # [not win]
+    - "\"%R%\" -e \"library('raster')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.rspatial.org/
+  license: GPL (>= 3)
+  summary: Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The
+    package implements basic and high-level functions. Processing of very large files
+    is supported.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: raster
+# Type: Package
+# Title: Geographic Data Analysis and Modeling
+# Version: 2.6-7
+# Date: 2017-11-12
+# Depends: methods, sp (>= 1.2-0), R (>= 3.0.0)
+# Suggests: rgdal (>= 0.9-1), rgeos (>= 0.3-8), ncdf4, igraph, tcltk, parallel, rasterVis, MASS, sf
+# LinkingTo: Rcpp
+# Imports: Rcpp
+# SystemRequirements: C++11
+# Authors@R: c( person("Robert J.", "Hijmans", role = c("cre", "aut"),  email = "r.hijmans@gmail.com"), person("Jacob", "van Etten", role = "ctb"), person("Joe", "Cheng", role = "ctb"), person("Matteo", "Mattiuzzi", role = "ctb"), person("Michael", "Sumner", role = "ctb"), person("Jonathan A.", "Greenberg", role = "ctb"), person("Oscar", "Perpinan Lamigueiro", role = "ctb"), person("Andrew", "Bevan", role = "ctb"), person("Etienne B.", "Racine", role = "ctb"), person("Ashton", "Shortridge", role = "ctb"), person("Aniruddha", "Ghosh", role = "ctb") )
+# Description: Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions. Processing of very large files is supported.
+# License: GPL (>= 3)
+# URL: http://www.rspatial.org/
+# ByteCompile: TRUE
+# NeedsCompilation: yes
+# Packaged: 2017-11-13 07:31:42 UTC; rhijmans
+# Author: Robert J. Hijmans [cre, aut], Jacob van Etten [ctb], Joe Cheng [ctb], Matteo Mattiuzzi [ctb], Michael Sumner [ctb], Jonathan A. Greenberg [ctb], Oscar Perpinan Lamigueiro [ctb], Andrew Bevan [ctb], Etienne B. Racine [ctb], Ashton Shortridge [ctb], Aniruddha Ghosh [ctb]
+# Maintainer: Robert J. Hijmans <r.hijmans@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-11-13 19:30:51 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

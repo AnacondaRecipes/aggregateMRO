@@ -1,0 +1,100 @@
+{% set version = '1.3-0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-urca
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: urca_1.3-0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/urca_1.3-0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/urca/urca_1.3-0.tar.gz  # [linux or win32]
+  sha256: 621cc82398e25b58b4a16edf000ed0a1484d9a0bc458f734e97b6f371cc76aaa  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/urca_1.3-0.zip  # [win64]
+  sha256: 2588a13de2f0790b2e6cf50231e0f92d2849f1387746611c1a12473bb6c0b2c7  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/urca_1.3-0.tgz  # [osx]
+  sha256: d5df041f42ff318786284415ca5247fb0a98121cb4d16d337492532fbe6f8081  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-nlme
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-nlme
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('urca')"           # [not win]
+    - "\"%R%\" -e \"library('urca')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=urca
+  license: GPL (>= 2)
+  summary: Unit root and cointegration tests encountered in applied  econometric analysis are
+    implemented.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: urca
+# Version: 1.3-0
+# Date: 2016-09-06
+# Title: Unit Root and Cointegration Tests for Time Series Data
+# Authors@R: c(person("Bernhard", "Pfaff", email = "bernhard@pfaffikus.de", role = c("aut", "cre")), person("Eric", "Zivot",email = "ezivot@u.washington.edu", role = "ctb"), person("Matthieu", "Stigler", role = "ctb"))
+# Depends: R (>= 2.0.0), methods
+# Imports: nlme, graphics, stats
+# LazyLoad: yes
+# Description: Unit root and cointegration tests encountered in applied  econometric analysis are implemented.
+# License: GPL (>= 2)
+# NeedsCompilation: yes
+# Packaged: 2016-09-06 20:57:19 UTC; bp
+# Author: Bernhard Pfaff [aut, cre], Eric Zivot [ctb], Matthieu Stigler [ctb]
+# Maintainer: Bernhard Pfaff <bernhard@pfaffikus.de>
+# Repository: CRAN
+# Date/Publication: 2016-09-06 23:26:02
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

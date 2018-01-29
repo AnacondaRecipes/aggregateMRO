@@ -1,0 +1,93 @@
+{% set version = '1.1.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-shinythemes
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: shinythemes_1.1.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/shinythemes_1.1.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/shinythemes/shinythemes_1.1.1.tar.gz  # [linux or win32]
+  sha256: e6dfa2bd6f4a259feb54a9c910b21cfbb2b22efc4506d8e23007b75080074244  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/shinythemes_1.1.1.zip  # [win64]
+  sha256: 0e401320f758b1a7952d966778d9d3029f9cc912d463be2a3a28fb4e592db365  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/shinythemes_1.1.1.tgz  # [osx]
+  sha256: c168fbe2093f4930a3877705d036c0723642ebe9df70361d987baaa754141d11  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-shiny >=0.11
+
+  run:
+    - mro-base
+    - r-shiny >=0.11
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('shinythemes')"           # [not win]
+    - "\"%R%\" -e \"library('shinythemes')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=shinythemes
+  license: GPL-3 | file LICENSE
+  summary: Themes for use with Shiny. Includes several Bootstrap themes from <http://bootswatch.com/>,
+    which are packaged for use with Shiny applications.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: shinythemes
+# Title: Themes for Shiny
+# Version: 1.1.1
+# Authors@R: c( person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"), person(family = "RStudio", role = "cph"), person("Thomas", "Park", role = c("ctb", "cph"), comment = "Bootswatch themes"), person("Lukasz", "Dziedzic", role = c("ctb", "cph"), comment = "Lato font"), person("Nathan", "Willis", role = c("ctb", "cph"), comment = "News Cycle font"), person(family = "Google Corporation", role = c("ctb", "cph"), comment = "Open Sans and Roboto fonts"), person("Matt", "McInerney", role = c("ctb", "cph"), comment = "Raleway font"), person(family = "Adobe Systems Incorporated", role = c("ctb", "cph"), comment = "Source Sans Pro font"), person(family = "Canonical Ltd", role = c("ctb", "cph"), comment = "Ubuntu font") )
+# Description: Themes for use with Shiny. Includes several Bootstrap themes from <http://bootswatch.com/>, which are packaged for use with Shiny applications.
+# Depends: R (>= 3.0.0)
+# Imports: shiny (>= 0.11)
+# License: GPL-3 | file LICENSE
+# RoxygenNote: 5.0.1
+# NeedsCompilation: no
+# Packaged: 2016-10-12 01:29:50 UTC; winston
+# Author: Winston Chang [aut, cre], RStudio [cph], Thomas Park [ctb, cph] (Bootswatch themes), Lukasz Dziedzic [ctb, cph] (Lato font), Nathan Willis [ctb, cph] (News Cycle font), Google Corporation [ctb, cph] (Open Sans and Roboto fonts), Matt McInerney [ctb, cph] (Raleway font), Adobe Systems Incorporated [ctb, cph] (Source Sans Pro font), Canonical Ltd [ctb, cph] (Ubuntu font)
+# Maintainer: Winston Chang <winston@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2016-10-12 09:00:52
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

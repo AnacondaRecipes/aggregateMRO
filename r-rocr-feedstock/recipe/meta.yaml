@@ -1,0 +1,102 @@
+{% set version = '1.0-7' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rocr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: ROCR_1.0-7.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ROCR_1.0-7.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ROCR/ROCR_1.0-7.tar.gz  # [linux or win32]
+  sha256: e7ef710f847e441a48b20fdc781dbc1377f5a060a5ee635234053f7a2a435ec9  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ROCR_1.0-7.zip  # [win64]
+  sha256: 1e16a10ff6d3bc0d71b1947597dbb0d45c7e9faa1fa3b4caf4893650c872875b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ROCR_1.0-7.tgz  # [osx]
+  sha256: e0f6ab2e0f5b3d99dacf2720dd522aaad3ffa75c35a616c15e3279df275609a5  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-gplots
+
+  run:
+    - mro-base
+    - r-gplots
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('ROCR')"           # [not win]
+    - "\"%R%\" -e \"library('ROCR')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://rocr.bioinf.mpi-sb.mpg.de/
+  license: GPL (>= 2)
+  summary: ROC graphs, sensitivity/specificity curves, lift charts, and precision/recall plots
+    are popular examples of trade-off visualizations for specific pairs of performance
+    measures. ROCR is a flexible tool for creating cutoff-parameterized 2D performance
+    curves by freely combining two from over 25 performance measures (new performance
+    measures can be added using a standard interface). Curves from different cross-validation
+    or bootstrapping runs can be averaged by different methods, and standard deviations,
+    standard errors or box plots can be used to visualize the variability across the
+    runs. The parameterization can be visualized by printing cutoff values at the corresponding
+    curve positions, or by coloring the curve according to cutoff. All components of
+    a performance plot can be quickly adjusted using a flexible parameter dispatching
+    mechanism. Despite its flexibility, ROCR is easy to use, with only three commands
+    and reasonable default values for all optional parameters.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: ROCR
+# Title: Visualizing the Performance of Scoring Classifiers
+# Version: 1.0-7
+# Date: 2015-03-26
+# Depends: gplots, methods
+# Author: Tobias Sing, Oliver Sander, Niko Beerenwinkel, Thomas Lengauer
+# Description: ROC graphs, sensitivity/specificity curves, lift charts, and precision/recall plots are popular examples of trade-off visualizations for specific pairs of performance measures. ROCR is a flexible tool for creating cutoff-parameterized 2D performance curves by freely combining two from over 25 performance measures (new performance measures can be added using a standard interface). Curves from different cross-validation or bootstrapping runs can be averaged by different methods, and standard deviations, standard errors or box plots can be used to visualize the variability across the runs. The parameterization can be visualized by printing cutoff values at the corresponding curve positions, or by coloring the curve according to cutoff. All components of a performance plot can be quickly adjusted using a flexible parameter dispatching mechanism. Despite its flexibility, ROCR is easy to use, with only three commands and reasonable default values for all optional parameters.
+# Maintainer: Tobias Sing <tobias.sing@gmail.com>
+# License: GPL (>= 2)
+# URL: http://rocr.bioinf.mpi-sb.mpg.de/
+# Packaged: 2015-03-26 10:34:10 UTC; singto1
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2015-03-26 17:12:17
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,95 @@
+{% set version = '0.1-8' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-jpeg
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: jpeg_0.1-8.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/jpeg_0.1-8.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/jpeg/jpeg_0.1-8.tar.gz  # [linux or win32]
+  sha256: d032befeb3a414cefdbf70ba29a6c01541c54387cc0a1a98a4022d86cbe60a16  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/jpeg_0.1-8.zip  # [win64]
+  sha256: 99325abd7d67d0890b6f68a0d6d0f82d0a5f8cb297ce451ee7d6adcc79aad81d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/jpeg_0.1-8.tgz  # [osx]
+  sha256: 96b025c223be89c10cecbc956d67f9061a7afb369403d01e69c1fdcf0703f938  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('jpeg')"           # [not win]
+    - "\"%R%\" -e \"library('jpeg')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.rforge.net/jpeg/
+  license: GPL-2 | GPL-3
+  summary: This package provides an easy and simple way to read, write and display bitmap images
+    stored in the JPEG format. It can read and write both files and in-memory raw vectors.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: jpeg
+# Version: 0.1-8
+# Title: Read and write JPEG images
+# Author: Simon Urbanek <Simon.Urbanek@r-project.org>
+# Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
+# Depends: R (>= 2.9.0)
+# Description: This package provides an easy and simple way to read, write and display bitmap images stored in the JPEG format. It can read and write both files and in-memory raw vectors.
+# License: GPL-2 | GPL-3
+# SystemRequirements: libjpeg
+# URL: http://www.rforge.net/jpeg/
+# Packaged: 2014-01-23 19:05:03 UTC; svnuser
+# NeedsCompilation: yes
+# Repository: CRAN
+# Date/Publication: 2014-01-23 20:17:07
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

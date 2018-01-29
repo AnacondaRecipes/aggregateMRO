@@ -1,0 +1,94 @@
+{% set version = '2.4-0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-sandwich
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: sandwich_2.4-0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/sandwich_2.4-0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/sandwich/sandwich_2.4-0.tar.gz  # [linux or win32]
+  sha256: 34315b9ced76a3ed109aead7b8f77eea6398a6eb2e1ad71515a48bed9808ccc0  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/sandwich_2.4-0.zip  # [win64]
+  sha256: d2121276e0f46679e5ccff53cf27f270836784908194279142d973eaae8955e6  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/sandwich_2.4-0.tgz  # [osx]
+  sha256: ea9e72c3de1e8436dd1612273ced745dfdb209dc9473ce2a8a22e9fa0d1dce0d  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: AER, car, geepack, lattice, lmtest, MASS, multiwayvcov, pcse, plm, pscl, scatterplot3d, stats4, strucchange, survival
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-zoo
+
+  run:
+    - mro-base
+    - r-zoo
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('sandwich')"           # [not win]
+    - "\"%R%\" -e \"library('sandwich')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=sandwich
+  license: GPL-2 | GPL-3
+  summary: Model-robust standard error estimators for cross-sectional, time series, clustered,
+    panel, and longitudinal data.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: sandwich
+# Version: 2.4-0
+# Date: 2017-07-26
+# Title: Robust Covariance Matrix Estimators
+# Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"), person(given = "Thomas", family = "Lumley", role = "aut", email = "tlumley@u.washington.edu"), person(given = "Susanne", family = "Berger", role = "ctb", email = "Susanne.Berger@uibk.ac.at"), person(given = "Nathaniel", family = "Graham", role = "ctb", email = "npgraham1@gmail.com"))
+# Description: Model-robust standard error estimators for cross-sectional, time series, clustered, panel, and longitudinal data.
+# Depends: R (>= 2.10.0)
+# Imports: stats, utils, zoo
+# Suggests: AER, car, geepack, lattice, lmtest, MASS, multiwayvcov, pcse, plm, pscl, scatterplot3d, stats4, strucchange, survival
+# License: GPL-2 | GPL-3
+# NeedsCompilation: no
+# Packaged: 2017-07-26 19:08:36 UTC; zeileis
+# Author: Achim Zeileis [aut, cre], Thomas Lumley [aut], Susanne Berger [ctb], Nathaniel Graham [ctb]
+# Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-07-26 19:36:29 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

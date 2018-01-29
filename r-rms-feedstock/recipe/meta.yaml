@@ -1,0 +1,133 @@
+{% set version = '5.1-1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rms
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rms_5.1-1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rms_5.1-1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rms/rms_5.1-1.tar.gz  # [linux or win32]
+  sha256: c489948df5c434b40bcf5288844f5b4e08d157f36939d09230c1600f88d1bfe3  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rms_5.1-1.zip  # [win64]
+  sha256: e8c716e6d6bf0a701b23affd465e34f6d064ffa15351ed8a9062837524706923  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rms_5.1-1.tgz  # [osx]
+  sha256: 2b7dfd7ca9027ad89b89e77e024f7dd0087ab6ecb823b54ffb5a06e89aa7ae49  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: boot, tcltk, plotly (>= 4.5.6)
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-hmisc >=4.0_2
+    - r-sparsem
+    - r-ggplot2 >=2.2
+    - r-htmltable
+    - r-htmltools
+    - r-lattice
+    - r-multcomp
+    - r-nlme >=3.1_123
+    - r-polspline
+    - r-quantreg
+    - r-rpart
+    - r-survival >=2.40_1
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-hmisc >=4.0_2
+    - r-sparsem
+    - r-ggplot2 >=2.2
+    - r-htmltable
+    - r-htmltools
+    - r-lattice
+    - r-multcomp
+    - r-nlme >=3.1_123
+    - r-polspline
+    - r-quantreg
+    - r-rpart
+    - r-survival >=2.40_1
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rms')"           # [not win]
+    - "\"%R%\" -e \"library('rms')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://biostat.mc.vanderbilt.edu/rms
+  license: GPL (>= 2)
+  summary: "Regression modeling, testing, estimation, validation, graphics, prediction, and typesetting
+    by storing enhanced model design attributes in the fit.  'rms' is a collection of
+    functions that assist with and streamline modeling.  It also contains functions
+    for binary and ordinal logistic regression models, ordinal models for continuous
+    Y with a variety of distribution families, and the Buckley-James multiple regression
+    model for right-censored responses, and implements penalized maximum likelihood
+    estimation for logistic and ordinary linear models.  'rms' works with almost any
+    regression model, but it was especially written to work with binary or ordinal regression
+    models, Cox regression, accelerated failure time models, ordinary linear models,\tthe
+    Buckley-James model, generalized least squares for serially or spatially correlated
+    observations, generalized linear models, and quantile regression."
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rms
+# Version: 5.1-1
+# Date: 2017-05-01
+# Title: Regression Modeling Strategies
+# Author: Frank E Harrell Jr <f.harrell@vanderbilt.edu>
+# Maintainer: Frank E Harrell Jr <f.harrell@vanderbilt.edu>
+# Depends: Hmisc (>= 4.0-2), survival (>= 2.40-1), lattice, ggplot2 (>= 2.2), SparseM
+# Imports: methods, quantreg, rpart, nlme (>= 3.1-123), polspline, multcomp, htmlTable, htmltools
+# Suggests: boot, tcltk, plotly (>= 4.5.6)
+# Description: Regression modeling, testing, estimation, validation, graphics, prediction, and typesetting by storing enhanced model design attributes in the fit.  'rms' is a collection of functions that assist with and streamline modeling.  It also contains functions for binary and ordinal logistic regression models, ordinal models for continuous Y with a variety of distribution families, and the Buckley-James multiple regression model for right-censored responses, and implements penalized maximum likelihood estimation for logistic and ordinary linear models.  'rms' works with almost any regression model, but it was especially written to work with binary or ordinal regression models, Cox regression, accelerated failure time models, ordinary linear models,	the Buckley-James model, generalized least squares for serially or spatially correlated observations, generalized linear models, and quantile regression.
+# License: GPL (>= 2)
+# URL: http://biostat.mc.vanderbilt.edu/rms
+# LazyLoad: yes
+# NeedsCompilation: yes
+# Packaged: 2017-05-03 14:03:12 UTC; harrelfe
+# Repository: CRAN
+# Date/Publication: 2017-05-03 16:41:23 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

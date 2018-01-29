@@ -1,0 +1,99 @@
+{% set version = '0.6-28' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-latticeextra
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: latticeExtra_0.6-28.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/latticeExtra_0.6-28.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/latticeExtra/latticeExtra_0.6-28.tar.gz  # [linux or win32]
+  sha256: 780695323dfadac108fb27000011c734e2927b1e0f069f247d65d27994c67ec2  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/latticeExtra_0.6-28.zip  # [win64]
+  sha256: 81d5b314176b859ca11ab8aa9d0cb8d68d191cbe14172f30f99858fc71fb1dce  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/latticeExtra_0.6-28.tgz  # [osx]
+  sha256: bbc0e4771b1375d0f05563e9ace9029d3f5ec64572c2d07c2e4642b0f73f9e54  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: maps, mapproj, deldir, tripack, zoo, MASS, quantreg, mgcv
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-rcolorbrewer
+    - r-lattice
+
+  run:
+    - mro-base
+    - r-rcolorbrewer
+    - r-lattice
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('latticeExtra')"           # [not win]
+    - "\"%R%\" -e \"library('latticeExtra')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://latticeextra.r-forge.r-project.org/
+  license: GPL (>= 2)
+  summary: Building on the infrastructure provided by the lattice package, this package provides
+    several new high-level functions and methods, as well as additional utilities such
+    as panel and axis annotation functions.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: latticeExtra
+# Version: 0.6-28
+# Date: 2016-01-09
+# Title: Extra Graphical Utilities Based on Lattice
+# Author: Deepayan Sarkar <deepayan.sarkar@r-project.org>, Felix Andrews <felix@nfrac.org>
+# Maintainer: Deepayan Sarkar <deepayan.sarkar@r-project.org>
+# Description: Building on the infrastructure provided by the lattice package, this package provides several new high-level functions and methods, as well as additional utilities such as panel and axis annotation functions.
+# Depends: R (>= 2.10.0), lattice, RColorBrewer
+# Imports: grid, stats, utils, grDevices
+# Suggests: maps, mapproj, deldir, tripack, zoo, MASS, quantreg, mgcv
+# URL: http://latticeextra.r-forge.r-project.org/
+# LazyLoad: yes
+# LazyData: yes
+# License: GPL (>= 2)
+# NeedsCompilation: no
+# Packaged: 2016-02-09 11:06:00 UTC; deepayan
+# Repository: CRAN
+# Date/Publication: 2016-02-09 14:36:31
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

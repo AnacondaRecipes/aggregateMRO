@@ -1,0 +1,105 @@
+{% set version = '1.1.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-desc
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: desc_1.1.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/desc_1.1.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/desc/desc_1.1.1.tar.gz  # [linux or win32]
+  sha256: 32ff99b658db3bf0172cf30d15b7f34021144ffc08a5896afd3d30055fc4074c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/desc_1.1.1.zip  # [win64]
+  sha256: ad8324b327e807a744715bd14a821812ff016fc9a49ac92645d4763b51ece6e9  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/desc_1.1.1.tgz  # [osx]
+  sha256: 3eb03e2cec5737b452c6a2ae50b07aaa1b9a037c39e633ef034e3593ef35e23a  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: covr, testthat, whoami, withr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-r6
+    - r-assertthat
+    - r-crayon
+    - r-rprojroot
+
+  run:
+    - mro-base
+    - r-r6
+    - r-assertthat
+    - r-crayon
+    - r-rprojroot
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('desc')"           # [not win]
+    - "\"%R%\" -e \"library('desc')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/r-lib/desc#readme
+  license: MIT + file LICENSE
+  summary: Tools to read, write, create, and manipulate DESCRIPTION files. It is intended for
+    packages that create or manipulate other packages.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: desc
+# Title: Manipulate DESCRIPTION Files
+# Version: 1.1.1
+# Authors@R: c( person("Gabor", "Csardi",, "csardi.gabor@gmail.com", role = c("aut", "cre")), person("Kirill", "Muller", role = c("aut")))
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# Description: Tools to read, write, create, and manipulate DESCRIPTION files. It is intended for packages that create or manipulate other packages.
+# License: MIT + file LICENSE
+# LazyData: true
+# URL: https://github.com/r-lib/desc#readme
+# BugReports: https://github.com/r-lib/desc/issues
+# Depends: R (>= 3.1.0)
+# Suggests: covr, testthat, whoami, withr
+# Imports: assertthat, utils, R6, crayon, rprojroot
+# Encoding: UTF-8
+# RoxygenNote: 5.0.1.9000
+# Collate: 'assertions.R' 'authors-at-r.R' 'classes.R' 'collate.R' 'constants.R' 'deps.R' 'description.R' 'encoding.R' 'latex.R' 'non-oo-api.R' 'package-archives.R' 'read.R' 'remotes.R' 'str.R' 'syntax_checks.R' 'urls.R' 'utils.R' 'validate.R' 'version.R'
+# NeedsCompilation: no
+# Packaged: 2017-08-03 09:45:28 UTC; gaborcsardi
+# Author: Gabor Csardi [aut, cre], Kirill Muller [aut]
+# Repository: CRAN
+# Date/Publication: 2017-08-03 15:22:33 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

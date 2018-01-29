@@ -1,0 +1,99 @@
+{% set version = '2.6.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-r.utils
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: R.utils_2.6.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/R.utils_2.6.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/R.utils/R.utils_2.6.0.tar.gz  # [linux or win32]
+  sha256: 5d64993d1209b512a4e97f2edecdbc185f4a369ee5fa2e334ed2cf017486470e  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/R.utils_2.6.0.zip  # [win64]
+  sha256: 1e487b845118ff7af8cc40c4d50254eb3ce8b6ff20f9b394b0fa1b124893b711  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/R.utils_2.6.0.tgz  # [osx]
+  sha256: 3595ce178ca001189befff35d3bafc753a239a279e9981fd375f0dc9f5cc38de  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: digest (>= 0.6.10)
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-r.methodss3 >=1.7.1
+    - r-r.oo >=1.21.0
+
+  run:
+    - mro-base
+    - r-r.methodss3 >=1.7.1
+    - r-r.oo >=1.21.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('R.utils')"           # [not win]
+    - "\"%R%\" -e \"library('R.utils')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/HenrikBengtsson/R.utils
+  license: LGPL (>= 2.1)
+  summary: Utility functions useful when programming and developing R packages.
+  license_family: LGPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: R.utils
+# Version: 2.6.0
+# Depends: R (>= 2.14.0), R.oo (>= 1.21.0)
+# Imports: methods, utils, tools, R.methodsS3 (>= 1.7.1)
+# Suggests: digest (>= 0.6.10)
+# Date: 2017-11-04
+# Title: Various Programming Utilities
+# Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"), email = "henrikb@braju.com"))
+# Author: Henrik Bengtsson [aut, cre, cph]
+# Maintainer: Henrik Bengtsson <henrikb@braju.com>
+# Description: Utility functions useful when programming and developing R packages.
+# License: LGPL (>= 2.1)
+# LazyLoad: TRUE
+# URL: https://github.com/HenrikBengtsson/R.utils
+# BugReports: https://github.com/HenrikBengtsson/R.utils/issues
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-11-04 17:21:15 UTC; hb
+# Repository: CRAN
+# Date/Publication: 2017-11-05 15:03:17 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

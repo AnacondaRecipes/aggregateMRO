@@ -1,0 +1,117 @@
+{% set version = '1.1.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-igraph
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: igraph_1.1.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/igraph_1.1.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/igraph/igraph_1.1.2.tar.gz  # [linux or win32]
+  sha256: 89b16b41bc77949ea208419e52a18b78b5d418c7fedc52cd47d06a51a6e746ec  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/igraph_1.1.2.zip  # [win64]
+  sha256: 4cf8e1d0fd51adfef5ab2f572941cbfd5e67ca3a1e51a7c5878e558fa19dbf89  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/igraph_1.1.2.tgz  # [osx]
+  sha256: ceb5124537ef1c1001638bd45a61c13ab40daeb9b7a7c80e7ceb9d32d9cfce88  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: ape, graph, igraphdata, NMF, rgl, scales, stats4, tcltk, testthat
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-matrix
+    - r-irlba
+    - r-magrittr
+    - r-pkgconfig >=2.0.0
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-matrix
+    - r-irlba
+    - r-magrittr
+    - r-pkgconfig >=2.0.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('igraph')"           # [not win]
+    - "\"%R%\" -e \"library('igraph')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://igraph.org
+  license: GPL (>= 2)
+  summary: Routines for simple graphs and network analysis. It can handle large graphs very well
+    and provides functions for generating random and regular graphs, graph visualization,
+    centrality methods and much more.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: igraph
+# Version: 1.1.2
+# Title: Network Analysis and Visualization
+# Author: See AUTHORS file.
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# Description: Routines for simple graphs and network analysis. It can handle large graphs very well and provides functions for generating random and regular graphs, graph visualization, centrality methods and much more.
+# Depends: methods
+# Imports: graphics, grDevices, irlba, magrittr, Matrix, pkgconfig (>= 2.0.0), stats, utils
+# Suggests: ape, graph, igraphdata, NMF, rgl, scales, stats4, tcltk, testthat
+# License: GPL (>= 2)
+# URL: http://igraph.org
+# SystemRequirements: gmp, libxml2
+# BugReports: https://github.com/igraph/igraph/issues
+# Encoding: UTF-8
+# Collate: 'adjacency.R' 'auto.R' 'assortativity.R' 'attributes.R' 'basic.R' 'bipartite.R' 'centrality.R' 'centralization.R' 'cliques.R' 'cocitation.R' 'cohesive.blocks.R' 'community.R' 'components.R' 'console.R' 'conversion.R' 'data_frame.R' 'decomposition.R' 'degseq.R' 'demo.R' 'embedding.R' 'epi.R' 'fit.R' 'flow.R' 'foreign.R' 'games.R' 'glet.R' 'hrg.R' 'igraph-package.R' 'incidence.R' 'indexing.R' 'interface.R' 'iterators.R' 'layout.R' 'layout_drl.R' 'lazyeval.R' 'make.R' 'mgclust.R' 'minimum.spanning.tree.R' 'motifs.R' 'nexus.R' 'operators.R' 'other.R' 'package.R' 'palette.R' 'par.R' 'paths.R' 'plot.R' 'plot.common.R' 'plot.shapes.R' 'pp.R' 'print.R' 'printr.R' 'random_walk.R' 'rewire.R' 'scan.R' 'scg.R' 'sgm.R' 'similarity.R' 'simple.R' 'sir.R' 'socnet.R' 'sparsedf.R' 'structural.properties.R' 'structure.info.R' 'test.R' 'tkplot.R' 'topology.R' 'triangles.R' 'utils.R' 'uuid.R' 'versions.R' 'weakref.R' 'zzz-deprecate.R'
+# NeedsCompilation: yes
+# Packaged: 2017-07-20 21:33:52 UTC; gaborcsardi
+# Repository: CRAN
+# Date/Publication: 2017-07-21 11:39:40 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

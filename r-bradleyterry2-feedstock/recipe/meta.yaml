@@ -1,0 +1,106 @@
+{% set version = '1.0-8' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-bradleyterry2
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: BradleyTerry2_1.0-8.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/BradleyTerry2_1.0-8.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/BradleyTerry2/BradleyTerry2_1.0-8.tar.gz  # [linux or win32]
+  sha256: 1f95e885cd68d72a06c1990e6dd6a5f9ae5e26a1cf9b5af63fbdcce27efb8625  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/BradleyTerry2_1.0-8.zip  # [win64]
+  sha256: c617e9e1092d698bd7ff4fbbbd02edd9a6ee28e74f0213436fe0e5d49481f6b5  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/BradleyTerry2_1.0-8.tgz  # [osx]
+  sha256: 1194510a5cb03335dac8f32f971b5c7aa825c8a2428beff5fbfbd7f9aae484bc  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: prefmod
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-brglm
+    - r-gtools
+    - r-lme4 >=1.0
+    - r-qvcalc
+
+  run:
+    - mro-base
+    - r-brglm
+    - r-gtools
+    - r-lme4 >=1.0
+    - r-qvcalc
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('BradleyTerry2')"           # [not win]
+    - "\"%R%\" -e \"library('BradleyTerry2')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/hturner/BradleyTerry2
+  license: GPL (>= 2)
+  summary: Specify and fit the Bradley-Terry model, including structured versions in which the
+    parameters are related to explanatory variables through a linear predictor and versions
+    with contest-specific effects, such as a home advantage.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: BradleyTerry2
+# Version: 1.0-8
+# Title: Bradley-Terry Models
+# Authors@R: c(person("Heather", "Turner", role = c("aut", "cre"), email = "ht@heatherturner.net"), person("David", "Firth", role = "aut"))
+# URL: https://github.com/hturner/BradleyTerry2
+# BugReports: https://github.com/hturner/BradleyTerry2/issues
+# Description: Specify and fit the Bradley-Terry model, including structured versions in which the parameters are related to explanatory variables through a linear predictor and versions with contest-specific effects, such as a home advantage.
+# Depends: R (>= 2.10)
+# Imports: brglm, gtools, lme4 (>= 1.0), qvcalc, stats
+# Suggests: prefmod
+# Enhances: gnm
+# License: GPL (>= 2)
+# LazyData: yes
+# Encoding: UTF-8
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-09-20 08:33:05 UTC; hturner
+# Author: Heather Turner [aut, cre], David Firth [aut]
+# Maintainer: Heather Turner <ht@heatherturner.net>
+# Repository: CRAN
+# Date/Publication: 2017-09-20 09:26:09 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

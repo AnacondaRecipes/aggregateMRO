@@ -1,0 +1,110 @@
+{% set version = '1.0-5' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-gsw
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: gsw_1.0-5.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gsw_1.0-5.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gsw/gsw_1.0-5.tar.gz  # [linux or win32]
+  sha256: eb468918ee91e429b47fbcac43269eca627b7f64b61520de5bbe8fa223e96453  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gsw_1.0-5.zip  # [win64]
+  sha256: 9722accd4ae97c05d3117082f838c93b264adc844e42f9f08dd1686d508e381b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gsw_1.0-5.tgz  # [osx]
+  sha256: 423fbdf39792fbad20884b156b9b87eac9c3ee97c7f1d5fbe02cc47e88e33467  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: knitr,
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-testthat
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-testthat
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('gsw')"           # [not win]
+    - "\"%R%\" -e \"library('gsw')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://teos-10.github.io/GSW-R/index.html
+  license: GPL (>= 2) | file LICENSE
+  summary: Provides an interface to the Gibbs 'SeaWater' ('TEOS-10') C library, version 3.05-4
+    (commit '5b4d959e54031f9e972f3e863f63e67fa4f5bfec', dated 2017-08-07, available
+    at <https://github.com/TEOS-10/GSW-C>, which stems from 'Matlab' and other code
+    written by members of Working Group 127 of 'SCOR'/'IAPSO' (Scientific Committee
+    on Oceanic Research / International Association for the Physical Sciences of the
+    Oceans).
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: gsw
+# Version: 1.0-5
+# Date: 2017-08-08
+# Title: Gibbs Sea Water Functions
+# Authors@R: c(person("Dan", "Kelley", role=c("aut","cre","cph"), email="dan.kelley@dal.ca", comment="C wrapper plus R code, tests, and documentation"), person("Clark", "Richards", role=c("aut","cph"), email="clark.richards@gmail.com", comment="C wrapper plus R code, tests, and documentation"), person("WG127", "SCOR/IAPSO", role=c("aut","cph"), comment="Original 'Matlab' and derived code"))
+# Copyright: Original algorithms and 'Matlab'/C library (c) 2015-2017 WG127 SCOR/IAPSO (Scientific Committee on Oceanic Research / International Association for the Physical Sciences of the Oceans, Working Group 127); C wrapper code and R code (c) 2015-2017 Dan Kelley and Clark Richards
+# Maintainer: Dan Kelley <dan.kelley@dal.ca>
+# Depends: R (>= 2.15), testthat
+# Suggests: knitr,
+# BugReports: https://github.com/TEOS-10/GSW-R/issues
+# Description: Provides an interface to the Gibbs 'SeaWater' ('TEOS-10') C library, version 3.05-4 (commit '5b4d959e54031f9e972f3e863f63e67fa4f5bfec', dated 2017-08-07, available at <https://github.com/TEOS-10/GSW-C>, which stems from 'Matlab' and other code written by members of Working Group 127 of 'SCOR'/'IAPSO' (Scientific Committee on Oceanic Research / International Association for the Physical Sciences of the Oceans).
+# URL: http://teos-10.github.io/GSW-R/index.html
+# License: GPL (>= 2) | file LICENSE
+# LazyLoad: yes
+# LazyData: no
+# Packaged: 2017-08-09 14:47:12 UTC; kelley
+# Encoding: UTF-8
+# RoxygenNote: 6.0.1
+# VignetteBuilder: knitr
+# NeedsCompilation: yes
+# Author: Dan Kelley [aut, cre, cph] (C wrapper plus R code, tests, and documentation), Clark Richards [aut, cph] (C wrapper plus R code, tests, and documentation), WG127 SCOR/IAPSO [aut, cph] (Original 'Matlab' and derived code)
+# Repository: CRAN
+# Date/Publication: 2017-08-09 21:05:24 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

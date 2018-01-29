@@ -1,0 +1,94 @@
+{% set version = '0.19-1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-coda
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: coda_0.19-1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/coda_0.19-1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/coda/coda_0.19-1.tar.gz  # [linux or win32]
+  sha256: d41ff5731da6805170769dba75dd011ab33f916d15b2336001f279e21a524491  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/coda_0.19-1.zip  # [win64]
+  sha256: ad2e8cb51df34df4acd2a9b11d997d09e2f0cd37e3d1a67624675397e83bd36c  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/coda_0.19-1.tgz  # [osx]
+  sha256: a5156dfcab346206008fff676078af0e7fb0a2a936f807827823e537123ced67  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-lattice
+
+  run:
+    - mro-base
+    - r-lattice
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('coda')"           # [not win]
+    - "\"%R%\" -e \"library('coda')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=coda
+  license: GPL (>= 2)
+  summary: Provides functions for summarizing and plotting the output from Markov Chain Monte
+    Carlo (MCMC) simulations, as well as diagnostic tests of convergence to the equilibrium
+    distribution of the Markov chain.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: coda
+# Version: 0.19-1
+# Date: 2016-12-07
+# Title: Output Analysis and Diagnostics for MCMC
+# Authors@R: c(person("Martyn", "Plummer", role=c("aut","cre","trl"), email="plummerm@iarc.fr"), person("Nicky", "Best", role="aut"), person("Kate", "Cowles", role="aut"), person("Karen", "Vines", role="aut"), person("Deepayan", "Sarkar", role="aut"), person("Douglas", "Bates", role="aut"), person("Russell", "Almond", role="aut"), person("Arni", "Magnusson", role="aut"))
+# Depends: R (>= 2.14.0)
+# Imports: lattice
+# Description: Provides functions for summarizing and plotting the output from Markov Chain Monte Carlo (MCMC) simulations, as well as diagnostic tests of convergence to the equilibrium distribution of the Markov chain.
+# License: GPL (>= 2)
+# NeedsCompilation: no
+# Packaged: 2016-12-07 15:34:56 UTC; martyn
+# Author: Martyn Plummer [aut, cre, trl], Nicky Best [aut], Kate Cowles [aut], Karen Vines [aut], Deepayan Sarkar [aut], Douglas Bates [aut], Russell Almond [aut], Arni Magnusson [aut]
+# Maintainer: Martyn Plummer <plummerm@iarc.fr>
+# Repository: CRAN
+# Date/Publication: 2016-12-08 10:25:11
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

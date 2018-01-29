@@ -1,0 +1,104 @@
+{% set version = '1.4.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-acepack
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: acepack_1.4.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/acepack_1.4.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/acepack/acepack_1.4.1.tar.gz  # [linux or win32]
+  sha256: 82750507926f02a696f6cc03693e8d4a5ee7e92500c8c15a16a9c12addcd28b9  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/acepack_1.4.1.zip  # [win64]
+  sha256: f03d405b9bbc16822f32596b9a72a36cdd2f768e3b8696b9d2798883eb85f98e  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/acepack_1.4.1.tgz  # [osx]
+  sha256: 516802bbedbbb70970c6e61e6b1e20e50c1a0703c3dcf3447cb42d49a5cba5cb  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('acepack')"           # [not win]
+    - "\"%R%\" -e \"library('acepack')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=acepack
+  license: MIT + file LICENSE
+  summary: Two nonparametric methods for multiple regression transform selection are provided.
+    The first, Alternative Conditional Expectations (ACE),  is an algorithm to find
+    the fixed point of maximal correlation, i.e. it finds a set of transformed response
+    variables that maximizes R^2 using smoothing functions [see Breiman, L., and J.H.
+    Friedman. 1985. "Estimating Optimal Transformations for Multiple Regression and
+    Correlation". Journal of the American Statistical Association. 80:580-598. <doi:10.1080/01621459.1985.10478157>].
+    Also included is the Additivity Variance Stabilization (AVAS) method which works
+    better than ACE when correlation is low [see Tibshirani, R.. 1986. "Estimating Transformations
+    for Regression via Additivity and Variance Stabilization". Journal of the American
+    Statistical Association. 83:394-405.  <doi:10.1080/01621459.1988.10478610>]. A good
+    introduction to these two methods is in chapter 16 of Frank Harrel's "Regression
+    Modeling Strategies" in the Springer Series in Statistics.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: acepack
+# Maintainer: Shawn Garbett <shawn.garbett@vanderbilt.edu>
+# Version: 1.4.1
+# Author: Phil Spector, Jerome Friedman, Robert Tibshirani, Thomas Lumley, Shawn Garbett, Jonathan Baron
+# Description: Two nonparametric methods for multiple regression transform selection are provided. The first, Alternative Conditional Expectations (ACE),  is an algorithm to find the fixed point of maximal correlation, i.e. it finds a set of transformed response variables that maximizes R^2 using smoothing functions [see Breiman, L., and J.H. Friedman. 1985. "Estimating Optimal Transformations for Multiple Regression and Correlation". Journal of the American Statistical Association. 80:580-598. <doi:10.1080/01621459.1985.10478157>]. Also included is the Additivity Variance Stabilization (AVAS) method which works better than ACE when correlation is low [see Tibshirani, R.. 1986. "Estimating Transformations for Regression via Additivity and Variance Stabilization". Journal of the American Statistical Association. 83:394-405.  <doi:10.1080/01621459.1988.10478610>]. A good introduction to these two methods is in chapter 16 of Frank Harrel's "Regression Modeling Strategies" in the Springer Series in Statistics.
+# Title: ACE and AVAS for Selecting Multiple Regression Transformations
+# License: MIT + file LICENSE
+# Suggests: testthat
+# Packaged: 2016-10-28 15:38:59 UTC; garbetsp
+# Repository: CRAN
+# Date/Publication: 2016-10-29 00:11:52
+# NeedsCompilation: yes
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

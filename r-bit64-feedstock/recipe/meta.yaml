@@ -1,0 +1,109 @@
+{% set version = '0.9-7' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-bit64
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: bit64_0.9-7.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bit64_0.9-7.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bit64/bit64_0.9-7.tar.gz  # [linux or win32]
+  sha256: 7b9aaa7f971198728c3629f9ba1a1b24d53db5c7e459498b0fdf86bbd3dff61f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/bit64_0.9-7.zip  # [win64]
+  sha256: 3aff98e15b1571de63c622cad5730c1f3ecdc64ea0bf5db7e8bf50447abc25e1  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/bit64_0.9-7.tgz  # [osx]
+  sha256: 9f6a8b7ee172a3fde52bf5fe77a57e3abbe35e775ea8ffc53f64d9c29fa9bdce  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-bit >=1.1_12
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-bit >=1.1_12
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('bit64')"           # [not win]
+    - "\"%R%\" -e \"library('bit64')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://ff.r-forge.r-project.org/
+  license: GPL-2
+  summary: ' Package ''bit64'' provides serializable S3 atomic 64bit (signed) integers.  These
+    are useful for handling database keys and exact counting in +-2^63. WARNING: do
+    not use them as replacement for 32bit integers, integer64 are not supported for
+    subscripting by R-core and they have different semantics when  combined with double,
+    e.g. integer64 + double => integer64.  Class integer64 can be used in vectors, matrices,
+    arrays and data.frames.  Methods are available for coercion from and to logicals,
+    integers, doubles,  characters and factors as well as many elementwise and summary
+    functions.  Many fast algorithmic operations such as ''match'' and ''order'' support
+    inter- active data exploration and manipulation and optionally leverage caching.'
+
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: bit64
+# Type: Package
+# Title: A S3 Class for Vectors of 64bit Integers
+# Version: 0.9-7
+# Date: 2017-05-07
+# Author: Jens Oehlschlagel <Jens.Oehlschlaegel@truecluster.com>
+# Maintainer: Jens Oehlschlagel <Jens.Oehlschlaegel@truecluster.com>
+# Depends: R (>= 3.0.1), bit (>= 1.1-12), utils, methods, stats
+# Description:  Package 'bit64' provides serializable S3 atomic 64bit (signed) integers.  These are useful for handling database keys and exact counting in +-2^63. WARNING: do not use them as replacement for 32bit integers, integer64 are not supported for subscripting by R-core and they have different semantics when  combined with double, e.g. integer64 + double => integer64.  Class integer64 can be used in vectors, matrices, arrays and data.frames.  Methods are available for coercion from and to logicals, integers, doubles,  characters and factors as well as many elementwise and summary functions.  Many fast algorithmic operations such as 'match' and 'order' support inter- active data exploration and manipulation and optionally leverage caching.
+# License: GPL-2
+# LazyLoad: yes
+# ByteCompile: yes
+# URL: http://ff.r-forge.r-project.org/
+# Encoding: UTF-8
+# NeedsCompilation: yes
+# Packaged: 2017-05-07 19:07:42 UTC; jo
+# Repository: CRAN
+# Date/Publication: 2017-05-08 13:21:40 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

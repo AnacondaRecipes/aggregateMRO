@@ -1,0 +1,101 @@
+{% set version = '1.2.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-minqa
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: minqa_1.2.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/minqa_1.2.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/minqa/minqa_1.2.4.tar.gz  # [linux or win32]
+  sha256: cfa193a4a9c55cb08f3faf4ab09c11b70412523767f19894e4eafc6e94cccd0c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/minqa_1.2.4.zip  # [win64]
+  sha256: 444bc989cde76b6aca8d7745c45a14a38f073299d4b86ecb3cf246a3e263270a  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/minqa_1.2.4.tgz  # [osx]
+  sha256: 7b25b5f43761d4a9b457b707bde4b8fa4128ccb292556d9539c3d13363f4f5cd  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{ compiler('fortran') }}    # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-rcpp >=0.9.10
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-rcpp >=0.9.10
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('minqa')"           # [not win]
+    - "\"%R%\" -e \"library('minqa')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://optimizer.r-forge.r-project.org
+  license: GPL-2
+  summary: Derivative-free optimization by quadratic approximation based on an interface to Fortran
+    implementations by M. J. D. Powell.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: minqa
+# Type: Package
+# Title: Derivative-free optimization algorithms by quadratic approximation
+# Version: 1.2.4
+# Author: Douglas Bates, Katharine M. Mullen, John C. Nash, Ravi Varadhan
+# Maintainer: Katharine M. Mullen <katharine.mullen@stat.ucla.edu>
+# Description: Derivative-free optimization by quadratic approximation based on an interface to Fortran implementations by M. J. D. Powell.
+# License: GPL-2
+# URL: http://optimizer.r-forge.r-project.org
+# Imports: Rcpp (>= 0.9.10)
+# LinkingTo: Rcpp
+# SystemRequirements: GNU make
+# NeedsCompilation: yes
+# Packaged: 2014-10-09 07:29:53 UTC; kmm
+# Repository: CRAN
+# Date/Publication: 2014-10-09 15:29:18
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

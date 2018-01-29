@@ -1,0 +1,97 @@
+{% set version = '1.1.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-memoise
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: memoise_1.1.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/memoise_1.1.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/memoise/memoise_1.1.0.tar.gz  # [linux or win32]
+  sha256: b276f9452a26aeb79e12dd7227fcc8712832781a42f92d70e86040da0573980c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/memoise_1.1.0.zip  # [win64]
+  sha256: 3d70d6f0dd8868c02047a312c0093eaf164aee15d119f0f28f5397b4bf214570  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/memoise_1.1.0.tgz  # [osx]
+  sha256: c3fd0c7925a78bb7838fa94363091645ae4c73dc25e7635279d47871da2efb4f  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, aws.s3, httr, covr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-digest >=0.6.3
+
+  run:
+    - mro-base
+    - r-digest >=0.6.3
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('memoise')"           # [not win]
+    - "\"%R%\" -e \"library('memoise')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/hadley/memoise
+  license: MIT + file LICENSE
+  summary: Cache the results of a function so that when you call it again with the same arguments
+    it returns the pre-computed value.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Encoding: UTF-8
+# Package: memoise
+# Title: Memoisation of Functions
+# Version: 1.1.0
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"), person("Jim", "Hester", , "jim.hester@rstudio.com", role = c("aut", "cre")), person("Kirill", "Muller", , "krlmlr+r@mailbox.org", role = "aut"), person("Daniel", "Cook", , "danielecook@gmail.com", role = "aut"))
+# Description: Cache the results of a function so that when you call it again with the same arguments it returns the pre-computed value.
+# URL: https://github.com/hadley/memoise
+# BugReports: https://github.com/hadley/memoise/issues
+# Imports: digest (>= 0.6.3)
+# Suggests: testthat, aws.s3, httr, covr
+# Additional_repositories: http://cloudyr.github.io/drat
+# License: MIT + file LICENSE
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-04-20 17:35:47 UTC; jhester
+# Author: Hadley Wickham [aut], Jim Hester [aut, cre], Kirill Muller [aut], Daniel Cook [aut]
+# Maintainer: Jim Hester <jim.hester@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-04-21 05:54:22 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

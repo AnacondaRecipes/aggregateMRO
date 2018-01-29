@@ -1,0 +1,104 @@
+{% set version = '0.9.3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rzmq
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rzmq_0.9.3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rzmq_0.9.3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rzmq/rzmq_0.9.3.tar.gz  # [linux or win32]
+  sha256: ab6f6da1fcd0c11003517a21bd85f5c56495e6926542db3fb320f3901f292b13  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rzmq_0.9.3.zip  # [win64]
+  sha256: 905ab4b117fb2b354a116ff419bc9c483a9d49b0481169c18c687456cf1fdc5b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rzmq_0.9.3.tgz  # [osx]
+  sha256: 8a3f21b82c0bc19a2d5047157156563ef234b7e36c6c8aae22951f937aacc3d5  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rzmq')"           # [not win]
+    - "\"%R%\" -e \"library('rzmq')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://github.com/ropensci/rzmq#readme (devel) http://www.zeromq.org (upstream)
+  license: GPL-3
+  summary: Interface to the 'ZeroMQ' lightweight messaging kernel (see <http://www.zeromq.org/>
+    for more information).
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rzmq
+# Title: R Bindings for 'ZeroMQ'
+# Version: 0.9.3
+# Authors@R: c( person("Whit", "Armstrong", , "armstrong.whit@gmail.com", role = "aut"), person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("aut", "cre")))
+# Description: Interface to the 'ZeroMQ' lightweight messaging kernel (see <http://www.zeromq.org/> for more information).
+# License: GPL-3
+# Depends: R (>= 3.1.0)
+# SystemRequirements: ZeroMQ >= 3.0.0: libzmq3-dev (deb) or zeromq3-devel (rpm)
+# URL: http://github.com/ropensci/rzmq#readme (devel) http://www.zeromq.org (upstream)
+# BugReports: http://github.com/ropensci/rzmq/issues
+# NeedsCompilation: yes
+# Packaged: 2017-10-01 20:43:27 UTC; jeroen
+# Author: Whit Armstrong [aut], Jeroen Ooms [aut, cre]
+# Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+# Repository: CRAN
+# Date/Publication: 2017-10-02 07:29:15 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

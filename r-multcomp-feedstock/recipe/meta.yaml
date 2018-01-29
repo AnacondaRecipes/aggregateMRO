@@ -1,0 +1,106 @@
+{% set version = '1.4-8' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-multcomp
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: multcomp_1.4-8.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/multcomp_1.4-8.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/multcomp/multcomp_1.4-8.tar.gz  # [linux or win32]
+  sha256: a20876619312310e9523d67e9090af501383ce49dc6113c6b4ca30f9c943a73a  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/multcomp_1.4-8.zip  # [win64]
+  sha256: e742429ac4d7e165b407d7a4f7efd618cdac38b88bc7ca932ee5e8ef542a0746  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/multcomp_1.4-8.tgz  # [osx]
+  sha256: 64f144fff6b1ffa65b317ef088d5d95d40950551faf1a3bc3b5a96d2e726de2b  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: lme4 (>= 0.999375-16), nlme, robustbase, coin, MASS, car, foreign, xtable, lmtest, coxme (>= 2.2-1), SimComp, ISwR
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-th.data >=1.0_2
+    - r-codetools
+    - r-mvtnorm >=1.0_3
+    - r-sandwich >=2.3_0
+    - r-survival >=2.39_4
+
+  run:
+    - mro-base
+    - r-th.data >=1.0_2
+    - r-codetools
+    - r-mvtnorm >=1.0_3
+    - r-sandwich >=2.3_0
+    - r-survival >=2.39_4
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('multcomp')"           # [not win]
+    - "\"%R%\" -e \"library('multcomp')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://multcomp.R-forge.R-project.org The publishers web page is http://www.crcpress.com/product/isbn/9781584885740
+  license: GPL-2
+  summary: Simultaneous tests and confidence intervals for general linear hypotheses in parametric
+    models, including  linear, generalized linear, linear mixed effects, and survival
+    models. The package includes demos reproducing analyzes presented in the book "Multiple
+    Comparisons Using R" (Bretz, Hothorn,  Westfall, 2010, CRC Press).
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: multcomp
+# Title: Simultaneous Inference in General Parametric Models
+# Version: 1.4-8
+# Date: 2017-11-08
+# Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),  email = "Torsten.Hothorn@R-project.org"),  person("Frank", "Bretz", role = "aut"),  person("Peter", "Westfall", role = "aut"), person("Richard M.", "Heiberger", role = "ctb"), person("Andre", "Schuetzenmeister", role = "ctb"), person("Susan", "Scheibe", role = "ctb"))
+# Description: Simultaneous tests and confidence intervals for general linear hypotheses in parametric models, including  linear, generalized linear, linear mixed effects, and survival models. The package includes demos reproducing analyzes presented in the book "Multiple Comparisons Using R" (Bretz, Hothorn,  Westfall, 2010, CRC Press).
+# Depends: stats, graphics, mvtnorm (>= 1.0-3), survival (>= 2.39-4), TH.data (>= 1.0-2)
+# Imports: sandwich (>= 2.3-0), codetools
+# Suggests: lme4 (>= 0.999375-16), nlme, robustbase, coin, MASS, car, foreign, xtable, lmtest, coxme (>= 2.2-1), SimComp, ISwR
+# URL: http://multcomp.R-forge.R-project.org The publishers web page is http://www.crcpress.com/product/isbn/9781584885740
+# LazyData: yes
+# License: GPL-2
+# NeedsCompilation: no
+# Packaged: 2017-11-08 12:53:58 UTC; hothorn
+# Author: Torsten Hothorn [aut, cre], Frank Bretz [aut], Peter Westfall [aut], Richard M. Heiberger [ctb], Andre Schuetzenmeister [ctb], Susan Scheibe [ctb]
+# Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-11-08 17:12:36 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

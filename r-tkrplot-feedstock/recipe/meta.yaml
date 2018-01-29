@@ -1,0 +1,98 @@
+{% set version = '0.0-23' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-tkrplot
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: tkrplot_0.0-23.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tkrplot_0.0-23.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tkrplot/tkrplot_0.0-23.tar.gz  # [linux or win32]
+  sha256: 87a4323ce3bc6c852c2dae4727639b9a1c30724327a812379f21d73cecd7deb2  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tkrplot_0.0-23.zip  # [win64]
+  sha256: 1579fa632ab96e5b37fff077409d9510e76da9ad6151fce13d020623fe4bbb4b  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tkrplot_0.0-23.tgz  # [osx]
+  sha256: 132308cd00993613349ed0886e3cf52892900196e5f5efd4bca70e942c218b5c  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}sed                 # [win32]
+    - {{posix}}grep                # [win32]
+    - {{posix}}autoconf            # [linux or win32]
+    - {{posix}}automake-wrapper    # [win32]
+    - {{posix}}automake            # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('tkrplot')"           # [not win]
+    - "\"%R%\" -e \"library('tkrplot')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=tkrplot
+  license: GPL
+  summary: simple mechanism for placing R graphics in a Tk widget
+  license_family: GPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: tkrplot
+# Version: 0.0-23
+# Author: Luke Tierney <luke@stat.uiowa.edu>
+# Description: simple mechanism for placing R graphics in a Tk widget
+# Title: TK Rplot
+# Depends: R (>= 2.13), grDevices, tcltk
+# License: GPL
+# Maintainer: Luke Tierney <luke@stat.uiowa.edu>
+# Packaged: 2011-11-18 23:36:41 UTC; luke
+# Repository: CRAN
+# Date/Publication: 2011-11-19 09:56:45
+# NeedsCompilation: yes
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

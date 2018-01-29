@@ -1,0 +1,126 @@
+{% set version = '8.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-forecast
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: forecast_8.2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/forecast_8.2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/forecast/forecast_8.2.tar.gz  # [linux or win32]
+  sha256: eb3fab64ed139d068e7d026cd3880f1b623f4153a832fb71845488fa75e8b812  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/forecast_8.2.zip  # [win64]
+  sha256: 7a44b99ac55e03b2868cf2bcfba7f46a5670bb46e367c75bfa4e2a78020cf9ec  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/forecast_8.2.tgz  # [osx]
+  sha256: 5476fd1c69814ad30ab60b22bfee0848f920d4bd51179bc948ec566e7751f193  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, knitr, rmarkdown, expsmooth, rticles
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-rcpp >=0.11.0
+    - r-rcpparmadillo >=0.2.35
+    - r-colorspace
+    - r-fracdiff
+    - r-ggplot2 >=2.0.0
+    - r-lmtest
+    - r-magrittr
+    - r-nnet
+    - r-timedate
+    - r-tseries
+    - r-zoo
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-rcpp >=0.11.0
+    - r-rcpparmadillo >=0.2.35
+    - r-colorspace
+    - r-fracdiff
+    - r-ggplot2 >=2.0.0
+    - r-lmtest
+    - r-magrittr
+    - r-nnet
+    - r-timedate
+    - r-tseries
+    - r-zoo
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('forecast')"           # [not win]
+    - "\"%R%\" -e \"library('forecast')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://pkg.robjhyndman.com/forecast, https://github.com/robjhyndman/forecast
+  license: GPL-3
+  summary: Methods and tools for displaying and analysing univariate time series forecasts including
+    exponential smoothing via state space models and automatic ARIMA modelling.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: forecast
+# Version: 8.2
+# Title: Forecasting Functions for Time Series and Linear Models
+# Description: Methods and tools for displaying and analysing univariate time series forecasts including exponential smoothing via state space models and automatic ARIMA modelling.
+# Depends: R (>= 3.0.2),
+# Imports: stats, graphics, tseries, fracdiff, Rcpp (>= 0.11.0), nnet, colorspace, parallel, ggplot2 (>= 2.0.0), magrittr, lmtest, zoo, timeDate
+# Suggests: testthat, knitr, rmarkdown, expsmooth, rticles
+# LinkingTo: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.2.35)
+# LazyData: yes
+# ByteCompile: TRUE
+# Authors@R: c( person("Rob", "Hyndman", email="Rob.Hyndman@monash.edu", role=c("aut", "cre", "cph")), person("Mitchell", "O'Hara-Wild", role="aut"), person("Christoph", "Bergmeir", role="aut"), person("Slava", "Razbash", role="aut"), person("Earo", "Wang", role="aut") )
+# BugReports: https://github.com/robjhyndman/forecast/issues
+# License: GPL-3
+# URL: http://pkg.robjhyndman.com/forecast, https://github.com/robjhyndman/forecast
+# VignetteBuilder: knitr
+# RoxygenNote: 6.0.1.9000
+# NeedsCompilation: yes
+# Packaged: 2017-09-25 01:25:04 UTC; hyndman
+# Author: Rob Hyndman [aut, cre, cph], Mitchell O'Hara-Wild [aut], Christoph Bergmeir [aut], Slava Razbash [aut], Earo Wang [aut]
+# Maintainer: Rob Hyndman <Rob.Hyndman@monash.edu>
+# Repository: CRAN
+# Date/Publication: 2017-09-25 18:12:34 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

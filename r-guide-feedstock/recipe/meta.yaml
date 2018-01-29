@@ -1,0 +1,94 @@
+{% set version = '1.2.3.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-guide
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: GUIDE_1.2.3.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/GUIDE_1.2.3.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/GUIDE/GUIDE_1.2.3.1.tar.gz  # [linux or win32]
+  sha256: 44de2214b08fee5db746737df5355e2838970b6600dc8c76ac551bf8abb09009  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/GUIDE_1.2.3.1.zip  # [win64]
+  sha256: 7ae69a4c901722359186309ee599a8b0e646830492d40fa8cc21dcc1b229ac6d  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/GUIDE_1.2.3.1.tgz  # [osx]
+  sha256: 74f3afbf8507440f9b8da55ec094cc583b4606f041a4b6ce3cd30b28c6f65275  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-rpanel
+    - r-tkrplot
+
+  run:
+    - mro-base
+    - r-rpanel
+    - r-tkrplot
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('GUIDE')"           # [not win]
+    - "\"%R%\" -e \"library('GUIDE')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=GUIDE
+  license: GPL-2
+  summary: A nice GUI for financial DErivatives in R.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: GUIDE
+# Type: Package
+# Title: GUI for DErivatives in R
+# Version: 1.2.3.1
+# Date: 2016-09-12
+# Author: S Subramanian <ssubramanian@sssihl.edu.in>
+# Maintainer: S Subramanian <ssubramanian@sssihl.edu.in>
+# Description: A nice GUI for financial DErivatives in R.
+# Depends: R (>= 3.0.0), rpanel, tkrplot
+# License: GPL-2
+# Packaged: 2016-09-13 02:26:46 UTC; DMS
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2016-09-13 11:45:05
+# RoxygenNote: 5.0.1
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

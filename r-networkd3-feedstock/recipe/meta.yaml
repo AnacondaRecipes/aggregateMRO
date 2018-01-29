@@ -1,0 +1,103 @@
+{% set version = '0.4' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-networkd3
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: networkD3_0.4.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/networkD3_0.4.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/networkD3/networkD3_0.4.tar.gz  # [linux or win32]
+  sha256: 33b82585f1eec6233303ec14033a703d0b17def441c7a0a67bf7e6764c9c9d0b  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/networkD3_0.4.zip  # [win64]
+  sha256: a0cb35d2ff3db93a9ffd03be76acc935720b714ce484b6b68074d0d0170925ce  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/networkD3_0.4.tgz  # [osx]
+  sha256: 184ac526bc7755b2963e8bf598c6cd264266ceab727e1fc79c42200ea23468d2  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: htmltools (>= 0.2.6), jsonlite,
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-htmlwidgets >=0.3.2
+    - r-igraph
+    - r-magrittr
+
+  run:
+    - mro-base
+    - r-htmlwidgets >=0.3.2
+    - r-igraph
+    - r-magrittr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('networkD3')"           # [not win]
+    - "\"%R%\" -e \"library('networkD3')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=networkD3
+  license: GPL (>= 3)
+  summary: Creates 'D3' 'JavaScript' network, tree, dendrogram, and Sankey graphs from 'R'.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: networkD3
+# Type: Package
+# Title: D3 JavaScript Network Graphs from R
+# Description: Creates 'D3' 'JavaScript' network, tree, dendrogram, and Sankey graphs from 'R'.
+# Version: 0.4
+# Date: 2017-03-18
+# Authors@R: c( person("J.J.", "Allaire", role = "aut"), person("Peter", "Ellis", role = "ctb"), person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com", role = c("aut", "cre")), person("Kevin", "Kuo", role = "ctb"), person("B.W.", "Lewis", role = "ctb"), person("Jonathan", "Owen", role = "ctb"), person("Kenton", "Russell", role = "aut"), person("Jennifer","Rogers", role = "ctb"), person("Charles", "Sese", role = "ctb"), person("CJ", "Yetman", role = "aut") )
+# URL: https://CRAN.R-project.org/package=networkD3
+# BugReports: https://github.com/christophergandrud/networkD3/issues
+# License: GPL (>= 3)
+# Depends: R (>= 3.0.0)
+# Imports: htmlwidgets (>= 0.3.2), igraph, magrittr
+# Suggests: htmltools (>= 0.2.6), jsonlite,
+# Enhances: knitr, shiny
+# LazyData: true
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-03-18 15:59:43 UTC; cgandrud
+# Author: J.J. Allaire [aut], Peter Ellis [ctb], Christopher Gandrud [aut, cre], Kevin Kuo [ctb], B.W. Lewis [ctb], Jonathan Owen [ctb], Kenton Russell [aut], Jennifer Rogers [ctb], Charles Sese [ctb], CJ Yetman [aut]
+# Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-03-18 17:31:09 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

@@ -1,0 +1,108 @@
+{% set version = '2.18.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-gdata
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: gdata_2.18.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gdata_2.18.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gdata/gdata_2.18.0.tar.gz  # [linux or win32]
+  sha256: 4b287f59f5bbf5fcbf18db16477852faac4a605b10c5284c46b93fa6e9918d7f  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gdata_2.18.0.zip  # [win64]
+  sha256: af5980405eea0bd517be8bc141b5403bac3f48e8231ae4a10e25b3c3d725fed6  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gdata_2.18.0.tgz  # [osx]
+  sha256: 1c5f46dfffc6324dc62e0f64f3ad400f373f873d645cd92cdcab37649e07bee5  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: RUnit
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-gtools
+
+  run:
+    - mro-base
+    - r-gtools
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('gdata')"           # [not win]
+    - "\"%R%\" -e \"library('gdata')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=gdata
+  license: GPL-2
+  summary: 'Various R programming tools for data manipulation, including: - medical unit conversions
+    (''ConvertMedUnits'', ''MedUnits''), - combining objects (''bindData'', ''cbindX'',
+    ''combine'', ''interleave''), - character vector operations (''centerText'', ''startsWith'',
+    ''trim''), - factor manipulation (''levels'', ''reorder.factor'', ''mapLevels''),
+    - obtaining information about R objects (''object.size'', ''elem'', ''env'', ''humanReadable'',
+    ''is.what'', ''ll'', ''keep'', ''ls.funs'', ''Args'',''nPairs'', ''nobs''), - manipulating
+    MS-Excel formatted files (''read.xls'', ''installXLSXsupport'', ''sheetCount'',
+    ''xlsFormats''), - generating fixed-width format files (''write.fwf''), - extricating
+    components of date & time objects (''getYear'', ''getMonth'', ''getDay'', ''getHour'',
+    ''getMin'', ''getSec''), - operations on columns of data frames  (''matchcols'',
+    ''rename.vars''), - matrix operations (''unmatrix'', ''upperTriangle'', ''lowerTriangle''),
+    - operations on vectors (''case'', ''unknownToNA'', ''duplicated2'', ''trimSum''),
+    - operations on data frames (''frameApply'', ''wideByFactor''), - value of last
+    evaluated expression (''ans''), and - wrapper for ''sample'' that ensures consistent
+    behavior for both scalar and vector arguments (''resample'').'
+
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: gdata
+# Title: Various R Programming Tools for Data Manipulation
+# Description: Various R programming tools for data manipulation, including: - medical unit conversions ('ConvertMedUnits', 'MedUnits'), - combining objects ('bindData', 'cbindX', 'combine', 'interleave'), - character vector operations ('centerText', 'startsWith', 'trim'), - factor manipulation ('levels', 'reorder.factor', 'mapLevels'), - obtaining information about R objects ('object.size', 'elem', 'env', 'humanReadable', 'is.what', 'll', 'keep', 'ls.funs', 'Args','nPairs', 'nobs'), - manipulating MS-Excel formatted files ('read.xls', 'installXLSXsupport', 'sheetCount', 'xlsFormats'), - generating fixed-width format files ('write.fwf'), - extricating components of date & time objects ('getYear', 'getMonth', 'getDay', 'getHour', 'getMin', 'getSec'), - operations on columns of data frames  ('matchcols', 'rename.vars'), - matrix operations ('unmatrix', 'upperTriangle', 'lowerTriangle'), - operations on vectors ('case', 'unknownToNA', 'duplicated2', 'trimSum'), - operations on data frames ('frameApply', 'wideByFactor'), - value of last evaluated expression ('ans'), and - wrapper for 'sample' that ensures consistent behavior for both scalar and vector arguments ('resample').
+# Depends: R (>= 2.3.0)
+# SystemRequirements: perl (>= 5.10.0)
+# Imports: gtools, stats, methods, utils
+# Version: 2.18.0
+# Date: 2017-06-05
+# Author: Gregory R. Warnes, Ben Bolker, Gregor Gorjanc, Gabor Grothendieck, Ales Korosec, Thomas Lumley, Don MacQueen, Arni Magnusson, Jim Rogers, and others
+# Maintainer: Gregory R. Warnes <greg@warnes.net>
+# License: GPL-2
+# NeedsCompilation: no
+# Suggests: RUnit
+# Packaged: 2017-06-05 21:27:42 UTC; gwarnes
+# Repository: CRAN
+# Date/Publication: 2017-06-06 15:34:19 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

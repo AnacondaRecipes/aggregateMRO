@@ -1,0 +1,95 @@
+{% set version = '1.0-8' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-th.data
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: TH.data_1.0-8.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/TH.data_1.0-8.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/TH.data/TH.data_1.0-8.tar.gz  # [linux or win32]
+  sha256: 478f109fcc1226500ead8e3bd6e047cecde2294fde4df8ec216d38313db79a9d  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/TH.data_1.0-8.zip  # [win64]
+  sha256: 282f293689dd3fae77ecabfe5a726c3fb99aa73ea0abaafc75a3f81929bf357a  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/TH.data_1.0-8.tgz  # [osx]
+  sha256: 2133b1e220d62d1af6a19ffeabb635ecf5184889a9d6285b9dd5c1183aa2e1b4  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: dplyr, gdata, plyr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-mass
+    - r-survival
+
+  run:
+    - mro-base
+    - r-mass
+    - r-survival
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('TH.data')"           # [not win]
+    - "\"%R%\" -e \"library('TH.data')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=TH.data
+  license: GPL-3
+  summary: Contains data sets used in other packages Torsten Hothorn maintains.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: TH.data
+# Title: TH's Data Archive
+# Date: 2017-01-23
+# Version: 1.0-8
+# Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"), email = "Torsten.Hothorn@R-project.org"))
+# Description: Contains data sets used in other packages Torsten Hothorn maintains.
+# Depends: R (>= 2.10.0), survival, MASS
+# Suggests: dplyr, gdata, plyr
+# LazyData: yes
+# License: GPL-3
+# NeedsCompilation: no
+# Packaged: 2017-01-23 13:13:20 UTC; hothorn
+# Author: Torsten Hothorn [aut, cre]
+# Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-01-23 21:08:04
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

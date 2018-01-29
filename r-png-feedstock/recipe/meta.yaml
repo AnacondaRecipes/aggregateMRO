@@ -1,0 +1,95 @@
+{% set version = '0.1-7' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-png
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: png_0.1-7.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/png_0.1-7.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/png/png_0.1-7.tar.gz  # [linux or win32]
+  sha256: e269ff968f04384fc9421d17cfc7c10cf7756b11c2d6d126e9776f5aca65553c  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/png_0.1-7.zip  # [win64]
+  sha256: d47549447f2528306063ac4f689cf5fe700e2705db72da6745fb5fdb27e5a8ee  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/png_0.1-7.tgz  # [osx]
+  sha256: d155ff0b37f41077206c25cb19f3e779267755b825be8d6fbcb87af3d86e56a6  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('png')"           # [not win]
+    - "\"%R%\" -e \"library('png')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.rforge.net/png/
+  license: GPL-2 | GPL-3
+  summary: This package provides an easy and simple way to read, write and display bitmap images
+    stored in the PNG format. It can read and write both files and in-memory raw vectors.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: png
+# Version: 0.1-7
+# Title: Read and write PNG images
+# Author: Simon Urbanek <Simon.Urbanek@r-project.org>
+# Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
+# Depends: R (>= 2.9.0)
+# Description: This package provides an easy and simple way to read, write and display bitmap images stored in the PNG format. It can read and write both files and in-memory raw vectors.
+# License: GPL-2 | GPL-3
+# SystemRequirements: libpng
+# URL: http://www.rforge.net/png/
+# Packaged: 2013-12-03 20:09:14 UTC; svnuser
+# NeedsCompilation: yes
+# Repository: CRAN
+# Date/Publication: 2013-12-03 22:25:05
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

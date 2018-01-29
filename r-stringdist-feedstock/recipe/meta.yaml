@@ -1,0 +1,107 @@
+{% set version = '0.9.4.6' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-stringdist
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: stringdist_0.9.4.6.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stringdist_0.9.4.6.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stringdist/stringdist_0.9.4.6.tar.gz  # [linux or win32]
+  sha256: 91c1ddee426ee246f92dd12ae746ea114e123fbfb32a4708ee29db51323cab48  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/stringdist_0.9.4.6.zip  # [win64]
+  sha256: 058985d52309d3b0232ccf93d1d08e8a80a3ea426ec43c60ab4cb457c905c9cf  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/stringdist_0.9.4.6.tgz  # [osx]
+  sha256: 8a070ea0624e54e1be04d62120ce732324af5322bd023e7366ecd7a81fb6d113  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('stringdist')"           # [not win]
+    - "\"%R%\" -e \"library('stringdist')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/markvanderloo/stringdist
+  license: GPL-3
+  summary: Implements an approximate string matching version of R's native 'match' function.
+    Can calculate various string distances based on edits (Damerau-Levenshtein, Hamming,
+    Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance)
+    or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided
+    as well. Distances can be computed between character vectors while taking proper
+    care of encoding or between integer vectors representing generic sequences.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: stringdist
+# Maintainer: Mark van der Loo <mark.vanderloo@gmail.com>
+# License: GPL-3
+# Title: Approximate String Matching and String Distance Functions
+# LazyData: no
+# Type: Package
+# LazyLoad: yes
+# Authors@R: c( person("Mark", "van der Loo", role=c("aut","cre"),email="mark.vanderloo@gmail.com") , person("Jan", "van der Laan", role="ctb"),person("R Core Team","",role=c("ctb")),person("Nick","Logan",role="ctb"))
+# Description: Implements an approximate string matching version of R's native 'match' function. Can calculate various string distances based on edits (Damerau-Levenshtein, Hamming, Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance) or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided as well. Distances can be computed between character vectors while taking proper care of encoding or between integer vectors representing generic sequences.
+# Version: 0.9.4.6
+# Depends: R (>= 2.15.3)
+# Imports: parallel
+# URL: https://github.com/markvanderloo/stringdist
+# BugReports: https://github.com/markvanderloo/stringdist/issues
+# Date: 2017-07-26
+# Suggests: testthat
+# RoxygenNote: 6.0.1
+# NeedsCompilation: yes
+# Packaged: 2017-07-31 09:18:23 UTC; mark
+# Author: Mark van der Loo [aut, cre], Jan van der Laan [ctb], R Core Team [ctb], Nick Logan [ctb]
+# Repository: CRAN
+# Date/Publication: 2017-07-31 10:35:34 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

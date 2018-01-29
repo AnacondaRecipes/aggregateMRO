@@ -1,0 +1,109 @@
+{% set version = '1.2-2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-coin
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: coin_1.2-2.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/coin_1.2-2.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/coin/coin_1.2-2.tar.gz  # [linux or win32]
+  sha256: d518065d3e1eb00121cb4e0200e1e4ae6b68eca6e249afc38bbffa35d24105bb  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/coin_1.2-2.zip  # [win64]
+  sha256: 997477c5f82cd4a025a77e9cae4fedb34608b1586cb156ac9c34e29b7bcd0f13  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/coin_1.2-2.tgz  # [osx]
+  sha256: 95fd3038d0fc7e1e4a4a1d4544e25dac66aa03f514c730d2ab838ba5c464f7ed  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: parallel, xtable, e1071, vcd, TH.data (>= 1.0-7)
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-modeltools >=0.2_9
+    - r-multcomp
+    - r-mvtnorm >=1.0_5
+    - r-survival
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-modeltools >=0.2_9
+    - r-multcomp
+    - r-mvtnorm >=1.0_5
+    - r-survival
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('coin')"           # [not win]
+    - "\"%R%\" -e \"library('coin')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://coin.r-forge.r-project.org
+  license: GPL-2
+  summary: Conditional inference procedures for the general independence problem including two-sample,
+    K-sample (non-parametric ANOVA), correlation, censored, ordered and multivariate
+    problems.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: coin
+# Version: 1.2-2
+# Date: 2017-11-28
+# Title: Conditional Inference Procedures in a Permutation Test Framework
+# Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"), email = "Torsten.Hothorn@R-project.org"), person("Kurt", "Hornik", role = "aut"), person("Mark A.", "van de Wiel", role = "aut"), person("Henric", "Winell", role = "aut"), person("Achim", "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")))
+# Description: Conditional inference procedures for the general independence problem including two-sample, K-sample (non-parametric ANOVA), correlation, censored, ordered and multivariate problems.
+# Depends: R (>= 2.14.0), methods, survival
+# Imports: stats, modeltools (>= 0.2-9), mvtnorm (>= 1.0-5), multcomp
+# Suggests: parallel, xtable, e1071, vcd, TH.data (>= 1.0-7)
+# LazyData: yes
+# NeedsCompilation: yes
+# ByteCompile: yes
+# License: GPL-2
+# URL: http://coin.r-forge.r-project.org
+# Packaged: 2017-11-28 12:31:25 UTC; hothorn
+# Author: Torsten Hothorn [aut, cre], Kurt Hornik [aut], Mark A. van de Wiel [aut], Henric Winell [aut], Achim Zeileis [aut] (0000-0003-0918-3766)
+# Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-11-28 14:08:44 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

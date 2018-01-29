@@ -1,0 +1,103 @@
+{% set version = '1.17.1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-catools
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: caTools_1.17.1.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/caTools_1.17.1.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/caTools/caTools_1.17.1.tar.gz  # [linux or win32]
+  sha256: d32a73febf00930355cc00f3e4e71357412e0f163faae6a4bf7f552cacfe9af4  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/caTools_1.17.1.zip  # [win64]
+  sha256: aff8c874c14f657fa2e452939593fe0777a1d76840793c2254e60c680addb12f  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/caTools_1.17.1.tgz  # [osx]
+  sha256: e982ddf1720d10fd80b82a0f8a1a7e333daeaec0aa7a1baaadfe8b18513fa226  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, rpart
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-bitops
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-bitops
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('caTools')"           # [not win]
+    - "\"%R%\" -e \"library('caTools')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=caTools
+  license: GPL-3
+  summary: 'Contains several basic utility functions including: moving (rolling, running) window
+    statistic functions, read/write for GIF and ENVI binary files, fast calculation
+    of AUC, LogitBoost classifier, base64 encoder/decoder, round-off-error-free sum
+    and cumsum, etc.'
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: caTools
+# Type: Package
+# Title: Tools: moving window statistics, GIF, Base64, ROC AUC, etc.
+# Version: 1.17.1
+# Date: 2014-04-21
+# Author: Jarek Tuszynski <jaroslaw.w.tuszynski@saic.com>
+# Maintainer: Harutyun Khachatryan <kh_harut@yahoo.com>
+# Depends: R (>= 2.2.0)
+# Imports: bitops
+# Suggests: MASS, rpart
+# Description: Contains several basic utility functions including: moving (rolling, running) window statistic functions, read/write for GIF and ENVI binary files, fast calculation of AUC, LogitBoost classifier, base64 encoder/decoder, round-off-error-free sum and cumsum, etc.
+# License: GPL-3
+# Packaged: 2014-09-09 21:05:06 UTC; ripley
+# NeedsCompilation: yes
+# Repository: CRAN
+# Date/Publication: 2014-09-10 16:22:53
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

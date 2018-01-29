@@ -1,0 +1,95 @@
+{% set version = '1.1-3' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rpanel
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: rpanel_1.1-3.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rpanel_1.1-3.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rpanel/rpanel_1.1-3.tar.gz  # [linux or win32]
+  sha256: da3af9d000737ba06408ef1256ade8e4584254f3e24f8d3c8de4f7ed176ba0f2  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rpanel_1.1-3.zip  # [win64]
+  sha256: d4a7a7da6f83cac2282865c956da3d76b2b2ea7fb618ec674e4bbdd4bd0ded45  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rpanel_1.1-3.tgz  # [osx]
+  sha256: 9e7df56e59133ca029feae0a565202d78c0bfd814ea2222bbdc5ff4154043edd  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: tkrplot, rgl, sp, geoR, RandomFields, akima, MASS, denstrip, lattice, sm, maps, mgcv
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rpanel')"           # [not win]
+    - "\"%R%\" -e \"library('rpanel')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=rpanel
+  license: GPL (>= 2)
+  summary: rpanel provides a set of functions to build simple  GUI controls for R functions.  These
+    are built on the tcltk package.  Uses could include changing a parameter on a graph
+    by animating it  with a slider or a "doublebutton", up to more sophisticated control  panels.
+    Some functions for specific graphical tasks, referred to as 'cartoons', are provided.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rpanel
+# Type: Package
+# Title: Simple interactive controls for R using the tcltk library.
+# Version: 1.1-3
+# Date: 2014-02-20
+# Author: Bowman, Bowman, Gibson and Crawford
+# Maintainer: Adrian Bowman <adrian.bowman@glasgow.ac.uk>
+# Depends: R (>= 2.14), tcltk
+# Suggests: tkrplot, rgl, sp, geoR, RandomFields, akima, MASS, denstrip, lattice, sm, maps, mgcv
+# SystemRequirements: BWidget
+# Description: rpanel provides a set of functions to build simple  GUI controls for R functions.  These are built on the tcltk package.  Uses could include changing a parameter on a graph by animating it  with a slider or a "doublebutton", up to more sophisticated control  panels. Some functions for specific graphical tasks, referred to as 'cartoons', are provided.
+# License: GPL (>= 2)
+# LazyData: TRUE
+# Packaged: 2014-02-23 21:32:20 UTC; adrian
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2014-02-28 12:13:07
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

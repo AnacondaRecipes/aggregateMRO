@@ -1,0 +1,120 @@
+{% set version = '2.0.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-testthat
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: testthat_2.0.0.tar.gz  # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/testthat_2.0.0.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/testthat/testthat_2.0.0.tar.gz  # [linux or win32]
+  sha256: 3bc047ad1c4522104023d4fbbfc9aceed14d316fdb16865a514f26b3e628b494  # [linux or win32]
+
+
+
+
+  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/testthat_2.0.0.zip  # [win64]
+  sha256: f02f99cf6a797d314fa1e6a46bfe675ab7b340aae1c56642fb30a628628711df  # [win64]
+
+  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/testthat_2.0.0.tgz  # [osx]
+  sha256: a4ec8e2531ae7d0f1cad83d90c2dcf1dceb75fad28a60189deb2b87b53a7ab68  # [osx]
+
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: covr, devtools, knitr, rmarkdown, xml2
+requirements:
+  build:
+    - {{ compiler('c') }}          # [linux]
+    - {{ compiler('cxx') }}        # [linux]
+    - {{native}}toolchain          # [win32]
+    - {{posix}}filesystem          # [win32]
+    - {{posix}}make                # [linux or win32]
+
+  host:
+    - mro-base
+    - r-r6 >=2.2.0
+    - r-cli
+    - r-crayon
+    - r-digest
+    - r-magrittr
+    - r-praise
+    - r-rlang
+    - r-withr >=2.0.0
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs           # [win32]
+    - r-r6 >=2.2.0
+    - r-cli
+    - r-crayon
+    - r-digest
+    - r-magrittr
+    - r-praise
+    - r-rlang
+    - r-withr >=2.0.0
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('testthat')"           # [not win]
+    - "\"%R%\" -e \"library('testthat')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://testthat.r-lib.org, https://github.com/r-lib/testthat
+  license: MIT + file LICENSE
+  summary: Software testing is important, but, in part because it is  frustrating and boring,
+    many of us avoid it. 'testthat' is a testing framework  for R that is easy learn
+    and use, and integrates with your existing 'workflow'.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: testthat
+# Title: Unit Testing for R
+# Version: 2.0.0
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")), person("RStudio", role = c("cph", "fnd")), person("R Core team", role = "ctb", comment = "Implementation of utils::recover()") )
+# Description: Software testing is important, but, in part because it is  frustrating and boring, many of us avoid it. 'testthat' is a testing framework  for R that is easy learn and use, and integrates with your existing 'workflow'.
+# License: MIT + file LICENSE
+# URL: http://testthat.r-lib.org, https://github.com/r-lib/testthat
+# BugReports: https://github.com/r-lib/testthat/issues
+# Depends: R (>= 3.1)
+# Imports: cli, crayon, digest, magrittr, methods, praise, R6 (>= 2.2.0), rlang, withr (>= 2.0.0)
+# Suggests: covr, devtools, knitr, rmarkdown, xml2
+# VignetteBuilder: knitr
+# Encoding: UTF-8
+# RoxygenNote: 6.0.1
+# Collate: 'auto-test.R' 'capture-condition.R' 'capture-output.R' 'colour-text.R' 'compare.R' 'compare-character.R' 'compare-numeric.R' 'compare-time.R' 'context.R' 'describe.R' 'evaluate-promise.R' 'expect-comparison.R' 'expect-equality.R' 'expect-inheritance.R' 'expect-known.R' 'expect-length.R' 'expect-logical.R' 'expect-named.R' 'expect-output.R' 'reporter.R' 'expect-self-test.R' 'expect-that.R' 'expectation.R' 'expectations-matches.R' 'make-expectation.R' 'mock.R' 'old-school.R' 'praise.R' 'recover.R' 'reporter-check.R' 'reporter-debug.R' 'reporter-fail.R' 'reporter-junit.R' 'reporter-list.R' 'reporter-location.R' 'reporter-minimal.R' 'reporter-multi.R' 'stack.R' 'reporter-progress.R' 'reporter-rstudio.R' 'reporter-silent.R' 'reporter-stop.R' 'reporter-summary.R' 'reporter-tap.R' 'reporter-teamcity.R' 'reporter-zzz.R' 'skip.R' 'source.R' 'teardown.R' 'test-compiled-code.R' 'test-directory.R' 'test-example.R' 'test-files.R' 'test-path.R' 'test-that.R' 'traceback.R' 'try-again.R' 'utils-io.R' 'utils.R' 'watcher.R'
+# NeedsCompilation: yes
+# Packaged: 2017-11-28 16:44:21 UTC; hadley
+# Author: Hadley Wickham [aut, cre], RStudio [cph, fnd], R Core team [ctb] (Implementation of utils::recover())
+# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Repository: CRAN
+# Date/Publication: 2017-12-13 09:30:12 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
