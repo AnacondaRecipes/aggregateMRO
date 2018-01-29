@@ -39,6 +39,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}          # [linux]
+    - {{ compiler('fortran') }}    # [linux]
     - {{native}}toolchain          # [win32]
     - {{posix}}filesystem          # [win32]
     - {{posix}}make                # [linux or win32]
