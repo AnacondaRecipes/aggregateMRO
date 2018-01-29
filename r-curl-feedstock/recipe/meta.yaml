@@ -51,10 +51,12 @@ requirements:
 
   host:
     - mro-base
+    - curl                         # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
+    - curl                         # [linux]
 
 test:
   commands:
