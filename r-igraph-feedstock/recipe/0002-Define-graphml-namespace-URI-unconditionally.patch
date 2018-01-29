@@ -1,0 +1,30 @@
+From 9acfa54fa6b3d182fe458434a497f4e9b5c39955 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?G=C3=A1bor=20Cs=C3=A1rdi?= <csardi.gabor@gmail.com>
+Date: Sun, 23 Jul 2017 21:05:30 +0100
+Subject: [PATCH] Define graphml namespace URI unconditionally
+
+Because we need it when libxml2 is not available,
+to write the graph to file.
+---
+ src/foreign-graphml.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/foreign-graphml.c b/src/foreign-graphml.c
+index b9d69ee59..1df2ec8f5 100644
+--- a/src/foreign-graphml.c
++++ b/src/foreign-graphml.c
+@@ -34,12 +34,12 @@
+ #include "igraph_memory.h"
+ #include <stdarg.h> 		/* va_start & co */
+ 
++#define GRAPHML_NAMESPACE_URI "http://graphml.graphdrawing.org/xmlns"
++
+ #if HAVE_LIBXML == 1
+ #include <libxml/encoding.h>
+ #include <libxml/parser.h>
+ 
+-#define GRAPHML_NAMESPACE_URI "http://graphml.graphdrawing.org/xmlns"
+-
+ xmlEntity blankEntityStruct = {
+ #ifndef XML_WITHOUT_CORBA
+   0,

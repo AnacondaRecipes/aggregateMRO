@@ -13,6 +13,9 @@ source:
     - {{ cran_mirror }}/src/contrib/igraph_1.1.2.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/igraph/igraph_1.1.2.tar.gz  # [linux or win32]
   sha256: 89b16b41bc77949ea208419e52a18b78b5d418c7fedc52cd47d06a51a6e746ec  # [linux or win32]
+  patches:
+    - 0001-Change-GraphML-namespace-fprintf-calls-to-use-format.patch
+    - 0002-Define-graphml-namespace-URI-unconditionally.patch
 
 
 
@@ -57,6 +60,8 @@ requirements:
     - r-irlba
     - r-magrittr
     - r-pkgconfig >=2.0.0
+    - {{native}}gmp                # [linux]
+    - {{native}}libxml2            # [linux]
 
   run:
     - mro-base
@@ -65,6 +70,8 @@ requirements:
     - r-irlba
     - r-magrittr
     - r-pkgconfig >=2.0.0
+    - {{native}}gmp                # [linux]
+    - {{native}}libxml2            # [linux]
 
 test:
   commands:
