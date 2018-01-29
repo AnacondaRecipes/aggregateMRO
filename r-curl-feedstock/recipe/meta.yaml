@@ -51,12 +51,12 @@ requirements:
 
   host:
     - mro-base
-    - curl                         # [linux]
+    - libcurl                      # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
-    - curl                         # [linux]
+    - libcurl                      # [linux]
 
 test:
   commands:
