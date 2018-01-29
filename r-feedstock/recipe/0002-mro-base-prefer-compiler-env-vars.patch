@@ -1,0 +1,52 @@
+--- original/lib/R/etc/Makeconf	2018-01-29 15:03:38.564770638 +0000
++++ new/lib/R/etc/Makeconf	2018-01-29 15:11:11.870335405 +0000
+@@ -12,13 +12,16 @@
+ AR = ar
+ BLAS_LIBS = -L$(R_HOME)/lib$(R_ARCH) -lRblas
+ C_VISIBILITY = -fvisibility=hidden
+-CC = gcc -std=gnu99
+-CFLAGS = -DU_STATIC_IMPLEMENTATION -g -O2 $(LTO)
++CC ?= gcc -std=gnu99
++CFLAGS ?= -g -O2 $(LTO)
++CFLAGS += -DU_STATIC_IMPLEMENTATION
+ CPICFLAGS = -fpic
+-CPPFLAGS = -I/usr/local/include -DU_STATIC_IMPLEMENTATION
+-CXX = g++ 
++CPPFLAGS ?= -I/usr/local/include
++CPPFLAGS += -DU_STATIC_IMPLEMENTATION
++CXX ?= g++ 
+ CXXCPP = $(CXX) -E
+-CXXFLAGS = -DU_STATIC_IMPLEMENTATION -g -O2 $(LTO)
++CXXFLAGS ?= -g -O2 $(LTO)
++CXXFLAGS += -DU_STATIC_IMPLEMENTATION
+ CXXPICFLAGS = -fpic
+ CXX98 = g++
+ CXX98FLAGS = -DU_STATIC_IMPLEMENTATION -g -O2
+@@ -46,12 +49,12 @@
+ ECHO_T = 
+ ## NB, set FC before F77 as on Solaris make, setting FC sets F77
+ FC = gfortran
+-FCFLAGS = -g -O2 $(LTO)
++FCFLAGS ?= -g -O2 $(LTO)
+ ## additional libs needed when linking with $(FC), e.g. on some Oracle compilers
+ FCLIBS = 
+-F77 = gfortran
++F77 ?= gfortran
+ F77_VISIBILITY = -fvisibility=hidden
+-FFLAGS = -g -O2 $(LTO)
++FFLAGS ?= -g -O2 $(LTO)
+ FLIBS =  -lgfortran -lm -lquadmath
+ FCPICFLAGS = -fpic
+ FPICFLAGS = -fpic
+@@ -77,8 +80,9 @@
+ LIBS =  -lpcre -llzma -lbz2 -lz -lrt -ldl -lm -licuuc -licui18n
+ ## needed by R CMD config
+ LIBnn = lib64
+-LIBTOOL = $(SHELL) "$(R_HOME)/bin/libtool"
+-LDFLAGS = -L/usr/local/lib64
++LIBTOOL ?= $(SHELL) "$(R_HOME)/bin/libtool"
++LDFLAGS ?=  
++LDFLAGS += -L/usr/local/lib64
+ LTO = 
+ ## needed to build applications linking to static libR
+ MAIN_LD = $(CC)

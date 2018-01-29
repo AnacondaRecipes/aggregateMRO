@@ -6,7 +6,7 @@
  {
 -    local expected_runtime=$(cat ${SCRIPT_DIR}/DEFAULT_RUNTIME)
 -    local r_path="/opt/microsoft/ropen/${expected_runtime}/lib64/R"
-+    local r_path="${PREFIX}/lib/R"
++    local r_path="${CONDA_PREFIX}/lib/R"
      
      if [[ -d ${ML_SERVER_ROOT}/runtime/R ]]; then
          return 0
@@ -43,55 +43,55 @@
 -  if [[ -f /usr/bin/R ]]; then
 -    local r_link=$(readlink -f /usr/bin/R)
 -    echo "Found /usr/bin/R => ${r_link}"
-+  local r_path="${PREFIX}/lib/R/bin/R"
-+  local rscript_path="${PREFIX}/lib/R/bin/Rscript"
++  local r_path="${CONDA_PREFIX}/lib/R/bin/R"
++  local rscript_path="${CONDA_PREFIX}/lib/R/bin/Rscript"
 +
-+  if [[ -f ${PREFIX}/bin/R ]]; then
-+    local r_link=$(readlink -f ${PREFIX}/bin/R)
-+    echo "Found ${PREFIX}/bin/R => ${r_link}"
++  if [[ -f ${CONDA_PREFIX}/bin/R ]]; then
++    local r_link=$(readlink -f ${CONDA_PREFIX}/bin/R)
++    echo "Found ${CONDA_PREFIX}/bin/R => ${r_link}"
      if [[ ${r_link} == ${r_path} ]]; then
 -      echo "Replacing /usr/bin/R with ${SCRIPT_DIR}/R"
 -      rm /usr/bin/R
 -      ln -s ${SCRIPT_DIR}/R /usr/bin/R
-+      echo "Replacing ${PREFIX}/bin/R with ${SCRIPT_DIR}/R"
-+      rm ${PREFIX}/bin/R
-+      ln -s ${SCRIPT_DIR}/R ${PREFIX}/bin/R
++      echo "Replacing ${CONDA_PREFIX}/bin/R with ${SCRIPT_DIR}/R"
++      rm ${CONDA_PREFIX}/bin/R
++      ln -s ${SCRIPT_DIR}/R ${CONDA_PREFIX}/bin/R
      fi
    fi
    
 -  if [[ -f /usr/bin/Rscript ]]; then
 -    local rscript_link=$(readlink -f /usr/bin/Rscript)
 -    echo "Found /usr/bin/Rscript => ${rscript_link}"
-+  if [[ -f ${PREFIX}/bin/Rscript ]]; then
-+    local rscript_link=$(readlink -f ${PREFIX}/bin/Rscript)
-+    echo "Found ${PREFIX}/bin/Rscript => ${rscript_link}"
++  if [[ -f ${CONDA_PREFIX}/bin/Rscript ]]; then
++    local rscript_link=$(readlink -f ${CONDA_PREFIX}/bin/Rscript)
++    echo "Found ${CONDA_PREFIX}/bin/Rscript => ${rscript_link}"
      if [[ ${rscript_link} == ${rscript_path} ]]; then
 -      echo "Replacing /usr/bin/Rscript with ${SCRIPT_DIR}/Rscript"
 -      rm /usr/bin/Rscript
 -      ln -s ${SCRIPT_DIR}/Rscript /usr/bin/Rscript
-+      echo "Replacing ${PREFIX}/bin/Rscript with ${SCRIPT_DIR}/Rscript"
-+      rm ${PREFIX}/bin/Rscript
-+      ln -s ${SCRIPT_DIR}/Rscript ${PREFIX}/bin/Rscript
++      echo "Replacing ${CONDA_PREFIX}/bin/Rscript with ${SCRIPT_DIR}/Rscript"
++      rm ${CONDA_PREFIX}/bin/Rscript
++      ln -s ${SCRIPT_DIR}/Rscript ${CONDA_PREFIX}/bin/Rscript
      fi
    fi
  
 -  if [[ -f /usr/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
 -    rm /usr/bin/mlserver-R-${ML_SERVER_VERSION}
-+  if [[ -f ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
-+    rm ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}
++  if [[ -f ${CONDA_PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
++    rm ${CONDA_PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}
    fi
  
 -  ln -s "${SCRIPT_DIR}/R" "/usr/bin/mlserver-R-${ML_SERVER_VERSION}"
-+  ln -s "${SCRIPT_DIR}/R" "${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}"
++  ln -s "${SCRIPT_DIR}/R" "${CONDA_PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}"
  
 -  if [[ -f /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
 -    rm /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION}
-+  if [[ -f ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
-+    rm ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}
++  if [[ -f ${CONDA_PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
++    rm ${CONDA_PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}
    fi
  
 -  ln -s "${SCRIPT_DIR}/Rscript" "/usr/bin/mlserver-Rscript-${ML_SERVER_VERSION}"
-+  ln -s "${SCRIPT_DIR}/Rscript" "${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}"
++  ln -s "${SCRIPT_DIR}/Rscript" "${CONDA_PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}"
  }
  
  function unsymlink_mlserver()
@@ -106,49 +106,49 @@
 -  if [[ -f /usr/bin/R ]]; then
 -    local r_link=$(readlink -f /usr/bin/R)
 -    echo "Found /usr/bin/R => ${r_link}"
-+  local r_path="${PREFIX}/lib/R/bin/R"
-+  local r_script_path="${PREFIX}/lib/R/bin/Rscript"
++  local r_path="${CONDA_PREFIX}/lib/R/bin/R"
++  local r_script_path="${CONDA_PREFIX}/lib/R/bin/Rscript"
 +
-+  if [[ -f ${PREFIX}/bin/R ]]; then
-+    local r_link=$(readlink -f ${PREFIX}/bin/R)
-+    echo "Found ${PREFIX}/bin/R => ${r_link}"
++  if [[ -f ${CONDA_PREFIX}/bin/R ]]; then
++    local r_link=$(readlink -f ${CONDA_PREFIX}/bin/R)
++    echo "Found ${CONDA_PREFIX}/bin/R => ${r_link}"
      if [[ ${r_link} == ${SCRIPT_DIR}/R ]]; then
 -      echo "Replacing /usr/bin/R with ${r_path}"
 -      rm /usr/bin/R
 -      ln -s ${r_path} /usr/bin/R
-+      echo "Replacing ${PREFIX}/bin/R with ${r_path}"
-+      rm ${PREFIX}/bin/R
-+      ln -s ${r_path} ${PREFIX}/bin/R
++      echo "Replacing ${CONDA_PREFIX}/bin/R with ${r_path}"
++      rm ${CONDA_PREFIX}/bin/R
++      ln -s ${r_path} ${CONDA_PREFIX}/bin/R
      fi
    fi
  
 -  if [[ -f /usr/bin/Rscript ]]; then
 -    local r_script_link=$(readlink -f /usr/bin/Rscript)
 -    echo "Found /usr/bin/Rscript => ${r_script_link}"
-+  if [[ -f ${PREFIX}/bin/Rscript ]]; then
-+    local r_script_link=$(readlink -f ${PREFIX}/bin/Rscript)
-+    echo "Found ${PREFIX}/bin/Rscript => ${r_script_link}"
++  if [[ -f ${CONDA_PREFIX}/bin/Rscript ]]; then
++    local r_script_link=$(readlink -f ${CONDA_PREFIX}/bin/Rscript)
++    echo "Found ${CONDA_PREFIX}/bin/Rscript => ${r_script_link}"
      if [[ ${r_script_link} == ${SCRIPT_DIR}/Rscript ]]; then
 -      echo "Replacing /usr/bin/Rscript with ${r_script_path}"
 -      rm /usr/bin/Rscript
 -      ln -s ${r_script_path} /usr/bin/Rscript
-+      echo "Replacing ${PREFIX}/bin/Rscript with ${r_script_path}"
-+      rm ${PREFIX}/bin/Rscript
-+      ln -s ${r_script_path} ${PREFIX}/bin/Rscript
++      echo "Replacing ${CONDA_PREFIX}/bin/Rscript with ${r_script_path}"
++      rm ${CONDA_PREFIX}/bin/Rscript
++      ln -s ${r_script_path} ${CONDA_PREFIX}/bin/Rscript
      fi
    fi
  
 -  if [[ -f /usr/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
 -    rm /usr/bin/mlserver-R-${ML_SERVER_VERSION}
-+  if [[ -f ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
-+    rm ${PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}
++  if [[ -f ${CONDA_PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION} ]]; then
++    rm ${CONDA_PREFIX}/bin/mlserver-R-${ML_SERVER_VERSION}
    fi
  
  
 -  if [[ -f /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
 -    rm /usr/bin/mlserver-Rscript-${ML_SERVER_VERSION}
-+  if [[ -f ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
-+    rm ${PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}
++  if [[ -f ${CONDA_PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION} ]]; then
++    rm ${CONDA_PREFIX}/bin/mlserver-Rscript-${ML_SERVER_VERSION}
    fi
  }
  

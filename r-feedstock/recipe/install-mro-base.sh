@@ -44,7 +44,7 @@ make_mro_base () {
     popd
   fi
 
-  # Make symlinks to the Anaconda Distribution compilers on Linux.
+  # Make symlinks to the Anaconda Distribution compilers on Linux
   if [[ $target_platform == linux-64 ]]; then
     pushd $PREFIX/bin
       ln -s $HOST-ar ar
@@ -76,8 +76,6 @@ make_mro_base () {
 
   [[ -d unpack/sysroot ]] && mv unpack/sysroot $PREFIX
 
-  set -x
-  echo "LIZZY"
   pushd unpack$LIBRARY/.. || exit 1
     mv library ../
     [[ -d lib/mro_mkl ]] && mv lib/mro_mkl ../
@@ -90,6 +88,13 @@ make_mro_base () {
       find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
     popd
   popd
+
+  # patch Makeconf to prefer our various flags.
+  if [[ $target_platform != win-64 ]]; then
+    pushd $PREFIX
+      patch -p1 < $RECIPE_DIR/0002-mro-base-prefer-compiler-env-vars.patch || exit 1
+    popd
+  fi
 }
 declare -a EXCLUDED_PACKAGES
 EXCLUDED_PACKAGES+=(boot)
