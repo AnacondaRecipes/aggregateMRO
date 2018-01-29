@@ -34,7 +34,8 @@ build:
   rpaths:
     - lib/R/lib/
     - lib/
-
+  script_env:
+    - JAVA_HOME
 
 requirements:
   build:
@@ -48,6 +49,8 @@ requirements:
     - {{posix}}automake            # [win32]
     - {{posix}}pkg-config
     - {{posix}}make                # [linux or win32]
+    - {{ cdt('java-1.7.0-openjdk') }}        # [linux]
+    - {{ cdt('java-1.7.0-openjdk-devel') }}  # [linux]
 
   host:
     - mro-base
@@ -57,10 +60,13 @@ requirements:
     - {{native}}gcc-libs           # [win32]
 
 test:
+  requires:
+    - openjdk
   commands:
     # You can put additional test commands to be run here.
-    - $R -e "library('rJava')"           # [not win]
-    - "\"%R%\" -e \"library('rJava')\""  # [win]
+    - $R -e 'library(rJava); .jinit()'             # [not win]
+    # Yuck, cannot have a space after the ;
+    - "\"%R%\" -e \"library('rJava');.jinit()\""  # [win]
 
   # You can also put a file called run_test.py, run_test.sh, or run_test.bat
   # in the recipe that will be run at test time.
