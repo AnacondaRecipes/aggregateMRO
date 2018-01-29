@@ -51,6 +51,7 @@ requirements:
 
   host:
     - mro-base
+    - openssl                      # [linux]
 
   run:
     - mro-base
