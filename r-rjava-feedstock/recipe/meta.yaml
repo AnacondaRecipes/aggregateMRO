@@ -15,6 +15,8 @@ source:
   sha256: 932b153f2b5c546d614bb5ac4124df3d103c9f8e09a608a14fd036dfe15e9146  # [linux or win32]
 
 
+  patches:  # [linux or win32]
+    - 0001-Improve-lib-jvm.-so-dylib-dll-loading.patch  # [linux or win32]
 
 
   url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rJava_0.9-9.zip  # [win64]
