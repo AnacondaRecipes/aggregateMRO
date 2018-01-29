@@ -95,6 +95,7 @@ make_mro_base () {
       patch -p1 < $RECIPE_DIR/0002-mro-base-prefer-compiler-env-vars.patch || exit 1
     popd
   fi
+
   # Call R CMD javareconf upon activation.
   pushd $PREFIX
     patch -p1 < $RECIPE_DIR/0010-javareconf-Do-not-fail-on-compile-fail.patch
@@ -102,6 +103,11 @@ make_mro_base () {
     if [[ $target_platform != win-64 ]]; then
       cp "${RECIPE_DIR}"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
     fi
+  popd
+
+  # Prevent C and C++ extensions from linking to libgfortran.
+  pushd $PREFIX
+    sed -i -r 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
   popd
 }
 declare -a EXCLUDED_PACKAGES
