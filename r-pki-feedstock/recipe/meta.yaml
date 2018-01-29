@@ -52,11 +52,13 @@ requirements:
   host:
     - mro-base
     - r-base64enc
+    - {{native}}openssl            # [linux or win32]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
     - r-base64enc
+    - {{native}}openssl            # [win32]
 
 test:
   commands:
