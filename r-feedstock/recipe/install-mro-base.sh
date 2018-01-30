@@ -89,10 +89,11 @@ make_mro_base () {
     popd
   popd
 
-  # Patch Makeconf to prefer our various flags.
-  if [[ $target_platform != win-64 ]]; then
+  # Rewrite Makeconf to prefer our various flags.
+  if [[ -f $RECIPE_DIR/Makeconf.$target_platform ]]; then
     pushd $PREFIX
-      patch -p1 < $RECIPE_DIR/0002-mro-base-prefer-compiler-env-vars.patch || exit 1
+      cp $RECIPE_DIR/Makeconf.$target_platform lib/R/etc/Makeconf
+      sed -i.mro.original "s|/opt/anaconda1anaconda2anaconda3|$PREFIX|g" lib/R/etc/Makeconf
     popd
   fi
 
