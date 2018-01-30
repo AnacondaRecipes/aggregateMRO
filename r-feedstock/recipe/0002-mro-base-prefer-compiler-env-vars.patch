@@ -1,5 +1,5 @@
---- lib/R/etc/Makeconf.orig	2018-01-30 13:20:36.000000000 +0000
-+++ lib/R/etc/Makeconf	2018-01-30 14:31:20.000000000 +0000
+--- a/lib/R/etc/Makeconf.orig	2018-01-30 13:20:36.000000000 +0000
++++ b/lib/R/etc/Makeconf	2018-01-30 14:31:20.000000000 +0000
 @@ -9,33 +9,36 @@
  ## This fails if it contains spaces, or if it is quoted
  include $(R_SHARE_DIR)/make/vars.mk
