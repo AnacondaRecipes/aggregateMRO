@@ -40,6 +40,8 @@ requirements:
   build:
     - {{ compiler('c') }}          # [linux]
     - {{ compiler('cxx') }}        # [linux]
+    # -Wl,--as-needed does not get rid of libgfortran.so for MRO (while it does for our R)
+    - {{ compiler('fortran') }}    # [linux]
     - {{native}}toolchain          # [win32]
     - {{posix}}filesystem          # [win32]
     - {{posix}}sed                 # [win32]
