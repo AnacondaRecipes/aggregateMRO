@@ -1,7 +1,11 @@
---- original/lib/R/etc/Makeconf	2018-01-29 15:03:38.564770638 +0000
-+++ new/lib/R/etc/Makeconf	2018-01-29 15:11:11.870335405 +0000
-@@ -12,13 +12,16 @@
- AR = ar
+--- a/lib/R/etc/Makeconf	2018-01-30 13:20:36.000000000 +0000
++++ b/lib/R/etc/Makeconf	2018-01-30 13:34:44.000000000 +0000
+@@ -9,18 +9,21 @@
+ ## This fails if it contains spaces, or if it is quoted
+ include $(R_SHARE_DIR)/make/vars.mk
+ 
+-AR = ar
++AR ?= ar
  BLAS_LIBS = -L$(R_HOME)/lib$(R_ARCH) -lRblas
  C_VISIBILITY = -fvisibility=hidden
 -CC = gcc -std=gnu99
@@ -18,27 +22,66 @@
  CXXCPP = $(CXX) -E
 -CXXFLAGS = -DU_STATIC_IMPLEMENTATION -g -O2 $(LTO)
 +CXXFLAGS ?= -g -O2 $(LTO)
-+CXXFLAGS += -DU_STATIC_IMPLEMENTATION
++CXXFLAGS += -DU_STATIC_IMPLEMENTATION -std=gnu++11
  CXXPICFLAGS = -fpic
- CXX98 = g++
+-CXX98 = g++
++CXX98 = $(CXX) -std=gnu++98
  CXX98FLAGS = -DU_STATIC_IMPLEMENTATION -g -O2
-@@ -46,12 +49,12 @@
+ CXX98PICFLAGS = -fpic
+ CXX98STD = 
+@@ -28,14 +31,14 @@
+ CXX11FLAGS = -DU_STATIC_IMPLEMENTATION -g -O2
+ CXX11PICFLAGS = -fpic
+ CXX11STD = -std=gnu++11
+-CXX14 = 
+-CXX14FLAGS = 
+-CXX14PICFLAGS = 
+-CXX14STD = 
+-CXX17 = 
+-CXX17FLAGS = 
+-CXX17PICFLAGS = 
+-CXX17STD = 
++CXX14 = $(CXX)
++CXX14FLAGS = $(CXXFLAGS)
++CXX14PICFLAGS = -fpic
++CXX14STD = -std=gnu++14
++CXX17 = $(CXX)
++CXX17FLAGS = $(CXXFLAGS)
++CXX17PICFLAGS = -fpic
++CXX17STD = -std=gnu++17
+ DYLIB_EXT = .so
+ DYLIB_LD = $(CC)
+ DYLIB_LDFLAGS = -shared -fopenmp# $(CFLAGS) $(CPICFLAGS)
+@@ -45,14 +48,14 @@
+ ECHO_N = -n
  ECHO_T = 
  ## NB, set FC before F77 as on Solaris make, setting FC sets F77
- FC = gfortran
+-FC = gfortran
 -FCFLAGS = -g -O2 $(LTO)
-+FCFLAGS ?= -g -O2 $(LTO)
++FC ?= gfortran
++FCFLAGS ?= -g -O2 -I/opt/anaconda1anaconda2anaconda3/include -L/opt/anaconda1anaconda2anaconda3/lib $(LTO)
  ## additional libs needed when linking with $(FC), e.g. on some Oracle compilers
  FCLIBS = 
 -F77 = gfortran
 +F77 ?= gfortran
  F77_VISIBILITY = -fvisibility=hidden
 -FFLAGS = -g -O2 $(LTO)
+-FLIBS =  -lgfortran -lm -lquadmath
 +FFLAGS ?= -g -O2 $(LTO)
- FLIBS =  -lgfortran -lm -lquadmath
++FLIBS =  -lgfortran -lm -lgomp -lquadmath -lpthread
  FCPICFLAGS = -fpic
  FPICFLAGS = -fpic
-@@ -77,8 +80,9 @@
+ FOUNDATION_CPPFLAGS = 
+@@ -71,14 +74,15 @@
+ ## we only need this is if it is external, as otherwise link to R
+ LIBINTL= 
+ LIBM = -lm
+-LIBR0 = 
+-LIBR1 = 
+-LIBR =  
++LIBR0 = -L$(R_HOME)/lib$(R_ARCH)
++LIBR1 = -lR
++LIBR = -L$(R_HOME)/lib$(R_ARCH) -lR
  LIBS =  -lpcre -llzma -lbz2 -lz -lrt -ldl -lm -licuuc -licui18n
  ## needed by R CMD config
  LIBnn = lib64
@@ -50,3 +93,37 @@
  LTO = 
  ## needed to build applications linking to static libR
  MAIN_LD = $(CC)
+@@ -90,8 +94,8 @@
+ OBJC_LIBS = 
+ OBJCXX = 
+ R_ARCH = 
+-RANLIB = ranlib
+-SAFE_FFLAGS = -g -O2 -ffloat-store
++RANLIB ?= ranlib
++SAFE_FFLAGS = -fopenmp -g -O2 -ffloat-store
+ SED = /usr/bin/sed
+ SHELL = /bin/sh
+ SHLIB_CFLAGS = 
+@@ -119,16 +123,17 @@
+ SHLIB_OPENMP_CFLAGS = -fopenmp
+ SHLIB_OPENMP_CXXFLAGS = -fopenmp
+ SHLIB_OPENMP_FCFLAGS = -fopenmp
+-SHLIB_OPENMP_FFLAGS = -fopenmp
+-STRIP_LIBS = strip --strip-unneeded
+-STRIP_STATIC_LIBS = strip --strip-debug
++SHLIB_OPENMP_FFLAGS = 
++STRIP ?= strip
++STRIP_LIBS = $(STRIP) --strip-unneeded
++STRIP_STATIC_LIBS = $(STRIP) --strip-debug
+ TCLTK_CPPFLAGS = -I/usr/include -I/usr/include 
+ TCLTK_LIBS = -L/usr/lib64 -ltcl8.5 -L/usr/lib64 -ltk8.5 -lX11
+ YACC = yacc
+ 
+ ## legacy
+-CXX1X = g++
+-CXX1XFLAGS = -g -O2
++CXX1X ?= g++
++CXX1XFLAGS = $(CXXFLAGS) -g -O2
+ CXX1XPICFLAGS = -fpic
+ CXX1XSTD = -std=gnu++11
+ SHLIB_CXX1XLD = $(CXX11) $(CXX11STD)
