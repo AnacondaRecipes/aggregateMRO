@@ -47,6 +47,19 @@ outputs:
   - name: mro-base
     version: {{ version }}
     script: install-mro-base.sh
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+      no_link:
+        # These files are modified by R CMD javareconf and can
+        # point to different Java implementations in each env.
+        - lib/R/etc/Makeconf
+        - lib/R/etc/ldpaths
+        - lib/R/etc/javaconf
+        - lib/R/etc/x64/Makeconf
+        - lib/R/etc/x64/ldpaths
+        - lib/R/etc/x64/javaconf
     requirements:
       build:
         - m2-base  # [win]
