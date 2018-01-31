@@ -58,6 +58,7 @@ requirements:
     - r-bit64
     - r-hms
     - r-plogr
+    - {{native}}mysql              # [linux or win32]
 
   run:
     - mro-base
@@ -68,6 +69,7 @@ requirements:
     - r-bit64
     - r-hms
     - r-plogr
+    - {{native}}mysql              # [linux or win32]
 
 test:
   commands:
