@@ -51,10 +51,12 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}unixodbc           # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
+    - {{native}}unixodbc           # [linux]
 
 test:
   commands:
