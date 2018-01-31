@@ -45,10 +45,13 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}libpng             # [win32]
+    - libpng                       # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
+    - {{native}}libpng             # [win32]
 
 test:
   commands:
