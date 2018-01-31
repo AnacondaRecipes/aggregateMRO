@@ -293,6 +293,7 @@ echo "skip_safety_checks: True" >> ~/.condarc
 echo "default_channels:" >> ~/.condarc
 echo "  - https://repo.continuum.io/pkgs/main" >> ~/.condarc
 echo "  - local" >> ~/.condarc
+echo "  - msys2" >> ~/.condarc
 
 pushd ~/conda/aggregateMRO
 conda-build r-feedstock -m ./conda_build_config.yaml 2>&1 | tee ~/conda/mro-343.log
