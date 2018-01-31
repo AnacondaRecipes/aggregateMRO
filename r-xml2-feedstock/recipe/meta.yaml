@@ -54,6 +54,7 @@ requirements:
     - mro-base
     - r-bh
     - r-rcpp
+    - {{posix}}libxml2             # [linux]
 
   run:
     - mro-base
