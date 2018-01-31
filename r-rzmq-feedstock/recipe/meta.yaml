@@ -52,10 +52,12 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}zeromq 4.2.*       # [linux or win32]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
+    - {{native}}zeromq 4.2.*       # [linux or win32]
 
 test:
   commands:

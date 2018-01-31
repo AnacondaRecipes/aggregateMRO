@@ -309,6 +309,7 @@ FEEDSTOCKS=$(find . -name "*feedstock" | \
   -e 's|^./r-rhive-feedstock$||' \
   -e 's|^./r-feedstock$||' \
   -e 's|^./r-tkrplot-feedstock$||' \
+  -e 's|^./r-sf-feedstock$||' \
   -e 's|^./$||' \
   -e 's|^./\.git.*$||')
 conda-build ${FEEDSTOCKS} -m ./conda_build_config.yaml 2>&1 | tee -a ~/conda/mro-343.log
