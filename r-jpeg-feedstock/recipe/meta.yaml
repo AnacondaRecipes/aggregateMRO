@@ -45,6 +45,8 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}libjpeg-turbo            # [win32]
+    - {{native}}jpeg                     # [linux]
 
   run:
     - mro-base
