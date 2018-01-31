@@ -53,12 +53,19 @@ requirements:
     - mro-base
     - r-jsonlite >=1.4
     - r-openssl >=0.9.4
+    - {{native}}openssl
+    - {{native}}cyrus-sasl       # [linux]
+    - {{native}}zlib 1.2.8       # [win32]
+    - {{native}}zlib             # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-jsonlite >=1.4
     - r-openssl >=0.9.4
+    - {{native}}openssl
+    - {{native}}cyrus-sasl       # [linux]
+    - {{native}}zlib 1.2.8       # [win32]
 
 test:
   commands:
