@@ -52,6 +52,7 @@ requirements:
 
   host:
     - mro-base
+    - r-r6
     - {{native}}zeromq 4.2.*       # [linux or win32]
 
   run:
