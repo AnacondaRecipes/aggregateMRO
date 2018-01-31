@@ -38,6 +38,12 @@ build:
 # Suggests: png
 requirements:
   build:
+    - {{ cdt('libxrender-devel') }}      # [linux]
+    - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libxau-devel') }}          # [linux]
+    - {{ cdt('libxt-devel') }}           # [linux]
     - {{ compiler('c') }}          # [linux]
     - {{native}}toolchain          # [win32]
     - {{posix}}filesystem          # [win32]
@@ -51,6 +57,12 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}cairo                    # [linux]
+    - {{native}}libjpeg-turbo            # [win]
+    - {{native}}jpeg                     # [linux]
+    - {{native}}libtiff >=4.0.3,<4.0.8   # [win]
+    - {{native}}libtiff                  # [linux]
+    - {{native}}freetype                 # [linux]
 
   run:
     - mro-base
