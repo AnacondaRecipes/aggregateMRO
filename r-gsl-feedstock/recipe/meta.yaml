@@ -51,10 +51,12 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}gsl                # [linux or win32]
 
   run:
     - mro-base
     - {{native}}gcc-libs           # [win32]
+    - {{native}}gsl                # [linux or win32]
 
 test:
   commands:
