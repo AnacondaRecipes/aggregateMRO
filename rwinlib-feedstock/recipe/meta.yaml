@@ -7,5 +7,6 @@ source:
 
 requirements:
   build:
-    - m2-git  # [win]
-    - git     # [not win]
+    - m2-filesystem  # [win]
+    - m2-git         # [win]
+    - git            # [not win]
