@@ -1,0 +1,21 @@
+package:
+  name: rtools
+  version: 3.4.0
+
+source:
+  - url: https://cran.r-project.org/bin/windows/Rtools/Rtools34.exe
+    sha256: b0c343106b3ad32f3cd64035b376bcdc4b4bb2d61aedcc3c0e88110f5556e673
+  - url: http://constexpr.org/innoextract/files/innoextract-1.6-windows.zip                  # [win64]
+    md5: e3abf26e436c8f1858e2e06a67a37b60                                                    # [win64]
+    folder: innoextract                                                                      # [win64]
+
+build:
+  skip: True  # [not win]
+  skip_compile_pyc:
+    - '**/*.py'
+
+requirements:
+  build:
+    - python-libarchive-c
+    - posix  # [win]
+    - m2-p7zip  # [win]
