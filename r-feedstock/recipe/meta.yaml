@@ -1126,9 +1126,9 @@ outputs:
         failure time models.
       license_family: LGPL
 
-  - name: r-rclient  # [linux or win]
+  - name: r-mrclient  # [linux or win]
     version: '3.4.1.3.4.3'  # [linux or win]
-    script: install-r-rclient.sh  # [linux or win]
+    script: install-r-mrclient.sh  # [linux or win]
     build:
       missing_dso_whitelist:
         - libmpiCC.so
@@ -1177,10 +1177,12 @@ outputs:
         - libuuid  # [linux]
         - zlib  # [linux]
         - unixodbc  # [linux]
-    test:  # [linux]
-      files: test-rclient.R  # [linux]
-      commands:  # [linux]
-        - $R CMD BATCH test-rclient.R  # [linux]
+    test:
+      files: test-mrclient-incomplete.R
+      files: test-mrclient.R
+      commands:
+        - $R CMD BATCH test-mrclient-incomplete.R  # [linux]
+        - $R CMD BATCH test-mrclient.R  # [not linux]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
       license: Proprietary  # [linux or win]

@@ -28,8 +28,6 @@ mkdir -p "$PREFIX_LIB"
 #         meant to come from MSSQLServer?
 ln -s $PREFIX/lib/libodbc.so.2 $PREFIX/lib/libodbc.so.1
 
-mv unpack/rclient $PREFIX/
-
 pushd unpack$LIBRARY || exit 1
   for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
     LIBRARY_CASED=${LIBRARY_CASED//.\//}

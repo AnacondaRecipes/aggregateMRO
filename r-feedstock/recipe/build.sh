@@ -96,7 +96,8 @@ pushd unpack
     $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/MPI_7.1.12437.25_1033.exe || exit 1
     # Finally, probably all we care about (or can care about):
     python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.2.1.0_1033.cab')" || true
-    find .
+    rm -rf library/{iterators,foreach}
+    mv library/* lib/R/library/
   fi
 
   # 2. Save filelist back to the recipe.
