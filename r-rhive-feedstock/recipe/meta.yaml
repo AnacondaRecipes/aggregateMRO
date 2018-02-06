@@ -34,18 +34,21 @@ requirements:
   build:
     - {{posix}}filesystem        # [win]
     - {{posix}}git
+    - openjdk
 
   host:
-    - r-base
+    - mro-base
     - r-rserve >=0.6_0
     - r-rjava >=0.9_0
 
   run:
-    - r-base
+    - mro-base
     - r-rserve >=0.6_0
     - r-rjava >=0.9_0
 
 test:
+  requires:
+    - openjdk
   commands:
     # You can put additional test commands to be run here.
     - $R -e "library('RHive')"           # [not win]

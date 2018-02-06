@@ -10,3 +10,8 @@ requirements:
     - m2-filesystem  # [win]
     - m2-git         # [win]
     - git            # [not win]
+
+  # Try to workaround a bug where files created by activation of msys2
+  # end up in the built package (/dev for example)
+  host:
+    - fonts-anaconda

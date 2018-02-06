@@ -50,6 +50,8 @@ requirements:
     - r-rjava >=0.4_15
 
 test:
+  requires:
+    - openjdk
   commands:
     # You can put additional test commands to be run here.
     - $R -e "library('RJDBC')"           # [not win]

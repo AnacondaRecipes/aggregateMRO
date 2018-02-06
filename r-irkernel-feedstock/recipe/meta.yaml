@@ -35,7 +35,7 @@ requirements:
     - {{posix}}git
 
   host:
-    - r-base
+    - mro-base
     - r-irdisplay >=0.3.0.9999
     - r-crayon
     - r-digest
@@ -46,7 +46,7 @@ requirements:
     - r-uuid
 
   run:
-    - r-base
+    - mro-base
     - r-irdisplay >=0.3.0.9999
     - r-crayon
     - r-digest
