@@ -33,6 +33,11 @@ source:
   - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
     sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
     folder: wix                                                                              # [win64]
+  # The normal RevoUtils looks in the Windows Registry to determine if it's the Client or the Server version.
+  # We do not write to the Windows Registry so were provided with this one instead.
+  - file: ./RevoUtils_10.0.8.tar.gz                                                          # [win64]
+    sha256: 59a9840c44da2207857ef665272ae2cfc6f759578b956c1b7a05827750445ae2                 # [win64]
+    folder: RevoUtils                                                                        # [win64]
 
 requirements:
   build:

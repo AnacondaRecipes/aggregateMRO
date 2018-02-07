@@ -226,6 +226,9 @@ pushd unpack
     install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
     install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
     install_name_tool -change /Library/Frameworks/R.framework/Versions/3.4.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
+  elif [[ $target_platform == win-64 ]]; then
+    rm -rf $PREFIX/lib/R/library/RevoUtils
+    mv $SRC_DIR/RevoUtils $PREFIX/lib/R/library/
   else
     echo "No fixes necessary for $target_platform"
   fi
