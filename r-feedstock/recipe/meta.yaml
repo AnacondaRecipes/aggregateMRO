@@ -35,7 +35,7 @@ source:
     folder: wix                                                                              # [win64]
   # The normal RevoUtils looks in the Windows Registry to determine if it's the Client or the Server version.
   # We do not write to the Windows Registry so were provided with this one instead.
-  - file: ./RevoUtils_10.0.8.tar.gz                                                          # [win64]
+  - url: ./RevoUtils_10.0.8.tar.gz                                                          # [win64]
     sha256: 59a9840c44da2207857ef665272ae2cfc6f759578b956c1b7a05827750445ae2                 # [win64]
     folder: RevoUtils                                                                        # [win64]
 

@@ -96,7 +96,8 @@ pushd unpack
     $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/MPI_7.1.12437.25_1033.exe || exit 1
     # Finally, probably all we care about (or can care about):
     python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.2.1.0_1033.cab')" || true
-    rm -rf library/{iterators,foreach}
+    # Since R Client is older than MRO we must not use packages from it where there they also exist in MRO.
+    rm -rf library/{iterators,foreach,RevoUtilsMath}
     mv library/* lib/R/library/
   fi
 
@@ -135,7 +136,7 @@ pushd unpack
     rm lib/R/lib/libquadmath.0.dylib
     rm lib/R/lib/libgcc_s.1.dylib
   else
-    echo "No layout necessary for $target_platform"
+    echo "No layout changes necessary for $target_platform"
   fi
 
   # 4. Implement any necessary fixes.
