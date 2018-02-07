@@ -1188,7 +1188,7 @@ outputs:
       files: test-mrclient.R
       commands:
         - $R CMD BATCH test-mrclient-incomplete.R  # [linux]
-        - $R CMD BATCH test-mrclient.R  # [not linux]
+        - R CMD BATCH test-mrclient.R  # [not linux]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
       license: Proprietary  # [linux or win]
