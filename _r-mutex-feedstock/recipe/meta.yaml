@@ -1,0 +1,11 @@
+package:
+  name: _r-mutex
+  version: 1.0.0
+
+build:
+  string: mro_2
+  number: 2
+
+about:
+  license: BSD
+  summary: A mutex package to ensure environment exclusivity between Anaconda R and MRO.
