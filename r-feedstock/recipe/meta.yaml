@@ -93,6 +93,7 @@ outputs:
         - cairo 1.14.*  # [linux]
         - glib 2.*  # [linux]
       run:
+        - _r-mutex 1.* mro_2
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
