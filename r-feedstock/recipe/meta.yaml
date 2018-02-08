@@ -1135,14 +1135,14 @@ outputs:
   - name: r-mrclient  # [linux or win]
     version: '3.4.1.3.4.3'  # [linux or win]
     script: install-r-mrclient.sh  # [linux or win]
-    build:
-      missing_dso_whitelist:
-        - libmpiCC.so
-        - libcoll.so
-        - librxmpiCC.so
-        - libmpio.so.1
-        - libmpi.so.1
-        - libmtmpi.so.1
+    build:  # [linux or win]
+      missing_dso_whitelist:  # [linux or win]
+        - libmpiCC.so  # [linux or win]
+        - libcoll.so  # [linux or win]
+        - librxmpiCC.so  # [linux or win]
+        - libmpio.so.1  # [linux or win]
+        - libmpi.so.1  # [linux or win]
+        - libmtmpi.so.1  # [linux or win]
     requirements:  # [linux or win]
       host:  # [linux or win]
         - mro-base {{ version }}  # [linux or win]
@@ -1183,15 +1183,15 @@ outputs:
         - libuuid  # [linux]
         - zlib  # [linux]
         - unixodbc  # [linux]
-    test:
-      files:
-        - test-mrclient-incomplete.R
-        - test-mrclient.R
-      commands:
+    test:  # [linux or win]
+      files:  # [linux or win]
+        - test-mrclient-incomplete.R  # [linux or win]
+        - test-mrclient.R  # [linux or win]
+      commands:  # [linux or win]
         # You cannot use WARNING<colon> here without causing conda-build to die in _trim_None_strings
         - Rscript test-mrclient.R || echo "WARNING .. Ignoring failure of test-mrclient.R, will test an incomplete version instead"  # [linux]
         - Rscript test-mrclient-incomplete.R  # [linux]
-        - Rscript test-mrclient.R  # [not linux]
+        - Rscript test-mrclient.R  # [win]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
       license: Proprietary  # [linux or win]
