@@ -893,6 +893,7 @@
 ./lib/R/library/RevoUtils/html/00Index.html
 ./lib/R/library/RevoUtils/html/R.css
 ./lib/R/library/RevoUtils/INDEX
+./lib/R/library/RevoUtils/MD5
 ./lib/R/library/RevoUtils/Meta
 ./lib/R/library/RevoUtils/Meta/features.rds
 ./lib/R/library/RevoUtils/Meta/hsearch.rds
