@@ -1188,7 +1188,8 @@ outputs:
         - test-mrclient-incomplete.R
         - test-mrclient.R
       commands:
-        - Rscript test-mrclient.R || echo "WARNING: Ignoring failure of test-mrclient.R, will test an incomplete version instead"  # [linux]
+        # You cannot use WARNING<colon> here without causing conda-build to die in _trim_None_strings
+        - Rscript test-mrclient.R || echo "WARNING .. Ignoring failure of test-mrclient.R, will test an incomplete version instead"  # [linux]
         - Rscript test-mrclient-incomplete.R  # [linux]
         - Rscript test-mrclient.R  # [not linux]
     about:  # [linux or win]
