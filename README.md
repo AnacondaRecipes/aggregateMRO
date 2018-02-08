@@ -296,9 +296,12 @@ echo "  - local" >> ~/.condarc
 echo "  - msys2" >> ~/.condarc
 
 pushd ~/conda/aggregateMRO
-conda-build r-feedstock -m ./conda_build_config.yaml 2>&1 | tee ~/conda/mro-343.log
+conda-build _r-mutex-feedstock r-feedstock -m ./conda_build_config.yaml 2>&1 | tee ~/conda/mro-343.log
 FEEDSTOCKS=$(find . -name "*feedstock" | \
-  sed -e 's|^./rstudio-feedstock$||' \
+  sed \
+  -e 's|^./r-feedstock$||' \
+  -e 's|^./_r-mutex-feedstock$||' \
+  -e 's|^./rstudio-feedstock$||' \
   -e 's|^./r-essentials-feedstock$||' \
   -e 's|^./r-recommended-feedstock$||' \
   -e 's|^./r-shinysky-feedstock$||' \
@@ -308,7 +311,6 @@ FEEDSTOCKS=$(find . -name "*feedstock" | \
   -e 's|^./r-base-feedstock$||' \
   -e 's|^./r-irkernel-feedstock$||' \
   -e 's|^./r-rhive-feedstock$||' \
-  -e 's|^./r-feedstock$||' \
   -e 's|^./r-tkrplot-feedstock$||' \
   -e 's|^./r-sf-feedstock$||' \
   -e 's|^./r-tilegramsr-feedstock$||' \
