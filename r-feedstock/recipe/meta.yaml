@@ -1184,11 +1184,13 @@ outputs:
         - zlib  # [linux]
         - unixodbc  # [linux]
     test:
-      files: test-mrclient-incomplete.R
-      files: test-mrclient.R
+      files:
+        - test-mrclient-incomplete.R
+        - test-mrclient.R
       commands:
-        - $R CMD BATCH test-mrclient-incomplete.R  # [linux]
-        - R CMD BATCH test-mrclient.R  # [not linux]
+        - Rscript test-mrclient.R || echo "WARNING: Ignoring failure of test-mrclient.R, will test an incomplete version instead"  # [linux]
+        - Rscript test-mrclient-incomplete.R  # [linux]
+        - Rscript test-mrclient.R  # [not linux]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-client/what-is-microsoft-r-client  # [linux or win]
       license: Proprietary  # [linux or win]
