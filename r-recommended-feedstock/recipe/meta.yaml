@@ -1,0 +1,39 @@
+{% set version = "3.4.3" %}
+
+package:
+  name: r-recommended
+  version: {{ version }}
+
+build:
+  merge_build_host: True  # [win]
+  number: 0
+
+requirements:
+  run:
+    - mro-base {{ version }}
+    - r-boot
+    - r-class
+    - r-cluster
+    - r-codetools
+    - r-foreign
+    - r-kernsmooth
+    - r-lattice
+    - r-mass
+    - r-matrix
+    - r-mgcv
+    - r-nlme
+    - r-nnet
+    - r-rpart
+    - r-spatial
+    - r-survival
+
+about:
+  home: http://www.r-project.org/
+  license: GPL-3.0
+  summary: 'R is a free software environment for statistical computing and graphics.'
+
+extra:
+  recipe-maintainers:
+    - bgruening
+    - johanneskoester
+    - mingwandroid
