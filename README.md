@@ -3,7 +3,7 @@
 # 1. .. to update the recipes:
 export CONDA_R=3.4.3
 # All feedstocks we support outside of MRO:
-pushd ~/conda/aggregateR
+pushd ~/conda/aggregateMRO
   FEEDSTOCKS=$(find . -name "*feedstock" | sed -e 's|^./rstudio-feedstock$||' -e 's|^./r-essentials-feedstock$||' -e 's|^./r-recommended-feedstock$||' -e 's|^./r-shinysky-feedstock$||' -e 's|^./r-rmr2-feedstock$||' -e 's|^./rpy2-feedstock$||' -e 's|^./rpy2-2.8-feedstock$||' -e 's|^./r-base-feedstock$||' -e 's|^./r-irkernel-feedstock$||' -e 's|^./r-rhive-feedstock$||' -e 's|^./r-feedstock$||' -e 's|^./$||' -e 's|^./\.git.*$||')
 popd
 
