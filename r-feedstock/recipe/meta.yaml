@@ -1,0 +1,28 @@
+{% set version = "3.4.3" %}
+
+package:
+  name: r
+  version: {{ version }}
+
+build:
+  merge_build_host: True  # [win]
+  number: 0
+
+requirements:
+  build:
+    - r-base
+  run:
+    - r-base {{ version }}
+    - r-recommended {{ version }}
+    - mro-basics {{ version }}
+
+about:
+  home: https://mran.microsoft.com/open
+  license: GPL-3.0
+  summary: 'The enhanced distribution of R from Microsoft Corporation.'
+
+extra:
+  recipe-maintainers:
+    - bgruening
+    - johanneskoester
+    - mingwandroid
