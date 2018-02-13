@@ -104,7 +104,7 @@ outputs:
         - {{ compiler('c') }}  # [not win]
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
-        - libcurl  # [osx]
+        - curl  # [not win]
         - pango 1.*             # [linux]
         - cairo 1.14.*  # [linux]
         - glib 2.*  # [linux]
