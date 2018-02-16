@@ -2,7 +2,7 @@
 
 . "${RECIPE_DIR}"/find_relative_path.sh
 
-RC_PKG_VERSION=3.4.1
+RC_PKG_VERSION=3.4.3
 
 if [[ $target_platform == win-64 ]]; then
   ARCHIVE=microsoft-r-open-3.4.3.exe
@@ -80,6 +80,7 @@ pushd unpack
       python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
     done
     python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client/microsoft-r-client-packages-$RC_PKG_VERSION.rpm')" || true
+    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client-mml/microsoft-r-client-mml-$RC_PKG_VERSION.rpm')" || true
   elif [[ $target_platform == win-64 ]]; then
     pushd $(mktemp -d)
       "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack-r-client/RClientSetup.exe -x $PWD
@@ -111,6 +112,12 @@ pushd unpack
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
     patch -p1 < $RECIPE_DIR/0001-r-client-Relocate-bin-R-R.patch
     pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries/RServer
+      pushd MicrosoftML/mxLibs/x64/Platform/
+        # The Linux ones are exactly the same, and I have no idea what win-64 is doing here in the first place
+        rm -rf ubuntu.14.04-x64 ubuntu.16.04-x64 win-64 || exit 1
+        ln -s rhel.7-x64 ubuntu.14.04-x64
+        ln -s rhel.7-x64 ubuntu.16.04-x64
+      popd
       echo r-client libraries are:
       ls -l *
       mv * $SRC_DIR/unpack/lib/R/library/
@@ -168,7 +175,16 @@ pushd unpack
 
     # Prevent the MRO MKL libraries from stomping over the files in Anaconda Distribution's MKL package.
     mkdir -p lib/R/lib/mro_mkl/
-    mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
+    # mv stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
+    # cp ../anaconda-mkl/lib/libmkl_avx2.so lib/R/lib/mro_mkl/ || exit 1
+    # cp ../anaconda-mkl/lib/libmkl_avx.so lib/R/lib/mro_mkl/ || exit 1
+    # cp ../anaconda-mkl/lib/libmkl_def.so lib/R/lib/mro_mkl/ || exit 1
+    cp -rf ../anaconda-mkl/lib/*.so lib/R/lib/mro_mkl/ || exit 1
+    cp stage/Linux/bin/x64/* lib/R/lib/mro_mkl/
+    rm -rf stage/Linux/bin/x64/*
+    # cp ../anaconda-mkl/lib/libmkl_avx2.so lib/R/lib/mro_mkl/ || exit 1
+    # cp ../anaconda-mkl/lib/libmkl_avx.so lib/R/lib/mro_mkl/ || exit 1
+    # cp ../anaconda-mkl/lib/libmkl_def.so lib/R/lib/mro_mkl/ || exit 1
     for LIBRARY in ${MKL_USING_LIBS[@]}; do
       OLD_RPATH=$(patchelf --print-rpath $LIBRARY)
       rp=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib/mro_mkl)

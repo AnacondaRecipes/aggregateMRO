@@ -24,12 +24,21 @@ source:
     fn: {{ fn }}
     sha256: {{ shasum }}
     folder: unpack
-#  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux]
-#    sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux]
-#    folder: unpack-r-client  # [linux]
-  - url: ~/conda/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux]
-    sha256: 336c59f2199c72b2dbdcd2d505e7ea77b186dc3139b3ab8933b75a13d080b8cd  # [linux]
-    folder: unpack-r-client  # [linux]
+  - url: https://repo.continuum.io/pkgs/free/linux-64/mkl-2017.0.1-0.tar.bz2  # [linux64]
+    sha256: 89be3b0077bd1b7cc75feaec6eec8e33b0b118f7f9056d15be5d3ead05bdf9e9  # [linux64]
+    folder: anaconda-mkl  # [linux64]
+#  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux64]
+#    sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux64]
+#    folder: unpack-r-client  # [linux64]
+  - url: ~/conda/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux64]
+    sha256: 336c59f2199c72b2dbdcd2d505e7ea77b186dc3139b3ab8933b75a13d080b8cd  # [linux64]
+    folder: unpack-r-client  # [linux64]
+  - url: ~/conda/microsoft-r-client-mml-3.4.3.rpm  # [linux64]
+    sha256: 0411f0baff4359c0937f2786de714c0e62b0bb808485899fcdcc3cdd85964ae8  # [linux64]
+    folder: unpack-r-client-mml  # [linux64]
+  - url: ~/conda/microsoft-r-client-mlm-3.4.3.rpm  # [linux64]
+    sha256: 878d6dad7e96f3d3d49ee4661987f58dd213ba04df244ac37244f15530e52f99  # [linux64]
+    folder: unpack-r-client-mlm  # [linux64]
   - url: https://rserverdistribution.azureedge.net/production/RClient/3.4.1.0/1360/1033/0900ccb335c04a048f26b4bb3320aef8/RClientSetup.exe  # [win64]
     sha256: 011cb6eddb4ad58cb8c3de4032a2243187c879eefa7cf82896dbdc3823c1944f  # [win64]
     folder: unpack-r-client  # [win64]
@@ -1136,8 +1145,7 @@ outputs:
       license_family: LGPL
 
   - name: r-mrclient  # [linux or win]
-    version: '3.4.1.3.4.3'  # [win]
-    version: {{ rc_version }}  # [linux]
+    version: {{ rc_version }}  # [linux or win]
     script: install-r-mrclient.sh  # [linux or win]
     build:  # [linux or win]
       missing_dso_whitelist:  # [linux or win]
@@ -1195,6 +1203,8 @@ outputs:
         - unixodbc  # [linux]
     test:  # [linux or win]
       files:  # [linux or win]
+        - Flight_Delays_Sample.csv  # [linux or win]
+        - Weather_Sample.csv  # [linux or win]
         - test-mrclient-incomplete.R  # [linux or win]
         - test-mrclient.R  # [linux or win]
       commands:  # [linux or win]
@@ -1208,37 +1218,51 @@ outputs:
       summary: A free, community-supported, data science tool for high performance analytics  # [linux or win]
       license_family: Proprietary  # [linux or win]
 
+  - name: r-mrclient-mml  # [linux or win]
+    version: {{ rc_version }}  # [linux or win]
+    script: install-r-mrclient-mml.sh  # [linux or win]
+    build:  # [linux or win]
+    requirements:  # [linux or win]
+      host:  # [linux or win]
+        - mro-base {{ version }}  # [linux or win]
+        - {{ pin_subpackage('r-mrclient', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+    about:  # [linux or win]
+      home: https://docs.microsoft.com/en-us/machine-learning-server/r-reference/microsoftml/microsoftml-package  # [linux or win]
+      license: Proprietary  # [linux or win]
+      summary: Provides state-of-the-art fast, scalable machine learning algorithms and transforms for R  # [linux or win]
+      license_family: Proprietary  # [linux or win]
+
   - name: mro-basics
     version: {{ version }}
     requirements:
       run:
-        - mro-base
-        - r-boot
-        - r-checkpoint
-        - r-class
-        - r-cluster
-        - r-codetools
-        - r-curl
-        - r-deployrrserve  # [linux or win]
-        - r-doparallel
-        - r-foreach
-        - r-foreign
-        - r-iterators
-        - r-jsonlite
-        - r-kernsmooth
-        - r-lattice
-        - r-mass
-        - r-matrix
-        - r-mgcv
-        - r-microsoftr
-        - r-nlme
-        - r-nnet
-        - r-png
-        - r-r6
-        - r-revoioq
-        - r-revomods
-        - r-revoutilsmath  # [linux or win]
-        - r-rpart
-        - r-runit
-        - r-spatial
-        - r-survival
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-boot', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-checkpoint', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-class', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-cluster', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-codetools', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-curl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-deployrrserve', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+        - {{ pin_subpackage('r-doparallel', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-foreach', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-foreign', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-iterators', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-jsonlite', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-kernsmooth', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-lattice', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-mass', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-matrix', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-mgcv', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-microsoftr', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-nlme', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-nnet', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-png', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-r6', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-revoioq', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-revomods', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+        - {{ pin_subpackage('r-rpart', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-runit', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-spatial', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-survival', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}

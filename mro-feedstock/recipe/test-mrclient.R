@@ -1,3 +1,16 @@
+thisFile <- function() {
+    cmdArgs <- commandArgs(trailingOnly = FALSE)
+    needle <- "--file="
+    match <- grep(needle, cmdArgs)
+    if (length(match) > 0) {
+        # Rscript
+        return(normalizePath(sub(needle, "", cmdArgs[match])))
+    } else {
+        # 'source'd via R console
+        return(normalizePath(sys.frames()[[1]]$ofile))
+    }
+}
+
 # From: https://docs.microsoft.com/en-us/machine-learning-server/r/quickstart-run-r-code
        #############################################
        ##           ENTIRE EXAMPLE SCRIPT         ##
@@ -5,9 +18,12 @@
 
 #Step 1: Prep and Import Data
 #Initialize some variables to specify the data sets.
-   github <- "https://raw.githubusercontent.com/Microsoft/RTVS-docs/master/examples/MRS_and_Machine_Learning/Datasets/"
-   inputFileFlightURL <- paste0(github, "Flight_Delays_Sample.csv")
-   inputFileWeatherURL <- paste0(github, "Weather_Sample.csv")
+   # github <- "https://raw.githubusercontent.com/Microsoft/RTVS-docs/master/examples/MRS_and_Machine_Learning/Datasets/"
+   # inputFileFlightURL <- paste0(github, "Flight_Delays_Sample.csv")
+   # inputFileWeatherURL <- paste0(github, "Weather_Sample.csv")
+   thisDir <- dirname(thisFile())
+   inputFileFlightURL <- paste0(thisDir, "/Flight_Delays_Sample.csv")
+   inputFileWeatherURL <- paste0(thisDir, "/Weather_Sample.csv")
 
 #Create a temporary directory to store the intermediate XDF files. 
    td <- tempdir()
@@ -164,7 +180,8 @@
 #Step 5: Predict using Decision Tree
 #Choose and apply the Decision Tree learning algorithm.
     #Build a decision tree model.
-    dTree1_mrs <- rxDTree(modelFormula, data = train, reportProgress = 1)
+    #dTree1_mrs <- rxDTree(modelFormula, data = train, reportProgress = 4)
+    dTree1_mrs <- rxDTree(modelFormula, data = train, reportProgress = 4)
 
     #Find the Best Value of cp for Pruning rxDTree Object.
     treeCp_mrs <- rxDTreeBestCp(dTree1_mrs)

@@ -1,5 +1,5 @@
---- unpack/opt/microsoft/rclient/3.4.1/bin/R/R.orig	2018-01-24 21:23:15.612866647 +0000
-+++ unpack/opt/microsoft/rclient/3.4.1/bin/R/R	2018-01-24 21:23:41.049170514 +0000
+--- unpack/opt/microsoft/rclient/3.4.3/bin/R/R.orig	2018-01-24 21:23:15.612866647 +0000
++++ unpack/opt/microsoft/rclient/3.4.3/bin/R/R	2018-01-24 21:23:41.049170514 +0000
 @@ -29,17 +29,16 @@
  
  function setup_runtime()
