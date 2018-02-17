@@ -20,6 +20,7 @@ MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libExaMpiComm.so.2)
 MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libBxServerLink.so.2)
 MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libExacorePredict.so.2)
 MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/BxlServer)
+MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/ExaStat)
 # Does not use MKL, but we need its RPATHs modified to include lib/R/lib
 MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libRxLink.so.2)
 
