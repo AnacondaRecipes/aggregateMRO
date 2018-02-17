@@ -155,5 +155,6 @@ EXCLUDED_PACKAGES+=(RevoTreeView)
 EXCLUDED_PACKAGES+=(doRSR)
 EXCLUDED_PACKAGES+=(mrsdeploy)
 EXCLUDED_PACKAGES+=(mrupdate)
-
+# RClient MicrosoftML parts:
+EXCLUDED_PACKAGES+=(MicrosoftML)
 make_mro_base

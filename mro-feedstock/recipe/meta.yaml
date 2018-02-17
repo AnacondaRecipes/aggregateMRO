@@ -1226,6 +1226,14 @@ outputs:
       host:  # [linux or win]
         - mro-base {{ version }}  # [linux or win]
         - {{ pin_subpackage('r-mrclient', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+      run:  # [linux or win]
+        - mro-base {{ version }}  # [linux or win]
+        - {{ pin_subpackage('r-mrclient', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('MicrosoftML')"           # [not win]
+        - "\"%R%\" -e \"library('MicrosoftML')\""  # [win]
     about:  # [linux or win]
       home: https://docs.microsoft.com/en-us/machine-learning-server/r-reference/microsoftml/microsoftml-package  # [linux or win]
       license: Proprietary  # [linux or win]

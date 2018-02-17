@@ -181,6 +181,7 @@ thisFile <- function() {
 #Choose and apply the Decision Tree learning algorithm.
     #Build a decision tree model.
     #dTree1_mrs <- rxDTree(modelFormula, data = train, reportProgress = 4)
+    gc()
     dTree1_mrs <- rxDTree(modelFormula, data = train, reportProgress = 4)
 
     #Find the Best Value of cp for Pruning rxDTree Object.
