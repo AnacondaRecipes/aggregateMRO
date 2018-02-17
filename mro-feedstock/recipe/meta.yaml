@@ -1240,6 +1240,24 @@ outputs:
       summary: Provides state-of-the-art fast, scalable machine learning algorithms and transforms for R  # [linux or win]
       license_family: Proprietary  # [linux or win]
 
+  - name: r-mrclient-mlm  # [linux]
+    version: {{ rc_version }}  # [linux]
+    script: install-r-mrclient-mlm.sh  # [linux]
+    build:  # [linux]
+      noarch: generic  # [linux]
+    requirements:  # [linux]
+      host:  # [linux]
+        - mro-base {{ version }}  # [linux]
+        - {{ pin_subpackage('r-mrclient-mml', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux]
+      run:  # [linux]
+        - mro-base {{ version }}  # [linux]
+        - {{ pin_subpackage('r-mrclient-mml', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux]
+    about:  # [linux]
+      home: https://docs.microsoft.com/en-us/machine-learning-server/install/microsoftml-install-pretrained-models  # [linux]
+      license: Proprietary  # [linux]
+      summary: Pre-trained machine learning models for sentiment analysis and image detection  # [linux]
+      license_family: Proprietary  # [linux]
+
   - name: mro-basics
     version: {{ version }}
     requirements:
