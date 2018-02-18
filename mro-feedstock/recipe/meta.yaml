@@ -103,11 +103,11 @@ outputs:
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
         - expat  # [osx]
-        - libcurl  # [osx]
+        - libcurl >=7.55.1  # [osx]
         - libiconv  # [osx]
         - ncurses  # [osx]
         - libgcc-ng >=7.2.0  # [linux]
-        - zlib  # [linux]
+        - zlib 1.2.*  # [linux]
         - libgfortran-ng >=7.2.0 # [linux]
         - pango 1.40.*  # [linux]
         - cairo 1.14.*  # [linux]
@@ -119,7 +119,7 @@ outputs:
         - {{ compiler('c') }}  # [not win]
         - libgfortran >=3.0.1  # [osx]
         - llvm-openmp >=4.0.1  # [osx]
-        - curl  # [not win]
+        - curl >=7.55.1  # [not win]
         - pango 1.*             # [linux]
         - cairo 1.14.*  # [linux]
         - glib 2.*  # [linux]
@@ -412,6 +412,10 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      # Necesssary because we rename this to libRblas.so.mkl and to
+      # libRblas.so in the post-link then back again in post-unlink
+      missing_dso_whitelist:
+        - libRblas.so
 
     requirements:
       build:
@@ -626,10 +630,10 @@ outputs:
         - m2-base  # [win]
       host:
         - mro-base {{ version }}
-        - libcurl  # [osx]
+        - libcurl >=7.55.1  # [osx]
       run:
         - mro-base {{ version }}
-        - libcurl  # [osx]
+        - libcurl >=7.55.1  # [osx]
 
     test:
       commands:
@@ -1176,9 +1180,9 @@ outputs:
         - {{ pin_subpackage('r-revomods', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
         - libstdcxx-ng >=7.2.0  # [linux]
         - libgcc-ng >=7.2.0  # [linux]
-        - libcurl  # [linux]
-        - libuuid  # [linux]
-        - zlib  # [linux]
+        - libcurl >=7.55.1  # [linux]
+        - libuuid >=1.0.3  # [linux]
+        - zlib 1.2.*  # [linux]
         - unixodbc  # [linux]
         - openssl  # [linux]
       run:  # [linux or win]
@@ -1198,9 +1202,9 @@ outputs:
         - mro-base {{ version }}  # [linux or win]
         - libstdcxx-ng >=7.2.0  # [linux]
         - libgcc-ng >=7.2.0  # [linux]
-        - libcurl  # [linux]
-        - libuuid  # [linux]
-        - zlib  # [linux]
+        - libcurl >=7.55.1  # [linux]
+        - libuuid >=1.0.3  # [linux]
+        - zlib 1.2.*  # [linux]
         - unixodbc  # [linux]
     test:  # [linux or win]
       files:  # [linux or win]
@@ -1230,6 +1234,11 @@ outputs:
       run:  # [linux or win]
         - mro-base {{ version }}  # [linux or win]
         - {{ pin_subpackage('r-mrclient', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
+        - zlib 1.2.*  # [linux]
+        - libgcc-ng >=7.2.0  # [linux]
+        - libstdcxx-ng >=7.2.0  # [linux]
+        - libuuid >=1.0.3  # [linux]
+        - krb5 1.14.*  # [linux]
     test:
       commands:
         # You can put additional test commands to be run here.
