@@ -37,16 +37,17 @@ pushd unpack
         "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
         rm -f $SRC_DIR/unpack/$ARCHIVE
         msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
-        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack
-        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.3.0.0_1033.cab "$SRC_DIR"/unpack
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack || exit 1
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.3.0.0_1033.cab "$SRC_DIR"/unpack || exit 1
         # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
         rm -rf Microsoft/MRO-$PKG_VERSION.0/Setup
         mkdir -p "$SRC_DIR"/unpack/lib
         mv Microsoft/MRO-$PKG_VERSION.0 "$SRC_DIR"/unpack/lib/R
+        mkdir -p  "$SRC_DIR"/unpack/lib/R.mkl
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.3.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
-        ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R)
+        ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R.mkl)
         ARCHIVES+=(MROPKGS_9.3.0.0_1033.cab,lib/R)
       popd
     elif [[ $target_platform == osx-64 ]]; then
@@ -62,7 +63,7 @@ pushd unpack
     fi
     echo ARCHIVES are ${ARCHIVES[@]}
     for ARCHIVE_DEST in "${ARCHIVES[@]}"; do
-      ARCHIVE=${ARCHIVE_DEST//,*/}
+        ARCHIVE=${ARCHIVE_DEST//,*/}
       DEST=${ARCHIVE_DEST#*,}
       if [[ "$DEST" != "." ]]; then
         mv $ARCHIVE $DEST/
@@ -85,16 +86,19 @@ pushd unpack
     pushd $(mktemp -d)
       "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack-r-client/RClientSetup.exe -x $PWD
       find .
-      cp ./AttachedContainer/AsOleDB_13.0.1601.5_1033.msi $SRC_DIR/unpack-r-client
-      cp ./AttachedContainer/MPI_8.1.12438.1091.exe $SRC_DIR/unpack-r-client
-      cp ./AttachedContainer/RClient.ms $SRC_DIR/unpack-r-client
+      ASOLEDB=AsOleDB_13.0.1601.5_1033.msi
+      MPI=MPI_8.1.12438.1091.exe
+      cp ./AttachedContainer/$ASOLEDB $SRC_DIR/unpack-r-client
+      cp ./AttachedContainer/$MPI $SRC_DIR/unpack-r-client
+      cp ./AttachedContainer/RClient.msi $SRC_DIR/unpack-r-client
     popd
-    msiexec -a $(cygpath -w $PWD/../unpack-r-client/AsOleDB_13.0.1601.5_1033.msi) -qb TARGETDIR=$(cygpath -w "$PWD"/AsOleDB)
+    msiexec -a $(cygpath -w $PWD/../unpack-r-client/$ASOLEDB) -qb TARGETDIR=$(cygpath -w "$PWD"/AsOleDB)
     msiexec -a $(cygpath -w $PWD/../unpack-r-client/RClient.msi) -qb TARGETDIR=$(cygpath -w "$PWD"/RClient)
     # Not sure what the problem is here that causes this dirname mess:
-    $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/MPI_7.1.12437.25_1033.exe || exit 1
+    $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/$MPI || exit 1
     # Finally, probably all we care about (or can care about):
-    python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.2.1.0_1033.cab')" || true
+    find ../unpack/RClient
+    python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.3.0.0_1033.cab')" || exit 1
     # Since R Client is older than MRO we must not use packages from it where there they also exist in MRO.
     rm -rf library/{iterators,foreach,RevoUtilsMath}
     mv library/* lib/R/library/

@@ -412,8 +412,6 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
-      always_include_files:
-        - lib/R/lib/libRblas.so  # [linux]
 
     requirements:
       build:
