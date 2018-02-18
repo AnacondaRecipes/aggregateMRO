@@ -86,14 +86,12 @@ pushd unpack
       "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack-r-client/RClientSetup.exe -x $PWD
       find .
       cp ./AttachedContainer/AsOleDB_13.0.1601.5_1033.msi $SRC_DIR/unpack-r-client
-      cp ./AttachedContainer/MPI_7.1.12437.25_1033.exe $SRC_DIR/unpack-r-client
-      cp ./AttachedContainer/RClient.msi $SRC_DIR/unpack-r-client
+      cp ./AttachedContainer/MPI_8.1.12438.1091.exe $SRC_DIR/unpack-r-client
+      cp ./AttachedContainer/RClient.ms $SRC_DIR/unpack-r-client
     popd
     msiexec -a $(cygpath -w $PWD/../unpack-r-client/AsOleDB_13.0.1601.5_1033.msi) -qb TARGETDIR=$(cygpath -w "$PWD"/AsOleDB)
     msiexec -a $(cygpath -w $PWD/../unpack-r-client/RClient.msi) -qb TARGETDIR=$(cygpath -w "$PWD"/RClient)
-    # "$SRC_DIR"/wix/dark.exe ../unpack-r-client/AsOleDB_13.0.1601.5_1033.msi -x $PWD/AsOleDB
-    # "$SRC_DIR"/wix/dark.exe ../unpack-r-client/RClient.msi -x $PWD
-    # Yuck, not sure what the problem is here.
+    # Not sure what the problem is here that causes this dirname mess:
     $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/MPI_7.1.12437.25_1033.exe || exit 1
     # Finally, probably all we care about (or can care about):
     python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.2.1.0_1033.cab')" || true
