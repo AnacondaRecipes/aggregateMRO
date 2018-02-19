@@ -24,6 +24,13 @@ MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/ExaStat)
 # Does not use MKL, but we need its RPATHs modified to include lib/R/lib
 MKL_USING_LIBS+=(lib/R/library/RevoScaleR/rxLibs/x64/libRxLink.so.2)
 
+# https://github.com/dotnet/cli/issues/3390
+declare -a LIBUNWIND_USING_LIBS
+LIBUNWIND_USING_LIBS+=(lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libclrjit.so)
+LIBUNWIND_USING_LIBS+=(lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libdbgshim.so)
+LIBUNWIND_USING_LIBS+=(lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libcoreclr.so)
+LIBUNWIND_USING_LIBS+=(lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libmscordaccore.so)
+
 mkdir -p unpack
 pushd unpack
 
@@ -81,8 +88,12 @@ pushd unpack
       echo $RPM
       python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
     done
-    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client/microsoft-r-client-packages-$RC_PKG_VERSION.rpm')" || true
-    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client-mml/microsoft-r-client-mml-$RC_PKG_VERSION.rpm')" || true
+    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client/microsoft-r-client-packages-$RC_PKG_VERSION.rpm')" || exit 1
+    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client-mml/microsoft-r-client-mml-$RC_PKG_VERSION.rpm')" || exit 1
+    mkdir mlm-training-models
+    pushd mlm-training-models
+      python -c "import libarchive, os; libarchive.extract_file('$SRC_DIR/unpack-r-client-mlm/microsoft-r-client-mlm-$RC_PKG_VERSION.rpm')" || exit 1
+    popd
   elif [[ $target_platform == win-64 ]]; then
     pushd $(mktemp -d)
       "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack-r-client/RClientSetup.exe -x $PWD
@@ -160,6 +171,9 @@ pushd unpack
       cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/library/grDevices/libs/
     popd
     patchelf --set-rpath '$ORIGIN' lib/R/lib/libR.so
+    # lib/R/modules needed for libpng12.so.0
+    patchelf --set-rpath '$ORIGIN:$ORIGIN/../../../../../modules' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgcodecs.so.3.2
+    patchelf --set-rpath '$ORIGIN' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgproc.so.3.2
 
     # Add a missing RPATH (MRO probably used LD_LIBRARY_PATH for this):
     pushd lib/R/modules
@@ -194,6 +208,27 @@ pushd unpack
       echo rp from $PWD/$LIBRARY to $PWD/lib/R/lib/mro_mkl is $rp
       rp2=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib)
       patchelf --set-rpath '$ORIGIN'/$rp:'$ORIGIN'/$rp2:$OLD_RPATH $LIBRARY
+    done
+    # https://github.com/dotnet/cli/issues/3390
+    pushd $(mktemp -d)
+      curl -SLO http://dl.fedoraproject.org/pub/epel/6/x86_64/Packages/l/libunwind-1.1-3.el6.x86_64.rpm
+      "$RECIPE_DIR"/rpm2cpio libunwind-1.1-3.el6.x86_64.rpm | cpio -idmv
+      cp -p usr/lib64/libunwind*.so* $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/
+      patchelf --set-rpath '$ORIGIN' $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8
+      patchelf --set-rpath '$ORIGIN' $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8.0.1
+    popd
+    # https://github.com/dotnet/coreclr/issues/4132
+    # https://github.com/Microsoft/BashOnWindows/issues/302
+    # .. but lttng-ust has a bunch more deps and it is not clear that it is necessary, so whitelisting instead.
+    # pushd $(mktemp -d)
+    #   curl -SLO http://dl.fedoraproject.org/pub/epel/6/x86_64/Packages/l/lttng-ust-2.4.1-1.el6.x86_64.rpm
+    #   "$RECIPE_DIR"/rpm2cpio lttng-ust-2.4.1-1.el6.x86_64.rpm | cpio -idmv
+    #   cp -p usr/lib64/liblttng*.so* $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/
+    # popd
+    for LIBRARY in ${LIBUNWIND_USING_LIBS[@]}; do
+      OLD_RPATH=$(patchelf --print-rpath $LIBRARY)
+      rp=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib)
+      patchelf --set-rpath '$ORIGIN'/$rp:$OLD_RPATH $LIBRARY
     done
     rm -rf opt rpm stage
   elif [[ $target_platform == osx-64 ]]; then
