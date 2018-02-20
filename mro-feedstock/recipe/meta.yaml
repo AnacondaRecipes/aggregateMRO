@@ -128,15 +128,6 @@ outputs:
           - $R -e "print('Hello World!')"           # [not win]
           - "\"%R%\" -e \"print('Hello World!')\""  # [win]
 
-#  - name: r-base
-#    version: {{ version }}
-#    requirements:
-#      build:
-#        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
-#      run:
-#        - {{ pin_subpackage('mro-base', min_pin='x.x.x.x', max_pin='x.x.x.x') }}
-
-
   - name: r-kernsmooth
     version: '2.23_15'
     script: install-r-package.sh
