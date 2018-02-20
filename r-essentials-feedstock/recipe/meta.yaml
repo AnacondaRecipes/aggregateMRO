@@ -46,6 +46,7 @@ package:
 requirements:
   build:
     - mro-base >={{r_base_ver}}
+    - mro-basics >={{r_base_ver}}
     - notebook >={{notebook_ver}}
     - r-broom >={{r_broom_ver}}
     - r-caret >={{r_caret_ver}}
@@ -85,6 +86,7 @@ requirements:
 
   run:
     - mro-base >={{r_base_ver}}
+    - mro-basics >={{r_base_ver}}
     - notebook >={{notebook_ver}}
     - r-broom >={{r_broom_ver}}
     - r-caret >={{r_caret_ver}}
