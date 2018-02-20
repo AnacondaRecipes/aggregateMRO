@@ -100,6 +100,7 @@ outputs:
         - {{ cdt('libxau') }}                # [linux]
         - {{ cdt('java-1.7.0-openjdk') }}    # [linux]
       host:
+        - llvm-openmp >=4.0.1  # [osx]
         - expat  # [osx]
         - libcurl  # [osx]
         - libiconv  # [osx]
@@ -113,6 +114,7 @@ outputs:
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
+        - llvm-openmp >=4.0.1  # [osx]
         - curl >=7.55.1  # [not win]
       test:
         commands:

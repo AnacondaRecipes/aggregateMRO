@@ -109,10 +109,11 @@ make_mro_base () {
   # Prevent C and C++ extensions from linking to libgfortran.
   pushd $PREFIX
     if [[ $(uname) == Darwin ]]; then
-      sed -i -E 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
+      sed -i.bak -E 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
     else
-      sed -i -r 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
+      sed -i.bak -r 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
     fi
+    rm lib/R/etc/Makeconf.bak
   popd
 }
 declare -a EXCLUDED_PACKAGES
