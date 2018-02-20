@@ -1187,12 +1187,13 @@ outputs:
         - libgcc-ng >=7.2.0  # [linux]
     test:  # [linux or win]
       files:  # [linux or win]
-        - Flight_Delays_Sample.csv  # [linux or win]
-        - Weather_Sample.csv  # [linux or win]
-        - test-mrclient-incomplete.R  # [linux or win]
-        - test-mrclient.R  # [linux or win]
+        - tests/Flight_Delays_Sample.csv  # [linux or win]
+        - tests/Weather_Sample.csv  # [linux or win]
+        - tests/test-mrclient-incomplete.R  # [linux or win]
+        - tests/test-mrclient.R  # [linux or win]
       commands:  # [linux or win]
         # You cannot use WARNING<colon> here without causing conda-build to die in _trim_None_strings
+        - cd tests
         - Rscript test-mrclient.R || echo "WARNING .. Ignoring failure of test-mrclient.R, will test an incomplete version instead"  # [linux]
         - Rscript test-mrclient-incomplete.R  # [linux]
         - Rscript test-mrclient.R  # [win]
@@ -1234,6 +1235,8 @@ outputs:
       summary: Provides state-of-the-art fast, scalable machine learning algorithms and transforms for R  # [linux or win]
       license_family: Proprietary  # [linux or win]
 
+  # The linux selectors here are only to cut down the build time by not
+  # building a noarch: generic package multiple times on each OS.
   - name: r-mrclient-mlm  # [linux]
     version: {{ rc_version }}  # [linux]
     script: install-r-mrclient-mlm.sh  # [linux]
@@ -1246,6 +1249,13 @@ outputs:
       run:  # [linux]
         - mro-base {{ version }}  # [linux]
         - {{ pin_subpackage('r-mrclient-mml', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux]
+    test:  # [linux]
+      files:  # [linux]
+        - tests/test-mrclient-mlm-ImageFeaturizer_TrainAndClassifyImage.R  # [linux]
+        - tests/Data/Pictures/**  # [linux]
+      commands:  # [linux]
+        - cd tests
+        - Rscript test-mrclient-mlm-ImageFeaturizer_TrainAndClassifyImage.R  # [linux]
     about:  # [linux]
       home: https://docs.microsoft.com/en-us/machine-learning-server/install/microsoftml-install-pretrained-models  # [linux]
       license: Proprietary  # [linux]
