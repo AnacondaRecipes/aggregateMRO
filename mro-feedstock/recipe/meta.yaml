@@ -115,7 +115,7 @@ outputs:
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
         - llvm-openmp >=4.0.1  # [osx]
-        - curl >=7.55.1  # [not win]
+        - curl >=7.58.0  # [not win]
       test:
         commands:
           - $R -e "print('Hello World!')"           # [not win]
@@ -614,10 +614,9 @@ outputs:
         - m2-base  # [win]
       host:
         - mro-base {{ version }}
-        - libcurl >=7.55.1  # [osx]
+        - libcurl  # [osx]
       run:
         - mro-base {{ version }}
-        - libcurl >=7.55.1  # [osx]
 
     test:
       commands:

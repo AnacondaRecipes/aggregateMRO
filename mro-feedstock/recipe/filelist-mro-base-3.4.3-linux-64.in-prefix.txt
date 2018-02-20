@@ -190,7 +190,7 @@
 ./conda-meta/orbit2-cos6-x86_64-2.14.17-0.json
 ./conda-meta/p11-kit-cos6-x86_64-0.18.5-he72ed6d_0.json
 ./conda-meta/p11-kit-trust-cos6-x86_64-0.18.5-h140be7e_0.json
-./conda-meta/pango-1.40.11-h8191d47_0.json
+./conda-meta/pango-1.41.0-hd475d92_0.json
 ./conda-meta/pcre-8.41-hc27e229_1.json
 ./conda-meta/pixman-0.34.0-hceecf20_3.json
 ./conda-meta/xorg-x11-proto-devel-cos6-x86_64-7.7-h8d4a98b_0.json
@@ -1720,15 +1720,15 @@
 ./lib/libpango-1.0.la
 ./lib/libpango-1.0.so
 ./lib/libpango-1.0.so.0
-./lib/libpango-1.0.so.0.4000.11
+./lib/libpango-1.0.so.0.4100.0
 ./lib/libpangocairo-1.0.la
 ./lib/libpangocairo-1.0.so
 ./lib/libpangocairo-1.0.so.0
-./lib/libpangocairo-1.0.so.0.4000.11
+./lib/libpangocairo-1.0.so.0.4100.0
 ./lib/libpangoft2-1.0.la
 ./lib/libpangoft2-1.0.so
 ./lib/libpangoft2-1.0.so.0
-./lib/libpangoft2-1.0.so.0.4000.11
+./lib/libpangoft2-1.0.so.0.4100.0
 ./lib/libpcre.a
 ./lib/libpcrecpp.a
 ./lib/libpcrecpp.la
