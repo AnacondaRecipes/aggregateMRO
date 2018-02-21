@@ -1,4 +1,4 @@
-source("utils.R")
+library(MicrosoftML)
 
 thisFile <- function() {
     cmdArgs <- commandArgs(trailingOnly = FALSE)
