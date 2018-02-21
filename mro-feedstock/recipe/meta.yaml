@@ -1193,7 +1193,7 @@ outputs:
         - tests/test-mrclient.R  # [linux or win]
       commands:  # [linux or win]
         # You cannot use WARNING<colon> here without causing conda-build to die in _trim_None_strings
-        - cd tests
+        - cd tests  # [linux or win]
         - Rscript test-mrclient.R || echo "WARNING .. Ignoring failure of test-mrclient.R, will test an incomplete version instead"  # [linux]
         - Rscript test-mrclient-incomplete.R  # [linux]
         - Rscript test-mrclient.R  # [win]
@@ -1219,7 +1219,7 @@ outputs:
         - libuuid  # [linux]
         - krb5  # [linux]
         - libcurl  # [linux]
-      run:
+      run:  # [linux or win]
         - mro-base {{ version }}  # [linux or win]
         - {{ pin_subpackage('r-mrclient', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [linux or win]
         - libgcc-ng >=7.2.0  # [linux]
@@ -1254,7 +1254,7 @@ outputs:
         - tests/test-mrclient-mlm-ImageFeaturizer_TrainAndClassifyImage.R  # [linux]
         - tests/Data/Pictures/  # [linux]
       commands:  # [linux]
-        - cd tests
+        - cd tests  # [linux]
         - Rscript test-mrclient-mlm-ImageFeaturizer_TrainAndClassifyImage.R  # [linux]
     about:  # [linux]
       home: https://docs.microsoft.com/en-us/machine-learning-server/install/microsoftml-install-pretrained-models  # [linux]
