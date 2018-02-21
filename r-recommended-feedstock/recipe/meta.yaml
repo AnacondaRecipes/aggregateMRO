@@ -10,9 +10,10 @@ build:
 
 requirements:
   build:
-    - mro-base
+    - mro-base {{ version }}
   run:
-    - mro-base
+    - mro-base {{ version }}
+    - mro-basics {{ version }}
     - r-boot
     - r-class
     - r-cluster
