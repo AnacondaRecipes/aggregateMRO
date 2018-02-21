@@ -1252,7 +1252,7 @@ outputs:
     test:  # [linux]
       files:  # [linux]
         - tests/test-mrclient-mlm-ImageFeaturizer_TrainAndClassifyImage.R  # [linux]
-        - tests/Data/Pictures/**  # [linux]
+        - tests/Data/Pictures/  # [linux]
       commands:  # [linux]
         - cd tests
         - Rscript test-mrclient-mlm-ImageFeaturizer_TrainAndClassifyImage.R  # [linux]
