@@ -322,3 +322,4 @@ FEEDSTOCKS=$(find . -name "*feedstock" | \
 conda-build ${FEEDSTOCKS} -m ./conda_build_config.yaml 2>&1 | tee -a ~/conda/mro-343.log
 popd
 
+~/conda/private_conda_recipes/rays-scratch-scripts/build-in-order --product=mro --upload-channel=none --pkg-build-channel-priority=M --installer-build-channel-priority=D --skip-existing=yes --build-toolchain=no 2>&1 | tee ~/conda/MRO-3.4.3.log
