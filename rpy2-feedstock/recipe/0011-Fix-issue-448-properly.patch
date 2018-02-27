@@ -1,0 +1,58 @@
+# HG changeset patch
+# User Laurent Gautier <lgautier@gmail.com>
+# Date 1518369974 18000
+# Branch version_2.9.x
+# Node ID d8a45251e61449b5b6a8e6476f82dcab9c65398f
+# Parent  985fe97de39e9f3fe587a5149198a5a677f1c42b
+Fix issue #448.
+
+diff --git a/rpy/robjects/pandas2ri.py b/rpy/robjects/pandas2ri.py
+--- a/rpy/robjects/pandas2ri.py
++++ b/rpy/robjects/pandas2ri.py
+@@ -1,5 +1,5 @@
+ import os
+-import pytz
++import dateutil.tz
+ from datetime import datetime
+ import rpy2.robjects as ro
+ import rpy2.robjects.conversion as conversion
+@@ -15,6 +15,7 @@
+ import pandas
+ from numpy import recarray
+ import numpy
++import pytz
+ import warnings
+ 
+ from collections import OrderedDict
+@@ -143,22 +144,23 @@
+ 
+ def get_timezone():
+     """ Return the system's timezone settings. """
+-    etc_timezone = '/etc/timezone'
++    filename_timezone = dateutil.tz.gettz()._filename
+     timezone = None
+-    if os.path.exists(etc_timezone):
++    if os.path.exists(filename_timezone):
+         try:
+-            with open(etc_timezone) as fh:
++            with open(filename_timezone) as fh:
+                 tz = fh.read().strip()
+             try :
+                 timezone = pytz.timezone(tz)
+             except pytz.UnknownTimeZoneError:
+-                warnings.warn('Unknown time zone in %s, using UTC.' % etc_timezone)
+-                timezone = 'UTC'
++                warnings.warn('Unknown time zone in %s, using UTC.' % filename_timezone)
++                timezone = pytz.timezone('UTC')
+         except IOError:
+-            warnings.warn('Unable to read date in %s, using UTC.' % etc_timezone)
+-            timezone = 'UTC'
++            warnings.warn('Unable to read date in %s, using UTC.' % filename_timezone)
++            timezone = pytz.timezone('UTC')
+     else:
+-        warnings.warn('No file %s' % etc_timezone)
++        warnings.warn('No file %s' % filename_timezone)
++        timezone = pytz.timezone('UTC')
+     return timezone
+ 
+ 

@@ -28,6 +28,8 @@ source:
     # Patches from upstream:
     - 0110-52b73245e093d4cf32dfeb7c77e9f4da954316dc.patch
     - 0111-c090410d52149121083ce87387c93ea91514c39f.patch
+    # https://bitbucket.org/rpy2/rpy2/issues/448/etc-timezone-does-not-exist-on-many-linux
+    - 0112-c6fdb2ee9062c6f96f98e16c6da0a1cf52a1f305.patch
 
 build:
   merge_build_host: True  # [win]
