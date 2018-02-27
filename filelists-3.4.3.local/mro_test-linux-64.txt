@@ -358,4 +358,6 @@ r-yaml-2.1.16-mro343h086d26f_0.tar.bz2
 r-zoo-1.8_0-mro343h086d26f_0.tar.bz2
 repodata.json
 repodata.json.bz2
+rpy2-2.8.6-py27mro343h14c3975_2.tar.bz2
+rpy2-2.9.1-py35mro343h14c3975_0.tar.bz2
 rpy2-2.9.1-py36mro343h14c3975_0.tar.bz2
