@@ -13,9 +13,9 @@ popd
 # r-essentials only:
 # FEEDSTOCKS="r-broom-feedstock r-caret-feedstock r-data.table-feedstock r-dbi-feedstock r-dplyr-feedstock r-forcats-feedstock r-formatr-feedstock r-ggplot2-feedstock r-glmnet-feedstock r-haven-feedstock r-hms-feedstock r-httr-feedstock r-jsonlite-feedstock r-lubridate-feedstock r-magrittr-feedstock r-modelr-feedstock r-plyr-feedstock r-purrr-feedstock r-quantmod-feedstock r-randomforest-feedstock r-rbokeh-feedstock r-readr-feedstock r-readxl-feedstock r-reshape2-feedstock r-rmarkdown-feedstock r-rvest-feedstock r-shiny-feedstock r-stringr-feedstock r-tibble-feedstock r-tidyr-feedstock r-tidyverse-feedstock r-xml2-feedstock r-zoo-feedstock" # r-irkernel-feedstock
 
-conda skeleton cran --output-dir=/Users/rdonnelly/aggregateMRO --cran-url https://mran.microsoft.com/snapshot/2018-01-01 --output-suffix=-feedstock/recipe --recursive --add-maintainer=mingwandroid --update-policy=merge-keep-build-num --use-binaries-ver 3.4 --r-interp=mro-base ${FEEDSTOCKS}
-conda skeleton cran --output-dir=/Users/rdonnelly/aggregateMRO --output-suffix=-feedstock/recipe --add-maintainer=mingwandroid --update-policy=merge-keep-build-num --r-interp=mro-base file:///Users/rdonnelly/conda/aggregateMRO/r-revoutils-feedstock/recipe/RevoUtils_10.0.8.tar.gz
-conda skeleton cran --output-dir=/Users/rdonnelly/aggregateMRO --output-suffix=-feedstock/recipe --add-maintainer=mingwandroid --update-policy=merge-keep-build-num \
+conda skeleton cran --output-dir=/Users/rdonnelly/conda/aggregateMRO --cran-url https://mran.microsoft.com/snapshot/2018-01-01 --output-suffix=-feedstock/recipe --recursive --add-maintainer=mingwandroid --update-policy=merge-keep-build-num --use-binaries-ver 3.4 --r-interp=mro-base ${FEEDSTOCKS}
+conda skeleton cran --output-dir=/Users/rdonnelly/conda/aggregateMRO --output-suffix=-feedstock/recipe --add-maintainer=mingwandroid --update-policy=merge-keep-build-num --r-interp=mro-base file:///Users/rdonnelly/conda/aggregateMRO/r-revoutils-feedstock/recipe/RevoUtils_10.0.8.tar.gz
+conda skeleton cran --output-dir=/Users/rdonnelly/conda/aggregateMRO --output-suffix=-feedstock/recipe --add-maintainer=mingwandroid --update-policy=merge-keep-build-num \
     https://github.com/bokeh/rbokeh \
     https://github.com/IRkernel/IRkernel \
     https://github.com/rstats-db/odbc \
