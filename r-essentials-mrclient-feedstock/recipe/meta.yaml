@@ -1,0 +1,26 @@
+{% set name = "r-essentials-mrclient" %}
+{% set version = "3.4.3" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+requirements:
+  build:
+    - mro-base >={{version}}
+    - r-mrclient >={{version}}
+    - r-mrclient-mml >={{version}}
+
+  run:
+    - mro-base >={{version}}
+    - r-mrclient >={{version}}
+    - r-mrclient-mml >={{version}}
+
+about:
+  summary: "Essential R packages including MS R Client and MS Machine Learning"
+  license: Various
+  license_family: Other
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
