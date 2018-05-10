@@ -21,6 +21,7 @@ if [[ "$LIBRARY_NAME" == "revoutilsmath" ]]; then
     mv "$PREFIX_LIB"/../bin/x64/Rlapack.dll "$PREFIX_LIB"/../bin/x64/Rlapack.dll.nomkl
     mv unpack$LIBRARY/../bin/x64/Rblas.dll "$PREFIX_LIB"/../bin/x64/Rblas.dll.mkl
     mv unpack$LIBRARY/../bin/x64/Rlapack.dll "$PREFIX_LIB"/../bin/x64/Rlapack.dll.mkl
+    mv unpack$LIBRARY/../bin/x64/libiomp5md.dll "$PREFIX_LIB"/../bin/x64/libiomp5md.dll
   fi
 fi
 

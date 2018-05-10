@@ -30,7 +30,7 @@ make_mro_base () {
   if [[ $target_platform != win-64 ]]; then
     declare -a EXES
     pushd unpack/lib/R/bin
-      for EXE in $(find . -iname "*" -type f -maxdepth 1 -mindepth 1); do
+      for EXE in $(find . -type f -maxdepth 1 -mindepth 1); do
         EXE=${EXE//.\//}
         EXES+=($EXE)
       done
@@ -63,7 +63,7 @@ make_mro_base () {
   mkdir -p "$PREFIX_LIB"
 
   pushd unpack$LIBRARY || exit 1
-    for LIBRARY_CASED in $(find . -iname "*" -maxdepth 1 -mindepth 1); do
+    for LIBRARY_CASED in $(find . -maxdepth 1 -mindepth 1); do
       LIBRARY_CASED=${LIBRARY_CASED//.\//}
       if ! contains $LIBRARY_CASED "${EXCLUDED_PACKAGES[@]}"; then
         echo "Including $LIBRARY_CASED => $PREFIX_LIB"
@@ -110,10 +110,10 @@ make_mro_base () {
   pushd $PREFIX
     if [[ $(uname) == Darwin ]]; then
       sed -i.bak -E 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
-    else
+    elif [[ -f lib/R/etc/Makeconf ]]; then
       sed -i.bak -r 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
     fi
-    rm lib/R/etc/Makeconf.bak
+    [[ -f lib/R/etc/Makeconf.bak ]] && rm -f lib/R/etc/Makeconf.bak
   popd
 }
 declare -a EXCLUDED_PACKAGES
