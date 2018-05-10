@@ -1,54 +1,157 @@
-# aggregateR
+# Instructions for updating and building the Anaconda R package ecosystem (non-MRO)
 
-# 1. .. to update the recipes:
-export CONDA_R=3.4.3
-# All feedstocks we support outside of MRO:
-pushd ~/conda/aggregateMRO
-  FEEDSTOCKS=$(find . -name "*feedstock" | sed -e 's|^./rstudio-feedstock$||' -e 's|^./r-essentials-feedstock$||' -e 's|^./r-recommended-feedstock$||' -e 's|^./r-shinysky-feedstock$||' -e 's|^./r-rmr2-feedstock$||' -e 's|^./rpy2-feedstock$||' -e 's|^./rpy2-2.8-feedstock$||' -e 's|^./r-base-feedstock$||' -e 's|^./r-irkernel-feedstock$||' -e 's|^./r-rhive-feedstock$||' -e 's|^./r-feedstock$||' -e 's|^./$||' -e 's|^./\.git.*$||')
-popd
+## 1. Figure out or decide upon the latest R version and the appropriate MRAN snapshot date to use
+```
+# For example:
+export CRAN_URL=https://mran.microsoft.com/snapshot/2018-04-23
+export CONDA_R=3.5.0
+# Edit ~/conda/aggregateR/conda_build_config.yaml and change:
+    cran_mirror:
+      - <CRAN_URL>
+```
 
-# For Windows:
-  FEEDSTOCKS=$(find . -name "*feedstock" | sed -e 's|^./rstudio-feedstock$||' -e 's|^./r-essentials-feedstock$||' -e 's|^./r-recommended-feedstock$||' -e 's|^./r-shinysky-feedstock$||' -e 's|^./r-rmr2-feedstock$||' -e 's|^./rpy2-feedstock$||' -e 's|^./rpy2-2.8-feedstock$||' -e 's|^./r-base-feedstock$||' -e 's|^./r-irkernel-feedstock$||' -e 's|^./r-rhive-feedstock$||' -e 's|^./r-feedstock$||' -e 's|^./r-domc-feedstock$||' -e 's|^./$||' -e 's|^./\.git.*$||')
+## 2. Clean everything up (please exercise caution and judgement here)
+```
+git reset --hard
+git submodule foreach git reset --hard
+git submodule foreach git clean -dxf .
+git clean -dxf .
+```
 
-# r-essentials only:
-# FEEDSTOCKS="r-broom-feedstock r-caret-feedstock r-data.table-feedstock r-dbi-feedstock r-dplyr-feedstock r-forcats-feedstock r-formatr-feedstock r-ggplot2-feedstock r-glmnet-feedstock r-haven-feedstock r-hms-feedstock r-httr-feedstock r-jsonlite-feedstock r-lubridate-feedstock r-magrittr-feedstock r-modelr-feedstock r-plyr-feedstock r-purrr-feedstock r-quantmod-feedstock r-randomforest-feedstock r-rbokeh-feedstock r-readr-feedstock r-readxl-feedstock r-reshape2-feedstock r-rmarkdown-feedstock r-rvest-feedstock r-shiny-feedstock r-stringr-feedstock r-tibble-feedstock r-tidyr-feedstock r-tidyverse-feedstock r-xml2-feedstock r-zoo-feedstock" # r-irkernel-feedstock
+## 3. Update all of the recipes that are sourced from MRAN
+```
+conda skeleton cran \
+  --cran-url ${CRAN_URL} \
+  --output-suffix=-feedstock/recipe --recursive \
+  --add-maintainer=mingwandroid \
+  --update-policy=merge-keep-build-num \
+  --use-binaries-ver ${CONDA_R%.*} \
+  --r-interp=mro-base \
+  $(find . -name "*feedstock" | \
+    sed -e 's|^./rstudio-feedstock$||' \
+        -e 's|^./rstudio-1.1.442-feedstock$||' \
+        -e 's|^./r-essentials-feedstock$||' \
+        -e 's|^./r-recommended-feedstock$||' \
+        -e 's|^./r-shinysky-feedstock$||' \
+        -e 's|^./r-rmr2-feedstock$||' \
+        -e 's|^./rpy2-feedstock$||' \
+        -e 's|^./rpy2-2.8-feedstock$||' \
+        -e 's|^./r-base-feedstock$||' \
+        -e 's|^./r-irkernel-feedstock$||' \
+        -e 's|^./r-rhive-feedstock$||' \
+        -e 's|^./r-feedstock$||' \
+        -e 's|^./r-weatherdata-feedstock$||' \
+        -e 's|^./_r-mutex-feedstock$||' \
+        -e 's|^./$||' \
+        -e 's|^./\.git.*$||') \
+  file:///Users/rdonnelly/conda/aggregateMRO/r-revoutils-feedstock/recipe/RevoUtils_10.0.8.tar.gz
+```
 
-conda skeleton cran --output-dir=/Users/rdonnelly/conda/aggregateMRO --cran-url https://mran.microsoft.com/snapshot/2018-01-01 --output-suffix=-feedstock/recipe --recursive --add-maintainer=mingwandroid --update-policy=merge-keep-build-num --use-binaries-ver 3.4 --r-interp=mro-base ${FEEDSTOCKS}
-conda skeleton cran --output-dir=/Users/rdonnelly/conda/aggregateMRO --output-suffix=-feedstock/recipe --add-maintainer=mingwandroid --update-policy=merge-keep-build-num --r-interp=mro-base file:///Users/rdonnelly/conda/aggregateMRO/r-revoutils-feedstock/recipe/RevoUtils_10.0.8.tar.gz
-conda skeleton cran --output-dir=/Users/rdonnelly/conda/aggregateMRO --output-suffix=-feedstock/recipe --add-maintainer=mingwandroid --update-policy=merge-keep-build-num \
+Here, the exclusion of `r-rmr2` and `r-shinysky` are because they are from `GitHub` but not from git repos which breaks some assumptions made by `conda skeleton cran`, namely:
+1. Any URL with `github` in it is a git repository (it could be an archive).
+2. Any git repository will have tags and the right default is the 'latest' one.
+
+`r-shinysky` seems pretty dead these days. It was done as a fork of a fork of the real upstream and archived due to a lack of git tags.
+`r-rmr2` is also probably using archives due to a lack of git tags.
+`r-weatherdata` has been removed from CRAN around R 3.5.0 time.
+The other excluded packages are not R packages at all (`rpy2`, `rstudio` and metapackages).
+
+## 4. Update all of the recipes that are sourced from `GitHub`
+```
+conda skeleton cran --output-suffix=-feedstock/recipe \
+    --add-maintainer=mingwandroid \
+    --update-policy=merge-keep-build-num \
     https://github.com/bokeh/rbokeh \
     https://github.com/IRkernel/IRkernel \
     https://github.com/rstats-db/odbc \
     https://github.com/nexr/RHive
-# .. take care that RHive's git tag gets reset back to nexr-rhive-2.0.10 (which was released in Dec 2014, not that there has been any real work since then):
+# there many be some more of these, TODO :: Check this.
+```
+### .. take care that `RHive`'s git tag gets reset back to `nexr-rhive-2.0.10` (released Dec 2014, it has not changed much since though .. the issue here is that their newest tag refers to a WIP branch):
+```
 sed -i.bak 's|nexr-rhive-2\.0\.10-ranger.*$|nexr-rhive-2\.0\.10|' r-rhive-feedstock/recipe/meta.yaml
 rm r-rhive-feedstock/recipe/meta.yaml.bak
+```
+
+At this point prune [this list](#list-of-packages-with-build-number-problems) (i.e. edit this very file to remove) packages that have had a new version released
+which allows us to reset the build number back to 0. The ultimate goal is for this list to disappear completely.
+
+## 5. Update some metapackage versions
+```
 sed -i.bak "s|version = \".*\"|version = \"${CONDA_R}\"|" r-recommended-feedstock/recipe/meta.yaml
-# .. now update all of the versions in r-essentials and bump the version of that too (now unified with r-base version)
-# If you need to regenerate the build order:
-for linux-64 (edit ~/conda/private_conda_recipes/rays-scratch-scripts/c3i-build-orderer-config/build_platforms.d/example.yml)
-c3i examine --matrix-base-dir ~/conda/private_conda_recipes/rays-scratch-scripts/c3i-build-orderer-config ~/conda/aggregateR --output /tmp/build-order --folders $(find . -maxdepth 1 -type d | grep -v -e '\.git' -e '\.$')
+rm r-recommended-feedstock/recipe/meta.yaml.bak
+sed -i.bak "s|version = \".*\"|version = \"${CONDA_R}\"|" r-feedstock/recipe/meta.yaml
+rm r-recommended-feedstock/recipe/meta.yaml.bak
+# This sed of `r-essentials` may not work but you need to examine it carefully by hand anyway.
+sed -i.bak "s|version = \".*\"|version = \"${CONDA_R}\"|" r-essentials-feedstock/recipe/meta.yaml
+rm r-essentials-feedstock/recipe/meta.yaml.bak
+# Now go through r-essentials-feedstock and update all of the versions *very* carefully, using _'s not -'s
+```
 
-# Here, the exclusion of r-rmr2 and r-shinysky are because they are from GitHub but not from git repos which breaks conda skeleton cran's assumptions, namely:
-#   1. Any URL with 'github' in it is a git repository (it could be an archive)
-#   2. Any git repository will have tags and the right default is the 'latest' one
-# r-shinysky seems pretty dead these days. It was done as a fork of a fork of the real upstream and archived due to a lack of git tags.
-# r-rmr2 is also probably using archives due to a lack of git tags.
-# The other excluded packages are not R packages (rpy2, rstudio and metapackages).
-
-# 3 .. to generate a (non-git) patch including new files and changes to submodules after updating the recipes but before having the guts to commit everything:
-# Signal 'intent to add' for all untracked files
+## 6. Add new dependencies
+```
+# Git add the remaining ones (the cleanup in 1. is important for this to work right):
 git add -N .
-git submodule foreach git add -N .
-git submodule foreach git add .
-/usr/local/bin/git diff -a --submodule=diff --ignore-submodules=none > updates.patch
-git reset HEAD .
-git submodule foreach git reset HEAD .
+git commit -m "Added new dependencies as of R ${CONDA_R}"
+```
 
-# 4 .. if updating RStudio then check if the R package dependencies need to be updated
+## 7. Carefully undo damage done by the update procedure
 
-The complete list of the 36 legacy packages that must maintain their build number at 4 at R 3.4.3 buildout time (29th Dec 2017) is:
+The damage most often seen is that CDT and/or 'system' packages get dropped since `conda skeleton cran` does not parse `SystemRequirements:`
+TODO :: Consider adding this feature to `conda skeleton cran`?
+```
+git checkout -p .
+```
 
+## 8. Regenerate the build order
+For linux-64 (edit ~/conda/pcr/rays-scratch-scripts/c3i-build-orderer-config/build_platforms.d/example.yml)
+```
+c3i examine --matrix-base-dir ~/conda/pcr/rays-scratch-scripts/c3i-build-orderer-config \
+    ~/conda/aggregateR \
+    --output /tmp/build-order \
+    --folders $(find . -maxdepth 1 -type d | grep -v -e '\.git' -e '\.$')
+# TODO :: The source filename is not correct here, find the correct file and update this document.
+cp /tmp/build-order-recipes ~/conda/pcr/rays-scratch-scripts/build-order/r/all
+# Now use git to put back some of the useful comments in this file iff you are using `build-in-order` to do the build-out.
+```
+
+## 10. If updating RStudio then check if the R package dependencies need to be updated
+
+Look for these dependencies [here](https://github.com/rstudio/rstudio/blob/master/src/gwt/src/org/rstudio/studio/client/common/dependencies/DependencyManager.java)
+TODO :: I seem to remember some dependencies were located in some other files too. Check into this and update this document.
+
+## 11. Run the build using either my `build-in-order` or plain old `conda-build`:
+
+You can use either now because, for the parts that we need from `build-in-order` we are close to
+`conda` and `conda-build` and the `Anaconda Distribution` being fully capable of doing the right
+thing. In particular, the first part (compiling the toolchain) and the final parts (dealing with
+`constructor` and creating baked metapackages) are not used.
+```
+# `build-in-order` method (starting at `r-foo-feedstock`):
+build-in-order --product=r \
+  --upload-channel=none --pkg-build-channel-priority=M \
+  --installer-build-channel-priority=D --skip-existing=yes \
+  --start-at=r-foo-feedstock --build-toolchain=no 2>&1 | tee -a ~/conda/R-${CONDA_R}-${uname}-${uname -m}.log
+
+# `conda-build` (doing all packages):
+CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
+  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all) | tr '\n' ' ') \
+  -c https://repo.continuum.io/pkgs/main \
+  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-${uname}-${uname -m}.log
+
+# `conda-build` (starting at `r-foo-feedstock`):
+CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
+  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
+  -c https://repo.continuum.io/pkgs/main \
+  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-${uname}-${uname -m}.log
+```
+
+# Addendum and miscellaneous notes:
+
+## list of packages with build number problems
+
+The 33 (mostly legacy or perhaps 'finished'?) packages that must maintain their build number at `4` at R 3.5.0 buildout time (Mon 30 Apr 2018). It may be the case that we do not need to do this any more; it could've been down to their lack of exact pinning on the `r` or `r-base` version that has since been fixed, however I'm playing it safe here.
+```
 r-base64enc
 r-bitops
 r-brew
@@ -59,7 +162,6 @@ r-fracdiff
 r-functional
 r-gridbase
 r-gtools
-r-hexbin
 r-kernsmooth
 r-labeling
 r-magrittr
@@ -69,12 +171,10 @@ r-minqa
 r-mlmrev
 r-modeltools
 r-nloptr
-r-nmf
 r-pkgmaker
 r-praise
 r-profilemodel
 r-quadprog
-r-randomforest
 r-rjson
 r-rjsonio
 r-rngtools
@@ -85,8 +185,10 @@ r-uuid
 r-whisker
 r-xlsx
 r-xlsxjars
+```
 
-Very rough popularity figures taken from: https://dgrtwo.shinyapps.io/cranview/
+### Very rough popularity figures for these taken from: https://dgrtwo.shinyapps.io/cranview/
+```
 r-base64enc      6000
 r-bitops         6000
 r-brew           1000
@@ -123,15 +225,19 @@ r-uuid           250
 r-whisker        2500
 r-xlsx           2000
 r-xlsxjars       1500
+```
 
-Additions:
+## Possible additions?:
 
 We probably want to get biocLite added as per https://github.com/ContinuumIO/anaconda-issues/issues/7068
+```
 source("https://bioconductor.org/biocLite.R")
 biocLite()
+```
 
 Seems we miss, or have too old versions of:
 
+```
 BiocInstaller
 blob
 memoise
@@ -143,183 +249,15 @@ bit64
 IRanges
 RSQLite
 AnnotationDbi
+```
 
-Dependencies that get dropped when doing a mass update:
-
-Some compiler('c') vanished despite compiler('cxx') <= fix this just-in-case in skeleton RPM.
-Hack any that require Rcpp or Rcpparmadillo to need a compiler('cxx') too.
-
-r-data.table
-build:
--    - llvm-openmp >=4.0.1        # [osx]
-host:
--    - llvm-openmp >=4.0.1        # [osx]
-run:
--    - llvm-openmp >=4.0.1        # [osx]
-
-r-gmp
-host:
--    - {{native}}gmp
-run:
--    - {{native}}gmp
-
-r-igraph:
-host:
--    - {{native}}gmp
--    - {{native}}libxml2
-run:
--    - {{native}}gmp
--    - {{native}}libxml2
-
-r-mongolite
-host:
--    - {{native}}openssl
--    - {{native}}cyrus-sasl       # [not win]
-run:
--    - {{native}}openssl
--    - {{native}}cyrus-sasl       # [not win]
-
-r-nloptr
-host:
--    - {{native}}nlopt            # [win]
-run:
--    - {{native}}nlopt            # [win]
-
-r-odbc
-host:
--    - {{native}}unixodbc         # [not win]
-run:
--    - {{native}}unixodbc         # [not win]
-
-r-rcurl
-host:
--    - {{native}}curl
-run:
--    - {{native}}curl
-
-r-rgl:
-build:
--    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
--    - {{ cdt('mesa-libgl-devel') }}      # [linux]
--    - {{ cdt('libx11-devel') }}          # [linux]
--    - {{ cdt('libxext-devel') }}         # [linux]
--    - {{ cdt('libxrender-devel') }}      # [linux]
--    - {{ cdt('mesa-libgl-devel') }}      # [linux]
--    - {{ cdt('mesa-libegl-devel') }}     # [linux]
--    - {{ cdt('mesa-dri-drivers') }}      # [linux]
--    - {{ cdt('libxau-devel') }}          # [linux]
--    - {{ cdt('libdrm-devel') }}          # [linux]
--    - {{ cdt('libxcomposite-devel') }}   # [linux]
--    - {{ cdt('libxcursor-devel') }}      # [linux]
--    - {{ cdt('libxi-devel') }}           # [linux]
--    - {{ cdt('libxrandr-devel') }}       # [linux]
--    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
--    - {{ cdt('libxtst-devel') }}         # [linux]
--    - {{ cdt('libselinux-devel') }}      # [linux]
--    - {{ cdt('libxdamage') }}            # [linux]
--    - {{ cdt('libxfixes') }}             # [linux]
--    - {{ cdt('libxxf86vm') }}            # [linux]
-host:
--    - expat                              # [linux]
--    - libglu                             # [linux]
-run:
--    - expat                              # [linux]
--    - libglu                             # [linux]
-
-r-rjava
-build:
--    - {{posix}}curl                      # [win]
--    - {{ cdt('java-1.7.0-openjdk') }}        # [linux]
--    - {{ cdt('java-1.7.0-openjdk-devel') }}  # [linux]
-
-r-rmariadb
-host:
--    - {{native}}mysql
-run:
--    - {{native}}mysql
-
-r-rmysql
-host:
--    - {{native}}mysql
-run:
--    - {{native}}mysql  (why is this not a run dep for r-rmariadb?)
-
-r-rodbc
-host:
--    - {{native}}unixodbc         # [not win]
-run:
--    - {{native}}unixodbc         # [not win]
-
-r-rzmq
-host:
--    - {{native}}zeromq >=3.0.0
-run:
--    - {{native}}zeromq >=3.0.0
-
-r-sf
-host:
--    - {{native}}libgdal
-run
--    - {{native}}libgdal
-
-r-udunits2
-host:
--    - {{native}}udunits2
-run:
--    - {{native}}udunits2
-
-r-xml
-host:
--    - {{native}}libxml2 >=2.6.3
-run:
--    - {{native}}libxml2 >=2.6.3
-
-# Build ..
-# linux-64 (does not look for existing packages on rdonnellyr (or to be exact, on the --upload-channel))
-~/conda/private_conda_recipes/rays-scratch-scripts/build-in-order --product=r --upload-channel=rdonnellyr --pkg-build-channel-priority=M --installer-build-channel-priority=D --skip-existing=yes --build-toolchain=no 2>&1 | tee ~/conda/R-3.4.3.log
-# the rest (does look on rdonnellyr) - ACTUALLY WE CANNOT USE NOARCH YET UNFORTUNATELY, SO USE THE ABOVE FOR ALL PLATFORMS.
-~/conda/private_conda_recipes/rays-scratch-scripts/build-in-order --product=r --upload-channel=rdonnellyr --pkg-build-channel-priority=M,U --installer-build-channel-priority=D --skip-existing=yes --build-toolchain=no 2>&1 | tee ~/conda/R-3.4.3.log
-
-# To check that anaconda upload didn't drop some packages:
-python ~/conda/private_conda_recipes/rays-scratch-scripts/binstar_copy.py --owner rdonnellyr --platform "osx-64" --operation list > /tmp/uploaded.txt
-.. then compare against e.g:
+## To check that `anaconda upload` did not drop some packages (it often does):
+```
+python ~/conda/pcr/rays-scratch-scripts/binstar_copy.py \
+  --owner rdonnellyr --platform "osx-64" \
+  --operation list > /tmp/uploaded.txt
+# .. then compare against e.g:
 pushd /opt/conda/conda-bld/osx-64
 ls -1 | LC_ALL=C sort > /tmp/build.txt
 diff -urN /tmp/build.txt /tmp/uploaded.txt
-
-echo "show_channel_urls: True" > ~/.condarc
-echo "add_pip_as_python_dependency: False" >> ~/.condarc
-echo "skip_safety_checks: True" >> ~/.condarc
-echo "default_channels:" >> ~/.condarc
-echo "  - https://repo.continuum.io/pkgs/main" >> ~/.condarc
-echo "  - local" >> ~/.condarc
-echo "  - msys2" >> ~/.condarc
-
-pushd ~/conda/aggregateMRO
-conda-build _r-mutex-feedstock r-feedstock -m ./conda_build_config.yaml 2>&1 | tee ~/conda/mro-343.log
-FEEDSTOCKS=$(find . -name "*feedstock" | \
-  sed \
-  -e 's|^./r-feedstock$||' \
-  -e 's|^./_r-mutex-feedstock$||' \
-  -e 's|^./rstudio-feedstock$||' \
-  -e 's|^./r-essentials-feedstock$||' \
-  -e 's|^./r-recommended-feedstock$||' \
-  -e 's|^./r-shinysky-feedstock$||' \
-  -e 's|^./r-rmr2-feedstock$||' \
-  -e 's|^./rpy2-feedstock$||' \
-  -e 's|^./rpy2-2.8-feedstock$||' \
-  -e 's|^./r-base-feedstock$||' \
-  -e 's|^./r-irkernel-feedstock$||' \
-  -e 's|^./r-rhive-feedstock$||' \
-  -e 's|^./r-tkrplot-feedstock$||' \
-  -e 's|^./r-sf-feedstock$||' \
-  -e 's|^./r-tilegramsr-feedstock$||' \
-  -e 's|^./r-domc-feedstock$||' \
-  -e 's|^./r-tkrplot-feedstock$||' \
-  -e 's|^./r-tkrgl-feedstock$||' \
-  -e 's|^./$||' \
-  -e 's|^./\.git.*$||')
-conda-build ${FEEDSTOCKS} -m ./conda_build_config.yaml 2>&1 | tee -a ~/conda/mro-343.log
-popd
-
-~/conda/private_conda_recipes/rays-scratch-scripts/build-in-order --product=mro --upload-channel=none --pkg-build-channel-priority=M --installer-build-channel-priority=D --skip-existing=yes --build-toolchain=no 2>&1 | tee ~/conda/MRO-3.4.3.log
+```
