@@ -1,17 +1,18 @@
 {% set pfx = 'r-' %}
 {% set version = '3.5.0' %}
-{% set rc_version = '3.5.0' %}
+{% set rc_version = '3.4.3' %}
+{% set ml_version = '9.3.0' %}
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/{{ version }}/microsoft-r-open-{{ version }}.exe' %}  # [win64]
-{% set fn = 'microsoft-r-open-{{ version }}.exe' %}  # [win64]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version"'.exe' %}  # [win64]
+{% set fn = 'microsoft-r-open-'+version+'.exe' %}  # [win64]
 {% set shasum = 'c8d50172ec8173cef503a616f9ef310dc5b274ac045ea71b9c8aed248098cbdd' %}  # [win64]
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/{{ version }}/microsoft-r-open-{{ version }}.tar.gz' %}  # [linux64]
-{% set fn = 'microsoft-r-open-{{ version }}.tar.gz' %}  # [linux64]
-{% set shasum = 'bf2cd35a11db604b1fa8f5f0c0acf0ae05756020d90fb3f6cbb639337efcee5b' %}  # [linux64]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
+{% set fn = 'microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
+{% set shasum = '7e1091587429c1545804b514269f4b0c588b85ec86052b512aafd491db797d93' %}  # [linux64]
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/{{ version }}/microsoft-r-open-{{ version }}.pkg' %}  # [osx]
-{% set fn = 'microsoft-r-open-{{ version }}.pkg' %}  # [osx]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.pkg' %}  # [osx]
+{% set fn = 'microsoft-r-open-'+version+'.pkg' %}  # [osx]
 {% set shasum = '4998500839389821f995d3ebb89ee7e8e5a35a61a63ba0ac54d63adf53288947' %}  # [osx]
 
 package:
@@ -27,17 +28,36 @@ source:
     sha256: 89be3b0077bd1b7cc75feaec6eec8e33b0b118f7f9056d15be5d3ead05bdf9e9  # [linux64]
     folder: anaconda-mkl  # [linux64]
 #  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux64]
-#    sha256: 5fd191776bfb5cfb6e2bac54a466ccc2714372b620d1fb1a82e19e40d3962d31  # [linux64]
+# Could use debs for Ubuntu 14.04 if necessary here.
+  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux64]
+    sha256: 09ac75ba26bb7ad89f6aada1c8783120efcb5b8e8906d2791a41d77c80a450fe  # [linux64]
+    # This was unpack-r-client in https://raw.githubusercontent.com/AnacondaRecipes/aggregateMRO/28f9d65b1c2ef96bf8942eb73289879c1e4ecc3c/mro-feedstock/recipe/meta.yaml
+    folder: unpack/opt  # [linux64]
+#  - url: https://packages.microsoft.com/sles/11/prod/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux64]
+#    sha256: 0fedaec862282a58974589a93f413ef1f665203fd8a16fc1be24ac3b4b7eeee6  # [linux64]
 #    folder: unpack-r-client  # [linux64]
-  - url: ~/conda/microsoft-r-client-packages-{{ rc_version }}.rpm  # [linux64]
-    sha256: 06ed44f3368f6ad7ae1ad30cc3cb949f66d319c24a4df209f8838fb61d0ed7a9  # [linux64]
-    folder: unpack-r-client  # [linux64]
-  - url: ~/conda/microsoft-r-client-mml-3.4.3.rpm  # [linux64]
-    sha256: 6b0fb7b4071324a58f57d2895082101c068c15eb00a82134cd81469947fde861  # [linux64]
-    folder: unpack-r-client-mml  # [linux64]
-  - url: ~/conda/microsoft-r-client-mlm-3.4.3.rpm  # [linux64]
-    sha256: f832ff1df02666f65ee14e53feff69866fb8fa713e14ea1fa73373d13c5658e4  # [linux64]
-    folder: unpack-r-client-mlm  # [linux64]
+#  - url: ~/conda/microsoft-r-client-mml-3.4.3.rpm  # [linux64]
+#    sha256: 6b0fb7b4071324a58f57d2895082101c068c15eb00a82134cd81469947fde861  # [linux64]
+#    folder: unpack-r-client-mml  # [linux64]
+  - url: https://packages.microsoft.com/rhel/7/prod/microsoft-mlserver-mml-r-{{ ml_version }}.rpm  # [linux64]
+    sha256: bf03d183575b64dc663b00537306131cc6b3fac5cbfeca5edeaaaaf97ecb6294  # [linux64]
+    folder: unpack  # [linux64]
+  - url: https://packages.microsoft.com/rhel/7/prod/microsoft-mlserver-mlm-r-{{ ml_version }}.rpm  # [linux64]
+    sha256: 36d9dd3718a81466880aaa8653797dd92832a3278c691f65d8c62ac8699764f5  # [linux64]
+    folder: unpack  # [linux64]
+#  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-mml-{{ rc_version }}.rpm  # [linux64]
+#  - url: https://packages.microsoft.com/ubuntu/14.04/prod/pool/main/m/microsoft-mlserver-mml-r-{{ ml_version }}/microsoft-mlserver-mml-r-{{ ml_version }}.deb  # [linux64]
+#    sha256: 2861b9b0bc31b3e9f2156018ba0b81f36f6e773ac099e494cf6fbf082f18f8a8  # [linux64]
+#    folder: unpack-r-client  # [linux64]
+
+#  - url: ~/conda/microsoft-r-client-mlm-3.4.3.rpm  # [linux64]
+#    sha256: f832ff1df02666f65ee14e53feff69866fb8fa713e14ea1fa73373d13c5658e4  # [linux64]
+#    folder: unpack-r-client-mlm  # [linux64]
+#  - url: https://packages.microsoft.com/ubuntu/14.04/prod/pool/main/m/microsoft-mlserver-mlm-r-{{ ml_version }}/microsoft-mlserver-mlm-r-{{ ml_version }}.deb  # [linux64]
+#    sha256: c4dfc37df142cbe2026d89fa9a1dda46f41a4f5490a16dc9e5c7cae32948b144  # [linux64]
+#    folder: mlm-training-models  # [linux64]
+
+
 #  - url: https://rserverdistribution.azureedge.net/production/RClient/3.4.1.0/1360/1033/0900ccb335c04a048f26b4bb3320aef8/RClientSetup.exe  # [win64]
 #    sha256: 011cb6eddb4ad58cb8c3de4032a2243187c879eefa7cf82896dbdc3823c1944f  # [win64]
 #    folder: unpack-r-client  # [win64]
@@ -58,12 +78,15 @@ source:
   - url: ./RevoUtils_Mac_10.0.8.tar.gz                                                       # [osx]
     sha256: 04fb3dc63e56042b27a0e08751a5eb497628fe045d0b0d326b9c48ccc297c551                 # [osx]
     folder: RevoUtils                                                                        # [osx]
+  - url: http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm  # [linux64]
+    folder: libpng-centos5
 
 requirements:
   build:
     - python-libarchive-c
     - posix  # [win]
     - m2-p7zip  # [win]
+    - curl  # [unix]
   host:
     - m2w64-toolchain  # [win]
     - m2-base  # [win]
@@ -88,6 +111,7 @@ outputs:
     requirements:
       build:
         - m2-base  # [win]
+        - curl  # [unix]
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]

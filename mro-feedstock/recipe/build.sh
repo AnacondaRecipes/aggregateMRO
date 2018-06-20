@@ -1,15 +1,17 @@
 #!/bin/bash
 
+set -x
+
 . "${RECIPE_DIR}"/find_relative_path.sh
 
 RC_PKG_VERSION=3.4.3
 
 if [[ $target_platform == win-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.3.exe
+  ARCHIVE=microsoft-r-open-${PKG_VERSION}.exe
 elif [[ $target_platform == linux-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.3.tar.gz
+  ARCHIVE=microsoft-r-open-${PKG_VERSION}.tar.gz
 elif [[ $target_platform == osx-64 ]]; then
-  ARCHIVE=microsoft-r-open-3.4.3.pkg
+  ARCHIVE=microsoft-r-open-${PKG_VERSION}.pkg
 fi
 
 declare -a MKL_USING_LIBS
@@ -88,12 +90,12 @@ pushd unpack
       echo $RPM
       python -c "import libarchive, os; libarchive.extract_file('$RPM')" || true
     done
-    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client/microsoft-r-client-packages-$RC_PKG_VERSION.rpm')" || exit 1
-    python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client-mml/microsoft-r-client-mml-$RC_PKG_VERSION.rpm')" || exit 1
-    mkdir mlm-training-models
-    pushd mlm-training-models
-      python -c "import libarchive, os; libarchive.extract_file('$SRC_DIR/unpack-r-client-mlm/microsoft-r-client-mlm-$RC_PKG_VERSION.rpm')" || exit 1
-    popd
+    # python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client/microsoft-r-client-packages-$RC_PKG_VERSION.rpm')" || exit 1
+    # python -c "import libarchive, os; libarchive.extract_file('$PWD/../unpack-r-client-mml/microsoft-r-client-mml-$RC_PKG_VERSION.rpm')" || exit 1
+    # mkdir mlm-training-models
+    # pushd mlm-training-models
+    #   python -c "import libarchive, os; libarchive.extract_file('$SRC_DIR/unpack-r-client-mlm/microsoft-r-client-mlm-$RC_PKG_VERSION.rpm')" || exit 1
+    # popd
   elif [[ $target_platform == win-64 ]]; then
     pushd $(mktemp -d)
       "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack-r-client/RClientSetup.exe -x $PWD
@@ -125,6 +127,7 @@ pushd unpack
     mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
     patch -p1 < $RECIPE_DIR/0001-r-client-Relocate-bin-R-R.patch
+    mv $SRC_DIR/unpack/microsoft/mlserver/9.3.0/libraries/RServer/MicrosoftML opt/microsoft/rclient/$RC_PKG_VERSION/libraries/RServer
     pushd opt/microsoft/rclient/$RC_PKG_VERSION/libraries/RServer
       pushd MicrosoftML/mxLibs/x64/Platform/
         # The Linux ones are exactly the same, and I have no idea what win-64 is doing here in the first place
@@ -164,12 +167,9 @@ pushd unpack
   if [[ $target_platform == linux-64 ]]; then
     # Workaround: https://github.com/Microsoft/microsoft-r-open/issues/15
     #        and: https://github.com/Microsoft/microsoft-r-open/issues/44
-    pushd $(mktemp -d)
-      curl -SLO http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm
-      "$RECIPE_DIR"/rpm2cpio libpng-1.2.10-17.el5_8.x86_64.rpm | cpio -idmv
-      cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
-      cp -p usr/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/library/grDevices/libs/
-    popd
+    cp -p ${SRC_DIR}/libpng-centos5/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
+    cp -p ${SRC_DIR}/libpng-centos5/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/library/grDevices/libs/
+
     patchelf --set-rpath '$ORIGIN' lib/R/lib/libR.so
     # lib/R/modules needed for libpng12.so.0
     patchelf --set-rpath '$ORIGIN:$ORIGIN/../../../../../modules' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgcodecs.so.3.2
