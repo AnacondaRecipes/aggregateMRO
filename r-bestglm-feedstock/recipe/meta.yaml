@@ -1,4 +1,4 @@
-{% set version = '0.36' %}
+{% set version = '0.37' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: bestglm_0.36.tar.gz  # [linux or win32]
+  fn: bestglm_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/bestglm_0.36.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/bestglm/bestglm_0.36.tar.gz  # [linux or win32]
-  sha256: 90f9b1e0a718cdc1ea273ae5a6717fa849cc01e0d0d12b333484bfcf2c0e5ab5  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bestglm_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bestglm/bestglm_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 9f268572dea45b9da5850a8e7d5a88628462344281ef3ced15f8d5721e89103e  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/bestglm_0.37.zip  # [win64]
+  sha256: 0478da168ff0b021a1427529215a041904f1624b841db200bb620389bb0c77ca  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/bestglm_0.36.zip  # [win64]
-  sha256: 6c5f1ee5e111542c1ad0acccac769d17261edf750e0be5412860ac1241d280a9  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/bestglm_0.36.tgz  # [osx]
-  sha256: 2aac61eb92e6267dd02e36c9628d0f2a5322fdcb2f4bdd6e6db5cb3f6b2e156a  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/bestglm_0.37.tgz  # [osx]
+  sha256: 5e3b73e72fbba8533178478d3c40830c7a086e561b349f818442b48fdf93c9a0  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: xtable, MASS
+# Suggests: MASS
 requirements:
   build:
 
@@ -45,6 +40,7 @@ requirements:
     - r-grpreg
     - r-lattice
     - r-leaps
+    - r-pls
 
   run:
     - mro-base
@@ -52,6 +48,7 @@ requirements:
     - r-grpreg
     - r-lattice
     - r-leaps
+    - r-pls
 
 test:
   commands:
@@ -68,7 +65,9 @@ test:
 about:
   home: http://www.stats.uwo.ca/faculty/aim
   license: GPL (>= 2)
-  summary: Best subset glm using information criteria or cross-validation.
+  summary: Best subset glm using information criteria or cross-validation. Implements PCR and
+    PLS using AIC/BIC. Implements one-standard deviation rule for use with the `caret`
+    package.
   license_family: GPL3
 
 extra:
@@ -79,15 +78,16 @@ extra:
 
 # Package: bestglm
 # Type: Package
-# Title: Best Subset GLM
-# Version: 0.36
-# Date: 2017-02-23
+# Title: Best Subset GLM and Regression Utilities
+# Version: 0.37
+# Date: 2018-05-27
 # Author: A.I. McLeod  and Changjiang Xu
 # Maintainer: A.I. McLeod <aimcleod@uwo.ca>
 # Depends: R (>= 2.0.0), leaps
-# Suggests: xtable, MASS
-# Imports: lattice, glmnet, grpreg
-# Description: Best subset glm using information criteria or cross-validation.
+# Suggests: MASS
+# Imports: lattice, glmnet, grpreg, pls
+# Enhances: caret
+# Description: Best subset glm using information criteria or cross-validation. Implements PCR and PLS using AIC/BIC. Implements one-standard deviation rule for use with the `caret` package.
 # LazyLoad: yes
 # LazyData: yes
 # Classification/ACM: G.3, G.4, I.5.1
@@ -95,9 +95,9 @@ extra:
 # License: GPL (>= 2)
 # URL: http://www.stats.uwo.ca/faculty/aim
 # NeedsCompilation: yes
-# Packaged: 2017-02-23 17:54:29 UTC; IanMcLeod
+# Packaged: 2018-05-27 19:27:22 UTC; IanMcLeod
 # Repository: CRAN
-# Date/Publication: 2017-02-23 23:44:05
+# Date/Publication: 2018-05-27 21:03:04 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

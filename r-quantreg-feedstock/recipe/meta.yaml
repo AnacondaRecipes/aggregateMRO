@@ -1,4 +1,4 @@
-{% set version = '5.34' %}
+{% set version = '5.36' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: quantreg_5.34.tar.gz  # [linux or win32]
+  fn: quantreg_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/quantreg_5.34.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/quantreg/quantreg_5.34.tar.gz  # [linux or win32]
-  sha256: 04f6fe7452ea63d1f2a77960934666132d2f90f139529515e795e35fed73af2e  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/quantreg_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/quantreg/quantreg_{{ version }}.tar.gz  # [linux or win32]
+  sha256: ea7b410b8eaee10c7bda0c666ba57c597a3ee8ea97c6a56e16a8dc0ed56f6f08  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/quantreg_5.36.zip  # [win64]
+  sha256: b725472177a40ebc193a211b936af262cc5cb949640d59ce8f2bfa50e53d3091  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/quantreg_5.34.zip  # [win64]
-  sha256: cf82d5b9dc3ef1bc4cc562b524d13d6ce09cb0bebaeaf7ca35cb7ce84f679c02  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/quantreg_5.34.tgz  # [osx]
-  sha256: 134179c010c3bbce6bc031ea8754b66d37a907e276c7c4531bc37593f03a57e4  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/quantreg_5.36.tgz  # [osx]
+  sha256: 018d702ffa8aab4d3b8d491eb8975e3aaa9189cc07e0125c2247b14b1b479d8a  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +33,11 @@ build:
 # Suggests: tripack, akima, MASS, survival, rgl, logspline, nor1mix, Formula, zoo
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -52,7 +47,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-matrix
     - r-matrixmodels
     - r-sparsem
@@ -89,7 +84,7 @@ extra:
 # Package: quantreg
 # Title: Quantile Regression
 # Description: Estimation and inference methods for models of conditional quantiles:  Linear and nonlinear parametric and non-parametric (total variation penalized) models  for conditional quantiles of a univariate response and several methods for handling censored survival data.  Portfolio selection methods based on expected shortfall risk are also included.
-# Version: 5.34
+# Version: 5.36
 # Authors@R: c( person("Roger", "Koenker",  role = c("cre","aut"), email =  "rkoenker@illinois.edu"), person("Stephen", "Portnoy",  role = c("ctb"),  comment = "Contributions to Censored QR code", email =  "sportnoy@illinois.edu"), person(c("Pin", "Tian"), "Ng",  role = c("ctb"),  comment = "Contributions to Sparse QR code", email =  "pin.ng@nau.edu"), person("Achim", "Zeileis",  role = c("ctb"),  comment = "Contributions to dynrq code essentially identical to his dynlm code",  email =  "Achim.Zeileis@uibk.ac.at"), person("Philip", "Grosjean",  role = c("ctb"),  comment = "Contributions to nlrq code", email =  "phgrosjean@sciviews.org"), person(c("Brian", "D"), "Ripley",  role = c("trl","ctb"),  comment = "Initial (2001) R port from S (to my everlasting shame --  how could I have been so slow to adopt R!) and for numerous other  suggestions and useful advice", email =  "ripley@stats.ox.ac.uk"))
 # Maintainer: Roger Koenker <rkoenker@illinois.edu>
 # Repository: CRAN
@@ -99,9 +94,9 @@ extra:
 # License: GPL (>= 2)
 # URL: https://www.r-project.org
 # NeedsCompilation: yes
-# Packaged: 2017-10-25 15:14:55 UTC; roger
+# Packaged: 2018-05-27 13:03:33 UTC; roger
 # Author: Roger Koenker [cre, aut], Stephen Portnoy [ctb] (Contributions to Censored QR code), Pin Tian Ng [ctb] (Contributions to Sparse QR code), Achim Zeileis [ctb] (Contributions to dynrq code essentially identical to his dynlm code), Philip Grosjean [ctb] (Contributions to nlrq code), Brian D Ripley [trl, ctb] (Initial (2001) R port from S (to my everlasting shame -- how could I have been so slow to adopt R!) and for numerous other suggestions and useful advice)
-# Date/Publication: 2017-10-25 16:48:44 UTC
+# Date/Publication: 2018-05-29 11:33:02 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

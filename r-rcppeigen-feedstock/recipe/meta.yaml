@@ -1,4 +1,4 @@
-{% set version = '0.3.3.3.1' %}
+{% set version = '0.3.3.4.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RcppEigen_0.3.3.3.1.tar.gz  # [linux or win32]
+  fn: RcppEigen_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RcppEigen_0.3.3.3.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RcppEigen/RcppEigen_0.3.3.3.1.tar.gz  # [linux or win32]
-  sha256: 14fdd2cb764d0a822e11b8f09dcf1c3c8580d416f053404732064d8f2b176f24  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/RcppEigen_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/RcppEigen/RcppEigen_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 11020c567b299b1eac95e8a4d57abf0315931286907823dc7b66c44d0dd6dad4  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/RcppEigen_0.3.3.4.0.zip  # [win64]
+  sha256: 3d930c347e83f33ca916162f5b82179ad65e460e369edc56e9950180cd485173  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RcppEigen_0.3.3.3.1.zip  # [win64]
-  sha256: eeba1d67ff6d324d2fbb6724ff766d29f23a858e2a1caf4ba6fb8910cade70ea  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RcppEigen_0.3.3.3.1.tgz  # [osx]
-  sha256: fdb2551a64791fbf9ee13e8fa48dc20bbcf1561553c138124542b90ef7ca7679  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/RcppEigen_0.3.3.4.0.tgz  # [osx]
+  sha256: 19e73e035c9570bb4f5bdac0f4312eb8130da70ea6bb7434efc4efcb8bcfc808  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,12 +33,11 @@ build:
 # Suggests: inline, RUnit, pkgKitten
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -52,7 +46,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-matrix >=1.1_0
     - r-rcpp >=0.11.0
 
@@ -77,7 +71,7 @@ about:
     decompositions of such matrices, and solutions of linear systems. Its performance
     on many algorithms is comparable with some of the best implementations based on
     ''Lapack'' and level-3 ''BLAS''. The ''RcppEigen'' package includes the header files
-    from the ''Eigen'' C++ template library (currently version 3.3.3). Thus users do
+    from the ''Eigen'' C++ template library (currently version 3.3.4). Thus users do
     not need to install ''Eigen'' itself in order to use ''RcppEigen''. Since version
     3.1.1, ''Eigen'' is licensed under the Mozilla Public License (version 2); earlier
     version were licensed under the GNU LGPL version 3 or later. ''RcppEigen'' (the
@@ -95,12 +89,12 @@ extra:
 # Package: RcppEigen
 # Type: Package
 # Title: 'Rcpp' Integration for the 'Eigen' Templated Linear Algebra Library
-# Version: 0.3.3.3.1
-# Date: 2017-11-19
+# Version: 0.3.3.4.0
+# Date: 2018-02-05
 # Author: Douglas Bates, Dirk Eddelbuettel, Romain Francois, and Yixuan Qiu; the authors of Eigen for the included version of Eigen
 # Maintainer: Dirk Eddelbuettel <edd@debian.org>
 # Copyright: See the file COPYRIGHTS for various Eigen copyright details
-# Description: R and 'Eigen' integration using 'Rcpp'. 'Eigen' is a C++ template library for linear algebra: matrices, vectors, numerical solvers and related algorithms.  It supports dense and sparse matrices on integer, floating point and complex numbers, decompositions of such matrices, and solutions of linear systems. Its performance on many algorithms is comparable with some of the best implementations based on 'Lapack' and level-3 'BLAS'. The 'RcppEigen' package includes the header files from the 'Eigen' C++ template library (currently version 3.3.3). Thus users do not need to install 'Eigen' itself in order to use 'RcppEigen'. Since version 3.1.1, 'Eigen' is licensed under the Mozilla Public License (version 2); earlier version were licensed under the GNU LGPL version 3 or later. 'RcppEigen' (the 'Rcpp' bindings/bridge to 'Eigen') is licensed under the GNU GPL version 2 or later, as is the rest of 'Rcpp'.
+# Description: R and 'Eigen' integration using 'Rcpp'. 'Eigen' is a C++ template library for linear algebra: matrices, vectors, numerical solvers and related algorithms.  It supports dense and sparse matrices on integer, floating point and complex numbers, decompositions of such matrices, and solutions of linear systems. Its performance on many algorithms is comparable with some of the best implementations based on 'Lapack' and level-3 'BLAS'. The 'RcppEigen' package includes the header files from the 'Eigen' C++ template library (currently version 3.3.4). Thus users do not need to install 'Eigen' itself in order to use 'RcppEigen'. Since version 3.1.1, 'Eigen' is licensed under the Mozilla Public License (version 2); earlier version were licensed under the GNU LGPL version 3 or later. 'RcppEigen' (the 'Rcpp' bindings/bridge to 'Eigen') is licensed under the GNU GPL version 2 or later, as is the rest of 'Rcpp'.
 # License: GPL (>= 2) | file LICENSE
 # Depends: R (>= 2.15.1)
 # LazyLoad: yes
@@ -110,9 +104,9 @@ extra:
 # URL: http://dirk.eddelbuettel.com/code/rcpp.eigen.html
 # BugReports: https://github.com/RcppCore/RcppEigen/issues
 # NeedsCompilation: yes
-# Packaged: 2017-11-19 16:27:34.705137 UTC; edd
+# Packaged: 2018-02-06 03:28:54.209006 UTC; edd
 # Repository: CRAN
-# Date/Publication: 2017-11-20 00:14:27 UTC
+# Date/Publication: 2018-02-07 16:27:35 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

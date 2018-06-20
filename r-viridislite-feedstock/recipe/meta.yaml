@@ -1,4 +1,4 @@
-{% set version = '0.2.0' %}
+{% set version = '0.3.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: viridisLite_0.2.0.tar.gz  # [linux or win32]
+  fn: viridisLite_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/viridisLite_0.2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/viridisLite/viridisLite_0.2.0.tar.gz  # [linux or win32]
-  sha256: 2d4d909f21c51e720bd685f05041ba158294e0a4064e0946d0bd916709818694  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/viridisLite_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/viridisLite/viridisLite_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 780ea12e7c4024d5ba9029f3a107321c74b8d6d9165262f6e64b79e00aa0c2af  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/viridisLite_0.3.0.zip  # [win64]
+  sha256: 2056222beeba9349803ec80053c109eccdcf057c3b8f9c794918597b86fbcd53  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/viridisLite_0.2.0.zip  # [win64]
-  sha256: 5b32b3126b5966f508cf522f0dd4343ed1fea5b7f0b7945e5491f023d26f18c2  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/viridisLite_0.2.0.tgz  # [osx]
-  sha256: cf597d68c5ef26e4fb71bab2b693e2a52f590dc44c9d1804d5c16f4a7e4aafdd  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/viridisLite_0.3.0.tgz  # [osx]
+  sha256: 4a63c20e661654d8b7bc0529f707462d5b1b1e926e650119042ba42e0fca1417  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -60,13 +55,17 @@ test:
 about:
   home: https://github.com/sjmgarnier/viridisLite
   license: MIT + file LICENSE
-  summary: Port of the new 'matplotlib' color maps ('viridis' - the default -, 'magma', 'plasma'
-    and 'inferno') to 'R'. 'matplotlib' <http://matplotlib.org/ > is a popular plotting
-    library for 'python'. These color maps are designed in such a way that they will
-    analytically be perfectly perceptually-uniform, both in regular form and also when
-    converted to black-and-white. They are also designed to be perceived by readers
-    with the most common form of color blindness. This is the 'lite' version of the
-    more complete 'viridis' package that can be found at <https://cran.r-project.org/package=viridis>.
+  summary: "Implementation of the 'viridis' - the default -, 'magma', 'plasma',  'inferno', and
+    'cividis' color maps for 'R'. 'viridis', 'magma', 'plasma',  and 'inferno' are ported
+    from 'matplotlib' <http://matplotlib.org/>, a  popular plotting library for 'python'.
+    'cividis', was developed by Jamie R.  Nu\xF1ez and Sean M. Colby. These color maps
+    are designed in such a way that  they will analytically be perfectly perceptually-uniform,
+    both in regular  form and also when converted to black-and-white. They are also
+    designed to  be perceived by readers with the most common form of color blindness
+    (all  color maps in this package) and color vision deficiency ('cividis' only).
+    \ This is the 'lite' version of the more complete 'viridis' package that can  be
+    found at <https://cran.r-project.org/package=viridis>."
+
   license_family: MIT
 
 extra:
@@ -78,10 +77,10 @@ extra:
 # Package: viridisLite
 # Type: Package
 # Title: Default Color Maps from 'matplotlib' (Lite Version)
-# Version: 0.2.0
-# Authors@R: c( person("Simon", "Garnier", email = "garnier@njit.edu", role = c("aut", "cre")), person("Noam", "Ross", email = "noam.ross@gmail.com", role = c("ctb", "cph")), person("Bob", "Rudis", email = "bob@rud.is", role = c("ctb", "cph")) )
+# Version: 0.3.0
+# Authors@R: c( person("Simon", "Garnier", email = "garnier@njit.edu", role = c("aut", "cre")), person("Noam", "Ross", email = "noam.ross@gmail.com", role = c("ctb", "cph")), person("Bob", "Rudis", email = "bob@rud.is", role = c("ctb", "cph")), person("Marco", "Sciaini", email = "sciaini.marco@gmail.com", role = c("ctb", "cph")), person("Cedric", "Scherer", email = "scherer@izw-berlin.de", role = c("ctb", "cph")) )
 # Maintainer: Simon Garnier <garnier@njit.edu>
-# Description: Port of the new 'matplotlib' color maps ('viridis' - the default -, 'magma', 'plasma' and 'inferno') to 'R'. 'matplotlib' <http://matplotlib.org/ > is a popular plotting library for 'python'. These color maps are designed in such a way that they will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. They are also designed to be perceived by readers with the most common form of color blindness. This is the 'lite' version of the more complete 'viridis' package that can be found at <https://cran.r-project.org/package=viridis>.
+# Description: Implementation of the 'viridis' - the default -, 'magma', 'plasma',  'inferno', and 'cividis' color maps for 'R'. 'viridis', 'magma', 'plasma',  and 'inferno' are ported from 'matplotlib' <http://matplotlib.org/>, a  popular plotting library for 'python'. 'cividis', was developed by Jamie R.  Nunez and Sean M. Colby. These color maps are designed in such a way that  they will analytically be perfectly perceptually-uniform, both in regular  form and also when converted to black-and-white. They are also designed to  be perceived by readers with the most common form of color blindness (all  color maps in this package) and color vision deficiency ('cividis' only).  This is the 'lite' version of the more complete 'viridis' package that can  be found at <https://cran.r-project.org/package=viridis>.
 # License: MIT + file LICENSE
 # LazyData: TRUE
 # Encoding: UTF-8
@@ -91,10 +90,10 @@ extra:
 # BugReports: https://github.com/sjmgarnier/viridisLite/issues
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-03-23 21:36:52 UTC; simon
-# Author: Simon Garnier [aut, cre], Noam Ross [ctb, cph], Bob Rudis [ctb, cph]
+# Packaged: 2018-02-01 17:33:56 UTC; simon
+# Author: Simon Garnier [aut, cre], Noam Ross [ctb, cph], Bob Rudis [ctb, cph], Marco Sciaini [ctb, cph], Cedric Scherer [ctb, cph]
 # Repository: CRAN
-# Date/Publication: 2017-03-24 05:37:14 UTC
+# Date/Publication: 2018-02-01 22:45:56 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

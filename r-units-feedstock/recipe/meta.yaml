@@ -1,4 +1,4 @@
-{% set version = '0.4-6' %}
+{% set version = '0.5-1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: units_0.4-6.tar.gz  # [linux or win32]
+  fn: units_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/units_0.4-6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/units/units_0.4-6.tar.gz  # [linux or win32]
-  sha256: db383c9b7ec221a5da29a2ddf4f74f9064c44ea2102ea7e07cc1cc5bb30fa1ef  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/units_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/units/units_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 749bc6b81d623d27e6a8784eff34526aa4e371ce4880e91f49cbdd7de6830b1e  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/units_0.5-1.zip  # [win64]
+  sha256: 8f709f4db66786c2ffe2404f3ac69ec526767f19da6001ed44e4a7e4ce66dc7f  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/units_0.4-6.zip  # [win64]
-  sha256: c42135abce5623eb3f3df0312dd65fc4a702da94ebe74ac4a46a7512f56b6549  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/units_0.4-6.tgz  # [osx]
-  sha256: 8efe20be7cf3834086768bf9d446f6fd3d2bd4ee988cc98553922650604caeab  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/units_0.5-1.tgz  # [osx]
+  sha256: a2a321d8d50fbc5e389dda804b5bf65c3224bb29e3781025983548427dcf449d  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: NISTunits, measurements, xml2, tibble, knitr, testthat, ggforce, magrittr
+# Suggests: NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
 requirements:
   build:
 
@@ -60,7 +55,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://github.com/edzer/units/
+  home: https://github.com/r-quantities/units/
   license: GPL-2
   summary: 'Support for measurement units in R vectors, matrices and arrays: automatic propagation,
     conversion, derivation and simplification of units; raising errors in case of unit
@@ -76,25 +71,25 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: units
-# Version: 0.4-6
+# Version: 0.5-1
 # Title: Measurement Units for R Vectors
-# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de"), person("Thomas", "Mailund", role = "aut", email = "mailund@birc.au.dk"))
+# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de", comment = c(ORCID = "0000-0001-8049-7069")), person("Thomas", "Mailund", role = "aut", email = "mailund@birc.au.dk"), person("Tomasz", "Kalinowski", role = "aut"))
 # Depends: R (>= 3.0.0)
 # Imports: udunits2 (>= 0.13)
-# Suggests: NISTunits, measurements, xml2, tibble, knitr, testthat, ggforce, magrittr
+# Suggests: NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
 # VignetteBuilder: knitr
 # Description: Support for measurement units in R vectors, matrices and arrays: automatic propagation, conversion, derivation and simplification of units; raising errors in case of unit incompatibility. Compatible with the POSIXct, Date and difftime  classes. Uses the UNIDATA udunits library and unit database for  unit compatibility checking and conversion.
 # License: GPL-2
-# URL: https://github.com/edzer/units/
-# BugReports: https://github.com/edzer/units/issues/
+# URL: https://github.com/r-quantities/units/
+# BugReports: https://github.com/r-quantities/units/issues/
 # RoxygenNote: 6.0.1
 # Encoding: UTF-8
 # NeedsCompilation: no
-# Packaged: 2017-08-27 10:21:13 UTC; edzer
-# Author: Edzer Pebesma [aut, cre], Thomas Mailund [aut]
+# Packaged: 2018-01-08 13:26:31 UTC; edzer
+# Author: Edzer Pebesma [aut, cre] (0000-0001-8049-7069), Thomas Mailund [aut], Tomasz Kalinowski [aut]
 # Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 # Repository: CRAN
-# Date/Publication: 2017-08-27 16:21:36 UTC
+# Date/Publication: 2018-01-08 14:03:45 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

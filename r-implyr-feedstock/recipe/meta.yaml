@@ -21,7 +21,7 @@ source:
   sha256: ae644cc1e1f08b699c64780c91cc33a16fdb6718a00388f13685c7fbd9293764  # [osx]
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 

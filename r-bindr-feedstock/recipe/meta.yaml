@@ -1,4 +1,4 @@
-{% set version = '0.1' %}
+{% set version = '0.1.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: bindr_0.1.tar.gz  # [linux or win32]
+  fn: bindr_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/bindr_0.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/bindr/bindr_0.1.tar.gz  # [linux or win32]
-  sha256: cca166612eeafd6e1c961b34aaf177f9b47f8b4bc37520e277b9920eaa8b2535  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bindr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bindr/bindr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 7c785ca77ceb3ab9282148bcecf64d1857d35f5b800531d49483622fe67505d0  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/bindr_0.1.1.zip  # [win64]
+  sha256: e7ce479cff6a99545f0e7f35cceff67cff7201396633cc1ba5a4deac51c31b21  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/bindr_0.1.zip  # [win64]
-  sha256: 1a4f67ef82b4f4e36ece1d9382f916a63813545390f7aac88778b286109749f7  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/bindr_0.1.tgz  # [osx]
-  sha256: ac3213acaa14bc3b96c4465c6b08d07791bb2d71485fe38e4798683fd9d9c882  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/bindr_0.1.1.tgz  # [osx]
+  sha256: f015959bf69fc5955824a74b50308367e696014a24e2700bc316d980d80c5ddd  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -72,23 +67,23 @@ extra:
 
 # Package: bindr
 # Title: Parametrized Active Bindings
-# Version: 0.1
-# Authors@R: c( person("Kirill", "Muller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"), person("RStudio", role = "cph") )
+# Version: 0.1.1
+# Authors@R: c( person("Kirill", "M\u00fcller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org", comment = c(ORCID = "0000-0002-1416-3412")), person("RStudio", role = c("cph", "fnd")) )
 # Description: Provides a simple interface for creating active bindings where the bound function accepts additional arguments.
 # Suggests: testthat
 # LazyData: true
-# Date: 2016-11-12
+# Date: 2018-03-13
 # BugReports: https://github.com/krlmlr/bindr/issues
 # URL: https://github.com/krlmlr/bindr, https://krlmlr.github.io/bindr
-# RoxygenNote: 5.0.1.9000
+# RoxygenNote: 6.0.1.9000
 # License: MIT + file LICENSE
 # Encoding: UTF-8
 # NeedsCompilation: no
-# Packaged: 2016-11-12 22:17:21 UTC; muelleki
-# Author: Kirill Muller [aut, cre], RStudio [cph]
+# Packaged: 2018-03-13 00:31:30 UTC; muelleki
+# Author: Kirill Muller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>), RStudio [cph, fnd]
 # Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
 # Repository: CRAN
-# Date/Publication: 2016-11-13 01:48:48
+# Date/Publication: 2018-03-13 08:21:23 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

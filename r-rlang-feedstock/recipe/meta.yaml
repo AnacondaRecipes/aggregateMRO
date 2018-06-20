@@ -1,4 +1,4 @@
-{% set version = '0.1.6' %}
+{% set version = '0.2.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,47 +8,42 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rlang_0.1.6.tar.gz  # [linux or win32]
+  fn: rlang_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rlang_0.1.6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rlang/rlang_0.1.6.tar.gz  # [linux or win32]
-  sha256: 772273e4f82ec33ffd28bf87bc44abbde2a6fb4b00e5723068ec5464b556c2f4  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rlang_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rlang/rlang_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 4872a7d1b8e1e1a64a851dac707efb0c1dcbef69f6dadee417dac85b38740739  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rlang_0.2.0.zip  # [win64]
+  sha256: 9e8b248f361a6a5a7942adbe79c345e7fe86201d8aa65883b9015160e59bc106  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rlang_0.1.6.zip  # [win64]
-  sha256: 3084ac1727e49cdee877e10df521781d05ed741720457a56fc5a7956b47202e5  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rlang_0.1.6.tgz  # [osx]
-  sha256: 6370b1bfc0acf945a415d6fba217e2f29c0bc7391e093e28722892b1da989555  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/rlang_0.2.0.tgz  # [osx]
+  sha256: 89afa77afbfc39daabd7a95524b68b89352e24eff2e5a324f8f0355f7521a536  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: knitr, rmarkdown (>= 0.2.65), testthat, covr
+# Suggests: crayon, knitr, methods, pillar, rmarkdown (>= 0.2.65), testthat, covr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -63,7 +58,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: http://rlang.tidyverse.org, https://github.com/tidyverse/rlang
+  home: http://rlang.tidyverse.org, https://github.com/r-lib/rlang
   license: GPL-3
   summary: A toolbox for working with base types, core R features like the condition system,
     and core 'Tidyverse' features like tidy evaluation.
@@ -76,24 +71,24 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: rlang
-# Version: 0.1.6
+# Version: 0.2.0
 # Title: Functions for Base Types and Core R and 'Tidyverse' Features
 # Description: A toolbox for working with base types, core R features like the condition system, and core 'Tidyverse' features like tidy evaluation.
 # Authors@R: c( person("Lionel", "Henry", ,"lionel@rstudio.com", c("aut", "cre")), person("Hadley", "Wickham", ,"hadley@rstudio.com", "aut"), person("RStudio", role = "cph") )
 # License: GPL-3
 # LazyData: true
+# ByteCompile: true
 # Depends: R (>= 3.1.0)
-# Suggests: knitr, rmarkdown (>= 0.2.65), testthat, covr
-# VignetteBuilder: knitr
+# Suggests: crayon, knitr, methods, pillar, rmarkdown (>= 0.2.65), testthat, covr
 # RoxygenNote: 6.0.1
-# URL: http://rlang.tidyverse.org, https://github.com/tidyverse/rlang
-# BugReports: https://github.com/tidyverse/rlang/issues
+# URL: http://rlang.tidyverse.org, https://github.com/r-lib/rlang
+# BugReports: https://github.com/r-lib/rlang/issues
 # NeedsCompilation: yes
-# Packaged: 2017-12-21 16:29:51 UTC; lionel
+# Packaged: 2018-02-20 06:15:49 UTC; lionel
 # Author: Lionel Henry [aut, cre], Hadley Wickham [aut], RStudio [cph]
 # Maintainer: Lionel Henry <lionel@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-12-21 21:15:03 UTC
+# Date/Publication: 2018-02-20 10:07:47 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

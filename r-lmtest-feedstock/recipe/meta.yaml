@@ -1,4 +1,4 @@
-{% set version = '0.9-35' %}
+{% set version = '0.9-36' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lmtest_0.9-35.tar.gz  # [linux or win32]
+  fn: lmtest_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lmtest_0.9-35.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lmtest/lmtest_0.9-35.tar.gz  # [linux or win32]
-  sha256: 2f4982f1b6cd133ef36fe9718f4ff2f4fa5c20716100fdd5ee5c947b68c8eb80  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lmtest_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lmtest/lmtest_{{ version }}.tar.gz  # [linux or win32]
+  sha256: be9f168d6554e9cd2be0f9d8fc3244f055dce90d1fca00f05bcbd01daa4ed56b  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lmtest_0.9-36.zip  # [win64]
+  sha256: 4d73a93c63696a9ab4756ba6dde4e7990bc137bddba65c50e66d71c47c177c8c  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lmtest_0.9-35.zip  # [win64]
-  sha256: d4995f8211c37d1765e986598801f17456985d7e4df537dc650b9298fa24f87e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lmtest_0.9-35.tgz  # [osx]
-  sha256: 8e3cbbfc4f5ccdb50afcaf5db7e645e360a8ab1c4a238df82d57c3108137bad8  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lmtest_0.9-36.tgz  # [osx]
+  sha256: ed0d50f6f77316d273c439e373a7fa2f606357c1bef083a4b24a62ec7d5c6a9c  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +33,11 @@ build:
 # Suggests: car, strucchange, sandwich, dynlm, stats4, survival, AER
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -50,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-zoo
 
 test:
@@ -80,9 +75,9 @@ extra:
 
 # Package: lmtest
 # Title: Testing Linear Regression Models
-# Version: 0.9-35
-# Date: 2017-02-11
-# Authors@R: c(person(given = "Torsten", family = "Hothorn", role = "aut", email = "Torsten.Hothorn@R-project.org"), person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"), person(given = c("Richard", "W."), family = "Farebrother", role = "aut", comment = "pan.f"), person(given = "Clint", family = "Cummins", role = "aut", comment = "pan.f"), person(given = "Giovanni", family = "Millo", role = "ctb"), person(given = "David", family = "Mitchell", role = "ctb"))
+# Version: 0.9-36
+# Date: 2018-04-04
+# Authors@R: c(person(given = "Torsten", family = "Hothorn", role = "aut", email = "Torsten.Hothorn@R-project.org", comment = c(ORCID = "0000-0001-8301-0471")), person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")), person(given = c("Richard", "W."), family = "Farebrother", role = "aut", comment = "pan.f"), person(given = "Clint", family = "Cummins", role = "aut", comment = "pan.f"), person(given = "Giovanni", family = "Millo", role = "ctb"), person(given = "David", family = "Mitchell", role = "ctb"))
 # Description: A collection of tests, data sets, and examples for diagnostic checking in linear regression models. Furthermore, some generic tools for inference in parametric models are provided.
 # LazyData: yes
 # Depends: R (>= 2.10.0), stats, zoo
@@ -90,11 +85,11 @@ extra:
 # Imports: graphics
 # License: GPL-2 | GPL-3
 # NeedsCompilation: yes
-# Packaged: 2017-02-11 09:30:28 UTC; zeileis
-# Author: Torsten Hothorn [aut], Achim Zeileis [aut, cre], Richard W. Farebrother [aut] (pan.f), Clint Cummins [aut] (pan.f), Giovanni Millo [ctb], David Mitchell [ctb]
+# Packaged: 2018-04-03 22:53:11 UTC; zeileis
+# Author: Torsten Hothorn [aut] (<https://orcid.org/0000-0001-8301-0471>), Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Richard W. Farebrother [aut] (pan.f), Clint Cummins [aut] (pan.f), Giovanni Millo [ctb], David Mitchell [ctb]
 # Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-02-11 10:43:09
+# Date/Publication: 2018-04-04 08:13:09 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

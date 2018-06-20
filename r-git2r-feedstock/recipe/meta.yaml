@@ -1,4 +1,4 @@
-{% set version = '0.20.0' %}
+{% set version = '0.21.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: git2r_0.20.0.tar.gz  # [linux or win32]
+  fn: git2r_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/git2r_0.20.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/git2r/git2r_0.20.0.tar.gz  # [linux or win32]
-  sha256: 86a0ffd6734f61d0720f3176e286d1231c3da4e3afe42b182b8b2abd657c0fdf  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/git2r_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/git2r/git2r_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 0480e4c47394ad1724c80982eff3be5ce34168046939340bf22cc1df6b6baf87  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/git2r_0.21.0.zip  # [win64]
+  sha256: 65e09f491e385427d58c7cf6f3e635c8f68f69c041020cdfd13992fa40cfeccc  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/git2r_0.20.0.zip  # [win64]
-  sha256: 1ab8a6116342177fb8c8e7585996a12a024b1bc80c7231cea9cb70755ca148dc  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/git2r_0.20.0.tgz  # [osx]
-  sha256: b87a6eb0ab2189a8cb2540556a12530277a20af5a03bd719bdf75dc16ad143c7  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/git2r_0.21.0.tgz  # [osx]
+  sha256: a4a2916af0311a6798a7c6db2df8558f25ab45be400aedfa771a2dba3391c985  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,34 +33,23 @@ build:
 # Suggests: getPass
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
-    - {{native}}libssh2 1.*      # [not win]
-    - {{native}}zlib 1.2.8       # [win32]
-    - {{native}}zlib             # [linux]
-    - {{native}}openssl          # [linux or win32]
-    - {{native}}curl             # [win32]
-    - {{native}}libcurl          # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs         # [win32]
-    - {{native}}libssh2 1.*      # [linux]
-    - {{native}}zlib 1.2.8       # [win32]
-    - {{native}}openssl          # [win32]
-    - {{native}}curl             # [win32]
-    - {{native}}libcurl          # [linux]
 
 test:
   commands:
@@ -96,7 +80,7 @@ extra:
 # Package: git2r
 # Title: Provides Access to Git Repositories
 # Description: Interface to the 'libgit2' library, which is a pure C implementation of the 'Git' core methods. Provides access to 'Git' repositories to extract data and running some basic 'Git' commands.
-# Version: 0.20.0
+# Version: 0.21.0
 # License: GPL-2
 # Copyright: See COPYRIGHTS file.
 # URL: https://github.com/ropensci/git2r
@@ -104,7 +88,7 @@ extra:
 # Maintainer: Stefan Widgren <stefan.widgren@gmail.com>
 # Author: See AUTHORS file.
 # Imports: graphics, utils
-# Depends: R (>= 3.0.2), methods
+# Depends: R (>= 3.1), methods
 # Suggests: getPass
 # Type: Package
 # LazyData: true
@@ -113,9 +97,9 @@ extra:
 # SystemRequirements: zlib headers and library. OpenSSL headers and library. LibSSH2 (optional on non-Windows) to enable the SSH transport.
 # Collate: 'S4_classes.r' 'blame.r' 'blob.r' 'branch.r' 'bundle_r_package.r' 'checkout.r' 'commit.r' 'config.r' 'contributions.r' 'credential.r' 'diff.r' 'fetch.r' 'git2r.r' 'index.r' 'libgit2.r' 'merge.r' 'note.r' 'odb.r' 'plot.r' 'pull.r' 'punch_card.r' 'refspec.r' 'push.r' 'reference.r' 'reflog.r' 'remote.r' 'repository.r' 'reset.r' 'revparse.r' 'signature.r' 'stash.r' 'status.r' 'tag.r' 'time.r' 'tree.r' 'when.r'
 # RoxygenNote: 6.0.1
-# Packaged: 2017-12-17 19:25:41 UTC; stefan
+# Packaged: 2018-01-03 21:29:02 UTC; stefan
 # Repository: CRAN
-# Date/Publication: 2017-12-17 22:56:21 UTC
+# Date/Publication: 2018-01-04 16:50:12 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

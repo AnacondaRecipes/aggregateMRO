@@ -1,4 +1,4 @@
-{% set version = '1.2-2' %}
+{% set version = '1.2-3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,33 +8,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: Formula_1.2-2.tar.gz  # [linux or win32]
+  fn: Formula_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Formula_1.2-2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/Formula/Formula_1.2-2.tar.gz  # [linux or win32]
-  sha256: 8def4600fb7457d38db8083733477501b54528974aa216e4adf8871bff4aa429  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Formula_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/Formula/Formula_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1411349b20bd09611a9fd0ee6d15f780c758ad2b0e490e908facb49433823872  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/Formula_1.2-3.zip  # [win64]
+  sha256: 3a21e834c6d0f3b8392957a43a9b6ced22ca6b1b36177b252da1f48255b4c1c0  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/Formula_1.2-2.zip  # [win64]
-  sha256: f3c5c84fd0cca750f6b3bbad52d99a7eb1075ea1c03d14babba998d7ded33278  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/Formula_1.2-2.tgz  # [osx]
-  sha256: a0bb6517a83d26a9c3c035d5c3345ff03e8882670e581c296a4c88e6f58e4725  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/Formula_1.2-3.tgz  # [osx]
+  sha256: 48ef35fc7e5134d7dc36604176718e2ce6bcc2ff8ca7ad76223443dc4ec4bb0e  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
-
 
 requirements:
   build:
@@ -71,19 +65,19 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: Formula
-# Version: 1.2-2
-# Date: 2017-07-11
+# Version: 1.2-3
+# Date: 2018-05-02
 # Title: Extended Model Formulas
 # Description: Infrastructure for extended formulas with multiple parts on the right-hand side and/or multiple responses on the left-hand side (see <DOI:10.18637/jss.v034.i01>).
-# Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"), person(given = "Yves", family = "Croissant", role = "aut", email = "Yves.Croissant@univ-reunion.fr"))
+# Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")), person(given = "Yves", family = "Croissant", role = "aut", email = "Yves.Croissant@univ-reunion.fr"))
 # Depends: R (>= 2.0.0), stats
 # License: GPL-2 | GPL-3
 # NeedsCompilation: no
-# Packaged: 2017-07-10 23:09:07 UTC; zeileis
-# Author: Achim Zeileis [aut, cre], Yves Croissant [aut]
+# Packaged: 2018-05-02 23:06:48 UTC; zeileis
+# Author: Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Yves Croissant [aut]
 # Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-07-10 23:28:09 UTC
+# Date/Publication: 2018-05-03 07:53:28 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

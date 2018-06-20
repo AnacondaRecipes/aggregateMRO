@@ -1,4 +1,4 @@
-{% set version = '0.10-42' %}
+{% set version = '0.10-44' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,35 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tseries_0.10-42.tar.gz  # [linux or win32]
+  fn: tseries_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tseries_0.10-42.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tseries/tseries_0.10-42.tar.gz  # [linux or win32]
-  sha256: 827f79858715c700e8cabd2c27853ba88ad0e05eb043bc94e126b155a75546c4  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tseries_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tseries/tseries_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 4f114a807995a7df6c53842acc144e592370412e5411e4decd97750dcdd9e65b  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tseries_0.10-44.zip  # [win64]
+  sha256: 27022e8346abd1663dabea19d165b9633999d1d89a72b47a27f8445c46f853ba  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tseries_0.10-42.zip  # [win64]
-  sha256: d954f6acf4192831f8101212a9031a6523a6c680767cab2b651416b06e426af2  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tseries_0.10-42.tgz  # [osx]
-  sha256: 105a6ad09e786f5875b356824c53e8c7fd2d406e729d13bb7448e9f4031e63f6  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tseries_0.10-44.tgz  # [osx]
+  sha256: e153c7702ca64180921d85c4761b796dd04205cd9835e0ff5fbdce116c29782c  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -52,7 +46,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-quadprog
     - r-quantmod >=0.4.9
     - r-zoo
@@ -82,7 +76,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: tseries
-# Version: 0.10-42
+# Version: 0.10-44
 # Title: Time Series Analysis and Computational Finance
 # Authors@R: c(person("Adrian", "Trapletti", role = "aut", email = "adrian@trapletti.org"), person("Kurt", "Hornik", role = c("aut", "cre"), email = "Kurt.Hornik@R-project.org"), person("Blake", "LeBaron", role = "ctb", comment = "BDS test code"))
 # Description: Time series analysis and computational finance.
@@ -90,11 +84,11 @@ extra:
 # Imports: graphics, stats, utils, quadprog, zoo, quantmod (>= 0.4.9)
 # License: GPL-2
 # NeedsCompilation: yes
-# Packaged: 2017-06-21 18:26:43 UTC; hornik
+# Packaged: 2018-04-15 15:14:39 UTC; hornik
 # Author: Adrian Trapletti [aut], Kurt Hornik [aut, cre], Blake LeBaron [ctb] (BDS test code)
 # Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-06-22 05:37:54 UTC
+# Date/Publication: 2018-04-15 16:35:20 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.7' %}
+{% set version = '1.0.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: DBI_0.7.tar.gz  # [linux or win32]
+  fn: DBI_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/DBI_0.7.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/DBI/DBI_0.7.tar.gz  # [linux or win32]
-  sha256: 2557d5d59a45620ec9de340c2c25eec4cc478d3fc3f8b87979cf337c5bcfde11  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/DBI_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/DBI/DBI_{{ version }}.tar.gz  # [linux or win32]
+  sha256: ff16f118eb3f759183441835e932b87358dd80ab9800ce576a8f3df1b6f01cf5  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/DBI_1.0.0.zip  # [win64]
+  sha256: 0015a1130e8a54c5b5bfb89ff3302fca4a17621bb7464392eb249fdd06856454  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/DBI_0.7.zip  # [win64]
-  sha256: 5a3c907353ffd6432fde15485ff01725f1cb3e2a7bb79c4a13fd220cf2568e78  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/DBI_0.7.tgz  # [osx]
-  sha256: 5f18a00f2a6c2dd7abe7421e0c11ac3ffd9c4ced90295aae1af9f26d1e655cb2  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/DBI_1.0.0.tgz  # [osx]
+  sha256: b817d0c536e8bc2534ae91e8aa3051a707d2be1314c62e17e6abc5852e9c063a  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -58,7 +53,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: http://rstats-db.github.io/DBI
+  home: http://r-dbi.github.io/DBI
   license: LGPL (>= 2)
   summary: A database interface definition for communication between R and relational database
     management systems.  All classes in this package are virtual and need to be extended
@@ -72,27 +67,27 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: DBI
-# Version: 0.7
-# Date: 2017-06-17
+# Version: 1.0.0
+# Date: 2018-05-02
 # Title: R Database Interface
 # Description: A database interface definition for communication between R and relational database management systems.  All classes in this package are virtual and need to be extended by the various R/DBMS implementations.
-# Authors@R: c( person("R Special Interest Group on Databases (R-SIG-DB)", role = "aut"), person("Hadley", "Wickham", role = "aut"), person("Kirill", "Muller", email = "krlmlr+r@mailbox.org", role = c("aut", "cre")) )
+# Authors@R: c( person("R Special Interest Group on Databases (R-SIG-DB)", role = "aut"), person("Hadley", "Wickham", role = "aut"), person("Kirill", "M\u00fcller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org", comment = c(ORCID = "0000-0002-1416-3412")), person("R Consortium", role = "fnd") )
 # Depends: R (>= 3.0.0), methods
 # Suggests: blob, covr, hms, knitr, magrittr, rprojroot, rmarkdown, RSQLite (>= 1.1-2), testthat, xml2
 # Encoding: UTF-8
 # License: LGPL (>= 2)
-# URL: http://rstats-db.github.io/DBI
-# URLNote: https://github.com/rstats-db/DBI
-# BugReports: https://github.com/rstats-db/DBI/issues
-# Collate: 'DBObject.R' 'DBDriver.R' 'DBConnection.R' 'ANSI.R' 'DBI-package.R' 'DBResult.R' 'data-types.R' 'data.R' 'deprecated.R' 'hidden.R' 'interpolate.R' 'quote.R' 'rownames.R' 'table-create.R' 'table-insert.R' 'table.R' 'transactions.R' 'util.R'
+# URL: http://r-dbi.github.io/DBI
+# URLNote: https://github.com/r-dbi/DBI
+# BugReports: https://github.com/r-dbi/DBI/issues
+# Collate: 'hidden.R' 'DBObject.R' 'DBDriver.R' 'table.R' 'DBConnection.R' 'ANSI.R' 'DBI-package.R' 'DBResult.R' 'data-types.R' 'data.R' 'deprecated.R' 'interpolate.R' 'list-pairs.R' 'quote.R' 'rd.R' 'rownames.R' 'table-create.R' 'table-insert.R' 'transactions.R'
 # VignetteBuilder: knitr
-# RoxygenNote: 6.0.1
+# RoxygenNote: 6.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2017-06-18 08:02:52 UTC; muelleki
-# Author: R Special Interest Group on Databases (R-SIG-DB) [aut], Hadley Wickham [aut], Kirill Muller [aut, cre]
+# Packaged: 2018-05-02 00:38:32 UTC; kirill
+# Author: R Special Interest Group on Databases (R-SIG-DB) [aut], Hadley Wickham [aut], Kirill Muller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>), R Consortium [fnd]
 # Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
 # Repository: CRAN
-# Date/Publication: 2017-06-18 15:23:10 UTC
+# Date/Publication: 2018-05-02 11:24:41 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

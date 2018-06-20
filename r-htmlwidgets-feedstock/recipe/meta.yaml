@@ -1,4 +1,4 @@
-{% set version = '0.9' %}
+{% set version = '1.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: htmlwidgets_0.9.tar.gz  # [linux or win32]
+  fn: htmlwidgets_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/htmlwidgets_0.9.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/htmlwidgets/htmlwidgets_0.9.tar.gz  # [linux or win32]
-  sha256: 1154b541ccd868e41d3cf0d7f188f7275ec99f61fe2c7de21c8a05edb19b985e  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/htmlwidgets_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/htmlwidgets/htmlwidgets_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1a7d21c1f3306d53a36c05d6ea7873ddeffeda654cd9be689b6d78e62a688411  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/htmlwidgets_1.2.zip  # [win64]
+  sha256: 5f01d7e28e0a243d85029b1345500ecdcdfdadc5b5b26dd0b212554a81f3323c  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/htmlwidgets_0.9.zip  # [win64]
-  sha256: f2b16d8b2da9f71aa2cb9b50d2dcfe38ee062eefb76fef12c1e0246a7df3daf2  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/htmlwidgets_0.9.tgz  # [osx]
-  sha256: b918fb45702e5189a69ad1f7ea90263078862ecbc7b1069344e7e5c52c06d6f8  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/htmlwidgets_1.2.tgz  # [osx]
+  sha256: d00095f6f4de50b1bfc53a322b84a0ce579c0f96371b6e057fe5cfb43734dba3  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -79,24 +74,23 @@ extra:
 # Package: htmlwidgets
 # Type: Package
 # Title: HTML Widgets for R
-# Version: 0.9
-# Date: 2017-07-10
+# Version: 1.2
 # Authors@R: c( person("Ramnath", "Vaidyanathan", role = c("aut", "cph")), person("Yihui", "Xie", role = c("aut")), person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person("Joe", "Cheng", role = c("aut")), person("Kenton", "Russell", role = c("aut", "cph")), person(family = "RStudio", role = "cph") )
 # Description: A framework for creating HTML widgets that render in various contexts including the R console, 'R Markdown' documents, and 'Shiny' web applications.
 # License: MIT + file LICENSE
 # VignetteBuilder: knitr
-# Imports: htmltools (>= 0.3), jsonlite (>= 0.9.16), yaml
+# Imports: grDevices, htmltools (>= 0.3), jsonlite (>= 0.9.16), yaml
 # Suggests: knitr (>= 1.8)
-# Enhances: shiny (>= 0.12)
+# Enhances: shiny (>= 1.0.5)
 # URL: https://github.com/ramnathv/htmlwidgets
 # BugReports: https://github.com/ramnathv/htmlwidgets/issues
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-07-10 10:49:02 UTC; jjallaire
+# Packaged: 2018-04-18 14:06:07 UTC; jjallaire
 # Author: Ramnath Vaidyanathan [aut, cph], Yihui Xie [aut], JJ Allaire [aut, cre], Joe Cheng [aut], Kenton Russell [aut, cph], RStudio [cph]
 # Maintainer: JJ Allaire <jj@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-07-10 12:42:24 UTC
+# Date/Publication: 2018-04-19 12:43:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.1-42' %}
+{% set version = '0.1-43' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,47 +8,41 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: slam_0.1-42.tar.gz  # [linux or win32]
+  fn: slam_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/slam_0.1-42.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/slam/slam_0.1-42.tar.gz  # [linux or win32]
-  sha256: 7206b0189544c9878b83005f80f89626cc2c53cfe3e640aeaa9c3da1f07675df  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/slam_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/slam/slam_{{ version }}.tar.gz  # [linux or win32]
+  sha256: b0c866cc529eb7b8c560ec3e945294e924cf934af6346a72ef4e3df6ecc7c443  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/slam_0.1-43.zip  # [win64]
+  sha256: 0c3c1271d72c79a2de5f92c818737071089639b83d3864a13e8c2a4e90ff7ea3  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/slam_0.1-42.zip  # [win64]
-  sha256: 6f45e16e4e1c5a43cc2dd37354854bfd671836657442e77b43810655cc4aebb9  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/slam_0.1-42.tgz  # [osx]
-  sha256: 555b3bf260f796c49da6ce06b09985122e3cad91c0e36c823e9b46db7a4eefcb  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/slam_0.1-43.tgz  # [osx]
+  sha256: 8a22739ab34da43ecc4cf993b87503f6746086a92a7201656d879ce076cbdb91  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -76,7 +70,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: slam
-# Version: 0.1-42
+# Version: 0.1-43
 # Title: Sparse Lightweight Arrays and Matrices
 # Authors@R: c(person("Kurt", "Hornik", role = c("aut", "cre"), email = "Kurt.Hornik@R-project.org", comment = c(ORCID = "0000-0003-4198-9911")), person("David", "Meyer", role = "aut"), person("Christian", "Buchta", role = "aut"))
 # Description: Data structures and algorithms for sparse arrays and matrices, based on index arrays and simple triplet representations, respectively.
@@ -85,11 +79,11 @@ extra:
 # Enhances: Matrix, SparseM, spam
 # License: GPL-2
 # NeedsCompilation: yes
-# Packaged: 2017-12-21 19:55:05 UTC; hornik
-# Author: Kurt Hornik [aut, cre] (0000-0003-4198-9911), David Meyer [aut], Christian Buchta [aut]
+# Packaged: 2018-04-23 04:42:41 UTC; hornik
+# Author: Kurt Hornik [aut, cre] (<https://orcid.org/0000-0003-4198-9911>), David Meyer [aut], Christian Buchta [aut]
 # Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-12-21 20:58:52 UTC
+# Date/Publication: 2018-04-23 09:11:30 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

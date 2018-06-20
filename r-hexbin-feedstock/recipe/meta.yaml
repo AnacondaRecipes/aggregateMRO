@@ -1,4 +1,4 @@
-{% set version = '1.27.1' %}
+{% set version = '1.27.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: hexbin_1.27.1.tar.gz  # [linux or win32]
+  fn: hexbin_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/hexbin_1.27.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/hexbin/hexbin_1.27.1.tar.gz  # [linux or win32]
-  sha256: 075935a3ae2d90e44aca6ebbd368dc6f7e59d322e36e0e0932dedbf01330ad08  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/hexbin_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/hexbin/hexbin_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 46d47b1efef75d6f126af686a4dd614228b60418b9a5bde9e9e5d11200a0ee52  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/hexbin_1.27.2.zip  # [win64]
+  sha256: c43c4a9651660b5eef849575c033f98c9eecf22f48c06771e488a5cf6958a286  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/hexbin_1.27.1.zip  # [win64]
-  sha256: 61e7fdefead74b187b478c4699a8f024f92280818343e4932bd2f74ca5dac3e8  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/hexbin_1.27.1.tgz  # [osx]
-  sha256: ae0ecbda344c6d8884c18d709f33bc84c75a566e5b469ee0d201fd52103910e5  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/hexbin_1.27.2.tgz  # [osx]
+  sha256: 8411408ef7b59a3c690c1f1c209458153334b156e4c56b1bbafd80d93816f9e9  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +33,11 @@ build:
 # Suggests: marray, affy, Biobase, limma
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -50,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-lattice
 
 test:
@@ -68,8 +63,7 @@ test:
 about:
   home: http://github.com/edzer/hexbin
   license: GPL-2
-  summary: Binning and plotting functions for hexagonal bins. Now uses and relies on grid graphics
-    and formal (S4) classes and methods.
+  summary: Binning and plotting functions for hexagonal bins.
   license_family: GPL2
 
 extra:
@@ -79,22 +73,21 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: hexbin
-# Version: 1.27.1
-# Date: 2015-08-19
+# Version: 1.27.2
 # Title: Hexagonal Binning Routines
 # Author: Dan Carr <dcarr@voxel.galaxy.gmu.edu>, ported by Nicholas Lewin-Koh and Martin Maechler <maechler@stat.math.ethz.ch>, contains copies of lattice functions written by Deepayan Sarkar  <deepayan.sarkar@r-project.org>
 # Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
-# Depends: R (>= 2.10), methods
+# Depends: R (>= 2.0.1), methods
 # Imports: lattice, grid, graphics, grDevices, stats, utils
 # Suggests: marray, affy, Biobase, limma
-# Description: Binning and plotting functions for hexagonal bins. Now uses and relies on grid graphics and formal (S4) classes and methods.
+# Description: Binning and plotting functions for hexagonal bins.
 # Collate: lattice.R BTC.R BTY.R grid.hexagons.R grid.hexlegend.R hbox.R hdiffplot.R hexbinList.R hexbinplot.R hexbin.s4.R hexpanel.R hexplom.R hexPlotMA.R hexutil.R hexViewport.R HO.R LINGRAY.R LOCS.R MAG.R RB.R smoothHexbin.R
 # License: GPL-2
 # NeedsCompilation: yes
 # URL: http://github.com/edzer/hexbin
-# Packaged: 2016-12-05 14:59:04 UTC; hornik
+# Packaged: 2018-01-15 16:56:46 UTC; edzer
 # Repository: CRAN
-# Date/Publication: 2016-12-05 18:28:47
+# Date/Publication: 2018-01-15 18:56:40 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

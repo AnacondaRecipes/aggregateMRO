@@ -1,4 +1,4 @@
-{% set version = '0.9.4.6' %}
+{% set version = '0.9.4.7' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: stringdist_0.9.4.6.tar.gz  # [linux or win32]
+  fn: stringdist_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/stringdist_0.9.4.6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/stringdist/stringdist_0.9.4.6.tar.gz  # [linux or win32]
-  sha256: 91c1ddee426ee246f92dd12ae746ea114e123fbfb32a4708ee29db51323cab48  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stringdist_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stringdist/stringdist_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 24120f19a449ab607a816e4e40f46cedf0b74a784dbe2d6d526bdecc2a07e8e1  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/stringdist_0.9.4.7.zip  # [win64]
+  sha256: 152d204c3fd293345d1efae32cd56c45d81ebd03d463c610b5edaeb448697196  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/stringdist_0.9.4.6.zip  # [win64]
-  sha256: 058985d52309d3b0232ccf93d1d08e8a80a3ea426ec43c60ab4cb457c905c9cf  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/stringdist_0.9.4.6.tgz  # [osx]
-  sha256: 8a070ea0624e54e1be04d62120ce732324af5322bd023e7366ecd7a81fb6d113  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/stringdist_0.9.4.7.tgz  # [osx]
+  sha256: 310f500e07396d15bf61a967cfedc57bc072fcb922c05804d4f65a3a4c131d69  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +33,17 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -88,19 +83,19 @@ extra:
 # LazyLoad: yes
 # Authors@R: c( person("Mark", "van der Loo", role=c("aut","cre"),email="mark.vanderloo@gmail.com") , person("Jan", "van der Laan", role="ctb"),person("R Core Team","",role=c("ctb")),person("Nick","Logan",role="ctb"))
 # Description: Implements an approximate string matching version of R's native 'match' function. Can calculate various string distances based on edits (Damerau-Levenshtein, Hamming, Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance) or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided as well. Distances can be computed between character vectors while taking proper care of encoding or between integer vectors representing generic sequences.
-# Version: 0.9.4.6
+# Version: 0.9.4.7
 # Depends: R (>= 2.15.3)
 # Imports: parallel
 # URL: https://github.com/markvanderloo/stringdist
 # BugReports: https://github.com/markvanderloo/stringdist/issues
-# Date: 2017-07-26
+# Date: 2018-03-05
 # Suggests: testthat
 # RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2017-07-31 09:18:23 UTC; mark
+# Packaged: 2018-03-13 15:45:20 UTC; mark
 # Author: Mark van der Loo [aut, cre], Jan van der Laan [ctb], R Core Team [ctb], Nick Logan [ctb]
 # Repository: CRAN
-# Date/Publication: 2017-07-31 10:35:34 UTC
+# Date/Publication: 2018-03-13 17:12:48 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

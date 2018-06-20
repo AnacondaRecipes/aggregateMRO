@@ -1,4 +1,4 @@
-{% set version = '0.23-2' %}
+{% set version = '0.23-3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: TTR_0.23-2.tar.gz  # [linux or win32]
+  fn: TTR_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/TTR_0.23-2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/TTR/TTR_0.23-2.tar.gz  # [linux or win32]
-  sha256: 1a1fc1d2361d58d573d6ec645633521840d3f606406314a992967e8c17c75436  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/TTR_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/TTR/TTR_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2136032c7a2cd2a82518a4412fc655ecb16597b123dbdebe5684caef9f15261f  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/TTR_0.23-3.zip  # [win64]
+  sha256: 2105d3abea4d30dd0f755c2fc0592a68f78851b6b1085da3e40c1b381c908ba3  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/TTR_0.23-2.zip  # [win64]
-  sha256: 86ebfb9a33de62373cba418df9dfa4ac6e45542e0bfebbeb056bf1d37d900724  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/TTR_0.23-2.tgz  # [osx]
-  sha256: de81fe6a8e261456de82f3b71a89d5b126a144629b53b172f84d8e51a9f38e19  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/TTR_0.23-3.tgz  # [osx]
+  sha256: d84531f9825d4d929266d1b0fc69b3ffd9e302b4e244cb05ad7573edd01f5367  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +33,11 @@ build:
 # Suggests: RUnit
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -52,7 +47,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-curl
     - r-xts >=0.10_0
     - r-zoo
@@ -84,8 +79,8 @@ extra:
 # Package: TTR
 # Type: Package
 # Title: Technical Trading Rules
-# Version: 0.23-2
-# Date: 2017-07-07
+# Version: 0.23-3
+# Date: 2018-01-24
 # Author: Joshua Ulrich
 # Maintainer: Joshua Ulrich <josh.m.ulrich@gmail.com>
 # Imports: xts (>= 0.10-0), zoo, curl
@@ -96,11 +91,10 @@ extra:
 # License: GPL-2
 # URL: https://github.com/joshuaulrich/TTR
 # BugReports: https://github.com/joshuaulrich/TTR/issues
-# RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2017-07-10 17:18:49 UTC; josh
+# Packaged: 2018-01-24 12:07:00 UTC; josh
 # Repository: CRAN
-# Date/Publication: 2017-07-11 05:34:20 UTC
+# Date/Publication: 2018-01-24 12:54:18 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

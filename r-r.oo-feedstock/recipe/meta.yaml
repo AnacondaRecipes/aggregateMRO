@@ -1,4 +1,4 @@
-{% set version = '1.21.0' %}
+{% set version = '1.22.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: R.oo_1.21.0.tar.gz  # [linux or win32]
+  fn: R.oo_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/R.oo_1.21.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/R.oo/R.oo_1.21.0.tar.gz  # [linux or win32]
-  sha256: 645ceec2f815ed39650ca72db87fb4ece7357857875a4ec73e18bfaf647f431c  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/R.oo_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/R.oo/R.oo_{{ version }}.tar.gz  # [linux or win32]
+  sha256: c0862e4608fb2b8f91ec4494d46c2f3ba7bc44999f9aa3d7b9625d3792e7dd4c  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/R.oo_1.22.0.zip  # [win64]
+  sha256: 3905c8b352ab16fcee8928bd1296773a900aba7e050e38286dc299f126e7413c  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/R.oo_1.21.0.zip  # [win64]
-  sha256: b686a63b18a000e1b8c168612a94690a7a00d37f10ad987b05daf5492e0e9d86  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/R.oo_1.21.0.tgz  # [osx]
-  sha256: 597ca995ddc48241f94cfb2d5bd01a4238de52d7054b55b11012b61fc609a60d  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/R.oo_1.22.0.tgz  # [osx]
+  sha256: 7acd2f2fd3fa41844e6c8ce6e6c1228932d51ab55982fb5cccb177db75ec9f29  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -76,11 +71,11 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: R.oo
-# Version: 1.21.0
+# Version: 1.22.0
 # Depends: R (>= 2.13.0), R.methodsS3 (>= 1.7.1)
 # Imports: methods, utils
 # Suggests: tools
-# Date: 2016-10-30
+# Date: 2018-04-21
 # Title: R Object-Oriented Programming with or without References
 # Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"), email = "henrikb@braju.com"))
 # Author: Henrik Bengtsson [aut, cre, cph]
@@ -91,9 +86,9 @@ extra:
 # URL: https://github.com/HenrikBengtsson/R.oo
 # BugReports: https://github.com/HenrikBengtsson/R.oo/issues
 # NeedsCompilation: no
-# Packaged: 2016-10-31 16:46:50 UTC; hb
+# Packaged: 2018-04-22 00:03:47 UTC; hb
 # Repository: CRAN
-# Date/Publication: 2016-11-01 00:03:19
+# Date/Publication: 2018-04-22 03:23:04 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

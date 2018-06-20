@@ -1,4 +1,4 @@
-{% set version = '1.4' %}
+{% set version = '1.5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: mongolite_1.4.tar.gz  # [linux or win32]
+  fn: mongolite_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mongolite_1.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mongolite/mongolite_1.4.tar.gz  # [linux or win32]
-  sha256: 9f35763c04abc833fc1af9b00a5126eedb425fd864682e29184c9f378f791991  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/mongolite_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/mongolite/mongolite_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5ef2e4f006ca57db030257f66782c79aa4f52aacf079d576a7e4b5194cf1191b  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/mongolite_1.5.zip  # [win64]
+  sha256: d59b1dfadc0a8178e471b9b594fc6feb894cc7f28180841155f9c1ad8dccec90  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/mongolite_1.4.zip  # [win64]
-  sha256: 099f839fcecf3f20aab684fad220b1be58a5406678f404640a5ca707723ae793  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/mongolite_1.4.tgz  # [osx]
-  sha256: f0d67fa4ce7b6e53ebc053b1940a46bb4876d0b2f5064db3fb3301ad893eeb83  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/mongolite_1.5.tgz  # [osx]
+  sha256: 33311a9ac6c48ef8f41b47138376e061d74bc5a8883bf82404638c329ce47979  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,16 +33,16 @@ build:
 # Suggests: spelling
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -100,7 +95,7 @@ extra:
 # Type: Package
 # Title: Fast and Simple 'MongoDB' Client for R
 # Description: High-performance 'MongoDB' client based on 'libmongoc' and 'jsonlite'. Includes support for aggregation, indexing, map-reduce, streaming, encryption, enterprise authentication. The online user manual provides an overview of the  available methods in the package: <https://jeroen.github.io/mongolite/>.
-# Version: 1.4
+# Version: 1.5
 # Authors@R: c( person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre")), person("MongoDB, Inc", role = "cph", comment = "Bundled mongo-c-driver, see AUTHORS file") )
 # Imports: jsonlite (>= 1.4), openssl (>= 0.9.4)
 # License: Apache License 2.0
@@ -111,11 +106,11 @@ extra:
 # Suggests: spelling
 # Language: en-GB
 # NeedsCompilation: yes
-# Packaged: 2017-12-21 15:30:51 UTC; jeroen
+# Packaged: 2018-01-02 10:51:01 UTC; jeroen
 # Author: Jeroen Ooms [aut, cre], MongoDB, Inc [cph] (Bundled mongo-c-driver, see AUTHORS file)
 # Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 # Repository: CRAN
-# Date/Publication: 2017-12-22 14:04:28 UTC
+# Date/Publication: 2018-01-03 10:34:59 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

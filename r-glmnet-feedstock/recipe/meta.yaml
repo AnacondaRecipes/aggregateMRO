@@ -1,4 +1,4 @@
-{% set version = '2.0-13' %}
+{% set version = '2.0-16' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: glmnet_2.0-13.tar.gz  # [linux or win32]
+  fn: glmnet_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/glmnet_2.0-13.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_2.0-13.tar.gz  # [linux or win32]
-  sha256: f3288dcaddb2f7014d42b755bede6563f73c17bc87f8292c2ef7776cb9b9b8fd  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz  # [linux or win32]
+  sha256: a54ccd802fce6625f3b69d747b28efe62ed8cc23397a5f8df4777d177e2839af  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/glmnet_2.0-16.zip  # [win64]
+  sha256: b8e22dde162cd7a7af684861b4469380a3643eb8b47e345440fe08eae4702335  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/glmnet_2.0-13.zip  # [win64]
-  sha256: 36d98d36b57baa1d226d3ecd8b15fc96a7ae0f95aba75a85e384aa57f347c000  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/glmnet_2.0-13.tgz  # [osx]
-  sha256: 0713646e085f0676b453a134c743b50481cb847e04a531c65a1954bd960c0ae9  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/glmnet_2.0-16.tgz  # [osx]
+  sha256: 8914a6b692196cc0c7938785898d05503f2d0979a27fa08b511743aa339a9baf  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +33,11 @@ build:
 # Suggests: survival, knitr, lars
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
-    - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -57,7 +46,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-matrix >=1.0_6
     - r-foreach
 
@@ -92,9 +81,9 @@ extra:
 # Package: glmnet
 # Type: Package
 # Title: Lasso and Elastic-Net Regularized Generalized Linear Models
-# Version: 2.0-13
-# Date: 2017-09-21
-# Author: Jerome Friedman [aut, cre], Trevor Hastie [aut, cre], Noah Simon [aut, ctb], Junyang Qian [ctb], Rob Tibshirani [aut, cre]
+# Version: 2.0-16
+# Date: 2018-03-12
+# Author: Jerome Friedman [aut, cre], Trevor Hastie [aut, cre], Rob Tibshirani [aut, cre], Noah Simon [aut, ctb], Balasubramanian Narasimhan [ctb], Junyang Qian [ctb]
 # Maintainer: Trevor Hastie <hastie@stanford.edu>
 # Depends: Matrix (>= 1.0-6), utils, foreach
 # Imports: methods
@@ -104,9 +93,9 @@ extra:
 # VignetteBuilder: knitr
 # URL: http://www.jstatsoft.org/v33/i01/.
 # NeedsCompilation: yes
-# Packaged: 2017-09-21 22:42:34 UTC; hastie
+# Packaged: 2018-03-12 04:20:32 UTC; hastie
 # Repository: CRAN
-# Date/Publication: 2017-09-22 05:43:14 UTC
+# Date/Publication: 2018-04-02 12:06:40 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.10.13' %}
+{% set version = '0.10.15' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,46 +8,41 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RMySQL_0.10.13.tar.gz  # [linux or win32]
+  fn: RMySQL_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RMySQL_0.10.13.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RMySQL/RMySQL_0.10.13.tar.gz  # [linux or win32]
-  sha256: 02396db92a2fa3e25ba448f0ae0b8244ca6b92a277e4f7a1784c004da8c81bc8  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/RMySQL_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/RMySQL/RMySQL_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 7610de7ebc4c7739bf07af2b575faa620c1fa786803d3dc6704a4eeb0a3fac2e  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/RMySQL_0.10.15.zip  # [win64]
+  sha256: 8f361e8ce40ed2c2eaf309efa3462d58d5b5104440e218fbd490929917492ad8  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RMySQL_0.10.13.zip  # [win64]
-  sha256: 0da724f351beec36c2884ff5fed2a21c551c05c62ca2e89b7211ec40f88e62a7  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RMySQL_0.10.13.tgz  # [osx]
-  sha256: ce25c13854a77080388fd1de6c7b8e88ed04ac07cf48d078c3b955bb288900d6  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/RMySQL_0.10.15.tgz  # [osx]
+  sha256: 61176ecd76dc48f8bedc86f40caf7ce264ce80fab02c7b3bccdc76444c19aa2d  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat
+# Suggests: testthat, curl
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -56,7 +51,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-dbi >=0.4
     - {{native}}mysql              # [linux or win32]
 
@@ -75,11 +70,8 @@ test:
 about:
   home: https://downloads.mariadb.org/connector-c/ (upstream)
   license: GPL-2
-  summary: 'A ''DBI'' interface to ''MySQL'' / ''MariaDB''. The ''RMySQL'' package contains an  old
-    implementation based on legacy code from S-PLUS which being phased out. A modern
-    ''MySQL'' client based on ''Rcpp'' is available from the ''RMariaDB'' package on
-    ''Github'': <https://github.com/rstats-db/RMariaDB>.'
-
+  summary: Legacy 'DBI' interface to 'MySQL' / 'MariaDB' based on old code ported from S-PLUS.
+    A modern 'MySQL' client based on 'Rcpp' is available  from the 'RMariaDB' package.
   license_family: GPL2
 
 extra:
@@ -89,24 +81,24 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: RMySQL
-# Version: 0.10.13
+# Version: 0.10.15
 # Title: Database Interface and 'MySQL' Driver for R
-# Description: A 'DBI' interface to 'MySQL' / 'MariaDB'. The 'RMySQL' package contains an  old implementation based on legacy code from S-PLUS which being phased out. A modern 'MySQL' client based on 'Rcpp' is available from the 'RMariaDB' package on 'Github': <https://github.com/rstats-db/RMariaDB>.
-# Authors@R: c(person("Jeroen", "Ooms", email = "jeroen@berkeley.edu", role = c("aut", "cre")), person("David", "James", role = "aut"), person("Saikat", "DebRoy", role = "aut"), person("Hadley", "Wickham", email = "hadley@rstudio.com", role = "aut"), person("Jeffrey", "Horner", role = "aut"), person("RStudio", role = "cph"))
+# Description: Legacy 'DBI' interface to 'MySQL' / 'MariaDB' based on old code ported from S-PLUS. A modern 'MySQL' client based on 'Rcpp' is available  from the 'RMariaDB' package.
+# Authors@R: c(person("Jeroen", "Ooms", email = "jeroen@berkeley.edu",  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4035-0289")), person("David", "James", role = "aut"), person("Saikat", "DebRoy", role = "aut"), person("Hadley", "Wickham", email = "hadley@rstudio.com", role = "aut"), person("Jeffrey", "Horner", role = "aut"), person("RStudio", role = "cph"))
 # Depends: R (>= 2.8.0), DBI (>= 0.4)
 # Imports: methods
 # License: GPL-2
 # URL: https://downloads.mariadb.org/connector-c/ (upstream)
-# BugReports: https://github.com/rstats-db/rmysql/issues
+# BugReports: https://github.com/r-dbi/rmysql/issues
 # SystemRequirements: libmariadb-client-dev | libmariadb-client-lgpl-dev | libmysqlclient-dev (deb), mariadb-devel (rpm), mariadb | mysql-connector-c (brew), mysql56_dev (csw)
 # NeedsCompilation: yes
 # Collate: 'mysql.R' 'driver.R' 'connection.R' 'data-type.R' 'default.R' 'escaping.R' 'result.R' 'extension.R' 'is-valid.R' 'table.R' 'transaction.R'
-# Suggests: testthat
-# Packaged: 2017-08-14 16:00:27 UTC; jeroen
-# Author: Jeroen Ooms [aut, cre], David James [aut], Saikat DebRoy [aut], Hadley Wickham [aut], Jeffrey Horner [aut], RStudio [cph]
+# Suggests: testthat, curl
+# Packaged: 2018-05-13 17:23:38 UTC; jeroen
+# Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>), David James [aut], Saikat DebRoy [aut], Hadley Wickham [aut], Jeffrey Horner [aut], RStudio [cph]
 # Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 # Repository: CRAN
-# Date/Publication: 2017-08-14 18:34:42 UTC
+# Date/Publication: 2018-05-13 19:33:05 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '3042.101' %}
+{% set version = '3043.102' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: timeDate_3042.101.tar.gz  # [linux or win32]
+  fn: timeDate_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/timeDate_3042.101.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/timeDate/timeDate_3042.101.tar.gz  # [linux or win32]
-  sha256: 6c8d4c7689b31c6a43555d9c7258516556ba03b132e5643691e3e317b89a8c6d  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/timeDate_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/timeDate/timeDate_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 377cba03cddab8c6992e31d0683c1db3a73afa9834eee3e95b3b0723f02d7473  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/timeDate_3043.102.zip  # [win64]
+  sha256: 1d25df64e664a3bc870088cff9889ce6f8f460a1494e165a45e5c4cdd72e97fd  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/timeDate_3042.101.zip  # [win64]
-  sha256: 6b1b6e6fb631431ffad1d7d7142fcc5c9d16d5ec9949fdd2ddfce842283cd2c0  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/timeDate_3042.101.tgz  # [osx]
-  sha256: ca6353dfaa61be750033f4aca6cf34d9c15017caddaed80e994464de4f363b81  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/timeDate_3043.102.tgz  # [osx]
+  sha256: 02edd93e45646fefd92c1f636f652349fc85b2622a35d54268a45dbdc80ca674  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -77,8 +72,8 @@ extra:
 
 # Package: timeDate
 # Title: Rmetrics - Chronological and Calendar Objects
-# Date: 2017-11-12
-# Version: 3042.101
+# Date: 2018-02-21
+# Version: 3043.102
 # Author: Diethelm Wuertz [aut], Tobias Setz [cre], Yohan Chalabi [ctb], Martin Maechler [ctb], Joe W. Byers [ctb]
 # Maintainer: Tobias Setz <tobias.setz@live.com>
 # Description: The 'timeDate' class fulfils the conventions of the ISO 8601  standard as well as of the ANSI C and POSIX standards. Beyond these standards it provides the "Financial Center" concept which allows to handle data records collected in different time  zones and mix them up to have always the proper time stamps with  respect to your personal financial center, or alternatively to the GMT reference time. It can thus also handle time stamps from historical  data records from the same time zone, even if the financial  centers changed day light saving times at different calendar dates.
@@ -88,9 +83,9 @@ extra:
 # License: GPL (>= 2)
 # URL: https://www.rmetrics.org
 # NeedsCompilation: no
-# Packaged: 2017-11-16 17:28:04 UTC; Tobias Setz
+# Packaged: 2018-02-21 13:20:37 UTC; Tobias Setz
 # Repository: CRAN
-# Date/Publication: 2017-11-16 22:08:03 UTC
+# Date/Publication: 2018-02-21 23:23:49 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
