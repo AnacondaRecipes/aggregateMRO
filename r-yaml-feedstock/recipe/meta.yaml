@@ -1,4 +1,4 @@
-{% set version = '2.1.16' %}
+{% set version = '2.1.19' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: yaml_2.1.16.tar.gz  # [linux or win32]
+  fn: yaml_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/yaml_2.1.16.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/yaml/yaml_2.1.16.tar.gz  # [linux or win32]
-  sha256: 75da4b175089b1634b532b5d4c4bf3eb72177c30c0a09e1333fc004315ae9af6  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/yaml_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/yaml/yaml_{{ version }}.tar.gz  # [linux or win32]
+  sha256: e5db035693ac765e4b5fe1fc2e9711f8ca73e398e3f2bf27cc60def59ccd7f11  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/yaml_2.1.19.zip  # [win64]
+  sha256: 152af711942a55f69877e9ee06d9d2d0ae9335a4f0c03b55d35413ed20a4a160  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/yaml_2.1.16.zip  # [win64]
-  sha256: 12fbc50b619423c3078a2c15cdf1fee846cf01d70d7a4948d79d335ee0e1faa2  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/yaml_2.1.16.tgz  # [osx]
-  sha256: 7343c79e30186dc2f58fccd20a2ad069f2784d4a2130a75de4d7edc5897a8ccf  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/yaml_2.1.19.tgz  # [osx]
+  sha256: 4ef65f0a7dd604dc69fb6b01f7d1048960546450e813de2948eab84430b0bd88  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +33,17 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -78,19 +73,19 @@ extra:
 # Package: yaml
 # Type: Package
 # Title: Methods to Convert R Data to YAML and Back
-# Version: 2.1.16
+# Version: 2.1.19
+# Date: 2018-04-30
 # Suggests: testthat
-# Date: 2017-12-12
-# Author: Jeremy Stephens <jeremy.stephens@vanderbilt.edu>
-# Maintainer: Jeremy Stephens <jeremy.stephens@vanderbilt.edu>
+# Author: Jeremy Stephens [aut, cre], Kirill Simonov [aut], Yihui Xie [ctb], Zhuoer Dong [ctb], Hadley Wickham [ctb], Jeffrey Horner [ctb], reikoch [ctb], Will Beasley [ctb], Brendan O'Connor [ctb], Gregory R. Warnes [ctb]
+# Maintainer: Jeremy Stephens <jeremy.f.stephens@vumc.org>
 # License: BSD_3_clause + file LICENSE
 # Description: Implements the 'libyaml' 'YAML' 1.1 parser and emitter (<http://pyyaml.org/wiki/LibYAML>) for R.
 # URL: https://github.com/viking/r-yaml/
 # BugReports: https://github.com/viking/r-yaml/issues
 # NeedsCompilation: yes
-# Packaged: 2017-12-12 21:22:51 UTC; stephej1
+# Packaged: 2018-04-30 20:56:56 UTC; stephej1
 # Repository: CRAN
-# Date/Publication: 2017-12-12 22:10:58 UTC
+# Date/Publication: 2018-05-01 10:38:53 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

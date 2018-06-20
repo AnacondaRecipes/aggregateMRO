@@ -1,4 +1,4 @@
-{% set version = '1.20.1' %}
+{% set version = '1.20.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: getopt_1.20.1.tar.gz  # [linux or win32]
+  fn: getopt_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/getopt_1.20.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/getopt/getopt_1.20.1.tar.gz  # [linux or win32]
-  sha256: 1522c35b13e8546979725a68b75e3bc9d156fb06569067472405f6b8591d8654  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/getopt_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/getopt/getopt_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3d6c12d32d6cd4b2909be626e570e158b3ed960e4739510e3a251e7f172de38e  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/getopt_1.20.2.zip  # [win64]
+  sha256: 4d3c9ec92b50abed3409e4b7a635cb56b89152bd1bc23026f41223766b05ccb7  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/getopt_1.20.1.zip  # [win64]
-  sha256: 6fe7bbe1fb61c14a93946b122416a4a4747376dae49dfa309c2fba323b49392a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/getopt_1.20.1.tgz  # [osx]
-  sha256: 3690322040073a145cef3eee9566eee00fab3dbd836f7b55f2ce5f038adc2453  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/getopt_1.20.2.tgz  # [osx]
+  sha256: 71c441844d06465a3136e4f0409600ec73f46353c35fc0eeb2a786a651f65df6  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -75,7 +70,7 @@ extra:
 # Package: getopt
 # Type: Package
 # Title: C-Like 'getopt' Behavior
-# Version: 1.20.1
+# Version: 1.20.2
 # Author: Allen Day. Contributions from Trevor L Davis and Roman Zenka.
 # Maintainer: Trevor L Davis <trevor.l.davis@gmail.com>
 # URL: https://github.com/trevorld/getopt
@@ -86,9 +81,9 @@ extra:
 # Suggests: testthat
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-11-29 22:23:04 UTC; trevorld
+# Packaged: 2018-02-16 04:46:12 UTC; trevorld
 # Repository: CRAN
-# Date/Publication: 2017-11-29 23:47:17 UTC
+# Date/Publication: 2018-02-16 11:18:58 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

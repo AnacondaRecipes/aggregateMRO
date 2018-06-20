@@ -1,4 +1,4 @@
-{% set version = '2.3-51' %}
+{% set version = '2.3-52' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: chron_2.3-51.tar.gz  # [linux or win32]
+  fn: chron_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/chron_2.3-51.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/chron/chron_2.3-51.tar.gz  # [linux or win32]
-  sha256: 881745b713f93f000aea323fcd04d77c62e920de4b5ac9171c9bdbc45fb45f15  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/chron_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/chron/chron_{{ version }}.tar.gz  # [linux or win32]
+  sha256: c47fcf4abb635babe6337604c876d4853d8a24639a98b71523746c56ce75b4a0  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/chron_2.3-52.zip  # [win64]
+  sha256: e44af58e43bd1e9f80232d26d4f4f0a700c979fc9a8945b2ffeaaf4e5cedbe25  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/chron_2.3-51.zip  # [win64]
-  sha256: 3660260edf710daeacad9e54286667236ba6215d5b862a2dea0f588714cbd410  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/chron_2.3-51.tgz  # [osx]
-  sha256: 90a09360c080aa48dcdf5def44e387e4b7e3b67dfa1a17669b549586d1d8b7ac  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/chron_2.3-52.tgz  # [osx]
+  sha256: 9e2ae6053aba70f5cdc3f6f8bfab9055fae4d81b62438f07859fcdf7132b6cba  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +33,17 @@ build:
 # Suggests: scales, ggplot2
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -75,21 +70,21 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: chron
-# Version: 2.3-51
+# Version: 2.3-52
 # Title: Chronological Objects which can Handle Dates and Times
 # Description: Provides chronological objects which can handle dates and times.
-# Authors@R: c(person("David", "James", role = "aut", comment = "S original"), person("Kurt", "Hornik", role = c("aut", "trl", "cre"), email = "Kurt.Hornik@R-project.org"), person("Gabor", "Grothendieck", role = "ctb", email = "ggrothendieck@gmail.com"))
+# Authors@R: c(person("David", "James", role = "aut", comment = "S original"), person("Kurt", "Hornik", role = c("aut", "trl", "cre"), email = "Kurt.Hornik@R-project.org", comment = c(ORCID = "0000-0003-4198-9911")), person("Gabor", "Grothendieck", role = "ctb", email = "ggrothendieck@gmail.com"), person("R Core Team", role = "ctb"))
 # Depends: R (>= 2.12.0)
 # Imports: graphics, stats
 # Suggests: scales, ggplot2
 # Enhances: zoo
 # License: GPL-2
 # NeedsCompilation: yes
-# Packaged: 2017-10-07 12:34:48 UTC; hornik
-# Author: David James [aut] (S original), Kurt Hornik [aut, trl, cre], Gabor Grothendieck [ctb]
+# Packaged: 2018-01-06 13:49:46 UTC; hornik
+# Author: David James [aut] (S original), Kurt Hornik [aut, trl, cre] (0000-0003-4198-9911), Gabor Grothendieck [ctb], R Core Team [ctb]
 # Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-10-07 16:09:51 UTC
+# Date/Publication: 2018-01-06 15:08:37 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

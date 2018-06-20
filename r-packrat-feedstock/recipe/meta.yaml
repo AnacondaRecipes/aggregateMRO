@@ -1,4 +1,4 @@
-{% set version = '0.4.8-1' %}
+{% set version = '0.4.9-2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: packrat_0.4.8-1.tar.gz  # [linux or win32]
+  fn: packrat_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/packrat_0.4.8-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/packrat/packrat_0.4.8-1.tar.gz  # [linux or win32]
-  sha256: a283caf4fda419e6571ae9ca6210a59002a030721feb8a50c0d0787fd6f672f3  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/packrat_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/packrat/packrat_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5a7e0bf0b2f0129790a88d936c949dedcf98847ad2f088bda1b84bdc3ed60d46  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/packrat_0.4.9-2.zip  # [win64]
+  sha256: d727efc99222461793a1e96bc21cf676684f21a6b725e1ee6e88ab6d24887468  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/packrat_0.4.8-1.zip  # [win64]
-  sha256: 21db16996ef8c3bc5f036a57fc84065211d994468a3c3cc4015e9fde803fdf9c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/packrat_0.4.8-1.tgz  # [osx]
-  sha256: e491d7caaeb5b96835583710ed29abc2be3fff05846e2cb862ddf659da664491  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/packrat_0.4.9-2.tgz  # [osx]
+  sha256: b7bfe554b8e50c75ee6bb5b220c8d54d0ee20d06bd3a65b33c2a209b5f143003  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -73,7 +68,7 @@ extra:
 # Package: packrat
 # Type: Package
 # Title: A Dependency Management System for Projects and their R Package Dependencies
-# Version: 0.4.8-1
+# Version: 0.4.9-2
 # Author: Kevin Ushey, Jonathan McPherson, Joe Cheng, Aron Atkins, JJ Allaire
 # Maintainer: Kevin Ushey <kevin@rstudio.com>
 # Description: Manage the R packages your project depends on in an isolated, portable, and reproducible way.
@@ -84,11 +79,11 @@ extra:
 # Enhances: BiocInstaller
 # URL: https://github.com/rstudio/packrat/
 # BugReports: https://github.com/rstudio/packrat/issues
-# RoxygenNote: 5.0.1
+# RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2016-09-07 21:30:04 UTC; kevin
+# Packaged: 2018-04-20 03:31:02 UTC; kevin
 # Repository: CRAN
-# Date/Publication: 2016-09-07 23:37:52
+# Date/Publication: 2018-04-20 04:18:14 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

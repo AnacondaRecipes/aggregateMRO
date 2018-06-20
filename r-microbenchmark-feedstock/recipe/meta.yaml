@@ -1,4 +1,4 @@
-{% set version = '1.4-2.1' %}
+{% set version = '1.4-4' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,49 +8,48 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: microbenchmark_1.4-2.1.tar.gz  # [linux or win32]
+  fn: microbenchmark_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/microbenchmark_1.4-2.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/microbenchmark/microbenchmark_1.4-2.1.tar.gz  # [linux or win32]
-  sha256: 6feb06819b6a57346f24d7fc3f588ff60a236b5b170aa62383af456c54c8c562  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/microbenchmark_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/microbenchmark/microbenchmark_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2cb1aad6f826f6798fbd89ac2a7839c25508596ab684405c8d28fca8b7e0623b  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/microbenchmark_1.4-4.zip  # [win64]
+  sha256: 35f821747bf0b38722a88850cd462d1c80b1a37c67b5ae3a3f5884378f89b319  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/microbenchmark_1.4-2.1.zip  # [win64]
-  sha256: 29d2681568661ef5e5804e9c058583d59001a8cd98d04b47086dff76cba29b2e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/microbenchmark_1.4-2.1.tgz  # [osx]
-  sha256: 5ed3632de980025b0742e5bdaf3d262588db30772bf149f973e86afe48b1e8e4  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/microbenchmark_1.4-4.tgz  # [osx]
+  sha256: 04c3c316bdb2ca838f44fef0457f088dd17d5f54cb8b9047f1c74caa8541e099  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: multcomp
+# Suggests: ggplot2, multcomp
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
+    - {{posix}}pkg-config
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
-    - r-ggplot2
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
-    - r-ggplot2
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -65,7 +64,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://CRAN.R-project.org/package=microbenchmark
+  home: https://github.com/joshuaulrich/microbenchmark/
   license: BSD_2_clause + file LICENSE
   summary: Provides infrastructure to accurately measure and compare the execution time of R
     expressions.
@@ -80,20 +79,22 @@ extra:
 # Package: microbenchmark
 # Title: Accurate Timing Functions
 # Description: Provides infrastructure to accurately measure and compare the execution time of R expressions.
-# Authors@R: c( person("Olaf", "Mersmann", role=c("aut", "cre"), email="olafm@p-value.net"), person("Claudia", "Beleites", role=c("ctb")), person("Rainer", "Hurling", role=c("ctb")), person("Ari", "Friedman", role=c("ctb")))
+# Authors@R: c(person("Olaf", "Mersmann", role=c("aut")), person("Claudia", "Beleites", role=c("ctb")), person("Rainer", "Hurling", role=c("ctb")), person("Ari", "Friedman", role=c("ctb")), person(given=c("Joshua","M."), family="Ulrich", role="cre", email="josh.m.ulrich@gmail.com"))
+# URL: https://github.com/joshuaulrich/microbenchmark/
+# BugReports: https://github.com/joshuaulrich/microbenchmark/issues/
 # License: BSD_2_clause + file LICENSE
-# Imports: graphics, ggplot2, stats
-# Suggests: multcomp
+# Imports: graphics, stats
+# Suggests: ggplot2, multcomp
 # ByteCompile: yes
 # LazyData: yes
-# Version: 1.4-2.1
-# SystemRequirements: GNU Make
+# Version: 1.4-4
+# RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2015-11-25 10:59:00 UTC; ligges
-# Author: Olaf Mersmann [aut, cre], Claudia Beleites [ctb], Rainer Hurling [ctb], Ari Friedman [ctb]
-# Maintainer: Olaf Mersmann <olafm@p-value.net>
+# Packaged: 2018-01-24 11:34:21 UTC; josh
+# Author: Olaf Mersmann [aut], Claudia Beleites [ctb], Rainer Hurling [ctb], Ari Friedman [ctb], Joshua M. Ulrich [cre]
+# Maintainer: Joshua M. Ulrich <josh.m.ulrich@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2015-11-25 12:02:00
+# Date/Publication: 2018-01-24 12:17:05 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

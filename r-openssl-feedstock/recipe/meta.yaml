@@ -1,4 +1,4 @@
-{% set version = '0.9.9' %}
+{% set version = '1.0.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: openssl_0.9.9.tar.gz  # [linux or win32]
+  fn: openssl_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/openssl_0.9.9.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/openssl/openssl_0.9.9.tar.gz  # [linux or win32]
-  sha256: e7ece774305f1ef99bb645b209395bf02cf85b7ad26440e040f6f50cf47b27c7  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/openssl_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/openssl/openssl_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 605c05868e26c5d3cbea9748d400371612bcf082322b1cea5c08397e5fa1d8e3  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/openssl_1.0.1.zip  # [win64]
+  sha256: f18eaf6b1ea31d3cb2ecb255e449cfa0b55de6fb25f3fa2ad893728ae28efcab  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/openssl_0.9.9.zip  # [win64]
-  sha256: 9487d1ce6b66600d2204c49ebcd69eee3f2cb72217782bba2550df8432836bf8  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/openssl_0.9.9.tgz  # [osx]
-  sha256: a57d57122a3b5b402bd5cdc89a4b25457773a6475513f41dda465a4109697d0d  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/openssl_1.0.1.tgz  # [osx]
+  sha256: 57f5e16a7fcbcc738d548d9dc7816b05b2910d8967642bf4f8371e3996fecd32  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,24 +33,23 @@ build:
 # Suggests: testthat, digest, knitr, rmarkdown, jsonlite, jose
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
-    - openssl                      # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -92,8 +86,8 @@ extra:
 # Package: openssl
 # Type: Package
 # Title: Toolkit for Encryption, Signatures and Certificates Based on OpenSSL
-# Version: 0.9.9
-# Authors@R: c( person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("cre", "aut")), person("Oliver", "Keyes", role = "ctb"))
+# Version: 1.0.1
+# Authors@R: c(person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu", comment = c(ORCID = "0000-0002-4035-0289")), person("Oliver", "Keyes", role = "ctb"))
 # Description: Bindings to OpenSSL libssl and libcrypto, plus custom SSH pubkey parsers. Supports RSA, DSA and EC curves P-256, P-384 and P-521. Cryptographic signatures can either be created and verified manually or via x509 certificates. AES can be used in cbc, ctr or gcm mode for symmetric encryption; RSA for asymmetric (public key) encryption or EC for Diffie Hellman. High-level envelope functions combine RSA and AES for encrypting arbitrary sized data. Other utilities include key generators, hash functions (md5, sha1, sha256, etc), base64 encoder, a secure random number generator, and 'bignum' math methods for manually performing crypto calculations on large multibyte integers.
 # License: MIT + file LICENSE
 # URL: https://github.com/jeroen/openssl#readme
@@ -103,11 +97,11 @@ extra:
 # Suggests: testthat, digest, knitr, rmarkdown, jsonlite, jose
 # RoxygenNote: 6.0.1.9000
 # NeedsCompilation: yes
-# Packaged: 2017-11-10 16:52:56 UTC; jeroen
-# Author: Jeroen Ooms [cre, aut], Oliver Keyes [ctb]
+# Packaged: 2018-03-03 10:51:56 UTC; jeroen
+# Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>), Oliver Keyes [ctb]
 # Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 # Repository: CRAN
-# Date/Publication: 2017-11-10 18:33:32 UTC
+# Date/Publication: 2018-03-03 14:03:23 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '1.13.4' %}
+{% set version = '1.13.5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: devtools_1.13.4.tar.gz  # [linux or win32]
+  fn: devtools_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/devtools_1.13.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/devtools/devtools_1.13.4.tar.gz  # [linux or win32]
-  sha256: ab82ca75ea301df098191ab68fa3d812317c07c7dc28310d2715fa0d8ac3e1ab  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/devtools_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/devtools/devtools_{{ version }}.tar.gz  # [linux or win32]
+  sha256: fa59488415d7b601dc743cf6080834e6fbd49dda6ecd60629cca0fd8ced47cf4  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/devtools_1.13.5.zip  # [win64]
+  sha256: 5293433bbe135851719d5ed95aa05cd11ab305ccbb1c47662c30134f2f3a3553  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/devtools_1.13.4.zip  # [win64]
-  sha256: df15881f463f87298dae870223091c1af2bfdd6af5a8d4ba292929adc5c3341e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/devtools_1.13.4.tgz  # [osx]
-  sha256: 2389a363553de738c7a4ab81d638d5cf626399c16acdd6734d415b3b84c62b36  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/devtools_1.13.5.tgz  # [osx]
+  sha256: 6b4543e98f6d185613204049381417af89bcf694585bdfb9956d9bd5281e83bb  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +33,11 @@ build:
 # Suggests: curl (>= 0.9), crayon, testthat (>= 1.0.2), BiocInstaller, Rcpp (>= 0.10.0), MASS, rmarkdown, knitr, hunspell (>= 2.0), lintr (>= 0.2.1), bitops, roxygen2 (>= 5.0.0), evaluate, rversions, covr, gmailr (> 0.7.0)
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -57,7 +52,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-digest
     - r-git2r >=0.11.0
     - r-httr >=0.4
@@ -93,8 +88,8 @@ extra:
 
 # Package: devtools
 # Title: Tools to Make Developing R Packages Easier
-# Version: 1.13.4
-# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("Winston", "Chang", role = "aut"), person("RStudio", role = "cph"), person("R Core team", role = "ctb", comment = "Some namespace and vignette code extracted from base R") )
+# Version: 1.13.5
+# Authors@R: c( person("Hadley", "Wickham", role = "aut"), person("Jim", "Hester", , "james.hester@rstudio.com", role = c("aut", "cre")), person("Winston", "Chang", role = "aut"), person("RStudio", role = "cph"), person("R Core team", role = "ctb", comment = "Some namespace and vignette code extracted from base R") )
 # Encoding: UTF-8
 # Description: Collection of package development tools.
 # URL: https://github.com/hadley/devtools
@@ -106,11 +101,11 @@ extra:
 # VignetteBuilder: knitr
 # RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2017-11-08 19:37:59 UTC; jhester
-# Author: Hadley Wickham [aut, cre], Winston Chang [aut], RStudio [cph], R Core team [ctb] (Some namespace and vignette code extracted from base R)
-# Maintainer: Hadley Wickham <hadley@rstudio.com>
+# Packaged: 2018-01-05 20:42:48 UTC; jhester
+# Author: Hadley Wickham [aut], Jim Hester [aut, cre], Winston Chang [aut], RStudio [cph], R Core team [ctb] (Some namespace and vignette code extracted from base R)
+# Maintainer: Jim Hester <james.hester@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-11-09 10:44:37 UTC
+# Date/Publication: 2018-02-18 21:53:25 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

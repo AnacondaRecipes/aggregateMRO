@@ -1,4 +1,4 @@
-{% set version = '1.95-4.9' %}
+{% set version = '1.95-4.10' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RCurl_1.95-4.9.tar.gz  # [linux or win32]
+  fn: RCurl_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RCurl_1.95-4.9.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RCurl/RCurl_1.95-4.9.tar.gz  # [linux or win32]
-  sha256: 96b5a5735c06e66d296b0dcab6c3c6cd4e5642aca3d2f79d7178ffbe73446e39  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/RCurl_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/RCurl/RCurl_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 6f8324f1cb2de6ca818851bd9b83be33083f8752e76ce4187b7c39bda781fe0a  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/RCurl_1.95-4.10.zip  # [win64]
+  sha256: 17b209be87c45a157fc9188d1e52d3d0eb7b49bc0175e801f542d0e8f1b7e775  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RCurl_1.95-4.9.zip  # [win64]
-  sha256: ba6412f490512bdfb3796bca36f8c5579d0d2233e25efc4b583dc690ec9d1473  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RCurl_1.95-4.9.tgz  # [osx]
-  sha256: aa0ef2325df420baa2a7b51500bf49c7a74f03ef741e4a94811397a131301d47  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/RCurl_1.95-4.10.tgz  # [osx]
+  sha256: 88a600723535fb2b708c53a14323a77107fb8d410b25aeb25ed7f90be71c2d57  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,29 +33,25 @@ build:
 # Suggests: Rcompression, XML
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
     - r-bitops
-    - {{native}}curl               # [win32]
-    - {{native}}libcurl            # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-bitops
-    - {{native}}curl               # [win32]
-    - {{native}}libcurl            # [linux]
 
 test:
   commands:
@@ -94,7 +85,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: RCurl
-# Version: 1.95-4.9
+# Version: 1.95-4.10
 # Title: General Network (HTTP/FTP/...) Client Interface for R
 # Author: Duncan Temple Lang and the CRAN team
 # SystemRequirements: GNU make, libcurl
@@ -110,9 +101,9 @@ extra:
 # Check: To run R CMD check, one really needs network access. It is an HTTP client! This can be problematic as a Web site may be down when you run but the real tests are important.
 # Collate: aclassesEnums.R bitClasses.R xbits.R base64.R binary.S classes.S curl.S curlAuthConstants.R curlEnums.R curlError.R curlInfo.S dynamic.R form.S getFormParams.R getURLContent.R header.R http.R httpError.R httpErrors.R iconv.R info.S mime.R multi.S options.S scp.R support.S upload.R urlExists.R zclone.R zzz.R
 # NeedsCompilation: yes
-# Packaged: 2017-12-26 19:44:05 UTC; ripley
+# Packaged: 2018-01-02 17:59:16 UTC; ripley
 # Repository: CRAN
-# Date/Publication: 2017-12-27 05:49:52 UTC
+# Date/Publication: 2018-01-04 07:31:37 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

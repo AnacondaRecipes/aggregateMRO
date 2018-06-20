@@ -1,4 +1,4 @@
-{% set version = '1.2-5' %}
+{% set version = '1.2.6' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,40 +8,34 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: mapproj_1.2-5.tar.gz  # [linux or win32]
+  fn: mapproj_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mapproj_1.2-5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mapproj/mapproj_1.2-5.tar.gz  # [linux or win32]
-  sha256: f3026a3a69a550c923b44c18b1ccc60d98e52670a438250d13f3c74cf2195f66  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/mapproj_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/mapproj/mapproj_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 62a5aa97837ae95ef9f973d95fe45fe43dbbf482dfa922e9df60f3c510e7efe5  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/mapproj_1.2.6.zip  # [win64]
+  sha256: 673a3ddb87cbaf1e9660c88d27ecea38e9f46cab184de0d1dbcbf909a4eda0e1  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/mapproj_1.2-5.zip  # [win64]
-  sha256: 2882aaffed6bc06f6c2a3f5e5a2549a1e15a9455712d1fc216badf5e61639f7e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/mapproj_1.2-5.tgz  # [osx]
-  sha256: 30a91c0348d54551ce2b050f367cd03d34ada3b2c2242c6624b7bcb9855c1ed2  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/mapproj_1.2.6.tgz  # [osx]
+  sha256: e87bd7944a74bcbeeed538967edc8bd7de657b4245d8c55f323d1e47c865edf2  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -49,7 +43,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-maps >=2.3_0
 
 test:
@@ -78,18 +72,18 @@ extra:
 
 # Package: mapproj
 # Title: Map Projections
-# Version: 1.2-5
-# Date: 2017-06-06
+# Version: 1.2.6
+# Date: 2018-03-29
 # Author: Doug McIlroy.  Packaged for R by Ray Brownrigg and Thomas P Minka, transition to Plan 9 codebase by Roger Bivand.
 # Description: Converts latitude/longitude into projected coordinates.
-# Depends: maps (>= 2.3-0)
+# Depends: R (>= 3.0.0), maps (>= 2.3-0)
 # Imports: stats, graphics
 # License: Lucent Public License
 # Maintainer: Alex Deckmyn <alex.deckmyn@meteo.be>
 # NeedsCompilation: yes
-# Packaged: 2017-06-07 08:34:30 UTC; dalex
+# Packaged: 2018-03-29 12:55:41 UTC; dalex
 # Repository: CRAN
-# Date/Publication: 2017-06-08 04:43:11 UTC
+# Date/Publication: 2018-03-29 15:33:42 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '4.6-12' %}
+{% set version = '4.6-14' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: randomForest_4.6-12.tar.gz  # [linux or win32]
+  fn: randomForest_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/randomForest_4.6-12.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/randomForest/randomForest_4.6-12.tar.gz  # [linux or win32]
-  sha256: 6e512f8f88a51c01a918360acba61f1f39432f6e690bc231b7864218558b83c4  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/randomForest_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/randomForest/randomForest_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f4b88920419eb0a89d0bc5744af0416d92d112988702dc726882394128a8754d  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/randomForest_4.6-14.zip  # [win64]
+  sha256: ac3287280a88dace0becbf763fe3105cd7a3df41b14a35c760557ceb493b697c  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/randomForest_4.6-12.zip  # [win64]
-  sha256: d9b4c97a81a7ce199905a26c987e3fa2049480534576325ae83b47b19a85b4b6  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/randomForest_4.6-12.tgz  # [osx]
-  sha256: 48836db0e31581d837b4af381b6c4242c832b57a9e076b49cf71897ecec797f7  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/randomForest_4.6-14.tgz  # [osx]
+  sha256: 676eec439fc3b12fad6e665eb55c447f91657f43963f4ef67633d85764a43a7d  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,18 +33,18 @@ build:
 # Suggests: RColorBrewer, MASS
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -66,7 +61,8 @@ test:
 about:
   home: https://www.stat.berkeley.edu/~breiman/RandomForests/
   license: GPL (>= 2)
-  summary: Classification and regression based on a forest of trees using random inputs.
+  summary: Classification and regression based on a forest of trees using random inputs, based
+    on Breiman (2001) <DOI:10.1023/A:1010933404324>.
   license_family: GPL3
 
 extra:
@@ -77,19 +73,19 @@ extra:
 
 # Package: randomForest
 # Title: Breiman and Cutler's Random Forests for Classification and Regression
-# Version: 4.6-12
-# Date: 2015-10-06
-# Depends: R (>= 2.5.0), stats
+# Version: 4.6-14
+# Date: 2018-03-22
+# Depends: R (>= 3.2.2), stats
 # Suggests: RColorBrewer, MASS
 # Author: Fortran original by Leo Breiman and Adele Cutler, R port by Andy Liaw and Matthew Wiener.
-# Description: Classification and regression based on a forest of trees using random inputs.
+# Description: Classification and regression based on a forest of trees using random inputs, based on Breiman (2001) <DOI:10.1023/A:1010933404324>.
 # Maintainer: Andy Liaw <andy_liaw@merck.com>
 # License: GPL (>= 2)
 # URL: https://www.stat.berkeley.edu/~breiman/RandomForests/
 # NeedsCompilation: yes
-# Packaged: 2015-10-06 18:28:23 UTC; Liawand
+# Packaged: 2018-03-22 14:27:01 UTC; liawand
 # Repository: CRAN
-# Date/Publication: 2015-10-07 08:38:34
+# Date/Publication: 2018-03-25 15:00:24 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

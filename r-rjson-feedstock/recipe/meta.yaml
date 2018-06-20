@@ -1,4 +1,4 @@
-{% set version = '0.2.15' %}
+{% set version = '0.2.19' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,48 +8,42 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rjson_0.2.15.tar.gz  # [linux or win32]
+  fn: rjson_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rjson_0.2.15.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rjson/rjson_0.2.15.tar.gz  # [linux or win32]
-  sha256: 77d00d8f6a1c936329b46f3b8b0be79a165f8c5f1989497f942ecc53dcf6f2ef  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rjson_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rjson/rjson_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5c2672461986f2b715416cab92ed262abe9875f31299bc8a1a072ef7c6dd49bc  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/rjson_0.2.19.zip  # [win64]
+  sha256: 028650373c0ac012fb3c9acc502d2ebc99e47bd6309ab45a0ac1f4662c469a0b  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rjson_0.2.15.zip  # [win64]
-  sha256: 03286038bb91e207f52fb0d3ca73b24620b48ee046f28c797ed089e61ffdc1dc  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rjson_0.2.15.tgz  # [osx]
-  sha256: e4998760cd5423684f24b13a995a656909e67aeebdaed79bd8ae017187b27f6a  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/rjson_0.2.19.tgz  # [osx]
+  sha256: 570e00a7d1ee7b2922a6d8adbd16a56172a872bb0bdb2bb89864d9f543595ed6  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -66,7 +60,7 @@ test:
 about:
   home: https://CRAN.R-project.org/package=rjson
   license: GPL-2
-  summary: Converts R object into JSON objects and vice-versa
+  summary: Converts R object into JSON objects and vice-versa.
   license_family: GPL2
 
 extra:
@@ -76,17 +70,17 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: rjson
-# Version: 0.2.15
-# Date: 2014-11-02
+# Version: 0.2.19
+# Date: 2018-05-18
 # Title: JSON for R
 # Author: Alex Couture-Beil <rjson_pkg@mofo.ca>
 # Maintainer: Alex Couture-Beil <rjson_pkg@mofo.ca>
 # Depends: R (>= 3.1.0)
-# Description: Converts R object into JSON objects and vice-versa
+# Description: Converts R object into JSON objects and vice-versa.
 # License: GPL-2
 # Repository: CRAN
-# Date/Publication: 2014-11-03 00:35:00
-# Packaged: 2014-11-02 21:27:41 UTC; alex
+# Date/Publication: 2018-05-18 19:25:04 UTC
+# Packaged: 2018-05-18 17:16:31 UTC; root
 # NeedsCompilation: yes
 
 # See

@@ -1,4 +1,4 @@
-{% set version = '1.0-4' %}
+{% set version = '1.0-5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: VGAM_1.0-4.tar.gz  # [linux or win32]
+  fn: VGAM_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/VGAM_1.0-4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/VGAM/VGAM_1.0-4.tar.gz  # [linux or win32]
-  sha256: e581985f78ef8b866d0e810b2727061bb9c9bc177b2c9090aebb3a35ae87a964  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/VGAM_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/VGAM/VGAM_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 01acf530b011b8f04e1698742c51ea0682d7c9fcdf814fc65ba44869b6e76346  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/VGAM_1.0-5.zip  # [win64]
+  sha256: 8f9e266940495135e2a98471f085ee08d5e2555c62e20e948f93a63c719b6645  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/VGAM_1.0-4.zip  # [win64]
-  sha256: 00d9c066a330c5166886b04663a331ff118a16b81f3f51b426202df490c3004c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/VGAM_1.0-4.tgz  # [osx]
-  sha256: 56b803f7100ebabe1a15658aa68b50027df8d30e8ff595b7929ff8553cd75321  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/VGAM_1.0-5.tgz  # [osx]
+  sha256: 6c8b9f5e8b644e67d29743cd8b0c80611c99bdb7b1b0ce32077e6de1e382f126  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,18 +33,18 @@ build:
 # Suggests: VGAMdata, MASS, mgcv
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -89,8 +84,8 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: VGAM
-# Version: 1.0-4
-# Date: 2017-07-24
+# Version: 1.0-5
+# Date: 2018-02-07
 # Title: Vector Generalized Linear and Additive Models
 # Author: Thomas W. Yee <t.yee@auckland.ac.nz>
 # Maintainer: Thomas Yee <t.yee@auckland.ac.nz>
@@ -103,9 +98,9 @@ extra:
 # BuildVignettes: yes
 # LazyLoad: yes
 # LazyData: yes
-# Packaged: 2017-07-24 04:56:17 UTC; tyee001
+# Packaged: 2018-02-07 04:58:40 UTC; tyee001
 # Repository: CRAN
-# Date/Publication: 2017-07-25 21:01:44 UTC
+# Date/Publication: 2018-02-07 16:17:54 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

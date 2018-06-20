@@ -1,4 +1,4 @@
-{% set version = '2.0.2' %}
+{% set version = '2.0.3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: visNetwork_2.0.2.tar.gz  # [linux or win32]
+  fn: visNetwork_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/visNetwork_2.0.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/visNetwork/visNetwork_2.0.2.tar.gz  # [linux or win32]
-  sha256: fb959f48519f294788171aed3689bd055a9c402abc8ecf0e51e3f23451946134  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/visNetwork_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/visNetwork/visNetwork_{{ version }}.tar.gz  # [linux or win32]
+  sha256: bc2e75cf4cc1410d8eb528a38870666117e674f1b9ba5fa1ff769b8ab2e2462f  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/visNetwork_2.0.3.zip  # [win64]
+  sha256: 446f73912b7d6b196a6d0a7d7d02edd072c7d1dfd9d336651e7c8bd7dd3f44e7  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/visNetwork_2.0.2.zip  # [win64]
-  sha256: 2ca7782f307356aba2897955512495067e5222b0a83c028ef487bf8a786c8db5  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/visNetwork_2.0.2.tgz  # [osx]
-  sha256: 270a72b1d203e891226a41df65ec293c8976fdf038aecf7fe4bda01613777d68  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/visNetwork_2.0.3.tgz  # [osx]
+  sha256: 13aa77fc5b04b05e4a4023983a516349a30ee38d84450a74827761311674ce5c  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: knitr, igraph, rpart, shiny, shinyWidgets, colourpicker, sparkline, ggraph, flashClust
+# Suggests: knitr, rmarkdown, webshot, igraph, rpart, shiny, shinyWidgets, colourpicker, sparkline, ggraph, flashClust
 requirements:
   build:
 
@@ -80,8 +75,8 @@ extra:
 
 # Package: visNetwork
 # Title: Network Visualization using 'vis.js' Library
-# Version: 2.0.2
-# Date: 2017-12-18
+# Version: 2.0.3
+# Date: 2018-01-09
 # Authors@R: c( person(family = "Almende B.V.", role = c("aut", "cph"), comment = "vis.js library in htmlwidgets/lib, http://visjs.org, http://www.almende.com/home"), person("Benoit", "Thieurmel", role = c("aut", "cre"), comment = "R interface", email = "benoit.thieurmel@datastorm.fr"), person(given = "Titouan", family = "Robert",  email = "titouan.robert@datastorm.fr", role = c("aut", "ctb")) )
 # Maintainer: Benoit Thieurmel <benoit.thieurmel@datastorm.fr>
 # Description: Provides an R interface to the 'vis.js' JavaScript charting library. It allows an interactive visualization of networks.
@@ -90,14 +85,14 @@ extra:
 # Depends: R (>= 3.0)
 # Imports: htmlwidgets, htmltools, jsonlite, magrittr, utils, methods, grDevices, stats
 # License: MIT + file LICENSE
-# Suggests: knitr, igraph, rpart, shiny, shinyWidgets, colourpicker, sparkline, ggraph, flashClust
-# VignetteBuilder: knitr
+# Suggests: knitr, rmarkdown, webshot, igraph, rpart, shiny, shinyWidgets, colourpicker, sparkline, ggraph, flashClust
+# VignetteBuilder: knitr, rmarkdown, webshot
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-12-19 08:07:24 UTC; Datastorm
+# Packaged: 2018-01-09 14:56:59 UTC; Datastorm
 # Author: Almende B.V. [aut, cph] (vis.js library in htmlwidgets/lib, http://visjs.org, http://www.almende.com/home), Benoit Thieurmel [aut, cre] (R interface), Titouan Robert [aut, ctb]
 # Repository: CRAN
-# Date/Publication: 2017-12-19 20:29:33 UTC
+# Date/Publication: 2018-01-09 17:25:29 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.10-1' %}
+{% set version = '0.10-2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: xts_0.10-1.tar.gz  # [linux or win32]
+  fn: xts_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/xts_0.10-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/xts/xts_0.10-1.tar.gz  # [linux or win32]
-  sha256: 4221a7b37dd01971d435d970e59b843436ea46989afa4b71fe0181b4136c2dc9  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/xts_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/xts/xts_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 8155888319c38e874ed87300decd65570e77ea4a7575136f4690123d3f7321c4  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/xts_0.10-2.zip  # [win64]
+  sha256: d54d6eb0a7f08c35c1e6b383c173c78ef2783b21f342deb5e463ba1b1af870f1  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/xts_0.10-1.zip  # [win64]
-  sha256: ba616915ea58746da6c82beb62207b6a6b06c7f040cfbb3f36d3f0ce7ef00a96  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/xts_0.10-1.tgz  # [osx]
-  sha256: 764b7e9e14da1fdcb3e6647b4c89939915940ea5c24c6e0bfc356eabbbfbcf8f  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/xts_0.10-2.tgz  # [osx]
+  sha256: 18daa71947232ec6a0950e698b6045d7c75e6ed6075ae200618ea3c2d04531de  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +33,11 @@ build:
 # Suggests: timeSeries, timeDate, tseries, chron, fts, tis, RUnit
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -50,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-zoo >=1.7_12
 
 test:
@@ -82,8 +77,8 @@ extra:
 # Package: xts
 # Type: Package
 # Title: eXtensible Time Series
-# Version: 0.10-1
-# Date: 2017-12-19
+# Version: 0.10-2
+# Date: 2018-03-13
 # Authors@R: c( person(given=c("Jeffrey","A."), family="Ryan", role=c("aut","cph")), person(given=c("Joshua","M."), family="Ulrich", role=c("cre","aut"), email="josh.m.ulrich@gmail.com"), person(given="Ross", family="Bennett", role="ctb") )
 # Depends: zoo (>= 1.7-12)
 # Imports: methods
@@ -95,11 +90,11 @@ extra:
 # URL: https://github.com/joshuaulrich/xts
 # BugReports: https://github.com/joshuaulrich/xts/issues
 # NeedsCompilation: yes
-# Packaged: 2017-12-20 15:42:47 UTC; josh
+# Packaged: 2018-03-14 16:45:50 UTC; josh
 # Author: Jeffrey A. Ryan [aut, cph], Joshua M. Ulrich [cre, aut], Ross Bennett [ctb]
 # Maintainer: Joshua M. Ulrich <josh.m.ulrich@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2017-12-20 16:35:03 UTC
+# Date/Publication: 2018-03-14 23:36:18 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

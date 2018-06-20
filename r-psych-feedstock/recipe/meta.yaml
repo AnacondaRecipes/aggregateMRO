@@ -1,4 +1,4 @@
-{% set version = '1.7.8' %}
+{% set version = '1.8.4' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,25 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: psych_1.7.8.tar.gz  # [linux or win32 or osx]
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/psych_1.7.8.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/psych/psych_1.7.8.tar.gz  # [linux or win32 or osx]
-  sha256: f328ea602e22b0e7e5f310a8d19f305d8e0a3a86040cdfb64863b68b56d55135  # [linux or win32 or osx]
+  fn: psych_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/psych_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/psych/psych_{{ version }}.tar.gz  # [linux or win32]
+  sha256: eea18e479bf603e148d61431218f9a141f66f4ca1db5fe83d4c1f27c984dfbcf  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/psych_1.8.4.zip  # [win64]
+  sha256: badfeaa2185dcfe9bf007ac9e6391481ff4fd7b299d8b9599791e10598faa5f5  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/psych_1.7.8.zip  # [win64]
-  sha256: ced86ceb7ebfc76bac43dae831c31299b9651766d3ff653e815d8fff3a44724e  # [win64]
-
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/psych_1.8.4.tgz  # [osx]
+  sha256: aa02ed0f375bb638743e1100d569c71bd2424e304ce04f38196a80d908dbf6e2  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -64,7 +61,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: http://personality-project.org/r/psych http://personality-project.org/r/psych-manual.pdf
+  home: https://personality-project.org/r/psych https://personality-project.org/r/psych-manual.pdf
   license: GPL (>= 2)
   summary: A general purpose toolbox for personality, psychometric theory and experimental psychology.   Functions
     are primarily for multivariate analysis and scale construction using factor analysis,
@@ -77,7 +74,7 @@ about:
     structural equation modeling.  Graphical displays of path diagrams, factor analysis
     and structural equation models are created using basic graphics. Some of the functions
     are written to support a book on psychometric theory as well as publications in
-    personality research. For more information, see the <http://personality-project.org/r>
+    personality research. For more information, see the <https://personality-project.org/r>
     web page.
   license_family: GPL3
 
@@ -88,23 +85,24 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: psych
-# Version: 1.7.8
-# Date: 2017-08-17
+# Version: 1.8.4
+# Date: 2018-4-30
 # Title: Procedures for Psychological, Psychometric, and Personality Research
-# Author: William Revelle <revelle@northwestern.edu>
-# Maintainer: William Revelle <revelle@northwestern.edu>
-# Description: A general purpose toolbox for personality, psychometric theory and experimental psychology.   Functions are primarily for multivariate analysis and scale construction using factor analysis, principal component analysis, cluster analysis and reliability analysis, although others provide basic descriptive statistics. Item Response Theory is done using  factor analysis of tetrachoric and polychoric correlations. Functions for analyzing data at multiple levels include within and between group statistics, including correlations and factor analysis.   Functions for simulating and testing particular item and test structures are included. Several functions  serve as a useful front end for structural equation modeling.  Graphical displays of path diagrams, factor analysis and structural equation models are created using basic graphics. Some of the functions are written to support a book on psychometric theory as well as publications in personality research. For more information, see the <http://personality-project.org/r> web page.
+# Authors@R: person("William", "Revelle", role =c("aut","cre"), email="revelle@northwestern.edu", comment=c(ORCID  = "0000-0003-4880-9610") )
+# Description: A general purpose toolbox for personality, psychometric theory and experimental psychology.   Functions are primarily for multivariate analysis and scale construction using factor analysis, principal component analysis, cluster analysis and reliability analysis, although others provide basic descriptive statistics. Item Response Theory is done using  factor analysis of tetrachoric and polychoric correlations. Functions for analyzing data at multiple levels include within and between group statistics, including correlations and factor analysis.   Functions for simulating and testing particular item and test structures are included. Several functions  serve as a useful front end for structural equation modeling.  Graphical displays of path diagrams, factor analysis and structural equation models are created using basic graphics. Some of the functions are written to support a book on psychometric theory as well as publications in personality research. For more information, see the <https://personality-project.org/r> web page.
 # License: GPL (>= 2)
 # Imports: mnormt,parallel,stats,graphics,grDevices,methods,foreign,lattice,nlme
 # Suggests: GPArotation, lavaan, sem, lme4,Rcsdp, graph, Rgraphviz
 # LazyData: true
 # ByteCompile: TRUE
-# URL: http://personality-project.org/r/psych http://personality-project.org/r/psych-manual.pdf
+# URL: https://personality-project.org/r/psych https://personality-project.org/r/psych-manual.pdf
 # NeedsCompilation: no
-# Packaged: 2017-09-08 23:08:04 UTC; WR
+# Packaged: 2018-05-06 17:24:21 UTC; WR
+# Author: William Revelle [aut, cre] (<https://orcid.org/0000-0003-4880-9610>)
+# Maintainer: William Revelle <revelle@northwestern.edu>
 # Depends: R (>= 2.10)
 # Repository: CRAN
-# Date/Publication: 2017-09-09 14:12:52 UTC
+# Date/Publication: 2018-05-06 20:48:12 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

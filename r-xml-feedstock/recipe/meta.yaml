@@ -1,4 +1,4 @@
-{% set version = '3.98-1.9' %}
+{% set version = '3.98-1.11' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: XML_3.98-1.9.tar.gz  # [linux or win32]
+  fn: XML_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/XML_3.98-1.9.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/XML/XML_3.98-1.9.tar.gz  # [linux or win32]
-  sha256: a3b70169cb2fbd8d61a41ff222d27922829864807e9ecad373f55ba0df6cf3c3  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/XML_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/XML/XML_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 505bd948152213c22e255b8d38b303c0fac5e113c0f9b1bcc9bfa62e1edd3fa2  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/XML_3.98-1.11.zip  # [win64]
+  sha256: 7f9d08a2e21e6a9c1c2ec7906f403582dd03051282d9778f13045312708fc04a  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/XML_3.98-1.9.zip  # [win64]
-  sha256: 731818498415c5de4e318bd5635811472e1b0e549252e581261640fdd3e99242  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/XML_3.98-1.9.tgz  # [osx]
-  sha256: 0084affbbe736af2a6a6df5e8dcc4e90d6e6e0c9c7c3febc816729ac97e4e7b6  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/XML_3.98-1.11.tgz  # [osx]
+  sha256: 5907c8e1d33a68ce845de9eb873cdffaefa1612330c49ca367a630b848acba45  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,25 +33,23 @@ build:
 # Suggests: bitops, RCurl
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake-wrapper  # [win32]
+    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
-    - {{native}}libxml2 >=2.6.3    # [linux or win32]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
-    - {{native}}libxml2 >=2.6.3    # [linux or win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -85,7 +78,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: XML
-# Version: 3.98-1.9
+# Version: 3.98-1.11
 # Author: Duncan Temple Lang and the CRAN Team
 # Maintainer: ORPHANED
 # Title: Tools for Parsing and Generating XML Within R and S-Plus
@@ -98,11 +91,11 @@ extra:
 # License: BSD_2_clause + file LICENSE
 # Collate: AAA.R DTD.R DTDClasses.R DTDRef.R SAXMethods.S XMLClasses.R applyDOM.R assignChild.R catalog.R createNode.R dynSupports.R error.R flatTree.R nodeAccessors.R parseDTD.R schema.S summary.R tangle.R toString.S tree.R version.R xmlErrorEnums.R xmlEventHandler.R xmlEventParse.R xmlHandler.R xmlInternalSource.R xmlOutputDOM.R xmlNodes.R xmlOutputBuffer.R xmlTree.R xmlTreeParse.R htmlParse.R hashTree.R zzz.R supports.R parser.R libxmlFeatures.R xmlString.R saveXML.R namespaces.R readHTMLTable.R reflection.R xmlToDataFrame.R bitList.R compare.R encoding.R fixNS.R xmlRoot.R serialize.R xmlMemoryMgmt.R keyValueDB.R solrDocs.R XMLRErrorInfo.R xincludes.R namespaceHandlers.R tangle1.R htmlLinks.R htmlLists.R getDependencies.R getRelativeURL.R xmlIncludes.R simplifyPath.R
 # NeedsCompilation: yes
-# Packaged: 2017-06-19 08:26:01 UTC; ripley
+# Packaged: 2018-04-16 15:32:09 UTC; hornik
 # X-CRAN-Original-Maintainer: Duncan Temple Lang <duncan@r-project.org>
 # X-CRAN-Comment: Orphaned on 2017-06-19: all updates have been by the CRAN team for some years.
 # Repository: CRAN
-# Date/Publication: 2017-06-19 12:43:32 UTC
+# Date/Publication: 2018-04-16 19:07:42 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

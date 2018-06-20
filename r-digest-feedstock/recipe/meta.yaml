@@ -1,4 +1,4 @@
-{% set version = '0.6.13' %}
+{% set version = '0.6.15' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: digest_0.6.13.tar.gz  # [linux or win32]
+  fn: digest_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/digest_0.6.13.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/digest/digest_0.6.13.tar.gz  # [linux or win32]
-  sha256: 46cfd60b20fdd018ab10b7fb33edb01b93b9691474d863979996b8bd0ea04faf  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/digest_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/digest/digest_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 882e74bb4f0722260bd912fd7f8a0fcefcf44c558f43ac8a03d63e53d25444c5  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/digest_0.6.15.zip  # [win64]
+  sha256: d0053ee77a723d71b9f01ba3dd6ab95841010dca3ae53e6d3e40eb6f47ca14fb  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/digest_0.6.13.zip  # [win64]
-  sha256: f68bc2294d26bead7ac8bc30416763ac80d16ae8bc49c0621ff14f05dc564b77  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/digest_0.6.13.tgz  # [osx]
-  sha256: adcd7739ab5b852073139fc018b04ded34f4876eb26feaa6c80aa74d96c3b109  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/digest_0.6.15.tgz  # [osx]
+  sha256: eb06355c37a99401549f0c76f74e89aab9c468564f5a15bf76bcb80d42d3c828  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +33,17 @@ build:
 # Suggests: knitr, rmarkdown
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:
@@ -80,9 +75,9 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: digest
-# Author: Dirk Eddelbuettel <edd@debian.org> with contributions  by Antoine Lucas, Jarek Tuszynski, Henrik Bengtsson, Simon Urbanek, Mario Frasca, Bryan Lewis, Murray Stokely, Hannes Muehleisen, Duncan Murdoch, Jim Hester, Wush Wu, Qiang Kou, Thierry Onkelinx,  Michel Lang and Viliam Simko.
-# Version: 0.6.13
-# Date: 2017-12-13
+# Author: Dirk Eddelbuettel <edd@debian.org> with contributions  by Antoine Lucas, Jarek Tuszynski, Henrik Bengtsson, Simon Urbanek, Mario Frasca, Bryan Lewis, Murray Stokely, Hannes Muehleisen, Duncan Murdoch, Jim Hester, Wush Wu, Qiang Kou, Thierry Onkelinx,  Michel Lang, Viliam Simko and Kurt Hornik.
+# Version: 0.6.15
+# Date: 2018-01-28
 # Maintainer: Dirk Eddelbuettel <edd@debian.org>
 # Title: Create Compact Hash Digests of R Objects
 # Description: Implementation of a function 'digest()' for the creation  of hash digests of arbitrary R objects (using the 'md5', 'sha-1', 'sha-256',  'crc32', 'xxhash' and 'murmurhash' algorithms) permitting easy comparison of R language objects, as well as a function 'hmac()' to create hash-based message authentication code. Please note that this package is not meant to be deployed for cryptographic purposes for which more comprehensive (and widely tested) libraries such as 'OpenSSL' should be used.
@@ -93,9 +88,9 @@ extra:
 # Suggests: knitr, rmarkdown
 # VignetteBuilder: knitr
 # NeedsCompilation: yes
-# Packaged: 2017-12-13 15:17:56 UTC; edd
+# Packaged: 2018-01-28 16:42:14.094058 UTC; edd
 # Repository: CRAN
-# Date/Publication: 2017-12-14 16:54:11 UTC
+# Date/Publication: 2018-01-28 21:43:31 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

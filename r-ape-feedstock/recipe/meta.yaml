@@ -1,4 +1,4 @@
-{% set version = '5.0' %}
+{% set version = '5.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,42 +8,36 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ape_5.0.tar.gz  # [linux or win32]
+  fn: ape_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ape_5.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ape/ape_5.0.tar.gz  # [linux or win32]
-  sha256: c32ed22e350b3d7c7ef3de9334155ab1f3086922b5ec9a1643897cae7abda960  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ape_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ape/ape_{{ version }}.tar.gz  # [linux or win32]
+  sha256: b7d5dca66881638227a40aa59533904aa5efe0f4b867851b248e8f948a01a26e  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/ape_5.1.zip  # [win64]
+  sha256: bf58d5042c1a83126ad7748f9c50be8044404387c7cd65d4be74344c33c69f97  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ape_5.0.zip  # [win64]
-  sha256: d5b8d196dae915fbbcacea97b208213957c3d78c4da65edacb41072642d3ea4a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ape_5.0.tgz  # [osx]
-  sha256: ea6388a82e796202cce1cc9f055551111dbd75563347a65077ae3347cbd8fb51  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/ape_5.1.tgz  # [osx]
+  sha256: 57dbd1a48ed69841ac7f0540ebe5934488dfe1e18840ea89490fdb1ac47b723c  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: gee, expm
+# Suggests: gee, expm, igraph
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -53,7 +47,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.12.0
     - r-lattice
     - r-nlme
@@ -95,12 +89,12 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: ape
-# Version: 5.0
-# Date: 2017-10-04
+# Version: 5.1
+# Date: 2018-04-03
 # Title: Analyses of Phylogenetics and Evolution
-# Authors@R: c(person("Emmanuel", "Paradis", role = c("aut", "cre", "cph"), email = "Emmanuel.Paradis@ird.fr"), person("Simon", "Blomberg", role = c("aut", "cph")), person("Ben", "Bolker", role = c("aut", "cph")), person("Joseph", "Brown", role = c("aut", "cph")), person("Julien", "Claude", role = c("aut", "cph")), person("Hoa Sien", "Cuong", role = c("aut", "cph")), person("Richard", "Desper", role = c("aut", "cph")), person("Gilles", "Didier", role = c("aut", "cph")), person("Benoit", "Durand", role = c("aut", "cph")), person("Julien", "Dutheil", role = c("aut", "cph")), person("RJ", "Ewing", role = c("aut", "cph")), person("Olivier", "Gascuel", role = c("aut", "cph")), person("Christoph", "Heibl", role = c("aut", "cph")), person("Anthony", "Ives", role = c("aut", "cph")), person("Bradley", "Jones", role = c("aut", "cph")), person("Franz", "Krah", role = c("aut", "cph")), person("Daniel", "Lawson", role = c("aut", "cph")), person("Vincent", "Lefort", role = c("aut", "cph")), person("Pierre", "Legendre", role = c("aut", "cph")), person("Jim", "Lemon", role = c("aut", "cph")), person("Rosemary", "McCloskey", role = c("aut", "cph")), person("Johan", "Nylander", role = c("aut", "cph")), person("Rainer", "Opgen-Rhein", role = c("aut", "cph")), person("Andrei-Alin", "Popescu", role = c("aut", "cph")), person("Manuela", "Royer-Carenzi", role = c("aut", "cph")), person("Klaus", "Schliep", role = c("aut", "cph")), person("Korbinian", "Strimmer", role = c("aut", "cph")), person("Damien", "de Vienne", role = c("aut", "cph")))
+# Authors@R: c(person("Emmanuel", "Paradis", role = c("aut", "cre", "cph"), email = "Emmanuel.Paradis@ird.fr"), person("Simon", "Blomberg", role = c("aut", "cph")), person("Ben", "Bolker", role = c("aut", "cph")), person("Joseph", "Brown", role = c("aut", "cph")), person("Julien", "Claude", role = c("aut", "cph")), person("Hoa Sien", "Cuong", role = c("aut", "cph")), person("Richard", "Desper", role = c("aut", "cph")), person("Gilles", "Didier", role = c("aut", "cph")), person("Benoit", "Durand", role = c("aut", "cph")), person("Julien", "Dutheil", role = c("aut", "cph")), person("RJ", "Ewing", role = c("aut", "cph")), person("Olivier", "Gascuel", role = c("aut", "cph")), person("Thomas", "Guillerme", role = c("aut", "cph")), person("Christoph", "Heibl", role = c("aut", "cph")), person("Anthony", "Ives", role = c("aut", "cph")), person("Bradley", "Jones", role = c("aut", "cph")), person("Franz", "Krah", role = c("aut", "cph")), person("Daniel", "Lawson", role = c("aut", "cph")), person("Vincent", "Lefort", role = c("aut", "cph")), person("Pierre", "Legendre", role = c("aut", "cph")), person("Jim", "Lemon", role = c("aut", "cph")), person("Rosemary", "McCloskey", role = c("aut", "cph")), person("Johan", "Nylander", role = c("aut", "cph")), person("Rainer", "Opgen-Rhein", role = c("aut", "cph")), person("Andrei-Alin", "Popescu", role = c("aut", "cph")), person("Manuela", "Royer-Carenzi", role = c("aut", "cph")), person("Klaus", "Schliep", role = c("aut", "cph")), person("Korbinian", "Strimmer", role = c("aut", "cph")), person("Damien", "de Vienne", role = c("aut", "cph")))
 # Depends: R (>= 3.2.0)
-# Suggests: gee, expm
+# Suggests: gee, expm, igraph
 # Imports: nlme, lattice, graphics, methods, stats, tools, utils, parallel, Rcpp (>= 0.12.0)
 # LinkingTo: Rcpp
 # ZipData: no
@@ -108,11 +102,11 @@ extra:
 # License: GPL (>= 2)
 # URL: http://ape-package.ird.fr/
 # NeedsCompilation: yes
-# Packaged: 2017-10-04 16:39:18 UTC; paradis
-# Author: Emmanuel Paradis [aut, cre, cph], Simon Blomberg [aut, cph], Ben Bolker [aut, cph], Joseph Brown [aut, cph], Julien Claude [aut, cph], Hoa Sien Cuong [aut, cph], Richard Desper [aut, cph], Gilles Didier [aut, cph], Benoit Durand [aut, cph], Julien Dutheil [aut, cph], RJ Ewing [aut, cph], Olivier Gascuel [aut, cph], Christoph Heibl [aut, cph], Anthony Ives [aut, cph], Bradley Jones [aut, cph], Franz Krah [aut, cph], Daniel Lawson [aut, cph], Vincent Lefort [aut, cph], Pierre Legendre [aut, cph], Jim Lemon [aut, cph], Rosemary McCloskey [aut, cph], Johan Nylander [aut, cph], Rainer Opgen-Rhein [aut, cph], Andrei-Alin Popescu [aut, cph], Manuela Royer-Carenzi [aut, cph], Klaus Schliep [aut, cph], Korbinian Strimmer [aut, cph], Damien de Vienne [aut, cph]
+# Packaged: 2018-04-03 13:27:51 UTC; paradis
+# Author: Emmanuel Paradis [aut, cre, cph], Simon Blomberg [aut, cph], Ben Bolker [aut, cph], Joseph Brown [aut, cph], Julien Claude [aut, cph], Hoa Sien Cuong [aut, cph], Richard Desper [aut, cph], Gilles Didier [aut, cph], Benoit Durand [aut, cph], Julien Dutheil [aut, cph], RJ Ewing [aut, cph], Olivier Gascuel [aut, cph], Thomas Guillerme [aut, cph], Christoph Heibl [aut, cph], Anthony Ives [aut, cph], Bradley Jones [aut, cph], Franz Krah [aut, cph], Daniel Lawson [aut, cph], Vincent Lefort [aut, cph], Pierre Legendre [aut, cph], Jim Lemon [aut, cph], Rosemary McCloskey [aut, cph], Johan Nylander [aut, cph], Rainer Opgen-Rhein [aut, cph], Andrei-Alin Popescu [aut, cph], Manuela Royer-Carenzi [aut, cph], Klaus Schliep [aut, cph], Korbinian Strimmer [aut, cph], Damien de Vienne [aut, cph]
 # Maintainer: Emmanuel Paradis <Emmanuel.Paradis@ird.fr>
 # Repository: CRAN
-# Date/Publication: 2017-10-30 15:36:18 UTC
+# Date/Publication: 2018-04-04 22:16:00 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
