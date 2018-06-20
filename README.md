@@ -90,20 +90,33 @@ rm r-essentials-feedstock/recipe/meta.yaml.bak
 
 ## 6. Add new dependencies
 ```
+conda skeleton cran foo --output-suffix=-feedstock/recipe \
+    --add-maintainer=mingwandroid \
+    --update-policy=merge-keep-build-num
 # Git add the remaining ones (the cleanup in 1. is important for this to work right):
 git add -N .
 git commit -m "Added new dependencies as of R ${CONDA_R}"
 ```
 
-## 7. Carefully undo damage done by the update procedure
+## 7. For the super-module (due to the inline recipes) and every submodule carefully undo damage done by the update procedure
 
 The damage most often seen is that CDT and/or 'system' packages get dropped since `conda skeleton cran` does not parse `SystemRequirements:`
 TODO :: Consider adding this feature to `conda skeleton cran`?
 ```
 git checkout -p .
+# This is boring and it is easy to lose concentration and make a costly mistake so pay close attention:
+git submodule foreach "git checkout -p ."
 ```
 
-## 8. Regenerate the build order
+## 8. For the super-module (due to the inline recipes) and every submodule add the new changes
+```
+git add -p .
+git commit -m "Updates as of R ${CONDA_R}"
+# TODO :: This needs work, I could not find the appropriate invocation in my bash history :-(
+git submodule foreach "git add -p . && git commit -m 'Updates as of R ${CONDA_R}' || true"
+```
+
+## 9. Regenerate the build order
 For linux-64 (edit ~/conda/pcr/rays-scratch-scripts/c3i-build-orderer-config/build_platforms.d/example.yml)
 ```
 c3i examine --matrix-base-dir ~/conda/pcr/rays-scratch-scripts/c3i-build-orderer-config \
@@ -127,23 +140,25 @@ You can use either now because, for the parts that we need from `build-in-order`
 thing. In particular, the first part (compiling the toolchain) and the final parts (dealing with
 `constructor` and creating baked metapackages) are not used.
 ```
-# `build-in-order` method (starting at `r-foo-feedstock`):
-build-in-order --product=r \
+# `build-in-order` method
+# Advantages: You can add `--start-at=r-foo-feedstock` to err, start at `r-foo-feedstock`
+#             You can add `--packages=r-foo-feedstock,r-bar-feedstock` to build only some.
+~/conda/pcr/rays-scratch-scripts/build-in-order --product=r \
   --upload-channel=none --pkg-build-channel-priority=M \
   --installer-build-channel-priority=D --skip-existing=yes \
-  --start-at=r-foo-feedstock --build-toolchain=no 2>&1 | tee -a ~/conda/R-${CONDA_R}-${uname}-${uname -m}.log
+  --build-toolchain=no 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
 
 # `conda-build` (doing all packages):
 CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
-  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all) | tr '\n' ' ') \
+  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | tr '\n' ' ') \
   -c https://repo.continuum.io/pkgs/main \
-  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-${uname}-${uname -m}.log
+  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
 
 # `conda-build` (starting at `r-foo-feedstock`):
 CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
   conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
   -c https://repo.continuum.io/pkgs/main \
-  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-${uname}-${uname -m}.log
+  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
 ```
 
 # Addendum and miscellaneous notes:
@@ -260,4 +275,9 @@ python ~/conda/pcr/rays-scratch-scripts/binstar_copy.py \
 pushd /opt/conda/conda-bld/osx-64
 ls -1 | LC_ALL=C sort > /tmp/build.txt
 diff -urN /tmp/build.txt /tmp/uploaded.txt
+```
+
+## To get a very poor list (contains lots of things other than packages) of the non-R packages that R packages depend upon:
+```
+grep -R '\- ' */recipe/*.yaml | awk '{print $3}' | grep -v '{{posix}}' | grep -v 'r-' | sed 's|{{native}}||' | sort | uniq > Rdeps
 ```

@@ -1,17 +1,17 @@
 {% set pfx = 'r-' %}
-{% set version = '3.4.3' %}
-{% set rc_version = '3.4.3' %}
+{% set version = '3.5.0' %}
+{% set rc_version = '3.5.0' %}
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.3/microsoft-r-open-3.4.3.exe' %}  # [win64]
-{% set fn = 'microsoft-r-open-3.4.3.exe' %}  # [win64]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/{{ version }}/microsoft-r-open-{{ version }}.exe' %}  # [win64]
+{% set fn = 'microsoft-r-open-{{ version }}.exe' %}  # [win64]
 {% set shasum = 'c8d50172ec8173cef503a616f9ef310dc5b274ac045ea71b9c8aed248098cbdd' %}  # [win64]
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.3/microsoft-r-open-3.4.3.tar.gz' %}  # [linux64]
-{% set fn = 'microsoft-r-open-3.4.3.tar.gz' %}  # [linux64]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/{{ version }}/microsoft-r-open-{{ version }}.tar.gz' %}  # [linux64]
+{% set fn = 'microsoft-r-open-{{ version }}.tar.gz' %}  # [linux64]
 {% set shasum = 'bf2cd35a11db604b1fa8f5f0c0acf0ae05756020d90fb3f6cbb639337efcee5b' %}  # [linux64]
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/3.4.3/microsoft-r-open-3.4.3.pkg' %}  # [osx]
-{% set fn = 'microsoft-r-open-3.4.3.pkg' %}  # [osx]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/{{ version }}/microsoft-r-open-{{ version }}.pkg' %}  # [osx]
+{% set fn = 'microsoft-r-open-{{ version }}.pkg' %}  # [osx]
 {% set shasum = '4998500839389821f995d3ebb89ee7e8e5a35a61a63ba0ac54d63adf53288947' %}  # [osx]
 
 package:
