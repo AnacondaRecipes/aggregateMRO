@@ -193,7 +193,7 @@ outputs:
       license_family: MIT
 
   - name: r-mass
-    version: '7.3_47'
+    version: '7.3_49'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -227,7 +227,7 @@ outputs:
       license_family: GPL3
 
   - name: r-matrix
-    version: '1.2_12'
+    version: '1.2_14'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -267,7 +267,7 @@ outputs:
       license_family: GPL3
 
   - name: r-microsoftr
-    version: '3.4.3.0097'
+    version: '3.5.0.108'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -365,7 +365,7 @@ outputs:
       license_family: GPL2
 
   - name: r-revoioq
-    version: '8.0.9'
+    version: '10.0.0'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -429,7 +429,7 @@ outputs:
       license_family: GPL2
 
   - name: r-revoutilsmath
-    version: '10.0.1'
+    version: '11.0.0'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -503,7 +503,7 @@ outputs:
       license_family: MIT
 
   - name: r-checkpoint
-    version: '0.4.3'
+    version: '0.4.4'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -580,7 +580,7 @@ outputs:
       license_family: GPL3
 
   - name: r-cluster
-    version: '2.0.6'
+    version: '2.0.7_1'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -592,7 +592,7 @@ outputs:
         - /lib/libc.so.6
         - /lib/libm.so.6
 
-    # Suggests: MASS
+    # Suggests: MASS, Matrix
     requirements:
       build:
         - m2-base  # [win]
@@ -649,7 +649,7 @@ outputs:
       license_family: GPL
 
   - name: r-curl
-    version: '3.1'
+    version: '3.2'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -738,7 +738,7 @@ outputs:
       license_family: GPL2
 
   - name: r-doparallel
-    version: '1.0.12'
+    version: '1.0.13'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -773,7 +773,7 @@ outputs:
       license_family: GPL2
 
   - name: r-foreach
-    version: '1.4.5'
+    version: '1.5.0'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -782,7 +782,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
-    # Suggests: randomForest
+    # Suggests: randomForest, future
     requirements:
       build:
         - m2-base  # [win]
@@ -813,7 +813,7 @@ outputs:
       license_family: APACHE
 
   - name: r-foreign
-    version: '0.8_69'
+    version: '0.8_70'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -847,7 +847,7 @@ outputs:
       license_family: GPL3
 
   - name: r-iterators
-    version: '1.0.9'
+    version: '1.0.10'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -856,7 +856,7 @@ outputs:
         - lib/R/lib/
         - lib/
 
-    # Suggests: RUnit
+    # Suggests: RUnit, foreach
     requirements:
       build:
         - m2-base  # [win]
@@ -956,7 +956,7 @@ outputs:
       license_family: GPL3
 
   - name: r-mgcv
-    version: '1.8_22'
+    version: '1.8_23'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -1005,7 +1005,7 @@ outputs:
       license_family: GPL3
 
   - name: r-nlme
-    version: '3.1_131'
+    version: '3.1_137'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
@@ -1110,7 +1110,7 @@ outputs:
       license_family: GPL3
 
   - name: r-rpart
-    version: '4.1_11'
+    version: '4.1_13'
     script: install-r-package.sh
     # This is required to make R link correctly on Linux.
     build:
