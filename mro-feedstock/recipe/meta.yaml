@@ -81,6 +81,9 @@ source:
   - url: http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm  # [linux64]
     folder: libpng-centos5
 
+build:
+  merge_build_host: True
+
 requirements:
   build:
     - python-libarchive-c
@@ -96,6 +99,7 @@ outputs:
     version: {{ version }}
     script: install-mro-base.sh
     build:
+      merge_build_host: True
       rpaths:
         - lib/R/lib/
         - lib/
@@ -159,6 +163,9 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
+        - /lib/libm.so.6
 
     # Suggests: MASS
     requirements:
@@ -194,6 +201,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     # Suggests: lattice, nlme, nnet, survival
     requirements:
@@ -226,6 +235,9 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
+        - /lib/libm.so.6
 
     # Suggests: expm, MASS
     requirements:
@@ -429,6 +441,11 @@ outputs:
       # libRblas.so in the post-link then back again in post-unlink
       missing_dso_whitelist:
         - libRblas.so
+        - /lib64/ld-linux-x86-64.so.2
+        - /lib/libc.so.6
+        - /lib/libdl.so.2
+        - /lib/libm.so.6
+        - /lib/libpthread.so.0
 
     requirements:
       build:
@@ -536,7 +553,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
-
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     requirements:
       build:
@@ -570,6 +588,9 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
+        - /lib/libm.so.6
 
     # Suggests: MASS
     requirements:
@@ -637,6 +658,10 @@ outputs:
         - lib/R/lib/
         - lib/
 
+      missing_dso_whitelist:
+        - /lib/librt.so.1
+        - /lib/libc.so.6
+
     # Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
     requirements:
       build:
@@ -675,7 +700,13 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
-
+      missing_dso_whitelist:
+        - /lib/libcrypt.so.1
+        - /lib/libc.so.6
+        - /lib/libdl.so.2
+        - /lib/libm.so.6
+        - /lib/libpthread.so.0
+        - /lib/librt.so.1
 
     requirements:
       build:
@@ -790,6 +821,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
 
     requirements:
@@ -854,6 +887,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     # Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
     requirements:
@@ -893,6 +928,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     # Suggests: KernSmooth, MASS, latticeExtra
     requirements:
@@ -927,6 +964,10 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
+        - /lib/libm.so.6
+        - /lib/libpthread.so.0
 
     # Suggests: splines, parallel, survival, MASS
     requirements:
@@ -972,6 +1013,9 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
+        - /lib/libm.so.6
 
     # Suggests: Hmisc, MASS
     requirements:
@@ -1007,6 +1051,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     # Suggests: MASS
     requirements:
@@ -1039,7 +1085,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
-
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     requirements:
       build:
@@ -1071,6 +1118,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     # Suggests: survival
     requirements:
@@ -1104,6 +1153,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     # Suggests: MASS
     requirements:
@@ -1135,7 +1186,8 @@ outputs:
       rpaths:
         - lib/R/lib/
         - lib/
-
+      missing_dso_whitelist:
+        - /lib/libc.so.6
 
     requirements:
       build:
@@ -1172,6 +1224,11 @@ outputs:
         - libmpio.so.1  # [linux or win]
         - libmpi.so.1  # [linux or win]
         - libmtmpi.so.1  # [linux or win]
+        - /lib64/ld-linux-x86-64.so.2
+        - /lib/libc.so.6
+        - /lib/libdl.so.2
+        - /lib/libm.so.6
+        - /lib/libpthread.so.0
     requirements:  # [linux or win]
       host:  # [linux or win]
         - mro-base {{ version }}  # [linux or win]
@@ -1238,6 +1295,12 @@ outputs:
     build:  # [linux]
       missing_dso_whitelist:  # [linux]
         - liblttng-ust.so.0  # [linux]
+        - /lib64/ld-linux-x86-64.so.2
+        - /lib/libc.so.6
+        - /lib/libdl.so.2
+        - /lib/libm.so.6
+        - /lib/libpthread.so.0
+        - /lib/librt.so.1
     requirements:  # [linux or win]
       host:  # [linux or win]
         - mro-base {{ version }}  # [linux or win]
