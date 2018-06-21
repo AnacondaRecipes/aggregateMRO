@@ -44,7 +44,7 @@ source:
     folder: unpack  # [linux64]
   - url: https://packages.microsoft.com/rhel/7/prod/microsoft-mlserver-mlm-r-{{ ml_version }}.rpm  # [linux64]
     sha256: 36d9dd3718a81466880aaa8653797dd92832a3278c691f65d8c62ac8699764f5  # [linux64]
-    folder: unpack  # [linux64]
+    folder: unpack/mlm-training-models/opt  # [linux64]
 #  - url: https://packages.microsoft.com/rhel/6/prod/microsoft-r-client-mml-{{ rc_version }}.rpm  # [linux64]
 #  - url: https://packages.microsoft.com/ubuntu/14.04/prod/pool/main/m/microsoft-mlserver-mml-r-{{ ml_version }}/microsoft-mlserver-mml-r-{{ ml_version }}.deb  # [linux64]
 #    sha256: 2861b9b0bc31b3e9f2156018ba0b81f36f6e773ac099e494cf6fbf082f18f8a8  # [linux64]

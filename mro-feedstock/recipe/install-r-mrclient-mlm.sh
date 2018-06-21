@@ -6,7 +6,7 @@ LIBRARY=/lib/R/library
 PREFIX_LIB="$PREFIX"/$LIBRARY
 
 mkdir -p "$PREFIX_LIB"/MicrosoftML/mxLibs/x64/AutoLoad
-pushd unpack/mlm-training-models/opt/microsoft/rclient/$PKG_VERSION/libraries/RServer/MicrosoftML/mxLibs/x64/AutoLoad || exit 1
+pushd unpack/mlm-training-models/opt/microsoft/mlserver/9.3.0/libraries/RServer/MicrosoftML/mxLibs/x64/AutoLoad || exit 1
   for MODEL in $(find . -name "*.model" | cut -c 3-); do
     mv $MODEL "$PREFIX_LIB"/MicrosoftML/mxLibs/x64/$MODEL
     # Let us see how well symlinks work on Windows. We do not need the symlink to be a
