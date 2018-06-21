@@ -1,5 +1,5 @@
 cran_mirror:
-  - https://mran.microsoft.com/snapshot/2018-01-01
+  - https://mran.microsoft.com/snapshot/2018-06-01
 target_platform:
   - win-64  # [win]
   - osx-64  # [osx]
