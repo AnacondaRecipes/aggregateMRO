@@ -99,8 +99,9 @@ make_mro_base () {
 
   # Call R CMD javareconf upon activation.
   pushd $PREFIX
-    patch -p1 < $RECIPE_DIR/0010-javareconf-Do-not-fail-on-compile-fail.patch
-    patch -p1 < $RECIPE_DIR/0011-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
+    patch -p1 < "${RECIPE_DIR}"/0010-javareconf-Do-not-fail-on-compile-fail.patch
+    patch -p1 < "${RECIPE_DIR}"/0011-Revert-part-of-9b818c6dc00143ff18775a4015a3f43b5196f.patch
+    patch -p1 < "${RECIPE_DIR}"/0012-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
     if [[ $target_platform != win-64 ]]; then
       cp "${RECIPE_DIR}"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
     fi
