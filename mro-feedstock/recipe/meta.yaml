@@ -4,7 +4,7 @@
 {% set ml_version = '9.3.0' %}
 {% set build_mrclient = False %}
 
-{% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version"'.exe' %}  # [win64]
+{% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.exe' %}  # [win64]
 {% set fn = 'microsoft-r-open-'+version+'.exe' %}  # [win64]
 {% set shasum = 'c8d50172ec8173cef503a616f9ef310dc5b274ac045ea71b9c8aed248098cbdd' %}  # [win64]
 
