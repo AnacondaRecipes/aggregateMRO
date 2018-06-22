@@ -8,10 +8,10 @@ Subject: [PATCH 11/13] Revert part of 9b818c6dc00143ff18775a4015a3f43b5196fa31
  src/scripts/javareconf.in | 17 +++++++++++++++++
  1 file changed, 17 insertions(+)
 
-diff --git a/src/scripts/javareconf.in b/src/scripts/javareconf.in
+diff --git a/lib/R/bin/javareconf b/lib/R/bin/javareconf
 index 5dbe3a3e9a..ca72145269 100644
---- a/src/scripts/javareconf.in
-+++ b/src/scripts/javareconf.in
+--- a/lib/R/bin/javareconf
++++ b/lib/R/bin/javareconf
 @@ -199,6 +199,23 @@ custom_JAVA_CPPFLAGS="${JAVA_CPPFLAGS}"
  custom_JAVA_LD_LIBRARY_PATH="${JAVA_LD_LIBRARY_PATH}"
  

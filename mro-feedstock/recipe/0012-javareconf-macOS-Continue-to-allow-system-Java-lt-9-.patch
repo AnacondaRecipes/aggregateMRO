@@ -24,10 +24,10 @@ is 32-bit only and jni.h does not get found without JNI cpp flags being set.
  src/scripts/javareconf.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/scripts/javareconf.in b/src/scripts/javareconf.in
+diff --git a/lib/R/bin/javareconf b/lib/R/bin/javareconf
 index ca72145269..b6dfc3e63e 100644
---- a/src/scripts/javareconf.in
-+++ b/src/scripts/javareconf.in
+--- a/lib/R/bin/javareconf
++++ b/lib/R/bin/javareconf
 @@ -204,7 +204,7 @@ hostos=`uname 2>/dev/null`
  if test "${hostos}" = "Darwin"; then
       ## This changed for Java 9.

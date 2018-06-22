@@ -14,7 +14,7 @@
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.pkg' %}  # [osx]
 {% set fn = 'microsoft-r-open-'+version+'.pkg' %}  # [osx]
-{% set shasum = '4998500839389821f995d3ebb89ee7e8e5a35a61a63ba0ac54d63adf53288947' %}  # [osx]
+{% set shasum = '105551bc5e6d4d6e1b24d328d27cae01c63fe0a357076bb2599c9be40e296f3a' %}  # [osx]
 
 package:
   name: mro-suite
@@ -70,17 +70,17 @@ source:
     folder: wix                                                                              # [win64]
   # The normal RevoUtils looks in the Windows Registry to determine if it's the Client or the Server version.
   # We do not write to the Windows Registry so were provided with this one instead.
-  - url: ./RevoUtils_Windows_10.0.8.zip                                                      # [win64]
-    sha256: b0b4fd446fe4251f0962066aba8623da4bbfb682616188b0f4792ec0e05fdb7e                 # [win64]
-    folder: RevoUtils                                                                        # [win64]
-  - url: ./RevoUtils_Linux_10.0.8.tar.gz                                                     # [linux64]
-    sha256: 10b8d1aca460ae345c4194591ac3aa215947b47ddfd93a3a0bd2aa24b377eb60                 # [linux64]
-    folder: RevoUtils                                                                        # [linux64]
-  - url: ./RevoUtils_Mac_10.0.8.tar.gz                                                       # [osx]
-    sha256: 04fb3dc63e56042b27a0e08751a5eb497628fe045d0b0d326b9c48ccc297c551                 # [osx]
-    folder: RevoUtils                                                                        # [osx]
-  - url: http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm  # [linux64]
-    folder: libpng-centos5
+  # - url: ./RevoUtils_Windows_10.0.8.zip                                                      # [win64]
+  #   sha256: b0b4fd446fe4251f0962066aba8623da4bbfb682616188b0f4792ec0e05fdb7e                 # [win64]
+  #   folder: RevoUtils                                                                        # [win64]
+  # - url: ./RevoUtils_Linux_10.0.8.tar.gz                                                     # [linux64]
+  #   sha256: 10b8d1aca460ae345c4194591ac3aa215947b47ddfd93a3a0bd2aa24b377eb60                 # [linux64]
+  #   folder: RevoUtils                                                                        # [linux64]
+  # - url: ./RevoUtils_Mac_10.0.8.tar.gz                                                       # [osx]
+  #   sha256: 04fb3dc63e56042b27a0e08751a5eb497628fe045d0b0d326b9c48ccc297c551                 # [osx]
+  #   folder: RevoUtils                                                                        # [osx]
+  - url: http://vault.centos.org/5.11/os/x86_64/CentOS/libpng-1.2.10-17.el5_8.x86_64.rpm     # [linux64]
+    folder: libpng-centos5                                                                   # [linux64]
 
 build:
   merge_build_host: True
@@ -115,6 +115,15 @@ outputs:
         - lib/R/etc/x64/javaconf
       run_exports:
         - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
+      missing_dso_whitelist:
+        - /opt/X11/lib/libICE.6.dylib
+        - /opt/X11/lib/libSM.6.dylib
+        - /opt/X11/lib/libX11.6.dylib
+        - /opt/X11/lib/libXext.6.dylib
+        - /opt/X11/lib/libXmu.6.dylib
+        - /opt/X11/lib/libXrender.1.dylib
+        - /opt/X11/lib/libXss.1.dylib
+        - /opt/X11/lib/libXt.6.dylib
     requirements:
       build:
         - m2-base  # [win]
@@ -1217,6 +1226,7 @@ outputs:
       license_family: LGPL
 
 {% if build_mrclient == True %}
+
   - name: r-mrclient  # [linux or win]
     version: {{ rc_version }}  # [linux or win]
     script: install-r-mrclient.sh  # [linux or win]
@@ -1357,6 +1367,7 @@ outputs:
       license: Proprietary  # [linux]
       summary: Pre-trained machine learning models for sentiment analysis and image detection  # [linux]
       license_family: Proprietary  # [linux]
+
 {% endif %}
 
   - name: mro-basics

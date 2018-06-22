@@ -98,7 +98,10 @@ make_mro_base () {
   fi
 
   # Call R CMD javareconf upon activation.
-  pushd $PREFIX
+  pushd ${PREFIX}
+    find . -name "javareconf"
+    ls -l lib/R/bin/javareconf
+    ls -l bin/javareconf
     patch -p1 < "${RECIPE_DIR}"/0010-javareconf-Do-not-fail-on-compile-fail.patch
     patch -p1 < "${RECIPE_DIR}"/0011-Revert-part-of-9b818c6dc00143ff18775a4015a3f43b5196f.patch
     patch -p1 < "${RECIPE_DIR}"/0012-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
