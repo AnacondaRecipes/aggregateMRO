@@ -1,4 +1,4 @@
-{% set version = '0.1.1' %}
+{% set version = '0.1.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: modelr_0.1.1.tar.gz  # [linux or win32]
+  fn: modelr_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/modelr_0.1.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/modelr/modelr_0.1.1.tar.gz  # [linux or win32]
-  sha256: 25b95198d6aa23e28a0bd97dcdc78264ef168ae403928bff01e1ee81ca021ce7  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/modelr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/modelr/modelr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 6a9831c510967551a6064716dfd4db48b59dc056dcf1c7f1d2cce05ef0789027  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/modelr_0.1.2.zip  # [win64]
+  sha256: fa81a9598fc974f1d361241228c5e1d8781754293ff626f0dcce04da2f4a6c18  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/modelr_0.1.1.zip  # [win64]
-  sha256: 5028bedd1615695996eb6795c18d9014ea49f537350c8a35efb0d295ca1ee3b9  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/modelr_0.1.1.tgz  # [osx]
-  sha256: dcd22c905aa87b506532514e9076daa586e85b4439f8328fe3f5a6ea9cdd5aad  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/modelr_0.1.2.tgz  # [osx]
+  sha256: 65396475963152a3b3f810515e2301d2e354ea87bef35d0aee51eaf882732ad7  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, ggplot2, covr, compiler
+# Suggests: compiler, covr, ggplot2, testthat
 requirements:
   build:
 
@@ -43,21 +38,21 @@ requirements:
     - mro-base
     - r-broom
     - r-dplyr
-    - r-lazyeval >=0.2.0
     - r-magrittr
     - r-purrr >=0.2.2
+    - r-rlang >=0.2.0
     - r-tibble
-    - r-tidyr >=0.6.0
+    - r-tidyr >=0.8.0
 
   run:
     - mro-base
     - r-broom
     - r-dplyr
-    - r-lazyeval >=0.2.0
     - r-magrittr
     - r-purrr >=0.2.2
+    - r-rlang >=0.2.0
     - r-tibble
-    - r-tidyr >=0.6.0
+    - r-tidyr >=0.8.0
 
 test:
   commands:
@@ -72,7 +67,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://github.com/hadley/modelr
+  home: https://modelr.tidyverse.org, https://github.com/hadley/modelr
   license: GPL-3
   summary: Functions for modelling that help you seamlessly integrate modelling into a pipeline
     of data manipulation and visualisation.
@@ -85,24 +80,24 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: modelr
-# Version: 0.1.1
 # Title: Modelling Functions that Work with the Pipe
-# Description: Functions for modelling that help you seamlessly integrate modelling into a pipeline of data manipulation and visualisation.
+# Version: 0.1.2
 # Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("RStudio", role = "cph") )
+# Description: Functions for modelling that help you seamlessly integrate modelling into a pipeline of data manipulation and visualisation.
 # License: GPL-3
-# LazyData: true
-# Depends: R (>= 3.1.0)
-# Imports: magrittr, purrr (>= 0.2.2), lazyeval (>= 0.2.0), tibble, broom, dplyr, tidyr (>= 0.6.0)
-# Suggests: testthat, ggplot2, covr, compiler
-# URL: https://github.com/hadley/modelr
+# URL: https://modelr.tidyverse.org, https://github.com/hadley/modelr
 # BugReports: https://github.com/hadley/modelr/issues
-# RoxygenNote: 6.0.1
+# Depends: R (>= 3.1)
+# Imports: broom, dplyr, magrittr, purrr (>= 0.2.2), tibble, tidyr (>= 0.8.0), rlang (>= 0.2.0)
+# Suggests: compiler, covr, ggplot2, testthat
+# LazyData: true
+# RoxygenNote: 6.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2017-07-22 21:47:57 UTC; hadley
+# Packaged: 2018-05-10 22:54:13 UTC; hadley
 # Author: Hadley Wickham [aut, cre], RStudio [cph]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-07-24 18:28:20 UTC
+# Date/Publication: 2018-05-11 03:23:27 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

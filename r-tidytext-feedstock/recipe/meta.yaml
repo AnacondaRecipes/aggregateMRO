@@ -1,4 +1,4 @@
-{% set version = '0.1.5' %}
+{% set version = '0.1.9' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tidytext_0.1.5.tar.gz  # [linux or win32]
+  fn: tidytext_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tidytext_0.1.5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tidytext/tidytext_0.1.5.tar.gz  # [linux or win32]
-  sha256: 76333715f0834925ff0478e948a499ec95bb145575b80d4f0ad67eb9b96ae3a4  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tidytext_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tidytext/tidytext_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 0e4438911daa09af8cd622cc21c884ae80b9f40f356f8bb8498410c686787dc2  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tidytext_0.1.9.zip  # [win64]
+  sha256: 547ac1bfa8241893363a94e7dcb6c219046ad217d9158201c7af8d821fcef612  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tidytext_0.1.5.zip  # [win64]
-  sha256: 87a1a6dec36198a8607e51fd095dcb51ee11cdb291654a73b315c6e919631df7  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tidytext_0.1.5.tgz  # [osx]
-  sha256: fab2b1f0550a565b984e214c35910a1f82f3723d4c52ecbba3091b727141f581  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tidytext_0.1.9.tgz  # [osx]
+  sha256: cd6713ef9f1f25b7cf9af4d0caa37245d2e90c9d370fdcba13aea10c99ce0d97  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: readr, tidyr, XML, tm, quanteda, wordcloud, knitr, rmarkdown, ggplot2, reshape2, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm
+# Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm, data.table
 requirements:
   build:
 
@@ -48,6 +43,7 @@ requirements:
     - r-janeaustenr
     - r-purrr >=0.1.1
     - r-rlang
+    - r-stopwords
     - r-stringr
     - r-tokenizers
 
@@ -60,6 +56,7 @@ requirements:
     - r-janeaustenr
     - r-purrr >=0.1.1
     - r-rlang
+    - r-stopwords
     - r-stringr
     - r-tokenizers
 
@@ -91,8 +88,8 @@ extra:
 # Package: tidytext
 # Type: Package
 # Title: Text Mining using 'dplyr', 'ggplot2', and Other Tidy Tools
-# Version: 0.1.5
-# Authors@R: c(person("Gabriela", "De Queiroz", email = "gabidequeiroz@gmail.com", role = c("ctb")), person("Oliver", "Keyes", email = "ironholds@gmail.com", role = c("ctb")), person("David", "Robinson", email = "admiral.david@gmail.com", role = c("aut")), person("Julia", "Silge", email = "julia.silge@gmail.com", role = c("aut", "cre")))
+# Version: 0.1.9
+# Authors@R: c(person("Gabriela", "De Queiroz", role = c("ctb"), email = "gabidequeiroz@gmail.com"), person("Emil", "Hvitfeldt", role = c("ctb"), email = "emilhhvitfeldt@gmail.com"), person("Os", "Keyes", role = c("ctb"), email = "ironholds@gmail.com", comment = c(ORCID = "0000-0001-5196-609X")), person("Kanishka", "Misra", role = c("ctb"), email = "kmisra@purdue.edu"), person("David", "Robinson", role = c("aut"), email = "admiral.david@gmail.com"), person("Julia", "Silge", role = c("aut", "cre"),  email = "julia.silge@gmail.com",  comment = c(ORCID = "0000-0002-3671-836X")))
 # Description: Text mining for word processing and sentiment analysis using 'dplyr', 'ggplot2', and other tidy tools.
 # License: MIT + file LICENSE
 # LazyData: TRUE
@@ -100,15 +97,15 @@ extra:
 # BugReports: http://github.com/juliasilge/tidytext/issues
 # RoxygenNote: 6.0.1
 # Depends: R (>= 2.10)
-# Imports: rlang, dplyr, stringr, hunspell, broom, Matrix, tokenizers, janeaustenr, purrr (>= 0.1.1), methods
-# Suggests: readr, tidyr, XML, tm, quanteda, wordcloud, knitr, rmarkdown, ggplot2, reshape2, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm
+# Imports: rlang, dplyr, stringr, hunspell, broom, Matrix, tokenizers, janeaustenr, purrr (>= 0.1.1), methods, stopwords
+# Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm, data.table
 # VignetteBuilder: knitr
 # NeedsCompilation: no
-# Packaged: 2017-11-18 02:48:42 UTC; juliasilge
-# Author: Gabriela De Queiroz [ctb], Oliver Keyes [ctb], David Robinson [aut], Julia Silge [aut, cre]
+# Packaged: 2018-05-28 17:58:30 UTC; juliasilge
+# Author: Gabriela De Queiroz [ctb], Emil Hvitfeldt [ctb], Os Keyes [ctb] (<https://orcid.org/0000-0001-5196-609X>), Kanishka Misra [ctb], David Robinson [aut], Julia Silge [aut, cre] (<https://orcid.org/0000-0002-3671-836X>)
 # Maintainer: Julia Silge <julia.silge@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2017-11-18 06:38:08 UTC
+# Date/Publication: 2018-05-29 04:59:24 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

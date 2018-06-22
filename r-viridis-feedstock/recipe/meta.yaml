@@ -1,4 +1,4 @@
-{% set version = '0.4.0' %}
+{% set version = '0.5.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: viridis_0.4.0.tar.gz  # [linux or win32]
+  fn: viridis_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/viridis_0.4.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/viridis/viridis_0.4.0.tar.gz  # [linux or win32]
-  sha256: 93d2ded68ed7cec5633c260dbc47051416147aae074f29ebe135cc329250b00e  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/viridis_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/viridis/viridis_{{ version }}.tar.gz  # [linux or win32]
+  sha256: ddf267515838c6eb092938133035cee62ab6a78760413bfc28b8256165701918  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/viridis_0.5.1.zip  # [win64]
+  sha256: 31d139ca92488b9f42d780e7d3e1dacd49067e28cd180afd821bf2d49b4f9c00  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/viridis_0.4.0.zip  # [win64]
-  sha256: d6160c5b167b3524302e52772eed4a97fe9bec9f48288487083b95529b4f2699  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/viridis_0.4.0.tgz  # [osx]
-  sha256: c9d259defebafb2cc9d441f30dd34c6273f5fdf74a9eda2aa9f171ebe2bff939  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/viridis_0.5.1.tgz  # [osx]
+  sha256: b4f9be0ef1c048c328b0bc5375770d3fca3218d7e0163e5b8b042a52304b5c95  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: hexbin (>= 1.27.0), scales, MASS, knitr, dichromat, colorspace, rasterVis, httr, mapproj, vdiffr, svglite (>= 1.2.0), testthat, covr, rmarkdown
+# Suggests: hexbin (>= 1.27.0), scales, MASS, knitr, dichromat, colorspace, rasterVis, httr, mapproj, vdiffr, svglite (>= 1.2.0), testthat, covr, rmarkdown, rgdal
 requirements:
   build:
 
@@ -43,13 +38,13 @@ requirements:
     - mro-base
     - r-ggplot2 >=1.0.1
     - r-gridextra
-    - r-viridislite >=0.2.0
+    - r-viridislite >=0.3.0
 
   run:
     - mro-base
     - r-ggplot2 >=1.0.1
     - r-gridextra
-    - r-viridislite >=0.2.0
+    - r-viridislite >=0.3.0
 
 test:
   commands:
@@ -66,12 +61,15 @@ test:
 about:
   home: https://github.com/sjmgarnier/viridis
   license: MIT + file LICENSE
-  summary: Port of the new 'matplotlib' color maps ('viridis' - the default -, 'magma', 'plasma'
-    and 'inferno') to 'R'. 'matplotlib' <http://matplotlib.org/ > is a popular plotting
-    library for 'python'. These color maps are designed in such a way that they will
-    analytically be perfectly perceptually-uniform, both in regular form and also when
-    converted to black-and-white. They are also designed to be perceived by readers
-    with the most common form of color blindness.
+  summary: "Implementation of the 'viridis' - the default -, 'magma', 'plasma',  'inferno', and
+    'cividis' color maps for 'R'. 'viridis', 'magma', 'plasma',  and 'inferno' are ported
+    from 'matplotlib' <http://matplotlib.org/>, a  popular plotting library for 'python'.
+    'cividis', was developed by Jamie R.  Nu\xF1ez and Sean M. Colby. These color maps
+    are designed in such a way that  they will analytically be perfectly perceptually-uniform,
+    both in regular  form and also when converted to black-and-white. They are also
+    designed to  be perceived by readers with the most common form of color blindness
+    (all  color maps in this package) and color vision deficiency ('cividis' only). "
+
   license_family: MIT
 
 extra:
@@ -83,25 +81,25 @@ extra:
 # Package: viridis
 # Type: Package
 # Title: Default Color Maps from 'matplotlib'
-# Version: 0.4.0
-# Authors@R: c( person("Simon", "Garnier", email = "garnier@njit.edu", role = c("aut", "cre")), person("Noam", "Ross", email = "noam.ross@gmail.com", role = c("ctb", "cph")), person("Bob", "Rudis", email = "bob@rud.is", role = c("ctb", "cph")) )
+# Version: 0.5.1
+# Authors@R: c( person("Simon", "Garnier", email = "garnier@njit.edu", role = c("aut", "cre")), person("Noam", "Ross", email = "noam.ross@gmail.com", role = c("ctb", "cph")), person("Bob", "Rudis", email = "bob@rud.is", role = c("ctb", "cph")), person("Marco", "Sciaini", email = "sciaini.marco@gmail.com", role = c("ctb", "cph")), person("Cedric", "Scherer", email = "scherer@izw-berlin.de", role = c("ctb", "cph")) )
 # Maintainer: Simon Garnier <garnier@njit.edu>
-# Description: Port of the new 'matplotlib' color maps ('viridis' - the default -, 'magma', 'plasma' and 'inferno') to 'R'. 'matplotlib' <http://matplotlib.org/ > is a popular plotting library for 'python'. These color maps are designed in such a way that they will analytically be perfectly perceptually-uniform, both in regular form and also when converted to black-and-white. They are also designed to be perceived by readers with the most common form of color blindness.
+# Description: Implementation of the 'viridis' - the default -, 'magma', 'plasma',  'inferno', and 'cividis' color maps for 'R'. 'viridis', 'magma', 'plasma',  and 'inferno' are ported from 'matplotlib' <http://matplotlib.org/>, a  popular plotting library for 'python'. 'cividis', was developed by Jamie R.  Nunez and Sean M. Colby. These color maps are designed in such a way that  they will analytically be perfectly perceptually-uniform, both in regular  form and also when converted to black-and-white. They are also designed to  be perceived by readers with the most common form of color blindness (all  color maps in this package) and color vision deficiency ('cividis' only).
 # License: MIT + file LICENSE
 # LazyData: TRUE
 # Encoding: UTF-8
-# Depends: R (>= 2.10), viridisLite (>= 0.2.0)
+# Depends: R (>= 2.10), viridisLite (>= 0.3.0)
 # Imports: stats, ggplot2 (>= 1.0.1), gridExtra
-# Suggests: hexbin (>= 1.27.0), scales, MASS, knitr, dichromat, colorspace, rasterVis, httr, mapproj, vdiffr, svglite (>= 1.2.0), testthat, covr, rmarkdown
+# Suggests: hexbin (>= 1.27.0), scales, MASS, knitr, dichromat, colorspace, rasterVis, httr, mapproj, vdiffr, svglite (>= 1.2.0), testthat, covr, rmarkdown, rgdal
 # VignetteBuilder: knitr
 # URL: https://github.com/sjmgarnier/viridis
 # BugReports: https://github.com/sjmgarnier/viridis/issues
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-03-27 03:03:30 UTC; simon
-# Author: Simon Garnier [aut, cre], Noam Ross [ctb, cph], Bob Rudis [ctb, cph]
+# Packaged: 2018-03-29 14:51:56 UTC; simon
+# Author: Simon Garnier [aut, cre], Noam Ross [ctb, cph], Bob Rudis [ctb, cph], Marco Sciaini [ctb, cph], Cedric Scherer [ctb, cph]
 # Repository: CRAN
-# Date/Publication: 2017-03-27 14:09:22 UTC
+# Date/Publication: 2018-03-29 15:48:56 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

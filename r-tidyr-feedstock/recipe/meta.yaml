@@ -1,4 +1,4 @@
-{% set version = '0.7.2' %}
+{% set version = '0.8.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,36 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tidyr_0.7.2.tar.gz  # [linux or win32]
+  fn: tidyr_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tidyr_0.7.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tidyr/tidyr_0.7.2.tar.gz  # [linux or win32]
-  sha256: 062cea2e2b57fffd500e4ce31cba6d593e65684fc0897ea49ea38d257c76009c  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tidyr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tidyr/tidyr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3d3e2821c3eb711b5eebe26b880e6acfe5444d5dc69fb21761f4cd5953700511  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tidyr_0.8.1.zip  # [win64]
+  sha256: ff4def2919aa4f1fe514e0a17af79f0bc2098779fe286bccf647460aab2da731  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tidyr_0.7.2.zip  # [win64]
-  sha256: 4a8e5145814ff47d1ab6b4f55b6c5c6c21b02fbfbedbdef657030336b71e6780  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tidyr_0.7.2.tgz  # [osx]
-  sha256: 60a9408204c0ebc04813ddf3e709341c51f3fff609f63c47657f72441b47a4a6  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tidyr_0.8.1.tgz  # [osx]
+  sha256: 793a9bead689f1a3aa6f0db1fc54463d6aa1e9b5731a86258716e2c9037dd0cc  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: knitr, testthat, covr, gapminder, rmarkdown
+# Suggests: covr, gapminder, knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -58,7 +53,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp
     - r-dplyr >=0.7.0
     - r-glue
@@ -96,25 +91,25 @@ extra:
 
 # Package: tidyr
 # Title: Easily Tidy Data with 'spread()' and 'gather()' Functions
-# Version: 0.7.2
+# Version: 0.8.1
 # Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")), person("Lionel", "Henry", , "lionel@rstudio.com", "aut"), person("RStudio", role = "cph") )
 # Description: An evolution of 'reshape2'. It's designed specifically for data tidying (not general reshaping or aggregating) and works well with 'dplyr' data pipelines.
-# Depends: R (>= 3.1.0)
 # License: MIT + file LICENSE
-# LazyData: true
-# Imports: dplyr (>= 0.7.0), glue, magrittr, purrr, rlang, Rcpp, stringi, tibble, tidyselect
 # URL: http://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
 # BugReports: https://github.com/tidyverse/tidyr/issues
-# Suggests: knitr, testthat, covr, gapminder, rmarkdown
-# VignetteBuilder: knitr
+# Depends: R (>= 3.1)
+# Imports: dplyr (>= 0.7.0), glue, magrittr, purrr, Rcpp, rlang, stringi, tibble, tidyselect
+# Suggests: covr, gapminder, knitr, rmarkdown, testthat
 # LinkingTo: Rcpp
+# VignetteBuilder: knitr
+# LazyData: true
 # RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2017-10-16 13:20:18 UTC; hadley
+# Packaged: 2018-05-09 14:59:50 UTC; hadley
 # Author: Hadley Wickham [aut, cre], Lionel Henry [aut], RStudio [cph]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-10-16 23:09:23 UTC
+# Date/Publication: 2018-05-18 11:17:55 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

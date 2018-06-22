@@ -1,4 +1,4 @@
-{% set version = '8.2' %}
+{% set version = '8.3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,36 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: forecast_8.2.tar.gz  # [linux or win32]
+  fn: forecast_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/forecast_8.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/forecast/forecast_8.2.tar.gz  # [linux or win32]
-  sha256: eb3fab64ed139d068e7d026cd3880f1b623f4153a832fb71845488fa75e8b812  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/forecast_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/forecast/forecast_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 9259af21507980f424a9019d48df474e502e521bce7cd4d63bfdfb2ba74eab4c  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/forecast_8.3.zip  # [win64]
+  sha256: ac7b03ccdb59e796174c539bad03191085c524a88e5633b3b420c689c8bd3408  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/forecast_8.2.zip  # [win64]
-  sha256: 7a44b99ac55e03b2868cf2bcfba7f46a5670bb46e367c75bfa4e2a78020cf9ec  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/forecast_8.2.tgz  # [osx]
-  sha256: 5476fd1c69814ad30ab60b22bfee0848f920d4bd51179bc948ec566e7751f193  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/forecast_8.3.tgz  # [osx]
+  sha256: 2242769e01e89b5403daff6eaea248323ccbbc312f22b1e257b42a41167aa7a7  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, knitr, rmarkdown, expsmooth, rticles
+# Suggests: expsmooth, knitr, rmarkdown, rticles, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -56,11 +51,13 @@ requirements:
     - r-nnet
     - r-timedate
     - r-tseries
+    - r-urca
+    - r-uroot
     - r-zoo
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.11.0
     - r-rcpparmadillo >=0.2.35
     - r-colorspace
@@ -71,6 +68,8 @@ requirements:
     - r-nnet
     - r-timedate
     - r-tseries
+    - r-urca
+    - r-uroot
     - r-zoo
 
 test:
@@ -99,27 +98,27 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: forecast
-# Version: 8.2
+# Version: 8.3
 # Title: Forecasting Functions for Time Series and Linear Models
 # Description: Methods and tools for displaying and analysing univariate time series forecasts including exponential smoothing via state space models and automatic ARIMA modelling.
 # Depends: R (>= 3.0.2),
-# Imports: stats, graphics, tseries, fracdiff, Rcpp (>= 0.11.0), nnet, colorspace, parallel, ggplot2 (>= 2.0.0), magrittr, lmtest, zoo, timeDate
-# Suggests: testthat, knitr, rmarkdown, expsmooth, rticles
+# Imports: colorspace, fracdiff, ggplot2 (>= 2.0.0), graphics, lmtest, magrittr, nnet, parallel, Rcpp (>= 0.11.0), stats, timeDate, tseries, urca, uroot, zoo
+# Suggests: expsmooth, knitr, rmarkdown, rticles, testthat
 # LinkingTo: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.2.35)
 # LazyData: yes
 # ByteCompile: TRUE
-# Authors@R: c( person("Rob", "Hyndman", email="Rob.Hyndman@monash.edu", role=c("aut", "cre", "cph")), person("Mitchell", "O'Hara-Wild", role="aut"), person("Christoph", "Bergmeir", role="aut"), person("Slava", "Razbash", role="aut"), person("Earo", "Wang", role="aut") )
+# Authors@R: c( person("Rob", "Hyndman", email="Rob.Hyndman@monash.edu", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2140-5352")), person("George", "Athanasopoulos", role='aut'), person("Christoph", "Bergmeir", role="aut", comment = c(ORCID = "0000-0002-3665-9021")), person("Gabriel", "Caceres", role="aut"), person("Leanne", "Chhay", role='aut'), person("Mitchell", "O'Hara-Wild", role="aut"), person("Fotios", "Petropoulos", role='aut', comment=c(ORCID = "0000-0003-3039-4955")), person("Slava", "Razbash", role="aut"), person("Earo", "Wang", role="aut"), person("Farah", "Yasmeen", role='aut', comment=c(ORCID="0000-0002-1479-5401")), person("R Core Team", role=c('ctb','cph')), person("Ross", "Ihaka", role=c('ctb','cph')), person("Daniel", "Reid", role='ctb'), person("David", "Shaub", role='ctb'), person("Yuan", "Tang", role='ctb', comment = c(ORCID = "0000-0001-5243-233X")), person("Zhenyu","Zhou", role='ctb') )
 # BugReports: https://github.com/robjhyndman/forecast/issues
 # License: GPL-3
 # URL: http://pkg.robjhyndman.com/forecast, https://github.com/robjhyndman/forecast
 # VignetteBuilder: knitr
 # RoxygenNote: 6.0.1.9000
 # NeedsCompilation: yes
-# Packaged: 2017-09-25 01:25:04 UTC; hyndman
-# Author: Rob Hyndman [aut, cre, cph], Mitchell O'Hara-Wild [aut], Christoph Bergmeir [aut], Slava Razbash [aut], Earo Wang [aut]
+# Packaged: 2018-04-08 01:22:14 UTC; hyndman
+# Author: Rob Hyndman [aut, cre, cph] (<https://orcid.org/0000-0002-2140-5352>), George Athanasopoulos [aut], Christoph Bergmeir [aut] (<https://orcid.org/0000-0002-3665-9021>), Gabriel Caceres [aut], Leanne Chhay [aut], Mitchell O'Hara-Wild [aut], Fotios Petropoulos [aut] (<https://orcid.org/0000-0003-3039-4955>), Slava Razbash [aut], Earo Wang [aut], Farah Yasmeen [aut] (<https://orcid.org/0000-0002-1479-5401>), R Core Team [ctb, cph], Ross Ihaka [ctb, cph], Daniel Reid [ctb], David Shaub [ctb], Yuan Tang [ctb] (<https://orcid.org/0000-0001-5243-233X>), Zhenyu Zhou [ctb]
 # Maintainer: Rob Hyndman <Rob.Hyndman@monash.edu>
 # Repository: CRAN
-# Date/Publication: 2017-09-25 18:12:34 UTC
+# Date/Publication: 2018-04-11 15:18:56 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

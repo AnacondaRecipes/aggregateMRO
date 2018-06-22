@@ -1,4 +1,4 @@
-{% set version = '0.2.3' %}
+{% set version = '0.2.4' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,56 +8,51 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tidyselect_0.2.3.tar.gz  # [linux or win32]
+  fn: tidyselect_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tidyselect_0.2.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tidyselect/tidyselect_0.2.3.tar.gz  # [linux or win32]
-  sha256: 0c193abc8251a60e1d2a32a99c77651c336bc185e3c2a72e5f8781813d181c2c  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tidyselect_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tidyselect/tidyselect_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5cb30e56ad5c1ac59786969edc8d542a7a1735a129a474f585a141aefe6a2295  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tidyselect_0.2.4.zip  # [win64]
+  sha256: 4494dbb076a031c196708efb9db9fe577860384d0ea0dc25ed2cda90264b1c2e  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tidyselect_0.2.3.zip  # [win64]
-  sha256: 330eb83ef863e573aa4f3653c6590206cc77ead8e056308ed13f93c0d1217abd  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tidyselect_0.2.3.tgz  # [osx]
-  sha256: 22c76f35287b48730a1e6571631901a421d7d4698aaa38fc9a91ca89f75078c1  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tidyselect_0.2.4.tgz  # [osx]
+  sha256: 8c46f0eaddd2e14f5ee721d61c522ff98e096511c26c3e955f052f1c1483e792  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: dplyr, testthat
+# Suggests: covr, dplyr, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
     - r-rcpp >=0.12.0
     - r-glue
     - r-purrr
-    - r-rlang >=0.1
+    - r-rlang >=0.2.0
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.12.0
     - r-glue
     - r-purrr
-    - r-rlang >=0.1
+    - r-rlang >=0.2.0
 
 test:
   commands:
@@ -87,12 +82,12 @@ extra:
 
 # Package: tidyselect
 # Title: Select from a Set of Strings
-# Version: 0.2.3
+# Version: 0.2.4
 # Authors@R: c( person("Lionel", "Henry", ,"lionel@rstudio.com", c("aut", "cre")), person("Hadley", "Wickham", ,"hadley@rstudio.com", "aut"), person("RStudio", role = "cph") )
 # Description: A backend for the selecting functions of the 'tidyverse'. It makes it easy to implement select-like functions in your own packages in a way that is consistent with other 'tidyverse' interfaces for selection.
-# Depends: R (>= 3.1.0)
-# Imports: glue, purrr, rlang (>= 0.1), Rcpp (>= 0.12.0)
-# Suggests: dplyr, testthat
+# Depends: R (>= 3.1)
+# Imports: glue, purrr, rlang (>= 0.2.0), Rcpp (>= 0.12.0)
+# Suggests: covr, dplyr, testthat
 # LinkingTo: Rcpp (>= 0.12.0),
 # License: GPL-3
 # Encoding: UTF-8
@@ -100,11 +95,11 @@ extra:
 # ByteCompile: true
 # RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2017-11-06 19:12:16 UTC; lionel
+# Packaged: 2018-02-26 15:19:21 UTC; lionel
 # Author: Lionel Henry [aut, cre], Hadley Wickham [aut], RStudio [cph]
 # Maintainer: Lionel Henry <lionel@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-11-06 21:55:42 UTC
+# Date/Publication: 2018-02-26 17:17:19 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.1-24' %}
+{% set version = '0.2-3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,52 +8,48 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: classInt_0.1-24.tar.gz  # [linux or win32]
+  fn: classInt_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/classInt_0.1-24.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/classInt/classInt_0.1-24.tar.gz  # [linux or win32]
-  sha256: f3dc9084450ea3da07e1ea5eeb097fd2fedc7e29e5d7794b418bcb438c4fcfa2  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/classInt_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/classInt/classInt_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 21f447330ce7eb6f069f48cacc4bca7d14521218463ecb74f1b3df5ddae0d1a9  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/classInt_0.2-3.zip  # [win64]
+  sha256: 939bf9d01ff5da39c076392026772a74b5a9c8a0467c43f76a51722ddbc528c7  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/classInt_0.1-24.zip  # [win64]
-  sha256: 6e76cc4ccc8eddbda026be6f9c027045eb1b488d871d60256528b50197847d0c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/classInt_0.1-24.tgz  # [osx]
-  sha256: 5b04bb7fbad0c2fc6a55b36c5c821b95caf342aea420b349fcb0ceedc5f01a8c  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/classInt_0.2-3.tgz  # [osx]
+  sha256: 831be4f2cb673c63b09d5fe46a6aa8251ac2f4446003685bc473f1536d182e09  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
     - r-class
     - r-e1071
+    - r-spdata >=0.2.6.2
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-class
     - r-e1071
+    - r-spdata >=0.2.6.2
 
 test:
   commands:
@@ -68,7 +64,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://CRAN.R-project.org/package=classInt
+  home: https://github.com/r-spatial/classInt/
   license: GPL (>= 2)
   summary: Selected commonly used methods for choosing univariate class intervals for mapping
     or other graphics purposes.
@@ -81,20 +77,22 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: classInt
-# Version: 0.1-24
-# Date: 2017-04-14
+# Version: 0.2-3
+# Date: 2018-04-16
 # Title: Choose Univariate Class Intervals
-# Authors@R: c(person("Roger", "Bivand", role=c("aut", "cre"), email="Roger.Bivand@nhh.no"), person("Hisaji", "Ono", role="ctb"), person("Richard", "Dunlap", role="ctb"), person("Matthieu", "Stigler", role="ctb"))
-# Depends: R (>= 2.2)
+# Authors@R: c(person("Roger", "Bivand", role=c("aut", "cre"), email="Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")), person("Hisaji", "Ono", role="ctb"), person("Richard", "Dunlap", role="ctb"), person("Matthieu", "Stigler", role="ctb"))
+# Depends: R (>= 2.2), spData (>= 0.2.6.2)
 # Imports: grDevices, stats, graphics, e1071, class
 # Description: Selected commonly used methods for choosing univariate class intervals for mapping or other graphics purposes.
 # License: GPL (>= 2)
+# URL: https://github.com/r-spatial/classInt/
+# BugReports: https://github.com/r-spatial/classInt/issues/
 # NeedsCompilation: yes
-# Packaged: 2017-04-14 11:32:48 UTC; rsb
-# Author: Roger Bivand [aut, cre], Hisaji Ono [ctb], Richard Dunlap [ctb], Matthieu Stigler [ctb]
+# Packaged: 2018-04-16 12:47:24 UTC; rsb
+# Author: Roger Bivand [aut, cre] (<https://orcid.org/0000-0003-2392-6140>), Hisaji Ono [ctb], Richard Dunlap [ctb], Matthieu Stigler [ctb]
 # Maintainer: Roger Bivand <Roger.Bivand@nhh.no>
 # Repository: CRAN
-# Date/Publication: 2017-04-16 19:24:25 UTC
+# Date/Publication: 2018-04-16 13:19:59 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

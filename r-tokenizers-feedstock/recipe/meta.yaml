@@ -1,4 +1,4 @@
-{% set version = '0.1.4' %}
+{% set version = '0.2.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,36 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tokenizers_0.1.4.tar.gz  # [linux or win32]
+  fn: tokenizers_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tokenizers_0.1.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tokenizers/tokenizers_0.1.4.tar.gz  # [linux or win32]
-  sha256: 693e19e32605f4c66a51b1eb84258a973ac2fe1d2f919b28e66944721aab9ae1  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tokenizers_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tokenizers/tokenizers_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 28617cdc5ddef5276abfe14a2642999833322b6c34697de1d4e9d6dc7670dd00  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tokenizers_0.2.1.zip  # [win64]
+  sha256: 0ff40f2755c60054cfa675a62c1d198a59883def7838c4f7ef3649d59f0815ae  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tokenizers_0.1.4.zip  # [win64]
-  sha256: 68eef257d92f6dc830dd4f14a275ef5c98923a22e356117aba351b97b2479eb5  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tokenizers_0.1.4.tgz  # [osx]
-  sha256: 071a11abf7929ee0e4822ea2bd678437685cda3647eb0a2a9ca8feb1218f6a88  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tokenizers_0.2.1.tgz  # [osx]
+  sha256: e6c9805f4f6d603feefb6ea709793d7d2c9029fab32da8fb6323fc879a5b624e  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, covr, knitr, rmarkdown
+# Suggests: covr, knitr, rmarkdown, stopwords (>= 0.9.0), testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -52,7 +47,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.12.3
     - r-snowballc >=0.5.1
     - r-stringi >=1.0.1
@@ -70,12 +65,16 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://github.com/ropensci/tokenizers
+  home: https://lincolnmullen.com/software/tokenizers/
   license: MIT + file LICENSE
-  summary: Convert natural language text into tokens. The tokenizers have a consistent interface
-    and are compatible with Unicode, thanks to being built on the 'stringi' package.
-    Includes tokenizers for shingled n-grams, skip n-grams, words, word stems, sentences,
-    paragraphs, characters, lines, and regular expressions.
+  summary: 'Convert natural language text into tokens. Includes tokenizers for shingled n-grams,
+    skip n-grams, words, word stems, sentences, paragraphs, characters, shingled characters,
+    lines, tweets, Penn Treebank, regular expressions, as well as functions for counting
+    characters, words, and sentences, and a function for splitting longer texts into
+    separate documents, each with the same number of words.  The tokenizers have a consistent
+    interface, and the package is built on the ''stringi'' and ''Rcpp'' packages for  fast
+    yet correct tokenization in ''UTF-8''. '
+
   license_family: MIT
 
 extra:
@@ -86,26 +85,27 @@ extra:
 
 # Package: tokenizers
 # Type: Package
-# Title: A Consistent Interface to Tokenize Natural Language Text
-# Version: 0.1.4
-# Description: Convert natural language text into tokens. The tokenizers have a consistent interface and are compatible with Unicode, thanks to being built on the 'stringi' package. Includes tokenizers for shingled n-grams, skip n-grams, words, word stems, sentences, paragraphs, characters, lines, and regular expressions.
+# Title: Fast, Consistent Tokenization of Natural Language Text
+# Version: 0.2.1
+# Date: 2018-03-29
+# Description: Convert natural language text into tokens. Includes tokenizers for shingled n-grams, skip n-grams, words, word stems, sentences, paragraphs, characters, shingled characters, lines, tweets, Penn Treebank, regular expressions, as well as functions for counting characters, words, and sentences, and a function for splitting longer texts into separate documents, each with the same number of words.  The tokenizers have a consistent interface, and the package is built on the 'stringi' and 'Rcpp' packages for  fast yet correct tokenization in 'UTF-8'.
 # License: MIT + file LICENSE
 # LazyData: yes
-# Authors@R: c(person("Lincoln", "Mullen", role = c("aut", "cre"), email = "lincoln@lincolnmullen.com"), person("Dmitriy", "Selivanov", role = c("ctb"), email = "selivanov.dmitriy@gmail.com"))
-# URL: https://github.com/ropensci/tokenizers
+# Authors@R: c(person("Lincoln", "Mullen", role = c("aut", "cre"), email = "lincoln@lincolnmullen.com", comment = c(ORCID = "0000-0001-5103-6917")), person("Os", "Keyes", role = c("ctb"), email = "ironholds@gmail.com", comment = c(ORCID = "0000-0001-5196-609X")), person("Dmitriy", "Selivanov", role = c("ctb"), email = "selivanov.dmitriy@gmail.com"), person("Jeffrey", "Arnold", role = c("ctb"), email = "jeffrey.arnold@gmail.com", comment = c(ORCID = "0000-0001-9953-3904")), person("Kenneth", "Benoit", role = c("ctb"), email = "kbenoit@lse.ac.uk", comment = c(ORCID = "0000-0002-0797-564X")))
+# URL: https://lincolnmullen.com/software/tokenizers/
 # BugReports: https://github.com/ropensci/tokenizers/issues
-# RoxygenNote: 5.0.1
+# RoxygenNote: 6.0.1
 # Depends: R (>= 3.1.3)
 # Imports: stringi (>= 1.0.1), Rcpp (>= 0.12.3), SnowballC (>= 0.5.1)
 # LinkingTo: Rcpp
-# Suggests: testthat, covr, knitr, rmarkdown
+# Suggests: covr, knitr, rmarkdown, stopwords (>= 0.9.0), testthat
 # VignetteBuilder: knitr
 # NeedsCompilation: yes
-# Packaged: 2016-08-29 19:15:04 UTC; lmullen
-# Author: Lincoln Mullen [aut, cre], Dmitriy Selivanov [ctb]
+# Packaged: 2018-03-29 17:26:00 UTC; lmullen
+# Author: Lincoln Mullen [aut, cre] (<https://orcid.org/0000-0001-5103-6917>), Os Keyes [ctb] (<https://orcid.org/0000-0001-5196-609X>), Dmitriy Selivanov [ctb], Jeffrey Arnold [ctb] (<https://orcid.org/0000-0001-9953-3904>), Kenneth Benoit [ctb] (<https://orcid.org/0000-0002-0797-564X>)
 # Maintainer: Lincoln Mullen <lincoln@lincolnmullen.com>
 # Repository: CRAN
-# Date/Publication: 2016-08-29 22:59:29
+# Date/Publication: 2018-03-29 20:07:40 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

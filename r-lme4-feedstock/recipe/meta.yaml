@@ -1,4 +1,4 @@
-{% set version = '1.1-15' %}
+{% set version = '1.1-17' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lme4_1.1-15.tar.gz  # [linux or win32]
+  fn: lme4_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lme4_1.1-15.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lme4/lme4_1.1-15.tar.gz  # [linux or win32]
-  sha256: 7d9fd6309aae9cfa691236b3841a60f88ec70110faf2c1dabcbdff18e1ce8669  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lme4_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lme4/lme4_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3d11bcaea038ec26a221d17c574628ee335c3182e0df71b8a27a40a4836ffc33  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lme4_1.1-17.zip  # [win64]
+  sha256: 1d215bd137170a44d837b9b59b486e90e17f90ce2fa5cdd7506ec1240dd5d775  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lme4_1.1-15.zip  # [win64]
-  sha256: 88f0d1355532b1bc35a8b20084ea45ef01e7938d63ae2c69ccda87b881bfde1d  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lme4_1.1-15.tgz  # [osx]
-  sha256: 46e4256603df9ccb409edffd341d7dce8a62f05b78169794035e71de93b68a40  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lme4_1.1-17.tgz  # [osx]
+  sha256: 2a0ff37e2ce84d70cdd439c5ad48fff456b196e21e6a268511f990b9139bf84b  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,16 +33,16 @@ build:
 # Suggests: knitr, boot, PKPDmodels, MEMSS, testthat (>= 0.8.1), ggplot2, mlmRev, optimx (>= 2013.8.6), gamm4, pbkrtest, HSAUR2, numDeriv
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
     - r-mass
-    - r-matrix >=1.1.1
+    - r-matrix >=1.2_1
     - r-rcpp >=0.10.5
     - r-rcppeigen
     - r-lattice
@@ -57,9 +52,9 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-mass
-    - r-matrix >=1.1.1
+    - r-matrix >=1.2_1
     - r-rcpp >=0.10.5
     - r-rcppeigen
     - r-lattice
@@ -95,12 +90,12 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: lme4
-# Version: 1.1-15
+# Version: 1.1-17
 # Title: Linear Mixed-Effects Models using 'Eigen' and S4
 # Authors@R: c(person("Douglas","Bates", role="aut"), person("Martin","Maechler", role="aut"), person("Ben","Bolker",email="bbolker+lme4@gmail.com", role=c("aut","cre")), person("Steven","Walker",role="aut"), person("Rune Haubo Bojesen","Christensen", role="ctb"), person("Henrik","Singmann", role="ctb"), person("Bin", "Dai", role="ctb"), person("Fabian", "Scheipl", role="ctb"), person("Gabor", "Grothendieck", role="ctb"), person("Peter", "Green", role="ctb"))
 # Contact: LME4 Authors <lme4-authors@lists.r-forge.r-project.org>
 # Description: Fit linear and generalized linear mixed-effects models. The models and their components are represented using S4 classes and methods.  The core computational algorithms are implemented using the 'Eigen' C++ library for numerical linear algebra and 'RcppEigen' "glue".
-# Depends: R (>= 3.0.2), Matrix (>= 1.1.1), methods, stats
+# Depends: R (>= 3.2.0), Matrix (>= 1.2-1), methods, stats
 # LinkingTo: Rcpp (>= 0.10.5), RcppEigen
 # Imports: graphics, grid, splines, utils, parallel, MASS, lattice, nlme (>= 3.1-123), minqa (>= 1.1.15), nloptr (>= 1.0.4)
 # Suggests: knitr, boot, PKPDmodels, MEMSS, testthat (>= 0.8.1), ggplot2, mlmRev, optimx (>= 2013.8.6), gamm4, pbkrtest, HSAUR2, numDeriv
@@ -111,11 +106,11 @@ extra:
 # BugReports: https://github.com/lme4/lme4/issues
 # Encoding: UTF-8
 # NeedsCompilation: yes
-# Packaged: 2017-12-20 16:40:26 UTC; bolker
+# Packaged: 2018-04-03 13:17:19 UTC; bolker
 # Author: Douglas Bates [aut], Martin Maechler [aut], Ben Bolker [aut, cre], Steven Walker [aut], Rune Haubo Bojesen Christensen [ctb], Henrik Singmann [ctb], Bin Dai [ctb], Fabian Scheipl [ctb], Gabor Grothendieck [ctb], Peter Green [ctb]
 # Maintainer: Ben Bolker <bbolker+lme4@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2017-12-21 21:29:24 UTC
+# Date/Publication: 2018-04-03 21:41:32 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

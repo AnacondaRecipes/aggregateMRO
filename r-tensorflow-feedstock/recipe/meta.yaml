@@ -1,4 +1,4 @@
-{% set version = '1.4.3' %}
+{% set version = '1.5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tensorflow_1.4.3.tar.gz  # [linux or win32]
+  fn: tensorflow_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tensorflow_1.4.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tensorflow/tensorflow_1.4.3.tar.gz  # [linux or win32]
-  sha256: 65012ad1d7af91b438c79a944975cd544bbe69189c0f0ac25f7ffce900018008  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tensorflow_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tensorflow/tensorflow_{{ version }}.tar.gz  # [linux or win32]
+  sha256: d6a22dcf7dacc36927b0d760e2e4a4c210633e0ceab4876b8d5dc8087273e501  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tensorflow_1.5.zip  # [win64]
+  sha256: b426ac6d44972b1de879ec9be2139c2e1972e095ad4aa04357deb0046ab8310d  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tensorflow_1.4.3.zip  # [win64]
-  sha256: 9d523146b369e9a7183b099aface22356cd8175cd0ef3525d7ad5a79222d6a56  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tensorflow_1.4.3.tgz  # [osx]
-  sha256: f087f02964debcda7d2c4b18e07625f5a78787a4b9176ca6ae211e56df5020fe  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tensorflow_1.5.tgz  # [osx]
+  sha256: 484c78cf8cd6af546ace36abfd06106db0211b7366f6be2590583f56d8ef8054  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat
+# Suggests: testthat, keras, tfestimators
 requirements:
   build:
 
@@ -44,7 +39,7 @@ requirements:
     - r-config
     - r-jsonlite >=1.2
     - r-processx
-    - r-reticulate >=1.3
+    - r-reticulate >=1.4
     - r-rstudioapi >=0.7
     - r-tfruns >=1.0
     - r-yaml
@@ -54,7 +49,7 @@ requirements:
     - r-config
     - r-jsonlite >=1.2
     - r-processx
-    - r-reticulate >=1.3
+    - r-reticulate >=1.4
     - r-rstudioapi >=0.7
     - r-tfruns >=1.0
     - r-yaml
@@ -95,7 +90,7 @@ extra:
 # Package: tensorflow
 # Type: Package
 # Title: R Interface to 'TensorFlow'
-# Version: 1.4.3
+# Version: 1.5
 # Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person(family = "RStudio", role = c("cph", "fnd")), person("Yuan", "Tang", role = c("aut", "cph"), email = "terrytangyuan@gmail.com"), person("Dirk", "Eddelbuettel", role = c("ctb", "cph"), email = "edd@debian.org"), person("Nick", "Golding", role = c("ctb", "cph"), email = "nick.golding.research@gmail.com"), person(family = "Google Inc.", role = c("ctb", "cph"), comment = "Examples and Tutorials") )
 # Description: Interface to 'TensorFlow' <https://www.tensorflow.org/>,  an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations,  while the graph edges represent the multidimensional data arrays  (tensors) communicated between them. The flexible architecture allows you to deploy computation to one or more 'CPUs' or 'GPUs' in a desktop,  server, or mobile device with a single 'API'. 'TensorFlow' was originally developed by researchers and engineers working on the Google Brain Team  within Google's Machine Intelligence research organization for the  purposes of conducting machine learning and deep neural networks research, but the system is general enough to be applicable in a wide variety of other domains as well.
 # License: Apache License 2.0
@@ -105,15 +100,15 @@ extra:
 # Encoding: UTF-8
 # LazyData: true
 # Depends: R (>= 3.1)
-# Imports: config, jsonlite (>= 1.2), processx, reticulate (>= 1.3), tfruns (>= 1.0), utils, yaml, rstudioapi (>= 0.7)
-# Suggests: testthat
+# Imports: config, jsonlite (>= 1.2), processx, reticulate (>= 1.4), tfruns (>= 1.0), utils, yaml, rstudioapi (>= 0.7)
+# Suggests: testthat, keras, tfestimators
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-12-18 10:32:00 UTC; jjallaire
+# Packaged: 2018-01-17 10:55:11 UTC; jjallaire
 # Author: JJ Allaire [aut, cre], RStudio [cph, fnd], Yuan Tang [aut, cph], Dirk Eddelbuettel [ctb, cph], Nick Golding [ctb, cph], Google Inc. [ctb, cph] (Examples and Tutorials)
 # Maintainer: JJ Allaire <jj@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-12-18 16:34:05 UTC
+# Date/Publication: 2018-01-17 15:02:31 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

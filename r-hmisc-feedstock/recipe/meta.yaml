@@ -1,4 +1,4 @@
-{% set version = '4.0-3' %}
+{% set version = '4.1-1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,25 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: Hmisc_4.0-3.tar.gz  # [linux or win32 or osx]
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Hmisc_4.0-3.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/Hmisc/Hmisc_4.0-3.tar.gz  # [linux or win32 or osx]
-  sha256: 5d395286d699bcabb6460c91798019d84b1cfa7a033841aa3ac5a02f4407e4fd  # [linux or win32 or osx]
+  fn: Hmisc_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Hmisc_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/Hmisc/Hmisc_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 991db21cdf73ffbf5b0239a4876b2e76fd243ea33528afd88dc968792f281498  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/Hmisc_4.1-1.zip  # [win64]
+  sha256: d32318ef21e8bf483535982523ebefceadacb5847574df1f42c0a67f02b812d8  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/Hmisc_4.0-3.zip  # [win64]
-  sha256: 9417fd5a804d548b70e1e96c1bfc416dbf2d64206817b7169a8463ab5c84890b  # [win64]
-
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/Hmisc_4.1-1.tgz  # [osx]
+  sha256: 766463f36c13fbc44b12eee5eec1bc8639dd7995195986b63d85f098ff72a5b2  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -36,11 +33,11 @@ build:
 # Suggests: chron, rms, mice, tables, knitr, ff, ffbase, plotly (>= 4.5.6)
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux or osx]
-    - {{ compiler('fortran') }}    # [linux or osx]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32 or osx]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -53,7 +50,7 @@ requirements:
     - r-ggplot2 >=2.2
     - r-gridextra
     - r-gtable
-    - r-htmltable
+    - r-htmltable >=1.11.0
     - r-htmltools
     - r-lattice
     - r-latticeextra
@@ -64,7 +61,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-formula
     - r-acepack
     - r-base64enc
@@ -74,7 +71,7 @@ requirements:
     - r-ggplot2 >=2.2
     - r-gridextra
     - r-gtable
-    - r-htmltable
+    - r-htmltable >=1.11.0
     - r-htmltools
     - r-lattice
     - r-latticeextra
@@ -111,22 +108,22 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: Hmisc
-# Version: 4.0-3
-# Date: 2017-04-30
+# Version: 4.1-1
+# Date: 2018-01-03
 # Title: Harrell Miscellaneous
 # Author: Frank E Harrell Jr <f.harrell@vanderbilt.edu>, with contributions from Charles Dupont and many others.
 # Maintainer: Frank E Harrell Jr <f.harrell@vanderbilt.edu>
 # Depends: lattice, survival (>= 2.40-1), Formula, ggplot2 (>= 2.2)
-# Imports: methods, latticeExtra, cluster, rpart, nnet, acepack, foreign, gtable, grid, gridExtra, data.table, htmlTable, viridis, htmltools, base64enc
+# Imports: methods, latticeExtra, cluster, rpart, nnet, acepack, foreign, gtable, grid, gridExtra, data.table, htmlTable (>= 1.11.0), viridis, htmltools, base64enc
 # Suggests: chron, rms, mice, tables, knitr, ff, ffbase, plotly (>= 4.5.6)
 # Description: Contains many functions useful for data analysis, high-level graphics, utility operations, functions for computing sample size and power, importing and annotating datasets, imputing missing values, advanced table making, variable clustering, character string manipulation, conversion of R objects to LaTeX and html code, and recoding variables.
 # License: GPL (>= 2)
 # LazyLoad: Yes
 # URL: http://biostat.mc.vanderbilt.edu/Hmisc, https://github.com/harrelfe/Hmisc
 # NeedsCompilation: yes
-# Packaged: 2017-05-01 18:00:23 UTC; harrelfe
+# Packaged: 2018-01-03 12:46:05 UTC; harrelfe
 # Repository: CRAN
-# Date/Publication: 2017-05-02 06:31:42 UTC
+# Date/Publication: 2018-01-03 15:22:55 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

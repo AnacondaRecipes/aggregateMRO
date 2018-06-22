@@ -1,4 +1,4 @@
-{% set version = '1.7.1' %}
+{% set version = '1.7.4' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lubridate_1.7.1.tar.gz  # [linux or win32]
+  fn: lubridate_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lubridate_1.7.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lubridate/lubridate_1.7.1.tar.gz  # [linux or win32]
-  sha256: 898c3f482ab8f5e5b415eecd13d1238769c88faed19b63fcb074ffe5ff57fb5f  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lubridate_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lubridate/lubridate_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 510ca87bd91631c395655ee5029b291e948b33df09e56f6be5839f43e3104891  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lubridate_1.7.4.zip  # [win64]
+  sha256: 61f018705f9ddf45aa914333f02aebac3f4e154382a423ec7d8344d6ea310db9  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lubridate_1.7.1.zip  # [win64]
-  sha256: afa8fbb85d94dd6167a940dcfb60522c428f9ecdcbc5349c7edbf8c96863728b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lubridate_1.7.1.tgz  # [osx]
-  sha256: d0bd85a2fd9ef85e9e952ea1e22219116932477e52c6eb455324a2000b79a8c7  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lubridate_1.7.4.tgz  # [osx]
+  sha256: 373321a5e7fb70a17cc1682a33056928985366de1fb925b4b955d53113f5b8e8  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,21 +33,21 @@ build:
 # Suggests: testthat, knitr, covr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
-    - r-rcpp >=0.11
+    - r-rcpp >=0.12.13
     - r-stringr
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
-    - r-rcpp >=0.11
+    - {{native}}gcc-libs         # [win32]
+    - r-rcpp >=0.12.13
     - r-stringr
 
 test:
@@ -69,7 +64,7 @@ test:
 
 about:
   home: http://lubridate.tidyverse.org, https://github.com/tidyverse/lubridate
-  license: GPL-2
+  license: GPL (>= 2)
   summary: 'Functions to work with date-times and time-spans: fast and user friendly parsing
     of date-time data, extraction and updating of components of a date-time (years,
     months, days, hours, minutes, and seconds), algebraic manipulation on date-time
@@ -78,7 +73,7 @@ about:
     code, released under the Apache 2.0 License, are included in this package. See <https://github.com/google/cctz>
     for more details.'
 
-  license_family: GPL2
+  license_family: GPL3
 
 extra:
   recipe-maintainers:
@@ -88,29 +83,29 @@ extra:
 
 # Package: lubridate
 # Type: Package
-# Version: 1.7.1
+# Version: 1.7.4
 # Title: Make Dealing with Dates a Little Easier
 # Description: Functions to work with date-times and time-spans: fast and user friendly parsing of date-time data, extraction and updating of components of a date-time (years, months, days, hours, minutes, and seconds), algebraic manipulation on date-time and time-span objects. The 'lubridate' package has a consistent and memorable syntax that makes working with dates easy and fun. Parts of the 'CCTZ' source code, released under the Apache 2.0 License, are included in this package. See <https://github.com/google/cctz> for more details.
 # Authors@R: c( person("Vitalie", "Spinu", email = "spinuvit@gmail.com", role = c("aut","cre")), person("Garrett", "Grolemund", role = "aut"), person("Hadley", "Wickham", role = "aut"), person("Ian", "Lyttle", role="ctb"), person("Imanuel", "Constigan", role = "ctb"), person("Jason", "Law", role="ctb"), person("Doug","Mitarotonda", role="ctb"), person("Joseph", "Larmarange", role="ctb"), person("Jonathan", "Boiser", role="ctb"), person("Chel Hee", "Lee", role = "ctb") )
 # Maintainer: Vitalie Spinu <spinuvit@gmail.com>
-# License: GPL-2
+# License: GPL (>= 2)
 # Depends: methods, R (>= 3.0.0)
-# Imports: stringr, Rcpp (>= 0.11),
+# Imports: stringr, Rcpp (>= 0.12.13),
 # LinkingTo: Rcpp,
 # Suggests: testthat, knitr, covr
 # Enhances: chron, fts, timeSeries, timeDate, tis, tseries, xts, zoo
 # SystemRequirements: A system with zoneinfo data (e.g. /usr/share/zoneinfo) as well as a recent-enough C++11 compiler (such as g++-4.8 or later). On Windows the zoneinfo included with R is used.
 # VignetteBuilder: knitr
 # LazyData: true
-# Collate: 'Dates.r' 'POSIXt.r' 'RcppExports.R' 'util.r' 'timespans.r' 'intervals.r' 'difftimes.r' 'durations.r' 'periods.r' 'accessors-date.R' 'accessors-day.r' 'accessors-dst.r' 'accessors-hour.r' 'accessors-minute.r' 'accessors-month.r' 'accessors-quarter.r' 'accessors-second.r' 'accessors-tz.r' 'accessors-week.r' 'accessors-year.r' 'am-pm.r' 'time-zones.r' 'numeric.r' 'coercion.r' 'constants.r' 'data.r' 'decimal-dates.r' 'deprecated.r' 'guess.r' 'hidden.r' 'instants.r' 'leap-years.r' 'ops-addition.r' 'ops-compare.r' 'ops-division.r' 'ops-integer-division.r' 'ops-m+.r' 'ops-modulo.r' 'ops-multiplication.r' 'ops-subtraction.r' 'package.r' 'parse.r' 'pretty.r' 'round.r' 'stamp.r' 'update.r' 'zzz.R'
+# Collate: 'Dates.r' 'POSIXt.r' 'RcppExports.R' 'util.r' 'parse.r' 'timespans.r' 'intervals.r' 'difftimes.r' 'durations.r' 'periods.r' 'accessors-date.R' 'accessors-day.r' 'accessors-dst.r' 'accessors-hour.r' 'accessors-minute.r' 'accessors-month.r' 'accessors-quarter.r' 'accessors-second.r' 'accessors-tz.r' 'accessors-week.r' 'accessors-year.r' 'am-pm.r' 'time-zones.r' 'numeric.r' 'coercion.r' 'constants.r' 'data.r' 'decimal-dates.r' 'deprecated.r' 'guess.r' 'hidden.r' 'instants.r' 'leap-years.r' 'ops-addition.r' 'ops-compare.r' 'ops-division.r' 'ops-integer-division.r' 'ops-m+.r' 'ops-modulo.r' 'ops-multiplication.r' 'ops-subtraction.r' 'package.r' 'pretty.r' 'round.r' 'stamp.r' 'update.r' 'zzz.R'
 # RoxygenNote: 6.0.1
 # URL: http://lubridate.tidyverse.org, https://github.com/tidyverse/lubridate
 # BugReports: https://github.com/tidyverse/lubridate/issues
 # NeedsCompilation: yes
-# Packaged: 2017-11-02 19:18:01 UTC; vspinu
+# Packaged: 2018-04-10 15:18:02 UTC; vspinu
 # Author: Vitalie Spinu [aut, cre], Garrett Grolemund [aut], Hadley Wickham [aut], Ian Lyttle [ctb], Imanuel Constigan [ctb], Jason Law [ctb], Doug Mitarotonda [ctb], Joseph Larmarange [ctb], Jonathan Boiser [ctb], Chel Hee Lee [ctb]
 # Repository: CRAN
-# Date/Publication: 2017-11-03 12:26:50 UTC
+# Date/Publication: 2018-04-11 10:08:43 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

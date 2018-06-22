@@ -1,4 +1,4 @@
-{% set version = '1.1.0' %}
+{% set version = '1.1.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,36 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: haven_1.1.0.tar.gz  # [linux or win32]
+  fn: haven_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/haven_1.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/haven/haven_1.1.0.tar.gz  # [linux or win32]
-  sha256: 089fb4d0955f320abc48d0a3031799f96f3a20b82492474743903fdf12001d19  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/haven_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/haven/haven_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5f7bf6dbee431b4e64771d9d97ee2c3da5b8f66a5e81fd1ec78a236eb3de6cba  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/haven_1.1.1.zip  # [win64]
+  sha256: 21dcd8b947491cc72daa13980d551474f091752c3ace8e7ad90c31bb79e18e1d  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/haven_1.1.0.zip  # [win64]
-  sha256: 7a316f6172064f0dcd813429a275adbadf4f0fd35c21133b7142f31fbf2cb711  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/haven_1.1.0.tgz  # [osx]
-  sha256: 979c4e5efcb857167ebcfb5540321869e69ef115247ceba2c4f7a7abba22dc27  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/haven_1.1.1.tgz  # [osx]
+  sha256: 27cce0be9757a3e0ca94953dfc8fc7c286210f59b3427c968a0d0ea82a7f7f4a  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, knitr, rmarkdown, covr
+# Suggests: covr, knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -54,7 +49,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.11.4
     - r-forcats >=0.2.0
     - r-hms
@@ -86,28 +81,28 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: haven
-# Version: 1.1.0
 # Title: Import and Export 'SPSS', 'Stata' and 'SAS' Files
+# Version: 1.1.1
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("Evan", "Miller",  role = c("aut", "cph"), comment = "Author of included ReadStat code" ), person("RStudio", role = c("cph", "fnd")) )
 # Description: Import foreign statistical formats into R via the embedded 'ReadStat' C library, <https://github.com/WizardMac/ReadStat>.
 # License: MIT + file LICENSE
-# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("Evan", "Miller", , role = c("aut", "cph"), comment = "Author of included ReadStat code"), person("RStudio", role = c("cph", "fnd")) )
-# Depends: R (>= 3.1.0)
-# Suggests: testthat, knitr, rmarkdown, covr
-# LinkingTo: Rcpp
-# Imports: Rcpp (>= 0.11.4), readr (>= 0.1.0), hms, tibble, forcats (>= 0.2.0)
-# LazyData: true
 # URL: http://haven.tidyverse.org, https://github.com/tidyverse/haven, https://github.com/WizardMac/ReadStat
-# BugReports: https://github.com/hadley/haven/issues
+# BugReports: https://github.com/tidyverse/haven/issues
+# Depends: R (>= 3.1)
+# Imports: forcats (>= 0.2.0), hms, Rcpp (>= 0.11.4), readr (>= 0.1.0), tibble
+# Suggests: covr, knitr, rmarkdown, testthat
+# LinkingTo: Rcpp
 # VignetteBuilder: knitr
-# SystemRequirements: GNU make
-# RoxygenNote: 6.0.1
 # Encoding: UTF-8
+# LazyData: true
+# RoxygenNote: 6.0.1
+# SystemRequirements: GNU make
 # NeedsCompilation: yes
-# Packaged: 2017-07-08 15:47:00 UTC; hadley
+# Packaged: 2018-01-17 20:37:09 UTC; hadley
 # Author: Hadley Wickham [aut, cre], Evan Miller [aut, cph] (Author of included ReadStat code), RStudio [cph, fnd]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-07-09 06:40:47 UTC
+# Date/Publication: 2018-01-18 10:31:31 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

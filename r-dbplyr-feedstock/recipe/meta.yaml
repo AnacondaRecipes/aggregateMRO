@@ -1,4 +1,4 @@
-{% set version = '1.1.0' %}
+{% set version = '1.2.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,58 +8,55 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: dbplyr_1.1.0.tar.gz  # [linux or win32]
+  fn: dbplyr_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/dbplyr_1.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/dbplyr/dbplyr_1.1.0.tar.gz  # [linux or win32]
-  sha256: 7b1e456a2d1056fa6284582cd82d2df66d06b3eea92e9995f5a91a45f246f69d  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/dbplyr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/dbplyr/dbplyr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: b348e7a02623f037632c85fb11be16c40c01755ae6ca02c8c189cdc192a699db  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/dbplyr_1.2.1.zip  # [win64]
+  sha256: e93799de229e2b8d3f611da020ffaff608861092c820484f9b7c7d63929824ab  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/dbplyr_1.1.0.zip  # [win64]
-  sha256: 909ad855529b1e529e18dc7edbfd396edbb7026765d4b948afbddc33b622bc50  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/dbplyr_1.1.0.tgz  # [osx]
-  sha256: 1321efd417382035a78b581ee031a6249cd91c7fdcd1f9e242a97b41a9373615  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/dbplyr_1.2.1.tgz  # [osx]
+  sha256: 3816b0f6c1994305dc2e819afebb8c7934d056b2823e3ed35183b789cb31f052  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: covr, knitr, Lahman (>= 3.0-1), nycflights13, rmarkdown, RSQLite (>= 1.0.0), RMySQL, RPostgreSQL, testthat
+# Suggests: bit64, covr, knitr, Lahman (>= 5.0.0), nycflights13 (>= 0.2.2), rmarkdown, RMariaDB (>= 1.0.2), RMySQL (>= 0.10.11), RPostgreSQL (>= 0.4.1), RSQLite (>= 2.0), testthat (>= 2.0.0)
 requirements:
   build:
 
   host:
     - mro-base
-    - r-dbi >=0.5
-    - r-r6
-    - r-assertthat
-    - r-dplyr >=0.5.0.9004
-    - r-glue
-    - r-purrr
-    - r-rlang >=0.1.0
-    - r-tibble >=1.3.0.9007
+    - r-dbi >=0.7
+    - r-r6 >=2.2.2
+    - r-assertthat >=0.2.0
+    - r-dplyr >=0.7.4
+    - r-glue >=1.2.0
+    - r-purrr >=0.2.4
+    - r-rlang >=0.1.6
+    - r-tibble >=1.4.1
+    - r-tidyselect >=0.2.2
 
   run:
     - mro-base
-    - r-dbi >=0.5
-    - r-r6
-    - r-assertthat
-    - r-dplyr >=0.5.0.9004
-    - r-glue
-    - r-purrr
-    - r-rlang >=0.1.0
-    - r-tibble >=1.3.0.9007
+    - r-dbi >=0.7
+    - r-r6 >=2.2.2
+    - r-assertthat >=0.2.0
+    - r-dplyr >=0.7.4
+    - r-glue >=1.2.0
+    - r-purrr >=0.2.4
+    - r-rlang >=0.1.6
+    - r-tibble >=1.4.1
+    - r-tidyselect >=0.2.2
 
 test:
   commands:
@@ -88,28 +85,28 @@ extra:
 
 # The original CRAN metadata for this package was:
 
-# Package: dbplyr
 # Type: Package
-# Version: 1.1.0
+# Package: dbplyr
 # Title: A 'dplyr' Back End for Databases
+# Version: 1.2.1
+# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")), person("Edgar", "Ruiz", role = "aut"), person("RStudio", role = c("cph", "fnd")) )
 # Description: A 'dplyr' back end for databases that allows you to work with  remote database tables as if they are in-memory data frames. Basic features works with any database that has a 'DBI' back end; more advanced features  require 'SQL' translation to be provided by the package author.
-# Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")), person("RStudio", role = c("cph", "fnd")) )
+# License: MIT + file LICENSE
 # URL: https://github.com/tidyverse/dbplyr
 # BugReports: https://github.com/tidyverse/dplyr/issues
-# Depends: R (>= 3.1.2)
-# Imports: assertthat, DBI (>= 0.5), dplyr (>= 0.5.0.9004), glue, methods, purrr, rlang (>= 0.1.0), tibble (>= 1.3.0.9007), R6, utils
-# Suggests: covr, knitr, Lahman (>= 3.0-1), nycflights13, rmarkdown, RSQLite (>= 1.0.0), RMySQL, RPostgreSQL, testthat
+# Depends: R (>= 3.2)
+# Imports: assertthat (>= 0.2.0), DBI (>= 0.7), dplyr (>= 0.7.4), glue (>= 1.2.0), methods, purrr (>= 0.2.4), R6 (>= 2.2.2), rlang (>= 0.1.6), tibble (>= 1.4.1), tidyselect (>= 0.2.2), utils
+# Suggests: bit64, covr, knitr, Lahman (>= 5.0.0), nycflights13 (>= 0.2.2), rmarkdown, RMariaDB (>= 1.0.2), RMySQL (>= 0.10.11), RPostgreSQL (>= 0.4.1), RSQLite (>= 2.0), testthat (>= 2.0.0)
 # VignetteBuilder: knitr
 # LazyData: yes
-# License: MIT + file LICENSE
-# Collate: 'cache.r' 'compat-purrr.R' 'data-lahman.r' 'data-nycflights13.r' 'db-compute.R' 'db-mysql.r' 'db-odbc-hive.R' 'db-odbc-impala.R' 'db-odbc-mssql.R' 'db-odbc-oracle.R' 'db-odbc-postgres.R' 'db-postgres.r' 'db-sqlite.r' 'dbi-s3.r' 'dbplyr.R' 'do.r' 'explain.r' 'ident.R' 'lazy-ops.R' 'memdb.R' 'partial-eval.r' 'query.r' 'schema.R' 'simulate.r' 'sql-build.R' 'sql-escape.r' 'sql-generic.R' 'sql-optimise.R' 'sql-query.R' 'sql-render.R' 'sql.R' 'src-sql.r' 'src_dbi.R' 'tbl-lazy.R' 'tbl-sql.r' 'test-frame.R' 'testthat.r' 'translate-sql-helpers.r' 'translate-sql-window.r' 'translate-sql-base.r' 'translate-sql-clause.r' 'translate-sql-odbc.R' 'translate-sql.r' 'utils-format.r' 'utils.r' 'window.R' 'zzz.R'
 # RoxygenNote: 6.0.1
+# Collate: 'cache.r' 'compat-purrr.R' 'data-lahman.r' 'data-nycflights13.r' 'db-compute.R' 'db-mysql.r' 'db-odbc-access.R' 'db-odbc-hive.R' 'db-odbc-impala.R' 'db-odbc-mssql.R' 'db-odbc-oracle.R' 'db-odbc-redshift.R' 'db-odbc-teradata.R' 'db-postgres.r' 'db-roracle.R' 'db-sqlite.r' 'dbi-s3.r' 'dbplyr.R' 'do.r' 'explain.r' 'utils.r' 'ident.R' 'lazy-ops.R' 'memdb.R' 'partial-eval.r' 'query.r' 'remote.R' 'schema.R' 'simulate.r' 'sql-build.R' 'sql-escape.r' 'sql-expr.R' 'sql-generic.R' 'sql-optimise.R' 'sql-query.R' 'sql-render.R' 'sql.R' 'src-sql.r' 'src_dbi.R' 'tbl-lazy.R' 'tbl-sql.r' 'test-frame.R' 'testthat.r' 'translate-sql-helpers.r' 'translate-sql-window.r' 'translate-sql-base.r' 'translate-sql-clause.r' 'translate-sql-odbc.R' 'translate-sql-paste.R' 'translate-sql.r' 'utils-format.r' 'window.R' 'zzz.R'
 # NeedsCompilation: no
-# Packaged: 2017-06-26 19:19:44 UTC; hadley
-# Author: Hadley Wickham [aut, cre], RStudio [cph, fnd]
+# Packaged: 2018-02-19 15:55:28 UTC; hadley
+# Author: Hadley Wickham [aut, cre], Edgar Ruiz [aut], RStudio [cph, fnd]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-06-27 06:55:24 UTC
+# Date/Publication: 2018-02-19 19:40:06 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

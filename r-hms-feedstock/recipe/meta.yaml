@@ -1,4 +1,4 @@
-{% set version = '0.4.0' %}
+{% set version = '0.4.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,34 +8,29 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: hms_0.4.0.tar.gz  # [linux or win32]
+  fn: hms_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/hms_0.4.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/hms/hms_0.4.0.tar.gz  # [linux or win32]
-  sha256: f41bfec3713a16d17111012e0a31992fe54e00ec76680096e8b4844b5d39501f  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/hms_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/hms/hms_{{ version }}.tar.gz  # [linux or win32]
+  sha256: a57820b3e3221e973cba9500b4ad7953730110ee398693d150af833f26d5d0bc  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/hms_0.4.2.zip  # [win64]
+  sha256: 126a9fa9171d9fadd24290d50cbf3640366418c4d7487af11143cfe5f9973edd  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/hms_0.4.0.zip  # [win64]
-  sha256: 6b374d833168aa24b4c8214fe81f691bf16796630e487e89fdfea148a9c86d17  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/hms_0.4.0.tgz  # [osx]
-  sha256: 3fc7d19c1f8b7caa44cf0080c5784147272a52673aa78cf5dc695090e28d49f2  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/hms_0.4.2.tgz  # [osx]
+  sha256: cb3a6348ea8250c636868e797f218673cad599cd5e1e0d304674d6676fefbe26  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: crayon, lubridate, pillar, testthat
+# Suggests: crayon, lubridate, pillar (>= 1.1.0), testthat
 requirements:
   build:
 
@@ -76,24 +71,24 @@ extra:
 
 # Package: hms
 # Title: Pretty Time of Day
-# Date: 2017-11-16
-# Version: 0.4.0
-# Authors@R: c( person("Kirill", "Muller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"), person("The R Consortium", role = "cph") )
+# Date: 2018-03-10
+# Version: 0.4.2
+# Authors@R: c( person("Kirill", "Muller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"), person("The R Consortium", role = "fnd") )
 # Description: Implements an S3 class for storing and formatting time-of-day values, based on the 'difftime' class.
 # Imports: methods, pkgconfig, rlang
-# Suggests: crayon, lubridate, pillar, testthat
+# Suggests: crayon, lubridate, pillar (>= 1.1.0), testthat
 # License: GPL-3
 # Encoding: UTF-8
 # LazyData: true
 # URL: https://github.com/tidyverse/hms
 # BugReports: https://github.com/tidyverse/hms/issues
-# RoxygenNote: 6.0.1
+# RoxygenNote: 6.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2017-11-22 10:27:35 UTC; muelleki
-# Author: Kirill Muller [aut, cre], The R Consortium [cph]
+# Packaged: 2018-03-10 15:21:11 UTC; muelleki
+# Author: Kirill Muller [aut, cre], The R Consortium [fnd]
 # Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
 # Repository: CRAN
-# Date/Publication: 2017-11-23 00:45:05 UTC
+# Date/Publication: 2018-03-10 21:33:37 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

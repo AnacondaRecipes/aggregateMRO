@@ -1,4 +1,4 @@
-{% set version = '0.6.1' %}
+{% set version = '0.7.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,33 +8,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: shinydashboard_0.6.1.tar.gz  # [linux or win32]
+  fn: shinydashboard_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/shinydashboard_0.6.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/shinydashboard/shinydashboard_0.6.1.tar.gz  # [linux or win32]
-  sha256: 1ee38f257433d24455426bc9d85c36f588735a54fbf6143935fed9cccb3bf193  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/shinydashboard_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/shinydashboard/shinydashboard_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 0b7b102e9e5bea78ddc4da628d072a358270f2db9b63a6ebe4d8bdce3066d883  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/shinydashboard_0.7.0.zip  # [win64]
+  sha256: d86de9ff31cc5e161aff6b89b786206e69ccf5ad9f51e1c401903ef5695da015  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/shinydashboard_0.6.1.zip  # [win64]
-  sha256: acd5f40bdbd4e22f87df502a14215a0112ddd38cf073b6c7b49b97f5a5e74ff3  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/shinydashboard_0.6.1.tgz  # [osx]
-  sha256: 24b122473e076c76930e7eacb13980dc10e471dd47dd8c0d6b2f87f8f193977b  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/shinydashboard_0.7.0.tgz  # [osx]
+  sha256: 610d2aeee981d51bb953a8a1dc979bcb277930629ffe99ccbe77af2f3cb4897b  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
-
 
 requirements:
   build:
@@ -63,10 +57,10 @@ test:
 
 about:
   home: http://rstudio.github.io/shinydashboard/
-  license: GPL-2 | file LICENSE
+  license: GPL (>= 2) | file LICENSE
   summary: Create dashboards with 'Shiny'. This package provides a theme on top of 'Shiny', making
     it easy to create attractive dashboards.
-  license_family: GPL2
+  license_family: GPL3
 
 extra:
   recipe-maintainers:
@@ -76,21 +70,21 @@ extra:
 
 # Package: shinydashboard
 # Title: Create Dashboards with 'Shiny'
-# Version: 0.6.1
+# Version: 0.7.0
 # Authors@R: c( person("Winston", "Chang", role = c("aut", "cre"), email = "winston@rstudio.com"), person("Barbara", "Borges Ribeiro", role = "aut", email = "barbara@rstudio.com"), person(family = "RStudio", role = "cph"), person(family = "Almasaeed Studio", role = c("ctb", "cph"), comment = "AdminLTE theme for Bootstrap"), person(family = "Adobe Systems Incorporated", role = c("ctb", "cph"), comment = "Source Sans Pro font") )
 # Description: Create dashboards with 'Shiny'. This package provides a theme on top of 'Shiny', making it easy to create attractive dashboards.
 # URL: http://rstudio.github.io/shinydashboard/
 # Depends: R (>= 3.0)
-# License: GPL-2 | file LICENSE
+# License: GPL (>= 2) | file LICENSE
 # Imports: utils, shiny (>= 1.0.0), htmltools (>= 0.2.6)
 # BugReports: https://github.com/rstudio/shinydashboard
-# RoxygenNote: 6.0.1
+# RoxygenNote: 6.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2017-06-14 17:18:24 UTC; barbaraborges
+# Packaged: 2018-03-21 17:33:51 UTC; winston
 # Author: Winston Chang [aut, cre], Barbara Borges Ribeiro [aut], RStudio [cph], Almasaeed Studio [ctb, cph] (AdminLTE theme for Bootstrap), Adobe Systems Incorporated [ctb, cph] (Source Sans Pro font)
 # Maintainer: Winston Chang <winston@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-06-14 23:37:34 UTC
+# Date/Publication: 2018-03-21 22:18:53 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '1.11.1' %}
+{% set version = '1.12' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: htmlTable_1.11.1.tar.gz  # [linux or win32]
+  fn: htmlTable_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/htmlTable_1.11.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/htmlTable/htmlTable_1.11.1.tar.gz  # [linux or win32]
-  sha256: 98cf29e3a884c45149885d2fde8cb356ee4e63a4fbee3a51a07818482a93b79e  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/htmlTable_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/htmlTable/htmlTable_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 42f50b8d8704460388cc55708fd9159b576261ab8d3f5968cf24d6b3b619a1d8  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/htmlTable_1.12.zip  # [win64]
+  sha256: 272956e4de2571ce732a07f6cb293ac6d0e7e52a2202aff2305e593e4be19ff7  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/htmlTable_1.11.1.zip  # [win64]
-  sha256: d2c6a233c2460b4ca35f5e62af78d35ce872c3a1631b8dd820fcae468b3c687f  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/htmlTable_1.11.1.tgz  # [osx]
-  sha256: 365a153be55b40d17b17ee7e6a59a4783e25d9e268b237928287b6039ec07188  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/htmlTable_1.12.tgz  # [osx]
+  sha256: fb1180b70e10011f6841d6497978aa5fa0c317d7e867603239c28f85e655e6a6  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -78,7 +73,7 @@ about:
     table spanners, zebra striping, and more. While allowing advanced layout, the underlying
     css-structure is simple in order to maximize compatibility with word processors
     such as 'MS Word' or 'LibreOffice'. The package also contains a few text formatting
-    functions that help outputting text compatible with HTML/'LaTeX'.
+    functions that help outputting text compatible with HTML/LaTeX.
   license_family: GPL3
 
 extra:
@@ -88,12 +83,12 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: htmlTable
-# Version: 1.11.1
-# Date: 2017-12-27
+# Version: 1.12
+# Date: 2018-05-25
 # Title: Advanced Tables for Markdown/HTML
 # Authors@R: c( person("Max", "Gordon", email = "max@gforge.se", role = c("aut", "cre")), person("Stephen", "Gragg", role=c("aut")), person("Peter", "Konings", role=c("aut")))
 # Maintainer: Max Gordon <max@gforge.se>
-# Description: Tables with state-of-the-art layout elements such as row spanners, column spanners, table spanners, zebra striping, and more. While allowing advanced layout, the underlying css-structure is simple in order to maximize compatibility with word processors such as 'MS Word' or 'LibreOffice'. The package also contains a few text formatting functions that help outputting text compatible with HTML/'LaTeX'.
+# Description: Tables with state-of-the-art layout elements such as row spanners, column spanners, table spanners, zebra striping, and more. While allowing advanced layout, the underlying css-structure is simple in order to maximize compatibility with word processors such as 'MS Word' or 'LibreOffice'. The package also contains a few text formatting functions that help outputting text compatible with HTML/LaTeX.
 # License: GPL (>= 3)
 # URL: http://gforge.se/packages/
 # BugReports: https://github.com/gforge/htmlTable/issues
@@ -104,10 +99,10 @@ extra:
 # NeedsCompilation: no
 # VignetteBuilder: knitr
 # RoxygenNote: 6.0.1
-# Packaged: 2017-12-27 10:11:01 UTC; Max
+# Packaged: 2018-05-26 18:15:53 UTC; max
 # Author: Max Gordon [aut, cre], Stephen Gragg [aut], Peter Konings [aut]
 # Repository: CRAN
-# Date/Publication: 2017-12-27 15:03:34 UTC
+# Date/Publication: 2018-05-26 22:01:20 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
