@@ -1,4 +1,4 @@
-{% set version = '1.5.1' %}
+{% set version = '1.6.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,44 +8,41 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lava_1.5.1.tar.gz  # [linux or win32]
+  fn: lava_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lava_1.5.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lava/lava_1.5.1.tar.gz  # [linux or win32]
-  sha256: c41da42c9d90d81de876c29bfca736fa111a8924add07c85ab2f8d98200195ed  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lava_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lava/lava_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 33f04b315ad639e057bf7791e2536b8dc83398e3bc05083a16d38efbebb56986  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lava_1.6.1.zip  # [win64]
+  sha256: 571e52bf33b19a4630055320c53ca0afb027b39df0e46599e5635d319c2c001d  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lava_1.5.1.zip  # [win64]
-  sha256: 6928155f06d0eac89930d7dc56ba430d44522aee6b45c46edb559708f6a51ddc  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lava_1.5.1.tgz  # [osx]
-  sha256: 973c25b59d384bc4309fd24e414dcf9016c0e69638c6b09c831b11a71cfe1602  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lava_1.6.1.tgz  # [osx]
+  sha256: 7699ef4240ec8a50e72e77973858f731face131dc1374e76337dbc9a5c0819a8  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit, lme4, mets (>= 1.1), optimx, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
+# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), optimx, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
 requirements:
   build:
 
   host:
     - mro-base
+    - r-squarem
     - r-numderiv
     - r-survival
 
   run:
     - mro-base
+    - r-squarem
     - r-numderiv
     - r-survival
 
@@ -64,12 +61,14 @@ test:
 about:
   home: https://github.com/kkholst/lava
   license: GPL-3
-  summary: A general implementation of Structural Equation Models with latent variables (MLE,
+  summary: "A general implementation of Structural Equation Models with latent variables (MLE,
     2SLS, and composite likelihood estimators) with both continuous, censored, and ordinal
-    outcomes (Holst and Budtz-Joergensen (2013) <doi:10.1007/s00180-012-0344-y>). The
-    package also provides methods for graph exploration (d-separation, back-door criterion),
-    simulation of general non-linear latent variable models, and estimation of influence
-    functions for a broad range of statistical  models.
+    outcomes (Holst and Budtz-Joergensen (2013) <doi:10.1007/s00180-012-0344-y>). Mixture
+    latent variable models and non-linear latent variable models (two-stage)...\t\t
+    The package also provides methods for graph exploration (d-separation, back-door
+    criterion), simulation of general non-linear latent variable models, and estimation
+    of influence functions for a broad range of statistical models. "
+
   license_family: GPL3
 
 extra:
@@ -81,25 +80,25 @@ extra:
 # Package: lava
 # Type: Package
 # Title: Latent Variable Models
-# Version: 1.5.1
-# Date: 2017-09-25
+# Version: 1.6.1
+# Date: 2018-03-23
 # Authors@R: c(person("Klaus K.", "Holst", email="klaus@holst.it", role=c("aut", "cre")), person("Brice", "Ozenne", role = "ctb"), person("Thomas", "Gerds", role = "ctb"))
 # Author: Klaus K. Holst [aut, cre], Brice Ozenne [ctb], Thomas Gerds [ctb]
 # Maintainer: Klaus K. Holst <klaus@holst.it>
-# Description: A general implementation of Structural Equation Models with latent variables (MLE, 2SLS, and composite likelihood estimators) with both continuous, censored, and ordinal outcomes (Holst and Budtz-Joergensen (2013) <doi:10.1007/s00180-012-0344-y>). The package also provides methods for graph exploration (d-separation, back-door criterion), simulation of general non-linear latent variable models, and estimation of influence functions for a broad range of statistical  models.
+# Description: A general implementation of Structural Equation Models with latent variables (MLE, 2SLS, and composite likelihood estimators) with both continuous, censored, and ordinal outcomes (Holst and Budtz-Joergensen (2013) <doi:10.1007/s00180-012-0344-y>). Mixture latent variable models and non-linear latent variable models (two-stage)...		 The package also provides methods for graph exploration (d-separation, back-door criterion), simulation of general non-linear latent variable models, and estimation of influence functions for a broad range of statistical models.
 # URL: https://github.com/kkholst/lava
 # BugReports: https://github.com/kkholst/lava/issues
 # License: GPL-3
 # LazyLoad: yes
 # Depends: R (>= 3.0)
-# Imports: grDevices, graphics, methods, numDeriv, stats, survival, utils
-# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit, lme4, mets (>= 1.1), optimx, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
+# Imports: grDevices, graphics, methods, numDeriv, stats, survival, SQUAREM, utils
+# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), optimx, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
 # ByteCompile: yes
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-09-27 20:46:26 UTC; klaus
+# Packaged: 2018-03-28 11:56:03 UTC; klaus
 # Repository: CRAN
-# Date/Publication: 2017-09-27 21:25:09 UTC
+# Date/Publication: 2018-03-28 14:53:25 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

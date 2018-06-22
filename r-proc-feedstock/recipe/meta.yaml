@@ -1,4 +1,4 @@
-{% set version = '1.10.0' %}
+{% set version = '1.12.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,36 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pROC_1.10.0.tar.gz  # [linux or win32]
+  fn: pROC_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/pROC_1.10.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/pROC/pROC_1.10.0.tar.gz  # [linux or win32]
-  sha256: 4039fb71e531b1fcff319fc656657813465bf818476535d02a16f7271c44a066  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pROC_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pROC/pROC_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 9266a7d857313e36f86ad2a7e7b0d95240960a26707036409ac9776754324d15  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/pROC_1.12.1.zip  # [win64]
+  sha256: e216870302b5a1a2ab44f2f3e7f031271e39d54c8c2578b03e664abb75ff15b0  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/pROC_1.10.0.zip  # [win64]
-  sha256: 8ced817e31944b56674075a519c58463c8d4f7d2b6eba0644fd66fc47761b069  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/pROC_1.10.0.tgz  # [osx]
-  sha256: 66382e26490c9bc0f1f84fe22ca5416d5e51037b93c65183419603be4e4cf0a7  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/pROC_1.12.1.tgz  # [osx]
+  sha256: 510bd0dc46719c0462223c3efcc854979b36e1058e8d0cc882685f75b57ff812  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: microbenchmark, tcltk, MASS, logcondens, doParallel, testthat
+# Suggests: microbenchmark, tcltk, MASS, logcondens, doParallel, testthat, vdiffr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -52,7 +47,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.11.1
     - r-ggplot2
     - r-plyr
@@ -87,24 +82,25 @@ extra:
 # Package: pROC
 # Type: Package
 # Title: Display and Analyze ROC Curves
-# Version: 1.10.0
-# Date: 2017-06-10
+# Version: 1.12.1
+# Date: 2018-05-06
 # Encoding: UTF-8
 # Depends: R (>= 2.14)
 # Imports: plyr, utils, methods, Rcpp (>= 0.11.1), ggplot2,
-# Suggests: microbenchmark, tcltk, MASS, logcondens, doParallel, testthat
+# Suggests: microbenchmark, tcltk, MASS, logcondens, doParallel, testthat, vdiffr
 # LinkingTo: Rcpp
-# Authors@R: c(person("Xavier", "Robin", role = c("cre", "aut"),  email = "robin@lindinglab.org"), person("Natacha", "Turck", role = "aut"), person("Alexandre", "Hainard", role = "aut"), person("Natalia", "Tiberti", role = "aut"), person("Frederique", "Lisacek", role = "aut"), person("Jean-Charles", "Sanchez", role = "aut"), person("Markus", "Muller", role = "aut"), person("Stefan", "Siegert", role = "ctb",  comment = "Fast DeLong code",  email = "stefan_siegert@gmx.de"))
+# Authors@R: c(person("Xavier", "Robin", role = c("cre", "aut"),  email = "pROC-cran@xavier.robin.name", comment = c(ORCID = "0000-0002-6813-3200")), person("Natacha", "Turck", role = "aut"), person("Alexandre", "Hainard", role = "aut"), person("Natalia", "Tiberti", role = "aut"), person("Frederique", "Lisacek", role = "aut"), person("Jean-Charles", "Sanchez", role = "aut"), person("Markus", "Muller", role = "aut"), person("Stefan", "Siegert", role = "ctb",  comment = "Fast DeLong code",  email = "stefan_siegert@gmx.de"))
 # Description: Tools for visualizing, smoothing and comparing receiver operating characteristic (ROC curves). (Partial) area under the curve (AUC) can be compared with statistical tests based on U-statistics or bootstrap. Confidence intervals can be computed for (p)AUC or ROC curves.
 # License: GPL (>= 3)
 # URL: http://expasy.org/tools/pROC/
+# BugReports: https://github.com/xrobin/pROC/issues
 # LazyLoad: yes
 # NeedsCompilation: yes
-# Packaged: 2017-06-10 14:21:52 UTC; xavier
-# Author: Xavier Robin [cre, aut], Natacha Turck [aut], Alexandre Hainard [aut], Natalia Tiberti [aut], Frederique Lisacek [aut], Jean-Charles Sanchez [aut], Markus Muller [aut], Stefan Siegert [ctb] (Fast DeLong code)
-# Maintainer: Xavier Robin <robin@lindinglab.org>
+# Packaged: 2018-05-06 10:07:17 UTC; xavier
+# Author: Xavier Robin [cre, aut] (<https://orcid.org/0000-0002-6813-3200>), Natacha Turck [aut], Alexandre Hainard [aut], Natalia Tiberti [aut], Frederique Lisacek [aut], Jean-Charles Sanchez [aut], Markus Muller [aut], Stefan Siegert [ctb] (Fast DeLong code)
+# Maintainer: Xavier Robin <pROC-cran@xavier.robin.name>
 # Repository: CRAN
-# Date/Publication: 2017-06-10 21:17:21 UTC
+# Date/Publication: 2018-05-06 15:26:48 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.1.1' %}
+{% set version = '0.1.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: reprex_0.1.1.tar.gz  # [linux or win32]
+  fn: reprex_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/reprex_0.1.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/reprex/reprex_0.1.1.tar.gz  # [linux or win32]
-  sha256: 919ae93039b2d8fb8eace98da9376c031d734d9e75c237efb24d047f35b5ba4b  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/reprex_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/reprex/reprex_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 7a6fc5f2a8f48ca5c6829811b899671b861f3d17cbe98bf87d343a5cf54ead80  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/reprex_0.1.2.zip  # [win64]
+  sha256: 5cf6d1db048bd15fb2f66d7e676ded7a54b2218239fea1b0257f94f7b107360b  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/reprex_0.1.1.zip  # [win64]
-  sha256: 8e3f8d43d1b88156cd82387eeeceea529cdca66c6457770cf7adbe54c6e02199  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/reprex_0.1.1.tgz  # [osx]
-  sha256: 9e2d694754b64683eaee9b3141a8e1bb743a333b0ad93406eefc50aa0a526406  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/reprex_0.1.2.tgz  # [osx]
+  sha256: d0394b5773a5a4ba04831963dc263f889703ea1eebdaea136e25587ed5656525  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -42,7 +37,6 @@ requirements:
   host:
     - mro-base
     - r-callr
-    - r-clipr >=0.3.0
     - r-knitr
     - r-rmarkdown
     - r-whisker
@@ -50,7 +44,6 @@ requirements:
   run:
     - mro-base
     - r-callr
-    - r-clipr >=0.3.0
     - r-knitr
     - r-rmarkdown
     - r-whisker
@@ -86,7 +79,7 @@ extra:
 
 # Package: reprex
 # Title: Prepare Reproducible Example Code for Sharing
-# Version: 0.1.1
+# Version: 0.1.2
 # Authors@R: c( person("Jennifer", "Bryan", , "jenny.f.bryan@gmail.com", role = c("aut", "cre")), person("David", "Robinson", , "admiral.david@gmail.com", role = "aut") )
 # Description: Convenience wrapper that uses the 'rmarkdown' package to render small snippets of code to target formats that include both code and output. The goal is to encourage the sharing of small, reproducible, and runnable examples on code-oriented websites, such as <http://stackoverflow.com> and <https://github.com>, or in email. 'reprex' also extracts clean, runnable R code from various common formats, such as copy/paste from an R session.
 # Depends: R (>= 3.0.2)
@@ -94,16 +87,18 @@ extra:
 # LazyData: true
 # URL: https://github.com/jennybc/reprex
 # BugReports: https://github.com/jennybc/reprex/issues
-# Imports: callr, clipr (>= 0.3.0), knitr, rmarkdown, tools, utils, whisker
+# Imports: callr, knitr, rmarkdown, tools, utils, whisker
 # Suggests: covr, devtools, formatR, fortunes, miniUI, rstudioapi, shiny, shinyjs, testthat
 # SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 # RoxygenNote: 5.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2017-01-12 22:53:51 UTC; jenny
+# Packaged: 2018-01-26 07:45:34 UTC; ripley
 # Author: Jennifer Bryan [aut, cre], David Robinson [aut]
-# Maintainer: Jennifer Bryan <jenny.f.bryan@gmail.com>
+# Maintainer: ORPHANED
 # Repository: CRAN
-# Date/Publication: 2017-01-13 00:27:33
+# Date/Publication: 2018-01-26 08:23:05 UTC
+# X-CRAN-Original-Maintainer: Jennifer Bryan <jenny.f.bryan@gmail.com>
+# X-CRAN-Comment: Orphaned on 2018-01-26 for policy violations, and offending code disabled.
 
 # See
 # http://docs.continuum.io/conda/build.html for

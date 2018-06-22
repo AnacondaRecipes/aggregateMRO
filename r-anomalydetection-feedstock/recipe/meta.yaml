@@ -1,4 +1,4 @@
-{% set version = '0.2.4' %}
+{% set version = '0.2.5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: anomalyDetection_0.2.4.tar.gz  # [linux or win32]
+  fn: anomalyDetection_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/anomalyDetection_0.2.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/anomalyDetection/anomalyDetection_0.2.4.tar.gz  # [linux or win32]
-  sha256: 5f0248d2e8fb03f8be54bc2ad76c11fe9f7bc481d1234c53e83dedf4fb4a3529  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/anomalyDetection_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/anomalyDetection/anomalyDetection_{{ version }}.tar.gz  # [linux or win32]
+  sha256: e127eefdd9db3c83624dd1779d4f026e66430a164b0074fa58f113f03b585c8c  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/anomalyDetection_0.2.5.zip  # [win64]
+  sha256: bb6732c2f0a4615478ae59448934dacb80c20d7d6732a2771c2067fd71372fc2  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/anomalyDetection_0.2.4.zip  # [win64]
-  sha256: 18aa03173b9a02bca543c31fe958d4b196d0445759d5b7c9478bf8e51cb8d3d7  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/anomalyDetection_0.2.4.tgz  # [osx]
-  sha256: 8b8b92ff932627a99c4699eed2126993fd9ef2fe8d8599f9f5398a740c8e2a60  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/anomalyDetection_0.2.5.tgz  # [osx]
+  sha256: 2c9556748afef62b4270340a94ba9e8c24fedfabcdbe8e0689b95a80a94507ec  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,12 +33,11 @@ build:
 # Suggests: gplots, knitr, RColorBrewer, rmarkdown, testthat,
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -62,7 +56,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-mass
     - r-rcpp >=0.12.11
     - r-rcpparmadillo
@@ -89,12 +83,12 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://github.com/AFIT-R/anomalyDetection
+  home: https://github.com/koalaverse/anomalyDetection
   license: GPL (>= 2)
-  summary: Implements procedures to aid in detecting network log anomalies. By  combining various
-    multivariate analytic approaches relevant to network anomaly  detection, it provides
-    cyber analysts efficient means to detect suspected  anomalies requiring further
-    evaluation.
+  summary: Implements procedures developed by Gutierrez et al. (2017, <https://journal.r-project.org/archive/2017/RJ-2017-039/index.html>)  to
+    aid in detecting network log anomalies. By combining various multivariate  analytic
+    approaches relevant to network anomaly detection, it provides cyber  analysts efficient
+    means to detect suspected anomalies requiring further evaluation.
   license_family: GPL3
 
 extra:
@@ -106,13 +100,13 @@ extra:
 # Package: anomalyDetection
 # Type: Package
 # Title: Implementation of Augmented Network Log Anomaly Detection Procedures
-# Version: 0.2.4
-# Authors@R: c(  person("Andrew", "McCarthy", email = "andrew.mccarthy@theperducogroup.com", role = c("aut", "cre")), person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com", role = c("aut")), person("Bradley", "Boehmke",  email = "bradleyboehmke@gmail.com",  role = c("aut")),  person("Robert", "Gutierrez",  email = "rjgutierrez2015@gmail.com",  role = c("aut")), person("Kenneth", "Bauer",  email = "kenneth.bauer@afit.edu",  role = c("ctb")), person("Trevor", "Bihl",  email = "trevor.bihl.2@us.af.mil",  role = c("ctb")), person("Cade", "Saie",  email = "cade.saie@gmail.com",  role = c("ctb")) )
-# Maintainer: Andrew McCarthy <andrew.mccarthy@theperducogroup.com>
-# Date: 2017-09-22
-# Description: Implements procedures to aid in detecting network log anomalies. By  combining various multivariate analytic approaches relevant to network anomaly  detection, it provides cyber analysts efficient means to detect suspected  anomalies requiring further evaluation.
-# URL: https://github.com/AFIT-R/anomalyDetection
-# BugReports: https://github.com/AFIT-R/anomalyDetection/issues
+# Version: 0.2.5
+# Authors@R: c(  person("Bradley", "Boehmke", email = "bradleyboehmke@gmail.com", role = c("aut", "cre")), person("Brandon", "Greenwell", email = "greenwell.brandon@gmail.com", role = c("aut")), person("Jason", "Freels",  email = "auburngrads@live.com",  role = c("aut")),  person("Robert", "Gutierrez",  email = "rjgutierrez2015@gmail.com",  role = c("aut")) )
+# Maintainer: Bradley Boehmke <bradleyboehmke@gmail.com>
+# Date: 2018-02-24
+# Description: Implements procedures developed by Gutierrez et al. (2017, <https://journal.r-project.org/archive/2017/RJ-2017-039/index.html>)  to aid in detecting network log anomalies. By combining various multivariate  analytic approaches relevant to network anomaly detection, it provides cyber  analysts efficient means to detect suspected anomalies requiring further evaluation.
+# URL: https://github.com/koalaverse/anomalyDetection
+# BugReports: https://github.com/koalaverse/anomalyDetection/issues
 # License: GPL (>= 2)
 # Encoding: UTF-8
 # LazyData: true
@@ -123,10 +117,10 @@ extra:
 # LinkingTo: Rcpp, RcppArmadillo
 # VignetteBuilder: knitr
 # NeedsCompilation: yes
-# Packaged: 2017-09-22 12:58:14 UTC; Andy
-# Author: Andrew McCarthy [aut, cre], Brandon Greenwell [aut], Bradley Boehmke [aut], Robert Gutierrez [aut], Kenneth Bauer [ctb], Trevor Bihl [ctb], Cade Saie [ctb]
+# Packaged: 2018-03-07 14:32:09 UTC; bradboehmke
+# Author: Bradley Boehmke [aut, cre], Brandon Greenwell [aut], Jason Freels [aut], Robert Gutierrez [aut]
 # Repository: CRAN
-# Date/Publication: 2017-09-22 17:21:02 UTC
+# Date/Publication: 2018-03-07 16:18:12 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

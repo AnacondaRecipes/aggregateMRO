@@ -1,4 +1,4 @@
-{% set version = '0.1.1' %}
+{% set version = '0.1.2' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: recipes_0.1.1.tar.gz  # [linux or win32]
+  fn: recipes_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/recipes_0.1.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/recipes/recipes_0.1.1.tar.gz  # [linux or win32]
-  sha256: 04bcbf0c49e5edd0be8034d841b6e2bec1f1966ef1f64978ac8938150f33a445  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/recipes_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/recipes/recipes_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 891a30cce1529e29a832f3aab92b38c9a0ef959a6fb144c0bf07595c871a59b1  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/recipes_0.1.2.zip  # [win64]
+  sha256: ba1d1cff0a42c0ab6787a9c558a79c8a86c32d87a2b52053da4d2f8fc2527704  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/recipes_0.1.1.zip  # [win64]
-  sha256: b088cd5da6234ad4ee5753269914eb87b2e3bfe72af508d314b314183143e564  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/recipes_0.1.1.tgz  # [osx]
-  sha256: d921b46de1bae22579d53dae0a245eee6e3716e5601ea9c31e985df8dd3fef0f  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/recipes_0.1.2.tgz  # [osx]
+  sha256: 213723a5edd99190de7e1dd7f8c01e75c34b9779dd233ce8f0cb1e5b673bc3e5  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -106,7 +101,7 @@ extra:
 
 # Package: recipes
 # Title: Preprocessing Tools to Create Design Matrices
-# Version: 0.1.1
+# Version: 0.1.2
 # Authors@R: c( person("Max", "Kuhn", , "max@rstudio.com", c("aut", "cre")), person("Hadley", "Wickham", , "hadley@rstudio.com", "aut"), person("RStudio", role = "cph"))
 # Description: An extensible framework to create and preprocess  design matrices. Recipes consist of one or more data manipulation  and analysis "steps". Statistical parameters for the steps can  be estimated from an initial data set and then applied to  other data sets. The resulting design matrices can then be used  as inputs into statistical or machine learning models.
 # URL: https://github.com/topepo/recipes
@@ -120,11 +115,11 @@ extra:
 # LazyData: true
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-11-20 15:59:11 UTC; max
+# Packaged: 2018-01-11 15:59:46 UTC; max
 # Author: Max Kuhn [aut, cre], Hadley Wickham [aut], RStudio [cph]
 # Maintainer: Max Kuhn <max@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-11-20 17:33:39 UTC
+# Date/Publication: 2018-01-11 21:50:57 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

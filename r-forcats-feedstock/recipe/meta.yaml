@@ -1,4 +1,4 @@
-{% set version = '0.2.0' %}
+{% set version = '0.3.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,45 +8,42 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: forcats_0.2.0.tar.gz  # [linux or win32]
+  fn: forcats_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/forcats_0.2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/forcats/forcats_0.2.0.tar.gz  # [linux or win32]
-  sha256: b5bce370422d4c0ec9509249ae645373949bfbe9217cdf50dce2bfbdad9f7cd7  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/forcats_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/forcats/forcats_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 95814610ec18b8a8830eba63751954387f9d21400d6ab40394ed0ff22c0cb657  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/forcats_0.3.0.zip  # [win64]
+  sha256: b297fb1826df77cc42b7b8a7140fe171e1db04227cb64e6f0045ba25a0179a2e  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/forcats_0.2.0.zip  # [win64]
-  sha256: 1dd7096cbaf68800129e9f6e9297cf8c6bf8f33ac2f7e665f2a5462fa43a0a95  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/forcats_0.2.0.tgz  # [osx]
-  sha256: b0ba928dca5184c48fa92aaa1741fe3716c56d6e9c0158d696b247508c566758  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/forcats_0.3.0.tgz  # [osx]
+  sha256: 22ee15b0eb3a821957773de96492fadadf61cf5a993f9a35450aa271543c729e  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: ggplot2, testthat, covr
+# Suggests: covr, ggplot2, testthat
 requirements:
   build:
 
   host:
     - mro-base
     - r-magrittr
+    - r-rlang
     - r-tibble
 
   run:
     - mro-base
     - r-magrittr
+    - r-rlang
     - r-tibble
 
 test:
@@ -78,24 +75,24 @@ extra:
 
 # Package: forcats
 # Title: Tools for Working with Categorical Variables (Factors)
-# Version: 0.2.0
+# Version: 0.3.0
 # Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("RStudio", role = c("cph", "fnd")) )
 # Description: Helpers for reordering factor levels (including moving specified levels to front, ordering by first appearance, reversing, and randomly shuffling), and tools for modifying factor levels (including collapsing rare levels into other, 'anonymising', and manually 'recoding').
 # License: GPL-3
-# Encoding: UTF-8
-# LazyData: true
 # URL: http://forcats.tidyverse.org, https://github.com/tidyverse/forcats
 # BugReports: https://github.com/tidyverse/forcats/issues
-# Depends: R (>= 2.10)
-# Imports: tibble, magrittr
-# RoxygenNote: 5.0.1.9000
-# Suggests: ggplot2, testthat, covr
+# Depends: R (>= 3.1)
+# Imports: magrittr, rlang, tibble
+# Suggests: covr, ggplot2, testthat
+# Encoding: UTF-8
+# LazyData: true
+# RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-01-22 19:24:31 UTC; hornik
+# Packaged: 2018-02-19 17:34:45 UTC; hadley
 # Author: Hadley Wickham [aut, cre], RStudio [cph, fnd]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-01-23 16:39:48
+# Date/Publication: 2018-02-19 19:43:26 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

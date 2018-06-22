@@ -1,4 +1,4 @@
-{% set version = '3.0.4' %}
+{% set version = '3.0.5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,41 +8,35 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: kohonen_3.0.4.tar.gz  # [linux or win32]
+  fn: kohonen_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/kohonen_3.0.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/kohonen/kohonen_3.0.4.tar.gz  # [linux or win32]
-  sha256: 429864d72858c29d4187bed48ac1c17cf2ecb08f18090b6bf44dff55174609ab  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/kohonen_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/kohonen/kohonen_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1fe105d206850ced22ae3b397d09894ba5a0f6061348169e5968bfcf6d9c0c84  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/kohonen_3.0.5.zip  # [win64]
+  sha256: 56dc00955b0e46741106a88aecca18385ccb7fc5bb3338ede02e85dcfb89c139  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/kohonen_3.0.4.zip  # [win64]
-  sha256: bd3b099d64b120a4ab483598ec32822256cfc659c6974e2857173c5aec4b0418  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/kohonen_3.0.4.tgz  # [osx]
-  sha256: 7f6b15738918f908e9f8fb66fdf5b70593b78142d209b5785f601cbfa3931d12  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/kohonen_3.0.5.tgz  # [osx]
+  sha256: cf7f272154c6d5db4c646f55642aa01cd3de3ae903e6eb44b05ee12c96877957  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -51,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-mass
     - r-rcpp >=0.12.7
 
@@ -82,7 +76,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: kohonen
-# Version: 3.0.4
+# Version: 3.0.5
 # Title: Supervised and Unsupervised Self-Organising Maps
 # Author: Ron Wehrens and Johannes Kruisselbrink
 # Maintainer: Ron Wehrens <ron.wehrens@gmail.com>
@@ -92,9 +86,9 @@ extra:
 # Imports: MASS, Rcpp (>= 0.12.7)
 # LinkingTo: Rcpp
 # NeedsCompilation: yes
-# Packaged: 2017-08-28 15:23:15 UTC; ron
+# Packaged: 2018-05-25 09:01:36 UTC; ron
 # Repository: CRAN
-# Date/Publication: 2017-08-28 18:51:19 UTC
+# Date/Publication: 2018-05-25 09:37:56 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,4 +1,4 @@
-{% set version = '0.3-1' %}
+{% set version = '0.4-1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: selectr_0.3-1.tar.gz  # [linux or win32]
+  fn: selectr_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/selectr_0.3-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/selectr/selectr_0.3-1.tar.gz  # [linux or win32]
-  sha256: db4f7ceea4b522a54c3ae7709787b0b7fcf389c5d945c5a278e3625388218949  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/selectr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/selectr/selectr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 8bd42f167629344e485e586f9b05fed342746132489079084d82133d7b3ee2ca  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/selectr_0.4-1.zip  # [win64]
+  sha256: c37bc5c603c0b2c58aacc61c58972c12cad0e5adb2e44ac5ab33537c1fe06b54  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/selectr_0.3-1.zip  # [win64]
-  sha256: 5eb517edad7c7c8f2f812e6ac30a559afaa59c0ca0eb8bb14e0f65cd7ade451a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/selectr_0.3-1.tgz  # [osx]
-  sha256: 3ec077a18f68aa6dc07bc97debfa6ceb387348167fb6de482e8a9ef57f30bd34  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/selectr_0.4-1.tgz  # [osx]
+  sha256: 42cc47ba03bf48882c8f83ff6a58fbe6db194c565841ce95ee1537ee804dc0d0  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -41,10 +36,12 @@ requirements:
 
   host:
     - mro-base
+    - r-r6
     - r-stringr
 
   run:
     - mro-base
+    - r-r6
     - r-stringr
 
 test:
@@ -65,7 +62,7 @@ about:
   summary: Translates a CSS3 selector into an equivalent XPath expression. This allows us to
     use CSS selectors when working with the XML package as it can only evaluate XPath
     expressions. Also provided are convenience functions useful for using CSS selectors
-    on XML nodes. This package is a port of the Python package 'cssselect' (<https://pythonhosted.org/cssselect/>).
+    on XML nodes. This package is a port of the Python package 'cssselect' (<https://cssselect.readthedocs.io/>).
   license_family: BSD
 
 extra:
@@ -77,22 +74,22 @@ extra:
 # Package: selectr
 # Type: Package
 # Title: Translate CSS Selectors to XPath Expressions
-# Version: 0.3-1
-# Date: 2016-12-18
+# Version: 0.4-1
+# Date: 2018-04-05
 # Authors@R: c(person("Simon", "Potter", role = c("aut", "trl", "cre"), email = "simon@sjp.co.nz"), person("Simon", "Sapin", role = "aut"), person("Ian", "Bicking", role = "aut"))
 # License: BSD_3_clause + file LICENCE
-# Depends: R (>= 2.15.2)
-# Imports: methods, stringr
+# Depends: R (>= 3.0)
+# Imports: methods, stringr, R6
 # Suggests: testthat, XML, xml2
 # URL: https://sjp.co.nz/projects/selectr
 # BugReports: https://github.com/sjp/selectr/issues
-# Description: Translates a CSS3 selector into an equivalent XPath expression. This allows us to use CSS selectors when working with the XML package as it can only evaluate XPath expressions. Also provided are convenience functions useful for using CSS selectors on XML nodes. This package is a port of the Python package 'cssselect' (<https://pythonhosted.org/cssselect/>).
+# Description: Translates a CSS3 selector into an equivalent XPath expression. This allows us to use CSS selectors when working with the XML package as it can only evaluate XPath expressions. Also provided are convenience functions useful for using CSS selectors on XML nodes. This package is a port of the Python package 'cssselect' (<https://cssselect.readthedocs.io/>).
 # NeedsCompilation: no
-# Packaged: 2016-12-19 02:54:30 UTC; sjp
+# Packaged: 2018-04-06 00:16:15 UTC; simon
 # Author: Simon Potter [aut, trl, cre], Simon Sapin [aut], Ian Bicking [aut]
 # Maintainer: Simon Potter <simon@sjp.co.nz>
 # Repository: CRAN
-# Date/Publication: 2016-12-19 08:34:09
+# Date/Publication: 2018-04-06 04:14:27 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

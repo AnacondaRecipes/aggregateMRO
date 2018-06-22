@@ -1,4 +1,4 @@
-{% set version = '0.3.4' %}
+{% set version = '0.3.5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: profvis_0.3.4.tar.gz  # [linux or win32]
+  fn: profvis_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/profvis_0.3.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/profvis/profvis_0.3.4.tar.gz  # [linux or win32]
-  sha256: f0d7d581793eb61190cdc91f4db97bf4afa2c806c54837cd849629d81f41a14f  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/profvis_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/profvis/profvis_{{ version }}.tar.gz  # [linux or win32]
+  sha256: ca5437c8373d907a7688ae57d04c3af177f4fa62c706742fb0796797a9ac7772  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/profvis_0.3.5.zip  # [win64]
+  sha256: 05d0866085efe7d4b8c24b863d1ac9f082b7faf6fbc4e959a5f07203329a67d4  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/profvis_0.3.4.zip  # [win64]
-  sha256: 5acf6dc848fa172a29046b9ff08a37919400889a09b371dd7a82697f58ea7cab  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/profvis_0.3.4.tgz  # [osx]
-  sha256: c0a4a766e5e753d9ebddd9b624e96439cfae1898d4754222bdebd24447d4d063  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/profvis_0.3.5.tgz  # [osx]
+  sha256: d39922ab6c8c02d617bed2ada74003039f72d29f0f1bf25e4622b2b6042f6653  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +33,10 @@ build:
 # Suggests: knitr, ggplot2, rmarkdown, testthat, devtools
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
@@ -50,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-htmlwidgets >=0.3.2
     - r-stringr
 
@@ -80,7 +75,7 @@ extra:
 
 # Package: profvis
 # Title: Interactive Visualizations for Profiling R Code
-# Version: 0.3.4
+# Version: 0.3.5
 # Authors@R: c( person("Winston", "Chang", email = "winston@rstudio.com", role = c("aut", "cre")), person("Javier", "Luraschi", email = "javier@rstudio.com", role = "aut"), person(family = "RStudio", role = "cph"), person(family = "jQuery Foundation", role = "cph", comment = "jQuery library"), person(family = "jQuery contributors", role = c("ctb", "cph"), comment = "jQuery library; authors listed in inst/www/shared/jquery-AUTHORS.txt"), person("Mike", "Bostock", role = c("ctb", "cph"), comment = "D3 library"), person(family = "D3 contributors", role = "ctb", comment = "D3 library"), person("Ivan", "Sagalaev", role = c("ctb", "cph"), comment = "highlight.js library") )
 # Description: Interactive visualizations for profiling R code.
 # Depends: R (>= 3.0)
@@ -90,11 +85,11 @@ extra:
 # RoxygenNote: 6.0.1.9000
 # URL: https://rstudio.github.io/profvis/
 # NeedsCompilation: yes
-# Packaged: 2017-12-12 17:04:24 UTC; winston
+# Packaged: 2018-02-22 03:10:02 UTC; winston
 # Author: Winston Chang [aut, cre], Javier Luraschi [aut], RStudio [cph], jQuery Foundation [cph] (jQuery library), jQuery contributors [ctb, cph] (jQuery library; authors listed in inst/www/shared/jquery-AUTHORS.txt), Mike Bostock [ctb, cph] (D3 library), D3 contributors [ctb] (D3 library), Ivan Sagalaev [ctb, cph] (highlight.js library)
 # Maintainer: Winston Chang <winston@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-12-12 17:29:00 UTC
+# Date/Publication: 2018-02-22 04:24:31 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

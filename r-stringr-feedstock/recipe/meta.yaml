@@ -1,4 +1,4 @@
-{% set version = '1.3.0' %}
+{% set version = '1.3.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -12,13 +12,13 @@ source:
   url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/stringr_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/stringr/stringr_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 23b048d2344cafa10a3480f8d52ab818525c6fdf7210290635f3a10de772bb1d  # [linux or win32]
+  sha256: 7a8b8ea038e45978bd797419b16793f44f10c5355ad4c64b74d15276fef20343  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/stringr_1.3.0.zip  # [win64]
-  sha256: 7de62b62aa4e57482f3cec07edebe2695353db856a174b6e91e7ececc7ca40df  # [win64]
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/stringr_1.3.1.zip  # [win64]
+  sha256: 5957f66de6b992e7e36ab84531093cee914101c681e4dd5b8d6bdb74fd0b2f71  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/stringr_1.3.0.tgz  # [osx]
-  sha256: dd1c42a9a2461ca920fad3ee37f96e6b08707f1d3ab31533228d02bbf332e27a  # [osx]
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/stringr_1.3.1.tgz  # [osx]
+  sha256: 99b42508b7d994e2ae8fdd5397b2691b0cff26fd5a01d31c1544945af9ff5edb  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
@@ -36,15 +36,15 @@ requirements:
 
   host:
     - mro-base
-    - r-glue
+    - r-glue >=1.2.0
     - r-magrittr
-    - r-stringi >=1.1.6
+    - r-stringi >=1.1.7
 
   run:
     - mro-base
-    - r-glue
+    - r-glue >=1.2.0
     - r-magrittr
-    - r-stringi >=1.1.6
+    - r-stringi >=1.1.7
 
 test:
   commands:
@@ -75,24 +75,24 @@ extra:
 
 # Package: stringr
 # Title: Simple, Consistent Wrappers for Common String Operations
-# Version: 1.3.0
+# Version: 1.3.1
 # Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre", "cph")), person("RStudio", role = c("cph", "fnd")) )
 # Description: A consistent, simple and easy to use set of wrappers around the fantastic 'stringi' package. All function and argument names (and positions) are consistent, all functions deal with "NA"'s and zero length vectors in the same way, and the output from one function is easy to feed into the input of another.
 # License: GPL-2 | file LICENSE
 # URL: http://stringr.tidyverse.org, https://github.com/tidyverse/stringr
 # BugReports: https://github.com/tidyverse/stringr/issues
 # Depends: R (>= 3.1)
-# Imports: glue, magrittr, stringi (>= 1.1.6)
+# Imports: glue (>= 1.2.0), magrittr, stringi (>= 1.1.7)
 # Suggests: covr, htmltools, htmlwidgets, knitr, rmarkdown, testthat
 # VignetteBuilder: knitr
 # LazyData: true
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2018-01-29 22:45:15 UTC; hadley
+# Packaged: 2018-05-10 16:42:26 UTC; hadley
 # Author: Hadley Wickham [aut, cre, cph], RStudio [cph, fnd]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-02-19 19:47:14 UTC
+# Date/Publication: 2018-05-10 21:32:15 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

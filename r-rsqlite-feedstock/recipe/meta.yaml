@@ -1,4 +1,4 @@
-{% set version = '2.0' %}
+{% set version = '2.1.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +8,22 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RSQLite_2.0.tar.gz  # [linux or win32]
+  fn: RSQLite_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RSQLite_2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RSQLite/RSQLite_2.0.tar.gz  # [linux or win32]
-  sha256: 7f0fe629f34641c6af1e8a34412f3089ee2d184853843209d97ffe29430ceff6  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/RSQLite_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/RSQLite/RSQLite_{{ version }}.tar.gz  # [linux or win32]
+  sha256: dfdc7de4f453efeed8361b7bec271a9ed7f0c00110e93c24f486e93206993cbe  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/RSQLite_2.1.1.zip  # [win64]
+  sha256: 2ecb5b43b8a0d6783ffab597a0ea5baf5f1126a4808ea6d43fb45eb59ccd1bfc  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RSQLite_2.0.zip  # [win64]
-  sha256: f0193a50b2fadaa1c5b698d9f651bfd7a7fe23a077b4c00617192e37504a029a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RSQLite_2.0.tgz  # [osx]
-  sha256: 1c0146eb9a3d193fd021e4a9ad7ebdde6130967c25cf44a66ed988ac28b00da5  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/RSQLite_2.1.1.tgz  # [osx]
+  sha256: b720b1ffcea9c9261b54cd218f568c7537a2e344ca1cb31dcab59eb0e3f4830f  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,34 +33,34 @@ build:
 # Suggests: DBItest, knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
 
   host:
     - mro-base
     - r-bh
-    - r-dbi >=0.4_9
+    - r-dbi >=1.0.0
     - r-rcpp >=0.12.7
     - r-bit64
-    - r-blob >=1.1
+    - r-blob >=1.1.1
     - r-memoise
     - r-pkgconfig
-    - r-plogr
+    - r-plogr >=0.2.0
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-bh
-    - r-dbi >=0.4_9
+    - r-dbi >=1.0.0
     - r-rcpp >=0.12.7
     - r-bit64
-    - r-blob >=1.1
+    - r-blob >=1.1.1
     - r-memoise
     - r-pkgconfig
-    - r-plogr
+    - r-plogr >=0.2.0
 
 test:
   commands:
@@ -80,10 +75,10 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://github.com/rstats-db/RSQLite
+  home: https://github.com/r-dbi/RSQLite
   license: LGPL (>= 2)
   summary: Embeds the 'SQLite' database engine in R and provides an interface compliant with
-    the 'DBI' package. The source for the 'SQLite' engine (version 3.8.8.2) is included.
+    the 'DBI' package. The source for the 'SQLite' engine is included.
   license_family: LGPL
 
 extra:
@@ -93,28 +88,28 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: RSQLite
-# Version: 2.0
-# Date: 2017-06-18
 # Title: 'SQLite' Interface for R
-# Authors@R: c( person("Kirill", "Muller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"), person("Hadley", "Wickham", role = c("aut")), person(c("David", "A."), "James", role = "aut"), person("Seth", "Falcon", role = "aut"), person(family = "SQLite Authors", role = "ctb", comment = "for the included SQLite sources"), person("Liam", "Healy", role = "ctb", comment = "for the included SQLite sources"), person(family = "R Consortium", role = "cph"), person(family = "RStudio", role = "cph") )
-# Description: Embeds the 'SQLite' database engine in R and provides an interface compliant with the 'DBI' package. The source for the 'SQLite' engine (version 3.8.8.2) is included.
-# Depends: R (>= 3.1.0)
-# Suggests: DBItest, knitr, rmarkdown, testthat
-# Imports: bit64, blob (>= 1.1), DBI (>= 0.4-9), memoise, methods, pkgconfig, Rcpp (>= 0.12.7)
-# LinkingTo: Rcpp, BH, plogr
-# Encoding: UTF-8
+# Version: 2.1.1
+# Date: 2018-05-05
+# Authors@R: c( person("Kirill", "M\u00fcller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org", comment = c(ORCID = "0000-0002-1416-3412")), person("Hadley", "Wickham", role = c("aut")), person(c("David", "A."), "James", role = "aut"), person("Seth", "Falcon", role = "aut"), person(family = "SQLite Authors", role = "ctb", comment = "for the included SQLite sources"), person("Liam", "Healy", role = "ctb", comment = "for the included SQLite sources"), person(family = "R Consortium", role = "fnd"), person(family = "RStudio", role = "cph") )
+# Description: Embeds the 'SQLite' database engine in R and provides an interface compliant with the 'DBI' package. The source for the 'SQLite' engine is included.
 # License: LGPL (>= 2)
-# URL: https://github.com/rstats-db/RSQLite
-# BugReports: https://github.com/rstats-db/RSQLite/issues
-# Collate: 'RcppExports.R' 'SQLiteConnection.R' 'SQLiteDriver.R' 'SQLiteResult.R' 'connect.R' 'copy.R' 'datasetsDb.R' 'deprecated.R' 'export.R' 'extensions.R' 'query.R' 'rownames.R' 'table.R' 'transactions.R' 'utils.R' 'zzz.R'
+# URL: https://github.com/r-dbi/RSQLite
+# BugReports: https://github.com/r-dbi/RSQLite/issues
+# Depends: R (>= 3.1.0)
+# Imports: bit64, blob (>= 1.1.1), DBI (>= 1.0.0), memoise, methods, pkgconfig, Rcpp (>= 0.12.7)
+# Suggests: DBItest, knitr, rmarkdown, testthat
+# LinkingTo: BH, plogr (>= 0.2.0), Rcpp
 # VignetteBuilder: knitr
-# RoxygenNote: 6.0.1
+# Encoding: UTF-8
+# RoxygenNote: 6.0.1.9000
+# Collate: 'RcppExports.R' 'SQLiteConnection.R' 'SQLiteDriver.R' 'SQLiteResult.R' 'coerce.R' 'connect.R' 'copy.R' 'datasetsDb.R' 'deprecated.R' 'export.R' 'extensions.R' 'names.R' 'query.R' 'rownames.R' 'table.R' 'transactions.R' 'utils.R' 'zzz.R'
 # NeedsCompilation: yes
-# Packaged: 2017-06-18 22:12:09 UTC; muelleki
-# Author: Kirill Muller [aut, cre], Hadley Wickham [aut], David A. James [aut], Seth Falcon [aut], SQLite Authors [ctb] (for the included SQLite sources), Liam Healy [ctb] (for the included SQLite sources), R Consortium [cph], RStudio [cph]
+# Packaged: 2018-05-06 17:03:57 UTC; kirill
+# Author: Kirill Muller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>), Hadley Wickham [aut], David A. James [aut], Seth Falcon [aut], SQLite Authors [ctb] (for the included SQLite sources), Liam Healy [ctb] (for the included SQLite sources), R Consortium [fnd], RStudio [cph]
 # Maintainer: Kirill Muller <krlmlr+r@mailbox.org>
 # Repository: CRAN
-# Date/Publication: 2017-06-19 11:51:07 UTC
+# Date/Publication: 2018-05-06 17:55:15 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

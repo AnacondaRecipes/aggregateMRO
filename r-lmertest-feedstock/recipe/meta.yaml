@@ -1,4 +1,4 @@
-{% set version = '2.0-36' %}
+{% set version = '3.0-1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,54 +8,45 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lmerTest_2.0-36.tar.gz  # [linux or win32]
+  fn: lmerTest_{{ version }}.tar.gz   # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lmerTest_2.0-36.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lmerTest/lmerTest_2.0-36.tar.gz  # [linux or win32]
-  sha256: 178717ce9dbfa54d11f0ed320759ddd231b9c7cce4d9cf712faa3757883745c9  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lmerTest_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lmerTest/lmerTest_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 95e07c9e1b231ac14c379324570c5a387e1a6348aee51b673dc32ec474322a5e  # [linux or win32]
 
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lmerTest_3.0-1.zip  # [win64]
+  sha256: c904854d01e96f307a04e1ba48198770b6f7801608b3ccd0fa00620090d9a078  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lmerTest_2.0-36.zip  # [win64]
-  sha256: 324d064d5f36d9d4c04beb988401aada978f2390abdcfd884c5a8d398011e0f5  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lmerTest_2.0-36.tgz  # [osx]
-  sha256: 49a0405196d56fa3ad46ede7a1702e4a70e890d1a491171e61f57715e5b9fb84  # [osx]
-
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lmerTest_3.0-1.tgz  # [osx]
+  sha256: 0cef8b3f1afa3ac1361621f4a7d61cae077b96f120cc9549184d21c8cae4defe  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
-
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: pbkrtest, nlme, estimability
+# Suggests: pbkrtest (>= 0.4-3), tools
 requirements:
   build:
 
   host:
     - mro-base
-    - r-hmisc
     - r-mass
-    - r-matrix
     - r-ggplot2
-    - r-lme4 >=1.0
-    - r-plyr
+    - r-lme4 >=1.1_10
+    - r-numderiv
 
   run:
     - mro-base
-    - r-hmisc
     - r-mass
-    - r-matrix
     - r-ggplot2
-    - r-lme4 >=1.0
-    - r-plyr
+    - r-lme4 >=1.1_10
+    - r-numderiv
 
 test:
   commands:
@@ -70,13 +61,13 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://CRAN.R-project.org/package=lmerTest
+  home: https://github.com/runehaubo/lmerTestR
   license: GPL (>= 2)
-  summary: Different kinds of tests for linear mixed effects models as implemented in 'lme4'
-    package are provided. The tests comprise types I - III F tests for fixed effects,
-    LR tests for random effects. The package also provides the calculation of population
-    means for fixed factors with confidence intervals  and corresponding plots. Finally
-    the backward elimination of non-significant effects is implemented.
+  summary: Provides p-values in type I, II or III anova and summary tables for lmer model fits
+    (cf. lme4) via Satterthwaite's degrees of freedom method. A Kenward-Roger method
+    is also available via the pbkrtest package. Model selection methods include step,
+    drop1 and anova-like tables for random effects (ranova). Methods for Least-Square
+    means (LS-means) and tests of linear contrasts of fixed effects are also available.
   license_family: GPL3
 
 extra:
@@ -88,20 +79,25 @@ extra:
 # Package: lmerTest
 # Type: Package
 # Title: Tests in Linear Mixed Effects Models
-# Version: 2.0-36
+# Version: 3.0-1
 # Authors@R: c(person("Alexandra", "Kuznetsova", role = c("aut")), person("Per", "Bruun Brockhoff", role = c("aut", "ths", "cre"), email = "perbb@dtu.dk"), person("Rune", "Haubo Bojesen Christensen", role =  c("aut"), email = "Rune@ChristensenStatistics.dk"))
-# Depends: R (>= 3.0.0), Matrix, stats, methods, lme4 (>= 1.0)
-# Imports: plyr, MASS, Hmisc, ggplot2
-# Suggests: pbkrtest, nlme, estimability
-# Description: Different kinds of tests for linear mixed effects models as implemented in 'lme4' package are provided. The tests comprise types I - III F tests for fixed effects, LR tests for random effects. The package also provides the calculation of population means for fixed factors with confidence intervals  and corresponding plots. Finally the backward elimination of non-significant effects is implemented.
-# LazyData: TRUE
+# Depends: R (>= 3.2.5), lme4 (>= 1.1-10), stats, methods
+# Imports: numDeriv, MASS, ggplot2
+# Suggests: pbkrtest (>= 0.4-3), tools
+# Description: Provides p-values in type I, II or III anova and summary tables for lmer model fits (cf. lme4) via Satterthwaite's degrees of freedom method. A Kenward-Roger method is also available via the pbkrtest package. Model selection methods include step, drop1 and anova-like tables for random effects (ranova). Methods for Least-Square means (LS-means) and tests of linear contrasts of fixed effects are also available.
 # License: GPL (>= 2)
+# Encoding: UTF-8
+# LazyData: true
+# URL: https://github.com/runehaubo/lmerTestR
+# BugReports: https://github.com/runehaubo/lmerTestR/issues
+# RoxygenNote: 6.0.1
+# Collate: 'anova_contrasts.R' 'contest.R' 'contrast_utils.R' 'data_documentation.R' 'drop1.R' 'estimability.R' 'lmer.R' 'lmerTest.R' 'lmer_anova.R' 'lmer_summary.R' 'ls_means.R' 'ranova.R' 'step.R' 'terms_utils.R' 'utils.R'
 # NeedsCompilation: no
-# Packaged: 2017-11-29 20:49:20 UTC; rhbc
+# Packaged: 2018-04-23 06:08:01 UTC; rhbc
 # Author: Alexandra Kuznetsova [aut], Per Bruun Brockhoff [aut, ths, cre], Rune Haubo Bojesen Christensen [aut]
 # Maintainer: Per Bruun Brockhoff <perbb@dtu.dk>
 # Repository: CRAN
-# Date/Publication: 2017-11-30 13:00:11 UTC
+# Date/Publication: 2018-04-23 22:33:22 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
