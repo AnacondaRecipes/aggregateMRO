@@ -1,0 +1,101 @@
+{% set version = '0.3-6' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-geometry
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: geometry_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/geometry_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/geometry/geometry_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2be231ac99171367635cd957f27da77705329df97520ab86f655839c41dc0968  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/geometry_0.3-6.zip  # [win64]
+  sha256: 7a7e7c9b2ffd6ba7af07f61b89ba7ad201aa5d08bfc46bc55d0c48fb68cca3d2  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/geometry_0.3-6.tgz  # [osx]
+  sha256: 4d569806f983233ace6e5c8940fedbac2fadadca43f949db3ea62bdca7572612  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat, rgl, R.matlab, tripack
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+
+  host:
+    - mro-base
+    - r-magic
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+    - r-magic
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('geometry')"           # [not win]
+    - "\"%R%\" -e \"library('geometry')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://geometry.r-forge.r-project.org/
+  license: GPL (>= 3) + file LICENSE
+  summary: Makes the qhull library (www.qhull.org) available in R, in a similar manner as in
+    Octave and MATLAB. Qhull computes convex hulls, Delaunay triangulations, halfspace
+    intersections about a point, Voronoi diagrams, furthest-site Delaunay triangulations,
+    and furthest-site Voronoi diagrams. It runs in 2-d, 3-d, 4-d, and higher dimensions.
+    It implements the Quickhull algorithm for computing the convex hull. Qhull does
+    not support constrained Delaunay triangulations, or mesh generation of non-convex
+    objects, but the package does include some R functions that allow for this. Currently
+    the package only gives access to Delaunay triangulation and convex hull computation.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: geometry
+# License: GPL (>= 3) + file LICENSE
+# Title: Mesh Generation and Surface Tesselation
+# Authors@R: c(person("C. B.", "Barber" , role="cph"), person("Kai", "Habel", role=c("cph","aut")), person("Raoul", "Grasman", role=c("cph","aut")), person("Robert B.", "Gramacy", role=c("cph","aut")), person("Andreas", "Stahel", role=c("cph","aut")), person("David C.", "Sterratt", role=c("cph","aut","cre"), email="david.c.sterratt@ed.ac.uk"))
+# Description: Makes the qhull library (www.qhull.org) available in R, in a similar manner as in Octave and MATLAB. Qhull computes convex hulls, Delaunay triangulations, halfspace intersections about a point, Voronoi diagrams, furthest-site Delaunay triangulations, and furthest-site Voronoi diagrams. It runs in 2-d, 3-d, 4-d, and higher dimensions. It implements the Quickhull algorithm for computing the convex hull. Qhull does not support constrained Delaunay triangulations, or mesh generation of non-convex objects, but the package does include some R functions that allow for this. Currently the package only gives access to Delaunay triangulation and convex hull computation.
+# Version: 0.3-6
+# URL: http://geometry.r-forge.r-project.org/
+# Date: 2015-09-04
+# BugReports: https://r-forge.r-project.org/tracker/?group_id=1149
+# Depends: R (>= 2.5.0), magic
+# Suggests: testthat, rgl, R.matlab, tripack
+# NeedsCompilation: yes
+# Packaged: 2015-09-09 10:46:51 UTC; sterratt
+# Author: C. B. Barber [cph], Kai Habel [cph, aut], Raoul Grasman [cph, aut], Robert B. Gramacy [cph, aut], Andreas Stahel [cph, aut], David C. Sterratt [cph, aut, cre]
+# Maintainer: David C. Sterratt <david.c.sterratt@ed.ac.uk>
+# Repository: CRAN
+# Date/Publication: 2015-09-09 13:47:14
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

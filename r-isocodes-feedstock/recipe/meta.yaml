@@ -1,0 +1,86 @@
+{% set version = '2017.09.27' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-isocodes
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: ISOcodes_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ISOcodes_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ISOcodes/ISOcodes_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 57b6c6e335075995d1b56801ed7b3c72b47284cd2fb66de29a8c7e0742b8cbda  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/ISOcodes_2017.09.27.zip  # [win64]
+  sha256: 985c3d7301b11e98846723f776d8d88f25c44666b537c5f422ea9fa5fdabd9d2  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/ISOcodes_2017.09.27.tgz  # [osx]
+  sha256: f58619250fa3938f97fc281698d8a67ec9e271bf0291c59a1a82ff872df130bd  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('ISOcodes')"           # [not win]
+    - "\"%R%\" -e \"library('ISOcodes')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=ISOcodes
+  license: GPL-2
+  summary: ISO language, territory, currency, script and character codes. Provides ISO 639 language
+    codes, ISO 3166 territory codes, ISO 4217 currency codes, ISO 15924 script codes,
+    and the ISO 8859 character codes as well as the UN M.49 area codes.
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: ISOcodes
+# Version: 2017.09.27
+# Encoding: UTF-8
+# Title: Selected ISO Codes
+# Authors@R: c(person("Christian", "Buchta", role = "aut"), person("Kurt", "Hornik", role = c("aut", "cre"), email = "Kurt.Hornik@R-project.org"))
+# Description: ISO language, territory, currency, script and character codes. Provides ISO 639 language codes, ISO 3166 territory codes, ISO 4217 currency codes, ISO 15924 script codes, and the ISO 8859 character codes as well as the UN M.49 area codes.
+# Depends: R (>= 2.10.0)
+# License: GPL-2
+# LazyData: yes
+# NeedsCompilation: no
+# Packaged: 2017-09-27 17:05:57 UTC; hornik
+# Author: Christian Buchta [aut], Kurt Hornik [aut, cre]
+# Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2017-09-27 17:08:51 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

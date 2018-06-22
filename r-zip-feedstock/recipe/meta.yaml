@@ -1,0 +1,93 @@
+{% set version = '1.0.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-zip
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: zip_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/zip_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/zip/zip_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 6fa9ec7b093b8c717c50f205d4335c31c43c2ecb51c0242c9a0337d8d84df965  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/zip_1.0.0.zip  # [win64]
+  sha256: 282e44cbc1aca460f2854c50ebcb04a53ae2b7fa68aebea9b4d1f9feb38a9d76  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/zip_1.0.0.tgz  # [osx]
+  sha256: 848998d1333d062b416d2c62f88cdb29b6ccc79da0d8bc7dbf30ecb7a0901e39  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: covr, testthat, withr
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('zip')"           # [not win]
+    - "\"%R%\" -e \"library('zip')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/gaborcsardi/zip
+  license: CC0
+  summary: Cross-Platform 'zip' Compression Library. A replacement for the 'zip' function, that
+    does not require any additional external tools on any platform.
+  license_family: CC
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: zip
+# Title: Cross-Platform 'zip' Compression
+# Version: 1.0.0
+# Author: Gabor Csardi, Kuba Podgorski, Rich Geldreich
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# Description: Cross-Platform 'zip' Compression Library. A replacement for the 'zip' function, that does not require any additional external tools on any platform.
+# License: CC0
+# LazyData: true
+# URL: https://github.com/gaborcsardi/zip
+# BugReports: https://github.com/gaborcsardi/zip/issues
+# RoxygenNote: 6.0.1
+# Suggests: covr, testthat, withr
+# Encoding: UTF-8
+# NeedsCompilation: yes
+# Packaged: 2017-04-25 10:54:02 UTC; gaborcsardi
+# Repository: CRAN
+# Date/Publication: 2017-04-25 14:36:39 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
