@@ -113,6 +113,8 @@ outputs:
         - lib/R/etc/x64/Makeconf
         - lib/R/etc/x64/ldpaths
         - lib/R/etc/x64/javaconf
+      run_exports:
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
     requirements:
       build:
         - m2-base  # [win]
