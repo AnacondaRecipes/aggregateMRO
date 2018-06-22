@@ -1,0 +1,90 @@
+{% set version = '2017.10-1' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-squarem
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: SQUAREM_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/SQUAREM_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/SQUAREM/SQUAREM_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 9b89905b436f1cf3faa9e3dabc585a76299e729e85ca659bfddb4b7cba11b283  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/SQUAREM_2017.10-1.zip  # [win64]
+  sha256: 9fecd8edb5d6b40b8988a6324ce7c1cb8a940f95d75afaf8a37c99a512361444  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/SQUAREM_2017.10-1.tgz  # [osx]
+  sha256: 3b6cf29890841835ab34fb5b15dc3ad38e09d3aad5ad74799713c946e521352c  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: setRNG
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('SQUAREM')"           # [not win]
+    - "\"%R%\" -e \"library('SQUAREM')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.jhsph.edu/agingandhealth/People/Faculty_personal_pages/Varadhan.html
+  license: GPL (>= 2)
+  summary: Algorithms for accelerating the convergence of slow, monotone sequences from smooth,
+    contraction mapping such as the EM algorithm. It can be used to accelerate any smooth,
+    linearly convergent acceleration scheme.  A tutorial style introduction to this
+    package is available in a vignette on the CRAN download page or, when the package
+    is loaded in an R session, with vignette("SQUAREM").
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: SQUAREM
+# Version: 2017.10-1
+# Date: 2017-10-03
+# Title: Squared Extrapolation Methods for Accelerating EM-Like Monotone Algorithms
+# Description: Algorithms for accelerating the convergence of slow, monotone sequences from smooth, contraction mapping such as the EM algorithm. It can be used to accelerate any smooth, linearly convergent acceleration scheme.  A tutorial style introduction to this package is available in a vignette on the CRAN download page or, when the package is loaded in an R session, with vignette("SQUAREM").
+# Depends: R (>= 3.0)
+# Suggests: setRNG
+# LazyLoad: yes
+# License: GPL (>= 2)
+# Author: Ravi Varadhan
+# Maintainer: Ravi Varadhan <ravi.varadhan@jhu.edu>
+# URL: http://www.jhsph.edu/agingandhealth/People/Faculty_personal_pages/Varadhan.html
+# Repository: CRAN
+# NeedsCompilation: no
+# Packaged: 2017-10-07 19:14:35 UTC; rvaradh1
+# Date/Publication: 2017-10-07 23:39:30 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

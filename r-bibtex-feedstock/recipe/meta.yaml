@@ -1,0 +1,97 @@
+{% set version = '0.4.2' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-bibtex
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: bibtex_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/bibtex_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/bibtex/bibtex_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1f06ab3660c940405230ad16ff6e4ba38d4418a59cd9b16d78a4349f8b488372  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/bibtex_0.4.2.zip  # [win64]
+  sha256: 1029f7056b7d7046c2d1c94666bed517f2f36af3182045adadcd2a9fbd8a8a58  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/bibtex_0.4.2.tgz  # [osx]
+  sha256: b40dc49955bda7c25447029304220806d64eae8f98477e1f78d43122397600a0  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: testthat
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+
+  host:
+    - mro-base
+    - r-stringr
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+    - r-stringr
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('bibtex')"           # [not win]
+    - "\"%R%\" -e \"library('bibtex')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/romainfrancois/bibtex
+  license: GPL (>= 2)
+  summary: 'Utility to parse a bibtex file. '
+
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: bibtex
+# Version: 0.4.2
+# Title: Bibtex Parser
+# Authors@R: c( person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"), person("Kurt", "Hornik", role = "ctb", email = "Kurt.Hornik@R-project.org"), person("Michael", "Koohafkan", role = "ctb", email = "michael.koohafkan@gmail.com"),  person(c("Mathew", "W."), "McLean", role = "ctb", email = "mathew.w.mclean@gmail.com" ) )
+# Description: Utility to parse a bibtex file.
+# Depends: R (>= 3.0.2)
+# Imports: stringr, utils
+# Suggests: testthat
+# License: GPL (>= 2)
+# LazyLoad: yes
+# BugReports: https://github.com/romainfrancois/bibtex/issues
+# URL: https://github.com/romainfrancois/bibtex
+# RoxygenNote: 6.0.1.9000
+# NeedsCompilation: yes
+# Packaged: 2017-06-30 12:29:22 UTC; romain
+# Author: Romain Francois [aut, cre], Kurt Hornik [ctb], Michael Koohafkan [ctb], Mathew W. McLean [ctb]
+# Maintainer: Romain Francois <romain@r-enthusiasts.com>
+# Repository: CRAN
+# Date/Publication: 2017-06-30 17:36:52 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

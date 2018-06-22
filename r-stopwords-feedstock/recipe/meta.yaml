@@ -1,0 +1,94 @@
+{% set version = '0.9.0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-stopwords
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: stopwords_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stopwords_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stopwords/stopwords_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f0bb7f2ab34a46c5cd827131a1b52b4ee363acd9d69c9bff407c341e301c1b14  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/stopwords_0.9.0.zip  # [win64]
+  sha256: 765bb244a4cb25277d5375cdc685c772b0997c7b3446776087d1cdbfbf29d76a  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/stopwords_0.9.0.tgz  # [osx]
+  sha256: d378a943730ba34d9b155d07b5410a029ae950cebcba01b7840eddbc24d54d74  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: quanteda, testthat, covr
+requirements:
+  build:
+
+  host:
+    - mro-base
+    - r-isocodes
+
+  run:
+    - mro-base
+    - r-isocodes
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('stopwords')"           # [not win]
+    - "\"%R%\" -e \"library('stopwords')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/davnn/stopwords
+  license: MIT + file LICENSE
+  summary: Provides multiple sources of stopwords, for use in text analysis and natural language
+    processing.
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: stopwords
+# Type: Package
+# Title: Multilingual Stopword Lists
+# Version: 0.9.0
+# Authors@R: c(person("Kenneth", "Benoit", email = "kbenoit@lse.ac.uk", role = "aut"), person("David", "Muhr", email = "muhrdavid+github@gmail.com", role = c("aut", "cre")),  person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = "aut"))
+# Description: Provides multiple sources of stopwords, for use in text analysis and natural language processing.
+# License: MIT + file LICENSE
+# Depends: R (>= 2.10)
+# Imports: ISOcodes
+# Suggests: quanteda, testthat, covr
+# URL: https://github.com/davnn/stopwords
+# BugReports: https://github.com/davnn/stopwords/issues
+# Encoding: UTF-8
+# LazyData: true
+# RoxygenNote: 6.0.1
+# NeedsCompilation: no
+# Packaged: 2017-12-14 11:34:57 UTC; rstudio
+# Author: Kenneth Benoit [aut], David Muhr [aut, cre], Kohei Watanabe [aut]
+# Maintainer: David Muhr <muhrdavid+github@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2017-12-14 14:16:27 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

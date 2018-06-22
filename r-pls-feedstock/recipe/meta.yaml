@@ -1,0 +1,91 @@
+{% set version = '2.6-0' %}
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pls
+  version: {{ version|replace("-", "_") }}
+
+source:
+  fn: pls_{{ version }}.tar.gz   # [linux or win32]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pls_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pls/pls_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3d8708fb7f45863d3861fd231e06955e6750bcbe717e1ccfcc6d66d0cb4d4596  # [linux or win32]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/pls_2.6-0.zip  # [win64]
+  sha256: 843d19e584beac359f685d75e714e8de57867d313c8860724bcc9774a8647207  # [win64]
+
+  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/pls_2.6-0.tgz  # [osx]
+  sha256: fcbc089d0c6dbdc316e36464de175bc9c09f636d3a9142b9742f8e6212c0b0c6  # [osx]
+
+build:
+  merge_build_host: True  # [linux or win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, parallel, Rmpi
+requirements:
+  build:
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('pls')"           # [not win]
+    - "\"%R%\" -e \"library('pls')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://mevik.net/work/software/pls.html
+  license: GPL-2
+  summary: Multivariate regression methods Partial Least Squares Regression (PLSR), Principal
+    Component Regression (PCR) and Canonical Powered Partial Least Squares (CPPLS).
+  license_family: GPL2
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: pls
+# Version: 2.6-0
+# Date: 2016-12-18
+# Title: Partial Least Squares and Principal Component Regression
+# Author: Bjrn-Helge Mevik, Ron Wehrens and Kristian Hovde Liland
+# Maintainer: Bjrn-Helge Mevik <pls@mevik.net>
+# Encoding: latin1
+# LazyLoad: yes
+# LazyData: yes
+# ZipData: yes
+# Description: Multivariate regression methods Partial Least Squares Regression (PLSR), Principal Component Regression (PCR) and Canonical Powered Partial Least Squares (CPPLS).
+# License: GPL-2
+# URL: http://mevik.net/work/software/pls.html
+# Depends: R (>= 2.10)
+# Imports: grDevices, graphics, methods, stats
+# Suggests: MASS, parallel, Rmpi
+# NeedsCompilation: no
+# Packaged: 2016-12-18 16:28:35 UTC; bhm
+# Repository: CRAN
+# Date/Publication: 2016-12-18 17:46:39
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
