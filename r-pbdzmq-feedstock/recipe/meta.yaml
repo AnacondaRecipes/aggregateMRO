@@ -46,10 +46,14 @@ requirements:
 
   host:
     - mro-base
+    - r-r6
+    - {{native}}zeromq 4.2.*       # [linux or win32]
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs           # [win32]
+    - r-r6
+    - {{native}}zeromq 4.2.*       # [linux or win32]
 
 test:
   commands:
