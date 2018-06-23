@@ -35,6 +35,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [linux]
     - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('fortran') }}  # [linux]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
     - {{posix}}sed               # [win32]

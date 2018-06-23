@@ -39,6 +39,10 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}          # [linux]
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libxcb') }}                # [linux]
+    - {{ cdt('libxau') }}                # [linux]
     - {{native}}toolchain          # [win32]
     - {{posix}}filesystem          # [win32]
     - {{posix}}sed                 # [win32]
@@ -51,6 +55,7 @@ requirements:
 
   host:
     - mro-base
+    - tk                           # [linux]
 
   run:
     - mro-base

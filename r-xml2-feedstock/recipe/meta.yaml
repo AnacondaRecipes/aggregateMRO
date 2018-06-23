@@ -48,6 +48,7 @@ requirements:
   host:
     - mro-base
     - r-rcpp
+    - libxml2                    # [linux]
 
   run:
     - mro-base

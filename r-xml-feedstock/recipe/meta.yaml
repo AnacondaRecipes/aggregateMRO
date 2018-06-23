@@ -46,10 +46,12 @@ requirements:
 
   host:
     - mro-base
+    - libxml2                    # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs         # [win32]
+    - libxml2                    # [linux]
 
 test:
   commands:

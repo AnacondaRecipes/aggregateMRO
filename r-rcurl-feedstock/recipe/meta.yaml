@@ -47,6 +47,7 @@ requirements:
   host:
     - mro-base
     - r-bitops
+    - libcurl                    # [linux]
 
   run:
     - mro-base
