@@ -38,23 +38,29 @@ def main():
     environ["PYTHONUNBUFFERED"] = "1"
     print("Running:\n{}".format(cb_full_args))
     with open(args.log_file, "w") as log_file:
-        proc = Popen(cb_full_args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        proc = Popen(cb_full_args, stdin=None, stdout=PIPE, stderr=PIPE)
         cont = True
         while cont:
             cont = False
-            line = proc.stdout.readline()
-            if not line == b"":
-                out = line.decode("utf-8").rstrip()
-                log_file.write(out)
-                print(out)
-                cont = True
+            while True:
+                line = proc.stdout.readline()
+                if line and not line == b"":
+                    out = line.decode("utf-8").rstrip()
+                    log_file.write(out)
+                    print("out: {}".format(out))
+                    cont = True
+                else:
+                    break
 
-            line = proc.stderr.readline()
-            if not line == b"":
-                out = line.decode("utf-8").rstrip()
-                log_file.write(out)
-                print(out)
-                cont = True
+            while True:
+                line = proc.stderr.readline()
+                if line and not line == b"":
+                    out = line.decode("utf-8").rstrip()
+                    log_file.write(out)
+                    print("err: {}".format(out))
+                    cont = True
+                else:
+                    break
 
             if not cont and proc.poll() is not None:
                 break
