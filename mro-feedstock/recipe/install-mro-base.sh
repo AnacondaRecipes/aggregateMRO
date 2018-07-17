@@ -85,7 +85,7 @@ make_mro_base () {
     mv ../library .
     [[ -d ../mro_mkl ]] && mv ../mro_mkl lib/
     pushd $PREFIX
-      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
+      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelists/filelist-mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
     popd
   popd
 
