@@ -146,19 +146,19 @@ thing. In particular, the first part (compiling the toolchain) and the final par
 ~/conda/pcr/rays-scratch-scripts/build-in-order --product=r \
   --upload-channel=none --pkg-build-channel-priority=M \
   --installer-build-channel-priority=D --skip-existing=yes \
-  --build-toolchain=no 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
+  --build-toolchain=no 2>&1 | tee -a ~/conda/MRO-${CONDA_R}-$(uname)-$(uname -m).log
 
 # `conda-build` (doing all packages):
 CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
-  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | tr '\n' ' ') \
+  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/mro/all | tr '\n' ' ') \
   -c https://repo.continuum.io/pkgs/main \
-  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
+  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/MRO-${CONDA_R}-$(uname)-$(uname -m).log
 
 # `conda-build` (starting at `r-foo-feedstock`):
 CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
-  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
+  conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/mro/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
   -c https://repo.continuum.io/pkgs/main \
-  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
+  --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/MRO-${CONDA_R}-$(uname)-$(uname -m).log
 ```
 
 # Addendum and miscellaneous notes:
