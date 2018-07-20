@@ -170,23 +170,33 @@ pushd unpack
     cp -p ${SRC_DIR}/libpng-centos5/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/modules/
     cp -p ${SRC_DIR}/libpng-centos5/lib64/libpng12.so.0* "$SRC_DIR"/unpack/lib/R/library/grDevices/libs/
 
-    patchelf --set-rpath '$ORIGIN' lib/R/lib/libR.so
+    chrpath -d lib/R/lib/libR.so
+    patchelf --force-rpath --set-rpath '$ORIGIN' lib/R/lib/libR.so
     # lib/R/modules needed for libpng12.so.0
-    patchelf --set-rpath '$ORIGIN:$ORIGIN/../../../../../modules' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgcodecs.so.3.2
-    patchelf --set-rpath '$ORIGIN' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgproc.so.3.2
+    chrpath -d lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgcodecs.so.3.2
+    patchelf --force-rpath --set-rpath '$ORIGIN:$ORIGIN/../../../../../modules' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgcodecs.so.3.2
+    chrpath -d lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgproc.so.3.2
+    patchelf --force-rpath --set-rpath '$ORIGIN' lib/R/library/MicrosoftML/mxLibs/x64/Linux/libopencv_imgproc.so.3.2
 
     # Add a missing RPATH (MRO probably used LD_LIBRARY_PATH for this):
+    set -x
     pushd lib/R/modules
       for SHARED_LIB in $(find . -type f -iname "*.so"); do
-        patchelf --set-rpath '$ORIGIN':'$ORIGIN'/../lib $SHARED_LIB
+        chrpath -d $SHARED_LIB
+        patchelf --force-rpath --set-rpath '$ORIGIN':'$ORIGIN'/../lib $SHARED_LIB
       done
     popd
-    patchelf --set-rpath '$ORIGIN'/../../lib lib/R/bin/exec/R
-    patchelf --set-rpath '$ORIGIN' lib/R/lib/libRblas.so
-    patchelf --set-rpath '$ORIGIN' lib/R/lib/libRlapack.so
+    set +x
+    chrpath -d lib/R/bin/exec/R
+    chrpath -d lib/R/lib/libRblas.so
+    chrpath -d lib/R/lib/libRlapack.so
+    patchelf --force-rpath --set-rpath '$ORIGIN'/../../lib lib/R/bin/exec/R
+    patchelf --force-rpath --set-rpath '$ORIGIN' lib/R/lib/libRblas.so
+    patchelf --force-rpath --set-rpath '$ORIGIN' lib/R/lib/libRlapack.so
     pushd lib/R/library
       for SHARED_LIB in $(find . -type f -iname "*.so"); do
-        patchelf --set-rpath '$ORIGIN':'$ORIGIN'/../../../lib $SHARED_LIB
+        chrpath -d $SHARED_LIB
+        patchelf --force-rpath --set-rpath '$ORIGIN':'$ORIGIN'/../../../lib $SHARED_LIB
       done
     popd
 
@@ -207,15 +217,19 @@ pushd unpack
       rp=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib/mro_mkl)
       echo rp from $PWD/$LIBRARY to $PWD/lib/R/lib/mro_mkl is $rp
       rp2=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib)
-      patchelf --set-rpath '$ORIGIN'/$rp:'$ORIGIN'/$rp2:$OLD_RPATH $LIBRARY
+      chrpath -d $LIBRAARY
+      patchelf --force-rpath --set-rpath '$ORIGIN'/$rp:'$ORIGIN'/$rp2:$OLD_RPATH $LIBRARY
     done
     # https://github.com/dotnet/cli/issues/3390
     pushd $(mktemp -d)
       curl -SLO http://dl.fedoraproject.org/pub/epel/6/x86_64/Packages/l/libunwind-1.1-3.el6.x86_64.rpm
       "$RECIPE_DIR"/rpm2cpio libunwind-1.1-3.el6.x86_64.rpm | cpio -idmv
       cp -p usr/lib64/libunwind*.so* $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/
-      patchelf --set-rpath '$ORIGIN' $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8
-      patchelf --set-rpath '$ORIGIN' $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8.0.1
+      chrpath -d $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8
+      patchelf --force-rpath --set-rpath '$ORIGIN' $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8
+      # Eh? Is one not a symlink to the other? Is this not pointless?
+      chrpath -d $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8.0.1
+      patchelf --force-rpath --set-rpath '$ORIGIN' $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/libunwind-x86_64.so.8.0.1
     popd
     # https://github.com/dotnet/coreclr/issues/4132
     # https://github.com/Microsoft/BashOnWindows/issues/302
@@ -228,7 +242,8 @@ pushd unpack
     for LIBRARY in ${LIBUNWIND_USING_LIBS[@]}; do
       OLD_RPATH=$(patchelf --print-rpath $LIBRARY)
       rp=$(rel_path $(dirname $PWD/$LIBRARY) $PWD/lib/R/lib)
-      patchelf --set-rpath '$ORIGIN'/$rp:$OLD_RPATH $LIBRARY
+      chrpath -d $LIBRARY
+      patchelf --force-rpath --set-rpath '$ORIGIN'/$rp:$OLD_RPATH $LIBRARY
     done
     rm -rf opt rpm stage
   elif [[ $target_platform == osx-64 ]]; then
