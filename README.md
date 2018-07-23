@@ -159,6 +159,14 @@ CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
   conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/mro/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
   -c https://repo.continuum.io/pkgs/main \
   --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/MRO-${CONDA_R}-$(uname)-$(uname -m).log
+
+# Windows cmd.exe
+set CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0
+for /f "tokens=* usebackq" %p IN (`C:\msys32\usr\bin\bash -lc "/usr/bin/cat /c/Users/builder/conda/private_conda_recipes/rays-scratch-scripts/build-order/r/all | /usr/bin/sed '/_r-mutex-feedstock/,$!d'"`) DO set "ALL_RECIPES=%ALL_RECIPES% %p"
+conda-build C:/msys32/usr/bin/bash -c $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
+-c https://repo.continuum.io/pkgs/main \
+--skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
+>>>>>>> README.md: Add some Windows help
 ```
 
 # Addendum and miscellaneous notes:
