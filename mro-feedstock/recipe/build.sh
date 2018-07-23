@@ -109,12 +109,15 @@ pushd unpack
     msiexec -a $(cygpath -w $PWD/../unpack-r-client/$ASOLEDB) -qb TARGETDIR=$(cygpath -w "$PWD"/AsOleDB)
     msiexec -a $(cygpath -w $PWD/../unpack-r-client/RClient.msi) -qb TARGETDIR=$(cygpath -w "$PWD"/RClient)
     # Not sure what the problem is here that causes this dirname mess:
-    $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/$MPI || exit 1
+#    $(dirname $(dirname $(dirname $(which 7z))))/usr/lib/p7zip/7z x -o$PWD/MPI ../unpack-r-client/$MPI || exit 1
+    7z x -y -o$PWD/MPI ../unpack-r-client/$MPI || exit 1
     # Finally, probably all we care about (or can care about):
     find ../unpack/RClient
-    python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.3.0.0_1033.cab')" || exit 1
+    # python -c "import libarchive, os; libarchive.extract_file('../unpack/RClient/Microsoft/R Client/Setup/SRS_9.3.0.0_1033.cab')" || exit 1
+    bsdtar -xf "../unpack/RClient/Microsoft/R Client/Setup/SRS_9.3.0.0_1033.cab"
     # Since R Client is older than MRO we must not use packages from it where there they also exist in MRO.
     rm -rf library/{iterators,foreach,RevoUtilsMath}
+    mkdir -p lib/R/library/
     mv library/* lib/R/library/
   fi
 

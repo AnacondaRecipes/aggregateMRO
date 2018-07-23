@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# activate the build environment
-. activate "$BUILD_PREFIX"
-
 contains () {
   local e match="$1"
   shift
@@ -98,17 +95,14 @@ make_mro_base () {
   fi
 
   # Call R CMD javareconf upon activation.
-  pushd ${PREFIX}
-    find . -name "javareconf"
-    ls -l lib/R/bin/javareconf
-    ls -l bin/javareconf
-    patch -p1 < "${RECIPE_DIR}"/0010-javareconf-Do-not-fail-on-compile-fail.patch
-    patch -p1 < "${RECIPE_DIR}"/0011-Revert-part-of-9b818c6dc00143ff18775a4015a3f43b5196f.patch
-    patch -p1 < "${RECIPE_DIR}"/0012-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
-    if [[ $target_platform != win-64 ]]; then
-      cp "${RECIPE_DIR}"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
-    fi
-  popd
+  if [[ $target_platform != win-64 ]]; then
+    pushd ${PREFIX}
+      patch -p1 < "${RECIPE_DIR}"/0010-javareconf-Do-not-fail-on-compile-fail.patch
+      patch -p1 < "${RECIPE_DIR}"/0011-Revert-part-of-9b818c6dc00143ff18775a4015a3f43b5196f.patch
+      patch -p1 < "${RECIPE_DIR}"/0012-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
+    popd
+    cp "${RECIPE_DIR}"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
+  fi
 
   # Prevent C and C++ extensions from linking to libgfortran.
   pushd $PREFIX

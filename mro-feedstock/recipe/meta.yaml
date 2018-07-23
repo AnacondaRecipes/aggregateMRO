@@ -6,7 +6,7 @@
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.exe' %}  # [win64]
 {% set fn = 'microsoft-r-open-'+version+'.exe' %}  # [win64]
-{% set shasum = 'c8d50172ec8173cef503a616f9ef310dc5b274ac045ea71b9c8aed248098cbdd' %}  # [win64]
+{% set shasum = 'd227e0710cfe9b7fceceae9b8a903fe3c810279c3f94403cad4a42d2b6ef91e8' %}  # [win64]
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
 {% set fn = 'microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
@@ -60,11 +60,13 @@ source:
 
 
 #  - url: https://rserverdistribution.azureedge.net/production/RClient/3.4.1.0/1360/1033/0900ccb335c04a048f26b4bb3320aef8/RClientSetup.exe  # [win64]
+  - url: https://rserverdistribution.azureedge.net/production/RClient/9.3.0/2606/1033/7454f336f971415281296299baf7fa73/RClientSetup.exe  # [win64]
 #    sha256: 011cb6eddb4ad58cb8c3de4032a2243187c879eefa7cf82896dbdc3823c1944f  # [win64]
-#    folder: unpack-r-client  # [win64]
-  - url: ~/conda/RClientSetup.exe  # [win64]
     sha256: 44dca045e6e5e8083377ee17aedcf2ca0ccd8ac9518a7f173ad934bd127dad5a  # [win64]
     folder: unpack-r-client  # [win64]
+#  - url: ~/conda/RClientSetup.exe  # [win64]
+#    sha256: 44dca045e6e5e8083377ee17aedcf2ca0ccd8ac9518a7f173ad934bd127dad5a  # [win64]
+#    folder: unpack-r-client  # [win64]
   - url: https://github.com/wixtoolset/wix3/releases/download/wix311rtm/wix311-binaries.zip  # [win64]
     sha256: da034c489bd1dd6d8e1623675bf5e899f32d74d6d8312f8dd125a084543193de                 # [win64]
     folder: wix                                                                              # [win64]
@@ -90,6 +92,7 @@ requirements:
     - python-libarchive-c
     - posix  # [win]
     - m2-p7zip  # [win]
+    - m2-patch  # [win]
     - curl  # [unix]
   host:
     - m2w64-toolchain  # [win]
@@ -99,6 +102,7 @@ outputs:
   - name: mro-base
     version: {{ version }}
     script: install-mro-base.sh
+    activate_in_script: True
     build:
       merge_build_host: True
       rpaths:
@@ -126,8 +130,9 @@ outputs:
         - /opt/X11/lib/libXt.6.dylib
     requirements:
       build:
-        - m2-base  # [win]
-        - curl  # [unix]
+        - m2-base   # [win]
+        - m2-patch  # [win]
+        - curl      # [unix]
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
