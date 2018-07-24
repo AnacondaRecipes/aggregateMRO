@@ -8,10 +8,9 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ddalpha_{{ version }}.tar.gz   # [linux or win32]
+  fn: ddalpha_{{ version }}.tar.gz  # [linux or win32]
   url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ddalpha_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ddalpha/ddalpha_{{ version }}.tar.gz  # [linux or win32]
+    - https://cran.microsoft.com/src/contrib/Archive/ddalpha/ddalpha_{{ version }}.tar.gz  # [linux or win32]
   sha256: 33bfb9098787ad622c64d7905d05155c2a4f63d60646407001d53ff133c4913c  # [linux or win32]
 
   url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/ddalpha_1.3.3.zip  # [win64]
