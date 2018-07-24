@@ -133,6 +133,7 @@ outputs:
         - m2-base   # [win]
         - m2-patch  # [win]
         - curl      # [unix]
+        - make      # [not win]
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
@@ -161,6 +162,8 @@ outputs:
         - glib  # [linux]
       run:
         - _r-mutex 1.* mro_2
+        # Needed by R CMD javareconf
+        - make                               # [not win]
         - {{ compiler('fortran') }}  # [not win]
         - {{ compiler('cxx') }}  # [not win]
         - {{ compiler('c') }}  # [not win]
