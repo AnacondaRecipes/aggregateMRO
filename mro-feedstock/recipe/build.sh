@@ -122,7 +122,7 @@ pushd unpack
   fi
 
   # 2. Save filelist back to the recipe.
-  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$PKG_VERSION-$target_platform.after-unpacking.txt
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-$PKG_VERSION-$target_platform.after-unpacking.txt
 
   # 3. Rearrange layout so it is compatible with conda, or at least does not stomp all over
   #    conda packages (MKL for example).
@@ -329,5 +329,5 @@ fi
 
 # 7. Save end of build.sh filelist back to the recipe.
 pushd unpack
-  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelist-mro-$PKG_VERSION-$target_platform.end-of-build-sh.txt
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-$PKG_VERSION-$target_platform.end-of-build-sh.txt
 popd

@@ -82,7 +82,7 @@ make_mro_base () {
     mv ../library .
     [[ -d ../mro_mkl ]] && mv ../mro_mkl lib/
     pushd $PREFIX
-      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/filelists/filelist-mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
+      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
     popd
   popd
 
@@ -139,6 +139,7 @@ EXCLUDED_PACKAGES+=(png)
 EXCLUDED_PACKAGES+=(R6)
 EXCLUDED_PACKAGES+=(RevoIOQ)
 EXCLUDED_PACKAGES+=(RevoMods)
+EXCLUDED_PACKAGES+=(RevoUtils)
 EXCLUDED_PACKAGES+=(RevoUtilsMath)
 EXCLUDED_PACKAGES+=(rpart)
 EXCLUDED_PACKAGES+=(RUnit)
