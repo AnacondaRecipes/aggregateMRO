@@ -448,6 +448,35 @@ outputs:
       summary: Microsoft modifications and extensions to standard R functions
       license_family: GPL2
 
+  - name: r-revoutils
+    version: '11.0.0'
+    script: install-r-package.sh
+    # This is required to make R link correctly on Linux.
+    build:
+      rpaths:
+        - lib/R/lib/
+        - lib/
+
+    requirements:
+      build:
+        - m2-base  # [win]
+      host:
+        - mro-base {{ version }}
+      run:
+        - mro-base {{ version }}
+
+    test:
+      commands:
+        # You can put additional test commands to be run here.
+        - $R -e "library('RevoUtils')"           # [not win]
+        - "\"%R%\" -e \"library('RevoUtils')\""  # [win]
+
+    about:
+      home: https://mran.microsoft.com/package/RevoUtils
+      license: GPL-2
+      summary: Utility functions for Microsoft R
+      license_family: GPL2
+
   - name: r-revoutilsmath
     version: '11.0.0'
     script: install-r-package.sh

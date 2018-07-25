@@ -34,7 +34,8 @@ INDENT = '\n        - '
 # tree (R-3.0.2/share/make/vars.mk).  Hopefully they don't change too much
 # between versions.
 
-R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations', 'RevoUtils')
+R_BASE_PACKAGE_NAMES = R_BASE_PACKAGE_NAMES_ORIG + ('translations', )
+# , 'RevoUtils')
 
 # Stolen then tweaked from debian.deb822.PkgRelation.__dep_RE.
 VERSION_DEPENDENCY_REGEX = re.compile(
