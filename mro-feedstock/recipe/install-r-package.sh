@@ -23,6 +23,9 @@ if [[ "$LIBRARY_NAME" == "revoutilsmath" ]]; then
     mv unpack$LIBRARY/../bin/x64/Rlapack.dll "$PREFIX_LIB"/../bin/x64/Rlapack.dll.mkl
     mv unpack$LIBRARY/../bin/x64/libiomp5md.dll "$PREFIX_LIB"/../bin/x64/libiomp5md.dll
   fi
+elif [[ "$LIBRARY_NAME" == "revoutils" ]]; then
+  mkdir -p "$PREFIX"/lib/R/etc/ || true
+  cp unpack/lib/R/etc/Rprofile.site "$PREFIX"/lib/R/etc/
 fi
 
 pushd unpack$LIBRARY || exit 1

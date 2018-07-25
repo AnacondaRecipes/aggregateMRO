@@ -96,16 +96,16 @@ make_mro_base () {
 
   # Call R CMD javareconf upon activation.
   if [[ $target_platform != win-64 ]]; then
-    pushd ${PREFIX}
+    pushd "$PREFIX"
       patch -p1 < "${RECIPE_DIR}"/0010-javareconf-Do-not-fail-on-compile-fail.patch
       patch -p1 < "${RECIPE_DIR}"/0011-Revert-part-of-9b818c6dc00143ff18775a4015a3f43b5196f.patch
       patch -p1 < "${RECIPE_DIR}"/0012-javareconf-macOS-Continue-to-allow-system-Java-lt-9-.patch
     popd
-    cp "${RECIPE_DIR}"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
+    cp "$RECIPE_DIR"/activate-${PKG_NAME}.sh ${PREFIX}/etc/conda/activate.d/activate-${PKG_NAME}.sh
   fi
 
   # Prevent C and C++ extensions from linking to libgfortran.
-  pushd $PREFIX
+  pushd "$PREFIX"
     if [[ $(uname) == Darwin ]]; then
       sed -i.bak -E 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
     elif [[ -f lib/R/etc/Makeconf ]]; then
@@ -113,6 +113,9 @@ make_mro_base () {
     fi
     [[ -f lib/R/etc/Makeconf.bak ]] && rm -f lib/R/etc/Makeconf.bak
   popd
+
+  # This file is included in RevoUtils instead, otherwise R fails to load.
+  rm "$PREFIX"/lib/R/etc/Rprofile.site
 }
 declare -a EXCLUDED_PACKAGES
 EXCLUDED_PACKAGES+=(boot)
