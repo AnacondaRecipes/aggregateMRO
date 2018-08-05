@@ -8,17 +8,14 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: Rcpp_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Rcpp_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/Rcpp/Rcpp_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 4227c45c92416b5378ed5761495f9b3932d481bae9a190fb584d17c10744af23  # [linux or win32]
+  fn: Rcpp_{{ version }}.tar.gz   # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Rcpp_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/Rcpp/Rcpp_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 4227c45c92416b5378ed5761495f9b3932d481bae9a190fb584d17c10744af23  # [linux or win32 or osx]
 
   url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/Rcpp_0.12.17.zip  # [win64]
   sha256: 3f2b80a62ac2b72f431ae354443567a4e1ceade1285c392baf95da7d713fbaa3  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/Rcpp_0.12.17.tgz  # [osx]
-  sha256: b3303a1d5e2a96088345ff902f19c6f636f0fdd9f2e7adbb8c9aa821673fd95f  # [osx]
 
 build:
   merge_build_host: True  # [linux or win32]
@@ -33,11 +30,11 @@ build:
 # Suggests: RUnit, inline, rbenchmark, knitr, rmarkdown, pinp, pkgKitten (>= 0.1.2)
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
 
   host:
     - mro-base

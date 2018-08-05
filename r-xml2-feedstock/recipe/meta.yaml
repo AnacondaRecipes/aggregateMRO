@@ -33,22 +33,23 @@ build:
 # Suggests: testthat, curl, covr, knitr, rmarkdown, magrittr, httr
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
     - {{posix}}sed               # [win32]
     - {{posix}}grep              # [win32]
-    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}autoconf          # [linux or win32 or osx]
     - {{posix}}automake-wrapper  # [win32]
     - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
 
   host:
     - mro-base
     - r-rcpp
-    - libxml2                    # [linux]
+    - zlib                       # [osx]
+    - libxml2                    # [linux or osx]
 
   run:
     - mro-base
