@@ -1,0 +1,101 @@
+{% set version = '2.42-3' %}  # [linux or win32]
+{% set version = '2.41-3' %}  # [win64]
+{% set version = '2.42-3' %}  # [osx]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-survival
+  version: {{ version|replace("-", "_") }}
+
+source:
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/survival_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/survival/survival_{{ version }}.tar.gz  # [linux or win32]
+  sha256: a07732d7717f7a01543d95cf60cdc7cb5f46544cb7297ddd2a59bcfaddd2ea96  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/survival_2.41-3.zip  # [win64]
+  sha256: 07c87c15d9a0340b9a9bea2684fd0268e8ac158c0e29fbef63715facd2048ca8  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/survival_2.42-3.tgz  # [osx]
+  sha256: 0ec205dc7028ccf2080820b9e6f9764782799819036b8ec8494fff80e8965fa4  # [osx]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+    - r-matrix
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+    - r-matrix
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('survival')"           # [not win]
+    - "\"%R%\" -e \"library('survival')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/therneau/survival
+  license: LGPL (>= 2)
+  summary: Contains the core survival analysis routines, including definition of Surv objects,  Kaplan-Meier
+    and Aalen-Johansen (multi-state) curves, Cox models, and parametric accelerated
+    failure time models.
+  license_family: LGPL
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Title: Survival Analysis
+# Maintainer: Terry M Therneau <therneau.terry@mayo.edu>
+# Priority: recommended
+# Package: survival
+# Version: 2.42-3
+# Depends: R (>= 2.13.0)
+# Imports: graphics, Matrix, methods, splines, stats, utils
+# LazyData: Yes
+# LazyLoad: Yes
+# ByteCompile: Yes
+# Authors@R: c(person(c("Terry", "M"), "Therneau", email="therneau.terry@mayo.edu", role=c("aut", "cre")), person("Thomas", "Lumley", role=c("ctb", "trl"), comment="original S->R port and R maintainer until 2009"))
+# Description: Contains the core survival analysis routines, including definition of Surv objects,  Kaplan-Meier and Aalen-Johansen (multi-state) curves, Cox models, and parametric accelerated failure time models.
+# License: LGPL (>= 2)
+# URL: https://github.com/therneau/survival
+# NeedsCompilation: yes
+# Packaged: 2018-04-15 19:36:11 UTC; therneau
+# Author: Terry M Therneau [aut, cre], Thomas Lumley [ctb, trl] (original S->R port and R maintainer until 2009)
+# Repository: CRAN
+# Date/Publication: 2018-04-16 18:25:59 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

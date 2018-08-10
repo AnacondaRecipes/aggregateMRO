@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: DiagrammeR_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/DiagrammeR_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/DiagrammeR/DiagrammeR_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 2b186dae1b19018681b979e9444bf16559c42740d8382676fbaf3b0f8a44337e  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/DiagrammeR_1.0.0.zip  # [win64]
-  sha256: 3165ad95a532400550a0335f26a71d76b876dc53b2abbd7d4d82264c32c3e884  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/DiagrammeR_1.0.0.tgz  # [osx]
-  sha256: 13cc39f18f575b50072ba43aa67a81a39208c4c60687e9b98ddee5fa52c320a9  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/DiagrammeR_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/DiagrammeR/DiagrammeR_{{ version }}.tar.gz
+  sha256: 2b186dae1b19018681b979e9444bf16559c42740d8382676fbaf3b0f8a44337e
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: covr, DiagrammeRsvg, rsvg, knitr, testthat
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

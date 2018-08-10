@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rversions_1.0.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rversions_1.0.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rversions/rversions_1.0.3.tar.gz  # [linux or win32]
-  sha256: 21d0809f46505de89a2be7be9449e39c39cff5bc77e584dec976ee6c0b884f44  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rversions_1.0.3.zip  # [win64]
-  sha256: a77d323ca06c902201d61cd5812e0fa1fe8dd617da115a22e139c23b33badf76  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rversions_1.0.3.tgz  # [osx]
-  sha256: fe55574bfa1a6f2e4440fc16ce08af7beaeb98cf092a8240a81edf825a33a4b1  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/rversions_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rversions/rversions_{{ version }}.tar.gz
+  sha256: 21d0809f46505de89a2be7be9449e39c39cff5bc77e584dec976ee6c0b884f44
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

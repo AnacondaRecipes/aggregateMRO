@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pcaPP_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/pcaPP_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz  # [linux or win32]
-  sha256: ca4566b0babfbe83ef9418283b08a12b3420dc362f93c6562f265df7926b53fc  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/pcaPP_1.9-73.zip  # [win64]
-  sha256: 14f0d854f57cd69f1fc601ade55fd10bc88bad79d669ded46b50556337c12f84  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/pcaPP_1.9-73.tgz  # [osx]
-  sha256: c3775f88b719d63b83f0896861192d0c36be1d2ace26f600c3f59bcd7a948689  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/pcaPP_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz
+  sha256: ca4566b0babfbe83ef9418283b08a12b3420dc362f93c6562f265df7926b53fc
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,12 +25,14 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{ compiler('fortran') }}  # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -45,7 +40,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-mvtnorm
 
 test:

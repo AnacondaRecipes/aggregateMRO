@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: glmnet_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz  # [linux or win32]
-  sha256: a54ccd802fce6625f3b69d747b28efe62ed8cc23397a5f8df4777d177e2839af  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/glmnet_2.0-16.zip  # [win64]
-  sha256: b8e22dde162cd7a7af684861b4469380a3643eb8b47e345440fe08eae4702335  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/glmnet_2.0-16.tgz  # [osx]
-  sha256: 8914a6b692196cc0c7938785898d05503f2d0979a27fa08b511743aa339a9baf  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
+  sha256: a54ccd802fce6625f3b69d747b28efe62ed8cc23397a5f8df4777d177e2839af
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +26,14 @@ build:
 # Suggests: survival, knitr, lars
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('fortran') }}  # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -46,7 +42,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-matrix >=1.0_6
     - r-foreach
 

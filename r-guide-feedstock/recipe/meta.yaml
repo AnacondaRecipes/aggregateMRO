@@ -1,4 +1,5 @@
-{% set version = '1.2.3.1' %}
+{% set version = '1.2.3.1' %}  # [linux or win32 or osx]
+{% set version = '1.2.3.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +9,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: GUIDE_1.2.3.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/GUIDE_1.2.3.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/GUIDE/GUIDE_1.2.3.1.tar.gz  # [linux or win32]
-  sha256: 44de2214b08fee5db746737df5355e2838970b6600dc8c76ac551bf8abb09009  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/GUIDE_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/GUIDE/GUIDE_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 44de2214b08fee5db746737df5355e2838970b6600dc8c76ac551bf8abb09009  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/GUIDE_1.2.3.1.zip  # [win64]
-  sha256: 7ae69a4c901722359186309ee599a8b0e646830492d40fa8cc21dcc1b229ac6d  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/GUIDE_1.2.3.1.tgz  # [osx]
-  sha256: 74f3afbf8507440f9b8da55ec094cc583b4606f041a4b6ce3cd30b28c6f65275  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/GUIDE_1.2.3.1.zip  # [win64]
+  sha256: ebf07b742a5e0ce9b1e4f2c35b3c70709f23cec7983ebad5015c02b57beb4018  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rprojroot_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rprojroot_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rprojroot/rprojroot_{{ version }}.tar.gz  # [linux or win32]
-  sha256: df5665834941d8b0e377a8810a04f98552201678300f168de5f58a587b73238b  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/rprojroot_1.3-2.zip  # [win64]
-  sha256: 8070bfd153c7cf81f0bc04a2a08c769d2be0884329aeba3419481ea1de8c83c4  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/rprojroot_1.3-2.tgz  # [osx]
-  sha256: 78d23606e94736a596658c968d7e6553a299a01a7c7bf7b0bd2d642463c848dd  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/rprojroot_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rprojroot/rprojroot_{{ version }}.tar.gz
+  sha256: df5665834941d8b0e377a8810a04f98552201678300f168de5f58a587b73238b
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: testthat, mockr, knitr, withr, rmarkdown
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

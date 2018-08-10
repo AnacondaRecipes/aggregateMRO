@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: selectr_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/selectr_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/selectr/selectr_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 8bd42f167629344e485e586f9b05fed342746132489079084d82133d7b3ee2ca  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/selectr_0.4-1.zip  # [win64]
-  sha256: c37bc5c603c0b2c58aacc61c58972c12cad0e5adb2e44ac5ab33537c1fe06b54  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/selectr_0.4-1.tgz  # [osx]
-  sha256: 42cc47ba03bf48882c8f83ff6a58fbe6db194c565841ce95ee1537ee804dc0d0  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/selectr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/selectr/selectr_{{ version }}.tar.gz
+  sha256: 8bd42f167629344e485e586f9b05fed342746132489079084d82133d7b3ee2ca
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: testthat, XML, xml2
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

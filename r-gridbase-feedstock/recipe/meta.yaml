@@ -1,4 +1,6 @@
-{% set version = '0.4-7' %}
+{% set version = '0.4-7' %}  # [linux or win32]
+{% set version = '0.4-7' %}  # [win64]
+{% set version = '0.4-7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: gridBase_0.4-7.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/gridBase_0.4-7.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/gridBase/gridBase_0.4-7.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gridBase_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gridBase/gridBase_{{ version }}.tar.gz  # [linux or win32]
   sha256: be8718d24cd10f6e323dce91b15fc40ed88bccaa26acf3192d5e38fe33e15f26  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/gridBase_0.4-7.zip  # [win64]
+  sha256: e75a5005b0148f52e530d676a31690ea6ba5b46618cff8433d20869989c5edda  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gridBase_0.4-7.zip  # [win64]
-  sha256: 754b8f69c2a7a9f5aa33a60df51f275f146626fa5b6570a8fc6ca9f2072a4c88  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gridBase_0.4-7.tgz  # [osx]
-  sha256: 9b806bcd4880d5cc5cd9d0c8039862638541d213ee7268537d49d7636d1359f4  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/gridBase_0.4-7.tgz  # [osx]
+  sha256: 4af91a16df757d0912b64cb373e58a29d291f8406375a861614c2b34ddf65005  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +34,7 @@ build:
 # Suggests: lattice
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

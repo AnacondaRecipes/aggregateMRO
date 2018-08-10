@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: broom_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/broom_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/broom/broom_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 75485eb348b1ed2228eea3a7f77d64e7cc50ba2a344bc7dfdcae36e3f5413d20  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/broom_0.4.4.zip  # [win64]
-  sha256: 1a9ac020e12f2480ab2bc4e54615363355336742efcc72829941c21f0ae63332  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/broom_0.4.4.tgz  # [osx]
-  sha256: 0f942221888ffe7397899b7d095225cbbcfc55bba0ce80b2e79abc16f79e598f  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/broom_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/broom/broom_{{ version }}.tar.gz
+  sha256: 75485eb348b1ed2228eea3a7f77d64e7cc50ba2a344bc7dfdcae36e3f5413d20
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: knitr, boot, survival, gam, glmnet, lfe, Lahman, MASS, rgeos, sp, maps, maptools, multcomp, testthat, lme4, zoo, lmtest, plm, biglm, ggplot2, nnet, geepack, AUC, ergm, network, statnet.common, xergm, btergm, binGroup, Hmisc, bbmle, gamlss, rstan, rstanarm, brms, coda, gmm, Matrix, ks, purrr, orcutt, mgcv, lmodel2, poLCA, mclust, covr, lsmeans, emmeans, betareg, robust, akima, AER, muhaz, speedglm, tibble
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

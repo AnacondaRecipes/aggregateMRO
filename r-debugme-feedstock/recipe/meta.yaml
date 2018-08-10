@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: debugme_1.1.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/debugme_1.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/debugme/debugme_1.1.0.tar.gz  # [linux or win32]
-  sha256: 4dae0e2450d6689a6eab560e36f8a7c63853abbab64994028220b8fd4b793ab1  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/debugme_1.1.0.zip  # [win64]
-  sha256: 56eeb7b723ad0d542d4250764abc36a567ba3a7e143e5ec058beed9f4226b370  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/debugme_1.1.0.tgz  # [osx]
-  sha256: 659b6bcc38746b1495e1eebb4291cf1b893de8e5827dfdc1a001d90b4c3263af  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/debugme_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/debugme/debugme_{{ version }}.tar.gz
+  sha256: 4dae0e2450d6689a6eab560e36f8a7c63853abbab64994028220b8fd4b793ab1
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: covr, mockery, R6, testthat, withr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

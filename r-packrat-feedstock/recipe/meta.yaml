@@ -1,4 +1,6 @@
-{% set version = '0.4.9-2' %}
+{% set version = '0.4.9-2' %}  # [linux or win32]
+{% set version = '0.4.9-2' %}  # [win64]
+{% set version = '0.4.9-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: packrat_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/packrat_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/packrat/packrat_{{ version }}.tar.gz  # [linux or win32]
   sha256: 5a7e0bf0b2f0129790a88d936c949dedcf98847ad2f088bda1b84bdc3ed60d46  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/packrat_0.4.9-2.zip  # [win64]
-  sha256: d727efc99222461793a1e96bc21cf676684f21a6b725e1ee6e88ab6d24887468  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/packrat_0.4.9-2.zip  # [win64]
+  sha256: 6092f8ed9bdc01dc1a285cedbbb12c9bc6369fe6ca2fc2a40157dddc0c492dd9  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/packrat_0.4.9-2.tgz  # [osx]
-  sha256: b7bfe554b8e50c75ee6bb5b220c8d54d0ee20d06bd3a65b33c2a209b5f143003  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/packrat_0.4.9-2.tgz  # [osx]
+  sha256: cc943a9abbc33ad572b7dc60010d28ae19b9e583af99a21f14f7ea92610680a0  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +34,7 @@ build:
 # Suggests: testthat (>= 0.7), devtools, httr, knitr, rmarkdown
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

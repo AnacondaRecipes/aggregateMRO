@@ -1,4 +1,6 @@
-{% set version = '0.3.1' %}
+{% set version = '0.3.1' %}  # [linux or win32]
+{% set version = '0.3.1' %}  # [win64]
+{% set version = '0.3.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: threejs_0.3.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/threejs_0.3.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/threejs/threejs_0.3.1.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/threejs_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/threejs/threejs_{{ version }}.tar.gz  # [linux or win32]
   sha256: 71750b741672a435ecf749b69c72f0681aa8bb795e317f4e3056d5e33f6d79e8  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/threejs_0.3.1.zip  # [win64]
+  sha256: 3309b340dc3596f3ff4b1cbf2d1313cffe3185b4c126ee04375d64dbe4b6ec04  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/threejs_0.3.1.zip  # [win64]
-  sha256: b52b4371542f9e0226591daf5259f28fdbaf5eb6c0a15acad6d1de4947b1923f  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/threejs_0.3.1.tgz  # [osx]
-  sha256: d4d4c914087a2a83a68fb18e306b1804b22844fea91776656448f3cd8c420af0  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/threejs_0.3.1.tgz  # [osx]
+  sha256: cd86017c70397ff83305f4f113961006d2d4cec13dc6d650dd5f0b67ad3267de  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +34,7 @@ build:
 # Suggests: maps
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

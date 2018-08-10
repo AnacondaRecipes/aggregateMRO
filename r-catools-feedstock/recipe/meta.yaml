@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: caTools_1.17.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/caTools_1.17.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/caTools/caTools_1.17.1.tar.gz  # [linux or win32]
-  sha256: d32a73febf00930355cc00f3e4e71357412e0f163faae6a4bf7f552cacfe9af4  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/caTools_1.17.1.zip  # [win64]
-  sha256: aff8c874c14f657fa2e452939593fe0777a1d76840793c2254e60c680addb12f  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/caTools_1.17.1.tgz  # [osx]
-  sha256: e982ddf1720d10fd80b82a0f8a1a7e333daeaec0aa7a1baaadfe8b18513fa226  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/caTools_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/caTools/caTools_{{ version }}.tar.gz
+  sha256: d32a73febf00930355cc00f3e4e71357412e0f163faae6a4bf7f552cacfe9af4
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: MASS, rpart
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -50,7 +41,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-bitops
 
 test:

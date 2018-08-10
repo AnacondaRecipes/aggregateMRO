@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: mapproj_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mapproj_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mapproj/mapproj_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 62a5aa97837ae95ef9f973d95fe45fe43dbbf482dfa922e9df60f3c510e7efe5  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/mapproj_1.2.6.zip  # [win64]
-  sha256: 673a3ddb87cbaf1e9660c88d27ecea38e9f46cab184de0d1dbcbf909a4eda0e1  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/mapproj_1.2.6.tgz  # [osx]
-  sha256: e87bd7944a74bcbeeed538967edc8bd7de657b4245d8c55f323d1e47c865edf2  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/mapproj_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/mapproj/mapproj_{{ version }}.tar.gz
+  sha256: 62a5aa97837ae95ef9f973d95fe45fe43dbbf482dfa922e9df60f3c510e7efe5
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,10 +25,13 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -43,7 +39,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-maps >=2.3_0
 
 test:

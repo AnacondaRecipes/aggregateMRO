@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: htmltools_0.3.6.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/htmltools_0.3.6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/htmltools/htmltools_0.3.6.tar.gz  # [linux or win32]
-  sha256: 44affb82f9c2fd76c9e2b58f9229adb003217932b68c3fdbf1327c8d74c868a2  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/htmltools_0.3.6.zip  # [win64]
-  sha256: 0f79f64334f6b355b07d2e20ba7a5188ba8eea44fd444caada2bb36e9c12adee  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/htmltools_0.3.6.tgz  # [osx]
-  sha256: 14620c57bfee8759b4ceafad41698f460624b80d0122ae0cb644027bc7405d3b  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/htmltools_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/htmltools/htmltools_{{ version }}.tar.gz
+  sha256: 44affb82f9c2fd76c9e2b58f9229adb003217932b68c3fdbf1327c8d74c868a2
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: markdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -51,7 +42,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
     - r-digest
 

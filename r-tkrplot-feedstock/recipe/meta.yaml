@@ -1,4 +1,5 @@
-{% set version = '0.0-23' %}
+{% set version = '0.0-23' %}  # [linux or win32 or osx]
+{% set version = '0.0-23' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,58 +9,45 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tkrplot_0.0-23.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tkrplot_0.0-23.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tkrplot/tkrplot_0.0-23.tar.gz  # [linux or win32]
-  sha256: 87a4323ce3bc6c852c2dae4727639b9a1c30724327a812379f21d73cecd7deb2  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/tkrplot_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/tkrplot/tkrplot_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 87a4323ce3bc6c852c2dae4727639b9a1c30724327a812379f21d73cecd7deb2  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tkrplot_0.0-23.zip  # [win64]
-  sha256: 1579fa632ab96e5b37fff077409d9510e76da9ad6151fce13d020623fe4bbb4b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tkrplot_0.0-23.tgz  # [osx]
-  sha256: 132308cd00993613349ed0886e3cf52892900196e5f5efd4bca70e942c218b5c  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tkrplot_0.0-23.zip  # [win64]
+  sha256: 096633f772548486d7ae5eb556a4fe89c1912b3375fcf560ef52ec1b89d8a5f6  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
-    - {{ cdt('libxau') }}                # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32 or osx]
+    - {{posix}}automake          # [linux or osx]
+    - {{posix}}automake-wrapper  # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
-    - tk                           # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:

@@ -8,53 +8,42 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: uuid_0.1-2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/uuid_0.1-2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/uuid/uuid_0.1-2.tar.gz  # [linux or win32]
-  sha256: dd71704dc336b0857981b92a75ed9877d4ca47780b1682def28839304cd3b1be  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/uuid_0.1-2.zip  # [win64]
-  sha256: aeff42c1fb31069d1e806a385358705fe39cec4f27de350fd06e92a51b7f2fa7  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/uuid_0.1-2.tgz  # [osx]
-  sha256: 8c5748f75bec6e7ec356fd029b95d35d17463d85177c476c9b8934cca4d140ca  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/uuid_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/uuid/uuid_{{ version }}.tar.gz
+  sha256: dd71704dc336b0857981b92a75ed9877d4ca47780b1682def28839304cd3b1be
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

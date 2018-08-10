@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: e1071_1.6-8.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/e1071_1.6-8.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/e1071/e1071_1.6-8.tar.gz  # [linux or win32]
-  sha256: f68601743b9b49e1d1f8b9ec9963d6500d66158417c53f65bf7232678d88c622  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/e1071_1.6-8.zip  # [win64]
-  sha256: 136882e565cfdcced0086d3a035177a621f51eb02c21f038b2394a493388d2d1  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/e1071_1.6-8.tgz  # [osx]
-  sha256: 1d9bb9a5001386aebbb6407308c53d6baba6db47541eb0ee2ccac71c4bf9783e  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/e1071_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/e1071/e1071_{{ version }}.tar.gz
+  sha256: f68601743b9b49e1d1f8b9ec9963d6500d66158417c53f65bf7232678d88c622
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +26,19 @@ build:
 # Suggests: cluster, mlbench, nnet, randomForest, rpart, SparseM, xtable, Matrix, MASS
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -56,7 +46,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-class
 
 test:

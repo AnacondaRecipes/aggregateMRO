@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ModelMetrics_1.1.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ModelMetrics_1.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ModelMetrics/ModelMetrics_1.1.0.tar.gz  # [linux or win32]
-  sha256: 487d53fda57da4b29f83a927dda8b1ae6655ab044ee3eec33c38aeb27eed3d85  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ModelMetrics_1.1.0.zip  # [win64]
-  sha256: 8535dea66d2c19ece8f2c20626879a82d1a84c24fc4cadd75d6cdd14964c44c0  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ModelMetrics_1.1.0.tgz  # [osx]
-  sha256: 683d36296915cdd552f82211b9fccd8e4ac2438d3c09200048d39adac3db4e5e  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/ModelMetrics_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/ModelMetrics/ModelMetrics_{{ version }}.tar.gz
+  sha256: 487d53fda57da4b29f83a927dda8b1ae6655ab044ee3eec33c38aeb27eed3d85
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -50,7 +41,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
 
 test:

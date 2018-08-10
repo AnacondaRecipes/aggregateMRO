@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: testthat_2.0.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/testthat_2.0.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/testthat/testthat_2.0.0.tar.gz  # [linux or win32]
-  sha256: 3bc047ad1c4522104023d4fbbfc9aceed14d316fdb16865a514f26b3e628b494  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/testthat_2.0.0.zip  # [win64]
-  sha256: f02f99cf6a797d314fa1e6a46bfe675ab7b340aae1c56642fb30a628628711df  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/testthat_2.0.0.tgz  # [osx]
-  sha256: a4ec8e2531ae7d0f1cad83d90c2dcf1dceb75fad28a60189deb2b87b53a7ab68  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/testthat_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/testthat/testthat_{{ version }}.tar.gz
+  sha256: 3bc047ad1c4522104023d4fbbfc9aceed14d316fdb16865a514f26b3e628b494
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: covr, devtools, knitr, rmarkdown, xml2
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -57,7 +48,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-r6 >=2.2.0
     - r-cli
     - r-crayon

@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: BradleyTerry2_1.0-8.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/BradleyTerry2_1.0-8.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/BradleyTerry2/BradleyTerry2_1.0-8.tar.gz  # [linux or win32]
-  sha256: 1f95e885cd68d72a06c1990e6dd6a5f9ae5e26a1cf9b5af63fbdcce27efb8625  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/BradleyTerry2_1.0-8.zip  # [win64]
-  sha256: c617e9e1092d698bd7ff4fbbbd02edd9a6ee28e74f0213436fe0e5d49481f6b5  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/BradleyTerry2_1.0-8.tgz  # [osx]
-  sha256: 1194510a5cb03335dac8f32f971b5c7aa825c8a2428beff5fbfbd7f9aae484bc  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/BradleyTerry2_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/BradleyTerry2/BradleyTerry2_{{ version }}.tar.gz
+  sha256: 1f95e885cd68d72a06c1990e6dd6a5f9ae5e26a1cf9b5af63fbdcce27efb8625
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: prefmod
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: FWDselect_2.1.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/FWDselect_2.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/FWDselect/FWDselect_2.1.0.tar.gz  # [linux or win32]
-  sha256: e77313b3066806333edec3904d05e4fd51b596737edc337ba4019ecf609d1070  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/FWDselect_2.1.0.zip  # [win64]
-  sha256: 2061543822b26a0898e329ee2139e43d0cceab20394add133e02e0aecce87624  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/FWDselect_2.1.0.tgz  # [osx]
-  sha256: 55e65e75a987920c7619c79551a02b68661629f47e7c8206a6556bf59690116c  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/FWDselect_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/FWDselect/FWDselect_{{ version }}.tar.gz
+  sha256: e77313b3066806333edec3904d05e4fd51b596737edc337ba4019ecf609d1070
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

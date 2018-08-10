@@ -1,4 +1,5 @@
-{% set version = '1.0-5' %}
+{% set version = '1.0-5' %}  # [linux or win32 or osx]
+{% set version = '1.0-5' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: VGAM_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/VGAM_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/VGAM/VGAM_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 01acf530b011b8f04e1698742c51ea0682d7c9fcdf814fc65ba44869b6e76346  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/VGAM_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/VGAM/VGAM_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 01acf530b011b8f04e1698742c51ea0682d7c9fcdf814fc65ba44869b6e76346  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/VGAM_1.0-5.zip  # [win64]
-  sha256: 8f9e266940495135e2a98471f085ee08d5e2555c62e20e948f93a63c719b6645  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/VGAM_1.0-5.tgz  # [osx]
-  sha256: 6c8b9f5e8b644e67d29743cd8b0c80611c99bdb7b1b0ce32077e6de1e382f126  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/VGAM_1.0-5.zip  # [win64]
+  sha256: 9736fa5e9d6d742f6634e56b190728832dff0525e1aaaa912059fb53b706dde3  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +30,14 @@ build:
 # Suggests: VGAMdata, MASS, mgcv
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('fortran') }}  # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

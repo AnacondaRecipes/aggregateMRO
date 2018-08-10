@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: cli_1.0.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/cli_1.0.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/cli/cli_1.0.0.tar.gz  # [linux or win32]
-  sha256: 8fa3dbfc954ca61b8510f767ede9e8a365dac2ef95fe87c715a0f37d721b5a1d  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/cli_1.0.0.zip  # [win64]
-  sha256: e0cc8bd570815db3e944b285e9e30d6d071a34ce1a9c274db2e523bf23d96a88  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/cli_1.0.0.tgz  # [osx]
-  sha256: a90af614fcd92ea6632dd4aca1266f1a8ba343df8499471ff98a2924d00987f2  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/cli_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/cli/cli_{{ version }}.tar.gz
+  sha256: 8fa3dbfc954ca61b8510f767ede9e8a365dac2ef95fe87c715a0f37d721b5a1d
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: covr, mockery, testthat, withr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

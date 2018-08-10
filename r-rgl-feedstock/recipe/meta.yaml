@@ -1,4 +1,6 @@
-{% set version = '0.98.22' %}
+{% set version = '0.99.16' %}  # [linux or win32]
+{% set version = '0.99.16' %}  # [win64]
+{% set version = '0.99.16' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rgl_0.98.22.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rgl_0.98.22.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rgl/rgl_0.98.22.tar.gz  # [linux or win32]
-  sha256: ea6e97f1a983fcf109223189472bae1d7be8c911a0ce997f74b4b0e8d59a9539  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rgl_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rgl/rgl_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 692a545ed2ff0f5e15289338736f0e3c092667574c43ac358d8004901d7a1a61  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rgl_0.99.16.zip  # [win64]
+  sha256: 708a82a1c0c2aa1ffdf9ecb5c2bc449b76208038109d4d3866aa2e9ecae4f951  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rgl_0.98.22.zip  # [win64]
-  sha256: 36f7d40b5682a2a632dd85dfc5993c055222a7fe7f9e74664f4555a725b21fa4  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rgl_0.98.22.tgz  # [osx]
-  sha256: c1494784c5695f1a0e8a420a82f32a8b15dc9199d2aa12dd013492beb9758505  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/rgl_0.99.16.tgz  # [osx]
+  sha256: 762b88220dbb0a891d435981aaf63eebe1b6df1380042b05ec122a7fe6ebeaee  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,62 +34,42 @@ build:
 # Suggests: MASS, rmarkdown, deldir, orientlib, lattice, misc3d, rstudioapi, magick
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake          # [linux]
+    - {{posix}}automake-wrapper  # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxext-devel') }}         # [linux]
-    - {{ cdt('libxrender-devel') }}      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl-devel') }}     # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxau-devel') }}          # [linux]
-    - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libxcursor-devel') }}      # [linux]
-    - {{ cdt('libxi-devel') }}           # [linux]
-    - {{ cdt('libxrandr-devel') }}       # [linux]
-    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-    - {{ cdt('libxtst-devel') }}         # [linux]
-    - {{ cdt('libselinux-devel') }}      # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
+    - r-crosstalk
     - r-htmltools
     - r-htmlwidgets
     - r-jsonlite >=0.9.20
     - r-knitr
     - r-magrittr
+    - r-manipulatewidget >=0.9.0
     - r-shiny
-    - expat                              # [linux]
-    - libglu                             # [linux]
-    - libpng                             # [linux]
-    - {{native}}libpng                   # [win32]
-    - {{native}}freetype                 # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
+    - r-crosstalk
     - r-htmltools
     - r-htmlwidgets
     - r-jsonlite >=0.9.20
     - r-knitr
     - r-magrittr
+    - r-manipulatewidget >=0.9.0
     - r-shiny
-    - libglu                             # [linux]
 
 test:
   commands:
@@ -124,23 +100,23 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: rgl
-# Version: 0.98.22
+# Version: 0.99.16
 # Title: 3D Visualization Using OpenGL
 # Author: Daniel Adler <dadler@uni-goettingen.de>, Duncan Murdoch <murdoch@stats.uwo.ca>, and others (see README)
 # Maintainer: Duncan Murdoch <murdoch@stats.uwo.ca>
 # Depends: R (>= 3.2.0)
 # Suggests: MASS, rmarkdown, deldir, orientlib, lattice, misc3d, rstudioapi, magick
-# Imports: graphics, grDevices, stats, utils, htmlwidgets, htmltools, knitr, jsonlite (>= 0.9.20), shiny, magrittr
+# Imports: graphics, grDevices, stats, utils, htmlwidgets, htmltools, knitr, jsonlite (>= 0.9.20), shiny, magrittr, crosstalk, manipulateWidget (>= 0.9.0)
 # Description: Provides medium to high level functions for 3D interactive graphics, including functions modelled on base graphics (plot3d(), etc.) as well as functions for constructing representations of geometric objects (cube3d(), etc.).  Output may be on screen using OpenGL, or to various standard 3D file formats including WebGL, PLY, OBJ, STL as well as 2D image formats, including PNG, Postscript, SVG, PGF.
 # License: GPL
 # URL: https://r-forge.r-project.org/projects/rgl/
-# SystemRequirements: OpenGL, GLU Library, XQuartz (on OSX), zlib (optional), libpng (>=1.2.9, optional), FreeType (optional), pandoc (>=1.13.1, needed for vignettes)
+# SystemRequirements: OpenGL, GLU Library, XQuartz (on OSX), zlib (optional), libpng (>=1.2.9, optional), FreeType (optional), pandoc (>=1.14, needed for vignettes)
 # BugReports: https://r-forge.r-project.org/projects/rgl/
 # VignetteBuilder: knitr
 # NeedsCompilation: yes
-# Packaged: 2017-12-12 14:23:50 UTC; murdoch
+# Packaged: 2018-03-28 12:29:10 UTC; murdoch
 # Repository: CRAN
-# Date/Publication: 2017-12-13 17:12:19 UTC
+# Date/Publication: 2018-03-28 14:53:30 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

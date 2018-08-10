@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: git2r_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/git2r_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/git2r/git2r_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 0480e4c47394ad1724c80982eff3be5ce34168046939340bf22cc1df6b6baf87  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/git2r_0.21.0.zip  # [win64]
-  sha256: 65e09f491e385427d58c7cf6f3e635c8f68f69c041020cdfd13992fa40cfeccc  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/git2r_0.21.0.tgz  # [osx]
-  sha256: a4a2916af0311a6798a7c6db2df8558f25ab45be400aedfa771a2dba3391c985  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/git2r_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/git2r/git2r_{{ version }}.tar.gz
+  sha256: 0480e4c47394ad1724c80982eff3be5ce34168046939340bf22cc1df6b6baf87
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,34 +26,25 @@ build:
 # Suggests: getPass
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}sed               # [win32]
-    - {{posix}}grep              # [win32]
-    - {{posix}}autoconf          # [linux or win32]
-    - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}automake          # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
-    - {{native}}libssh2 1.*      # [not win]
-    - {{native}}zlib 1.2.8       # [win32]
-    - {{native}}zlib             # [linux]
-    - {{native}}openssl          # [linux or win32]
-    - {{native}}curl             # [win32]
-    - {{native}}libcurl          # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
-    - {{native}}libssh2 1.*      # [linux]
-    - {{native}}zlib 1.2.8       # [win32]
-    - {{native}}openssl          # [win32]
-    - {{native}}curl             # [win32]
-    - {{native}}libcurl          # [linux]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: blob_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/blob_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/blob/blob_{{ version }}.tar.gz  # [linux or win32]
-  sha256: accbf9c9746c983e4108c8709995e54e61611ea7e2c51d4b6a0d813261484f53  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/blob_1.1.1.zip  # [win64]
-  sha256: b0911100bd33ffb64d91daff9b5105859e30b51c4c10e96f47f15961b5198297  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/blob_1.1.1.tgz  # [osx]
-  sha256: ee11e0ba18546ae7c06a38d85c23d71bf8aaba5ebe4d3d926ab7333d0c66643a  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/blob_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/blob/blob_{{ version }}.tar.gz
+  sha256: accbf9c9746c983e4108c8709995e54e61611ea7e2c51d4b6a0d813261484f53
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: covr, pillar (>= 1.2.1), testthat
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

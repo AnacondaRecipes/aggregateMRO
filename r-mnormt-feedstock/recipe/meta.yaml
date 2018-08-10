@@ -8,48 +8,38 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: mnormt_1.5-5.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mnormt_1.5-5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mnormt/mnormt_1.5-5.tar.gz  # [linux or win32]
-  sha256: ff78d5f935278935f1814a69e5a913d93d6dd2ac1b5681ba86b30c6773ef64ac  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/mnormt_1.5-5.zip  # [win64]
-  sha256: a3524ab05a7107aa5c036a98841bcd93fca69a5c6b020d1acf7a1add27e61721  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/mnormt_1.5-5.tgz  # [osx]
-  sha256: 834292eaf9074063ebefe6ac10174cab2920c7e3d2f2ecf849b03ac65e1971da  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/mnormt_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/mnormt/mnormt_{{ version }}.tar.gz
+  sha256: ff78d5f935278935f1814a69e5a913d93d6dd2ac1b5681ba86b30c6773ef64ac
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

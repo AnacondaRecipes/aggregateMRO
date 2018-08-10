@@ -1,4 +1,6 @@
-{% set version = '3.0-1' %}
+{% set version = '3.0-1' %}  # [linux or win32]
+{% set version = '3.0-1' %}  # [win64]
+{% set version = '3.0-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: carData_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/carData_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/carData/carData_{{ version }}.tar.gz  # [linux or win32]
   sha256: 12e523d3507aa4ef6d7aa594f8f4ad0deff1e0e5334caecf4e613ec31f6f77a4  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/carData_3.0-1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/carData_3.0-1.zip  # [win64]
   sha256: 309672241c89e9136a19496f94e72c79acee8c5be07e6010dc0e9c8bf26201ca  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/carData_3.0-1.tgz  # [osx]
-  sha256: bc16545599de46266748f78dd29dd6cedd6481eff36654ae581a58943b7976bb  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/carData_3.0-1.tgz  # [osx]
+  sha256: a063193c1bf52bcf6d0e29c9885758380647488d2b6b68aed5ae3c3175cf539e  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,6 +33,7 @@ build:
 
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

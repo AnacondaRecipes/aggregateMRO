@@ -1,4 +1,5 @@
-{% set version = '4.1-1' %}
+{% set version = '4.1-1' %}  # [linux or win32 or osx]
+{% set version = '4.1-1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: Hmisc_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Hmisc_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/Hmisc/Hmisc_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 991db21cdf73ffbf5b0239a4876b2e76fd243ea33528afd88dc968792f281498  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Hmisc_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/Hmisc/Hmisc_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 991db21cdf73ffbf5b0239a4876b2e76fd243ea33528afd88dc968792f281498  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/Hmisc_4.1-1.zip  # [win64]
-  sha256: d32318ef21e8bf483535982523ebefceadacb5847574df1f42c0a67f02b812d8  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/Hmisc_4.1-1.tgz  # [osx]
-  sha256: 766463f36c13fbc44b12eee5eec1bc8639dd7995195986b63d85f098ff72a5b2  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/Hmisc_4.1-1.zip  # [win64]
+  sha256: 80e08ca831c49e1a89d6981e1997cf17e92fedde20973ba94baaf0c3883908ce  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +30,14 @@ build:
 # Suggests: chron, rms, mice, tables, knitr, ff, ffbase, plotly (>= 4.5.6)
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('fortran') }}  # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

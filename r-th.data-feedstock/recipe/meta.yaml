@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: TH.data_1.0-8.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/TH.data_1.0-8.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/TH.data/TH.data_1.0-8.tar.gz  # [linux or win32]
-  sha256: 478f109fcc1226500ead8e3bd6e047cecde2294fde4df8ec216d38313db79a9d  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/TH.data_1.0-8.zip  # [win64]
-  sha256: 282f293689dd3fae77ecabfe5a726c3fb99aa73ea0abaafc75a3f81929bf357a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/TH.data_1.0-8.tgz  # [osx]
-  sha256: 2133b1e220d62d1af6a19ffeabb635ecf5184889a9d6285b9dd5c1183aa2e1b4  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/TH.data_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/TH.data/TH.data_{{ version }}.tar.gz
+  sha256: 478f109fcc1226500ead8e3bd6e047cecde2294fde4df8ec216d38313db79a9d
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: dplyr, gdata, plyr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

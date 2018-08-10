@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: modeltools_0.2-21.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/modeltools_0.2-21.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/modeltools/modeltools_0.2-21.tar.gz  # [linux or win32]
-  sha256: 07b331475625674ab00e6ddfc479cbdbf0b22d5d237e8c25d83ddf3e0ad1cd7a  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/modeltools_0.2-21.zip  # [win64]
-  sha256: dd3fa0ce0fad00f955a812f80d7f898cb3bcf10b61ab34e6427cd78f6b1ca49c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/modeltools_0.2-21.tgz  # [osx]
-  sha256: 87cb6df0a51dc6c7b353d8e75c3cd4f78ba09328c5f6cab6a5ffa51bb4c53a68  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/modeltools_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/modeltools/modeltools_{{ version }}.tar.gz
+  sha256: 07b331475625674ab00e6ddfc479cbdbf0b22d5d237e8c25d83ddf3e0ad1cd7a
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

@@ -1,4 +1,5 @@
-{% set version = '0.3' %}
+{% set version = '0.3' %}  # [linux or win32 or osx]
+{% set version = '0.3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: config_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/config_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/config/config_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 5ade6a768db6225634095ac0e71e5710fd1597c15512bac0b45a0b52afb3c750  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/config_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/config/config_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 5ade6a768db6225634095ac0e71e5710fd1597c15512bac0b45a0b52afb3c750  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/config_0.3.zip  # [win64]
-  sha256: cc7fd6f1575b45ca8043a4f2106ba0b48147f2fcf21e5ff13f75e6611def12e3  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/config_0.3.tgz  # [osx]
-  sha256: 9c63598559b6c50fca6c9ada10fc830f6644e6e662ddf4ce208ee09a672eb49a  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/config_0.3.zip  # [win64]
+  sha256: ce550cd78126ae7e1d89a260f06d0fd469dd6f5f7f5a329febcb414169349098  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: testthat, knitr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

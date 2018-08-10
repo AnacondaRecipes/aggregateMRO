@@ -1,4 +1,6 @@
-{% set version = '1.0-7' %}
+{% set version = '1.0-7' %}  # [linux or win32]
+{% set version = '1.0-7' %}  # [win64]
+{% set version = '1.0-7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +10,30 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ROCR_1.0-7.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ROCR_1.0-7.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ROCR/ROCR_1.0-7.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ROCR_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ROCR/ROCR_{{ version }}.tar.gz  # [linux or win32]
   sha256: e7ef710f847e441a48b20fdc781dbc1377f5a060a5ee635234053f7a2a435ec9  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/ROCR_1.0-7.zip  # [win64]
+  sha256: f2a883abee0279d9d640347306b19704bfec3d28b70a0736b6ae78f30e5aaab3  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ROCR_1.0-7.zip  # [win64]
-  sha256: 1e16a10ff6d3bc0d71b1947597dbb0d45c7e9faa1fa3b4caf4893650c872875b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ROCR_1.0-7.tgz  # [osx]
-  sha256: e0f6ab2e0f5b3d99dacf2720dd522aaad3ffa75c35a616c15e3279df275609a5  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/ROCR_1.0-7.tgz  # [osx]
+  sha256: 90a8b2ec967a21dfa0fd3cef3071b4009a9e650d7198684c50973a9ac5684d97  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

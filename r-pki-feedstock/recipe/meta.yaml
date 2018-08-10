@@ -8,57 +8,44 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: PKI_0.1-5.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/PKI_0.1-5.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/PKI/PKI_0.1-5.1.tar.gz  # [linux or win32]
-  sha256: d2f76d17388aae17695073e97693174941ce64805e70cfceb57dc2cf569743f7  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/PKI_0.1-5.1.zip  # [win64]
-  sha256: 9ed730229308d4edc2f8662d471251482f4b011575c55cd509c5ed8c35df69b3  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/PKI_0.1-5.1.tgz  # [osx]
-  sha256: b6a28a5ba4a75abbb6f00a3989c26aae333472938720bc4ca1f914a7b9e58a6b  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/PKI_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/PKI/PKI_{{ version }}.tar.gz
+  sha256: d2f76d17388aae17695073e97693174941ce64805e70cfceb57dc2cf569743f7
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
     - r-base64enc
-    - {{native}}openssl            # [linux or win32]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-base64enc
-    - {{native}}openssl            # [win32]
 
 test:
   commands:

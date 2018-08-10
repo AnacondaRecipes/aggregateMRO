@@ -8,40 +8,30 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: Rook_1.1-1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Rook_1.1-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/Rook/Rook_1.1-1.tar.gz  # [linux or win32]
-  sha256: 00f4ecfa4c5c57018acbb749080c07154549a6ecaa8d4130dd9de79427504903  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/Rook_1.1-1.zip  # [win64]
-  sha256: 77c0694b367a4631788bb4cbc97db47caaccdb5c98f1f0262f35b07dbaad6c46  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/Rook_1.1-1.tgz  # [osx]
-  sha256: 77a5a5d5b40f22dc6f46414eb1c106b0af886c62c58a0a412210a7975fd3854a  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/Rook_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/Rook/Rook_{{ version }}.tar.gz
+  sha256: 00f4ecfa4c5c57018acbb749080c07154549a6ecaa8d4130dd9de79427504903
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -49,7 +39,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-brew
 
 test:

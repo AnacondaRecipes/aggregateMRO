@@ -1,0 +1,99 @@
+{% set version = '0.8-70' %}  # [linux or win32]
+{% set version = '0.8-70' %}  # [win64]
+{% set version = '0.8-70' %}  # [osx]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-foreign
+  version: {{ version|replace("-", "_") }}
+
+source:
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/foreign_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/foreign/foreign_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 86cd8645f15fca4e2854a1011469114bb93d3774a18cb6db4805873830a2b886  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/foreign_0.8-70.zip  # [win64]
+  sha256: 9be872060247eeab1d1b5ab453f384b1c3b56060b0d2ab3d081008213ea76a6d  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/foreign_0.8-70.tgz  # [osx]
+  sha256: 5e3da28f69c078ed5083439e609b571c144f5d800942f904295575f39d7ccaec  # [osx]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('foreign')"           # [not win]
+    - "\"%R%\" -e \"library('foreign')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=foreign
+  license: GPL (>= 2)
+  summary: Reading and writing data stored by some versions of 'Epi Info', 'Minitab', 'S', 'SAS',
+    'SPSS', 'Stata', 'Systat', 'Weka', and for reading and writing some 'dBase' files.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: foreign
+# Priority: recommended
+# Version: 0.8-70
+# Date: 2017-11-28
+# Title: Read Data Stored by 'Minitab', 'S', 'SAS', 'SPSS', 'Stata', 'Systat', 'Weka', 'dBase', ...
+# Depends: R (>= 3.0.0)
+# Imports: methods, utils, stats
+# Authors@R: c( person("R Core Team", email = "R-core@R-project.org", role = c("aut", "cph", "cre")), person("Roger", "Bivand", role = c("ctb", "cph")), person(c("Vincent", "J."), "Carey", role = c("ctb", "cph")), person("Saikat", "DebRoy", role = c("ctb", "cph")), person("Stephen", "Eglen", role = c("ctb", "cph")), person("Rajarshi", "Guha", role = c("ctb", "cph")), person("Swetlana", "Herbrandt", role = "ctb"), person("Nicholas", "Lewin-Koh", role = c("ctb", "cph")), person("Mark", "Myatt", role = c("ctb", "cph")), person("Ben", "Pfaff", role = "ctb"), person("Brian", "Quistorff", role = "ctb"), person("Frank", "Warmerdam", role = c("ctb", "cph")), person("Stephen", "Weigand", role = c("ctb", "cph")), person("Free Software Foundation, Inc.", role = "cph"))
+# Copyright: see file COPYRIGHTS
+# Description: Reading and writing data stored by some versions of 'Epi Info', 'Minitab', 'S', 'SAS', 'SPSS', 'Stata', 'Systat', 'Weka', and for reading and writing some 'dBase' files.
+# ByteCompile: yes
+# Biarch: yes
+# License: GPL (>= 2)
+# BugReports: https://bugs.r-project.org
+# NeedsCompilation: yes
+# Packaged: 2017-11-28 12:58:54 UTC; ripley
+# Author: R Core Team [aut, cph, cre], Roger Bivand [ctb, cph], Vincent J. Carey [ctb, cph], Saikat DebRoy [ctb, cph], Stephen Eglen [ctb, cph], Rajarshi Guha [ctb, cph], Swetlana Herbrandt [ctb], Nicholas Lewin-Koh [ctb, cph], Mark Myatt [ctb, cph], Ben Pfaff [ctb], Brian Quistorff [ctb], Frank Warmerdam [ctb, cph], Stephen Weigand [ctb, cph], Free Software Foundation, Inc. [cph]
+# Maintainer: R Core Team <R-core@R-project.org>
+# Repository: CRAN
+# Date/Publication: 2018-04-23 08:51:05 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

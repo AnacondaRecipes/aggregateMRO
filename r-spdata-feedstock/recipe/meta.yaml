@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: spData_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/spData_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/spData/spData_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 946b86fde54607e71dacf96cedcdd0a15b472142cb2d2f6c3d5fe4f8ab43c370  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/spData_0.2.8.3.zip  # [win64]
-  sha256: 7d26d8d748b819336cf6eca5c137089ca043fd823afe673a0d66d90c5d2c8b6f  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/spData_0.2.8.3.tgz  # [osx]
-  sha256: 0a9fae572b2b39e41cc0cd7a181773d09a2e2a928e1a91b1ccb1caa4db52089a  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/spData_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/spData/spData_{{ version }}.tar.gz
+  sha256: 946b86fde54607e71dacf96cedcdd0a15b472142cb2d2f6c3d5fe4f8ab43c370
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: foreign, maptools, raster, rgdal, sf, sp, spDataLarge (>= 0.2.6.1), spdep
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

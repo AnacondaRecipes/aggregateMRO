@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lintr_1.0.2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lintr_1.0.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lintr/lintr_1.0.2.tar.gz  # [linux or win32]
-  sha256: f61eb02fe102f30aedf60b8f526659623eeb87c1c520de49e45ab05645748692  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lintr_1.0.2.zip  # [win64]
-  sha256: fc8e304ebac109cfdc50d82593b8d920904bec3231adf827a74debfde3366562  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lintr_1.0.2.tgz  # [osx]
-  sha256: 5eb1e857f486f5b7143992027ffd1089fe2bcfa349b21b351e2ad6c2363800b7  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/lintr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/lintr/lintr_{{ version }}.tar.gz
+  sha256: f61eb02fe102f30aedf60b8f526659623eeb87c1c520de49e45ab05645748692
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: rmarkdown, mockery
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

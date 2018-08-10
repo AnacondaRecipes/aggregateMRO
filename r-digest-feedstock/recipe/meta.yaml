@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: digest_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/digest_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/digest/digest_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 882e74bb4f0722260bd912fd7f8a0fcefcf44c558f43ac8a03d63e53d25444c5  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/digest_0.6.15.zip  # [win64]
-  sha256: d0053ee77a723d71b9f01ba3dd6ab95841010dca3ae53e6d3e40eb6f47ca14fb  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/digest_0.6.15.tgz  # [osx]
-  sha256: eb06355c37a99401549f0c76f74e89aab9c468564f5a15bf76bcb80d42d3c828  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/digest_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/digest/digest_{{ version }}.tar.gz
+  sha256: 882e74bb4f0722260bd912fd7f8a0fcefcf44c558f43ac8a03d63e53d25444c5
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,17 +26,20 @@ build:
 # Suggests: knitr, rmarkdown
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: fracdiff_1.4-2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/fracdiff_1.4-2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/fracdiff/fracdiff_1.4-2.tar.gz  # [linux or win32]
-  sha256: 983781cedc2b4e3ba9fa020213957d5133ae9cd6710bc61d6225728e2f6e850e  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/fracdiff_1.4-2.zip  # [win64]
-  sha256: 5eae8ce97588e9ab384536ec41d3077c5a98efbf61491987ac37c11d33a7a5da  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/fracdiff_1.4-2.tgz  # [osx]
-  sha256: 8840f1d51f596da046b075c11c686f538a39ea7b130cf55739bde7f9efdf8cda  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/fracdiff_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/fracdiff/fracdiff_{{ version }}.tar.gz
+  sha256: 983781cedc2b4e3ba9fa020213957d5133ae9cd6710bc61d6225728e2f6e850e
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +26,20 @@ build:
 # Suggests: longmemo, urca
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

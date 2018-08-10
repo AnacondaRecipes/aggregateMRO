@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: bibtex_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/bibtex_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/bibtex/bibtex_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 1f06ab3660c940405230ad16ff6e4ba38d4418a59cd9b16d78a4349f8b488372  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/bibtex_0.4.2.zip  # [win64]
-  sha256: 1029f7056b7d7046c2d1c94666bed517f2f36af3182045adadcd2a9fbd8a8a58  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/bibtex_0.4.2.tgz  # [osx]
-  sha256: b40dc49955bda7c25447029304220806d64eae8f98477e1f78d43122397600a0  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/bibtex_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/bibtex/bibtex_{{ version }}.tar.gz
+  sha256: 1f06ab3660c940405230ad16ff6e4ba38d4418a59cd9b16d78a4349f8b488372
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,10 +26,13 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -44,7 +40,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-stringr
 
 test:

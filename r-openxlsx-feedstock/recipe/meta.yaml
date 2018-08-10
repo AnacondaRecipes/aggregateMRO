@@ -1,4 +1,4 @@
-{% set version = '4.1.0' %}
+{% set version = '4.0.17' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: openxlsx_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/openxlsx_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/openxlsx/openxlsx_{{ version }}.tar.gz  # [linux or win32]
-  sha256: ab7b127353061a0e1cd621783366ffdd7c858c6df31cbbdd39aaa353af10ffd8  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/openxlsx_4.1.0.zip  # [win64]
-  sha256: d415121bdff692768a5a2b05452efda1a4d6c7a6e048e2829f181a9febaaea76  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/openxlsx_4.1.0.tgz  # [osx]
-  sha256: b2b3168d0e7059a00266ef4844e51f004b449793f3ec76690f55dbd770d0806c  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/openxlsx_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/openxlsx/openxlsx_{{ version }}.tar.gz
+  sha256: 116b9829c5a85ab1b7368d9f7f34a2248436f54bbf6ad635186c8a70b5a204d7
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,22 +26,23 @@ build:
 # Suggests: knitr, testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
     - r-rcpp
-    - r-zip
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
-    - r-zip
 
 test:
   commands:
@@ -64,12 +58,12 @@ test:
 
 about:
   home: https://github.com/awalker89/openxlsx
-  license: MIT + file LICENSE
+  license: GPL-3
   summary: Simplifies the creation of Excel .xlsx files by providing a high level interface to
     writing, styling and editing worksheets. Through the use of 'Rcpp', read/write times
     are comparable to the 'xlsx' and 'XLConnect' packages with the added benefit of
     removing the dependency on Java.
-  license_family: MIT
+  license_family: GPL3
 
 extra:
   recipe-maintainers:
@@ -80,27 +74,26 @@ extra:
 # Package: openxlsx
 # Type: Package
 # Title: Read, Write and Edit XLSX Files
-# Version: 4.1.0
-# Date: 2018-05-26
+# Version: 4.0.17
+# Date: 2017-03-09
 # Authors@R: c( person("Alexander", "Walker", email = "Alexander.Walker1989@gmail.com", role = c("aut", "cre")), person("Luca", "Braglia", role = "ctb"))
 # URL: https://github.com/awalker89/openxlsx
 # BugReports: https://github.com/awalker89/openxlsx/issues
 # Maintainer: Alexander Walker <Alexander.Walker1989@gmail.com>
 # Description: Simplifies the creation of Excel .xlsx files by providing a high level interface to writing, styling and editing worksheets. Through the use of 'Rcpp', read/write times are comparable to the 'xlsx' and 'XLConnect' packages with the added benefit of removing the dependency on Java.
-# License: MIT + file LICENSE
+# License: GPL-3
 # LinkingTo: Rcpp
-# Encoding: UTF-8
 # Depends: R (>= 3.3.0)
-# Imports: methods, Rcpp, grDevices, stats, utils, zip
+# Imports: methods, Rcpp, grDevices, stats, utils
 # VignetteBuilder: knitr
 # Suggests: knitr, testthat
 # RoxygenNote: 6.0.1.9000
-# Collate: 'CommentClass.R' 'HyperlinkClass.R' 'RcppExports.R' 'class_definitions.R' 'StyleClass.R' 'WorkbookClass.R' 'baseXML.R' 'borderFunctions.R' 'chartsheet_class.R' 'conditional_formatting.R' 'helperFunctions.R' 'loadWorkbook.R' 'onUnload.R' 'openXL.R' 'openxlsx.R' 'openxlsxCoerce.R' 'readWorkbook.R' 'sheet_data_class.R' 'workbook_column_widths.R' 'workbook_read_workbook.R' 'workbook_write_data.R' 'worksheet_class.R' 'wrappers.R' 'writeData.R' 'writeDataTable.R' 'writexlsx.R'
+# Collate: 'CommentClass.R' 'HyperlinkClass.R' 'RcppExports.R' 'class_definitions.R' 'StyleClass.R' 'WorkbookClass.R' 'baseXML.R' 'borderFunctions.R' 'chartsheet_class.R' 'conditional_formatting.R' 'helperFunctions.R' 'loadWorkbook.R' 'openXL.R' 'openxlsx.R' 'openxlsxCoerce.R' 'readWorkbook.R' 'sheet_data_class.R' 'workbook_column_widths.R' 'workbook_read_workbook.R' 'workbook_write_data.R' 'worksheet_class.R' 'wrappers.R' 'writeData.R' 'writeDataTable.R' 'writexlsx.R'
 # NeedsCompilation: yes
-# Packaged: 2018-05-26 13:55:02 UTC; Alex
+# Packaged: 2017-03-23 09:21:13 UTC; Alex
 # Author: Alexander Walker [aut, cre], Luca Braglia [ctb]
 # Repository: CRAN
-# Date/Publication: 2018-05-26 15:20:49 UTC
+# Date/Publication: 2017-03-23 13:10:15 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

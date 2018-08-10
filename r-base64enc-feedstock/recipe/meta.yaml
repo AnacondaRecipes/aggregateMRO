@@ -8,47 +8,37 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: base64enc_0.1-3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/base64enc_0.1-3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/base64enc/base64enc_0.1-3.tar.gz  # [linux or win32]
-  sha256: 6d856d8a364bcdc499a0bf38bfd283b7c743d08f0b288174fba7dbf0a04b688d  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/base64enc_0.1-3.zip  # [win64]
-  sha256: 3d3f342f785b9432acd4349a2e6e34e25de6aa0b5f5eab1b1e6cd0c0b73986bf  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/base64enc_0.1-3.tgz  # [osx]
-  sha256: 62a0b037199c9380f11b437ac885449e98a6ebb0e1edb61e4ac9767b3eaea421  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/base64enc_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/base64enc/base64enc_{{ version }}.tar.gz
+  sha256: 6d856d8a364bcdc499a0bf38bfd283b7c743d08f0b288174fba7dbf0a04b688d
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: checkmate_1.8.5.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/checkmate_1.8.5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/checkmate/checkmate_1.8.5.tar.gz  # [linux or win32]
-  sha256: e94d2a3971908ce2a8252a9320ae7e030e0364b0ecd5385ab98e600aca7cd1e0  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/checkmate_1.8.5.zip  # [win64]
-  sha256: 53765e40a12ada952f1ec724df89731bcfface46279987bdc8374380cd6c821b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/checkmate_1.8.5.tgz  # [osx]
-  sha256: e4b1ed7f8b903640fcb096347eea3f6d46c9a346cde66230318eb02600c279c3  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/checkmate_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/checkmate/checkmate_{{ version }}.tar.gz
+  sha256: e94d2a3971908ce2a8252a9320ae7e030e0364b0ecd5385ab98e600aca7cd1e0
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +26,13 @@ build:
 # Suggests: R6, bit, fastmatch, data.table (>= 1.9.8), devtools, ggplot2, knitr, magrittr, microbenchmark, rmarkdown, testthat (>= 0.11.0), tibble
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -49,7 +40,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-backports >=1.1.0
 
 test:

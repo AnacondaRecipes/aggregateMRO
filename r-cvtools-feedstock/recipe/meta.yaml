@@ -1,4 +1,5 @@
-{% set version = '0.3.2' %}
+{% set version = '0.3.2' %}  # [linux or win32 or osx]
+{% set version = '0.3.2' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +9,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: cvTools_0.3.2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/cvTools_0.3.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/cvTools/cvTools_0.3.2.tar.gz  # [linux or win32]
-  sha256: 520f0b194444d918440e971b16ad4e8579f953dd6d39ffc5f87b61589b59fd2c  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/cvTools_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/cvTools/cvTools_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 520f0b194444d918440e971b16ad4e8579f953dd6d39ffc5f87b61589b59fd2c  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/cvTools_0.3.2.zip  # [win64]
-  sha256: 20b84bd396269cc114828a68217e8575164cd45b1529adfde4627758ee650ed2  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/cvTools_0.3.2.tgz  # [osx]
-  sha256: 086a2cac76a67672ed743f69fb45bb340d18f33deab7ac2587fe4a2b3efb5053  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/cvTools_0.3.2.zip  # [win64]
+  sha256: 6030c58274de21bc79f227fe5a45e7bf2a6b735a95249e9a16dd20a44cf0f0e4  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

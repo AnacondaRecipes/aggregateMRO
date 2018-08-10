@@ -1,4 +1,6 @@
-{% set version = '1.1.5' %}
+{% set version = '1.1.5' %}  # [linux or win32]
+{% set version = '1.1.5' %}  # [win64]
+{% set version = '1.1.5' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: odbc_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/odbc_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/odbc/odbc_{{ version }}.tar.gz  # [linux or win32]
   sha256: 15cb1535a6aec6fb7c24b962223d2ca415a6a944f65371d69091ec50b6165173  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/odbc_1.1.5.zip  # [win64]
-  sha256: a4f0da8429da66f6c971bc2e9defdad126b36ad9ac1532c59846dde648f8e3a3  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/odbc_1.1.5.zip  # [win64]
+  sha256: 22e6f1cfbb4fb4eabf0aeaa1d785129127c5485026601c193adb9d69a63c7c8d  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/odbc_1.1.5.tgz  # [osx]
-  sha256: e5ad56cce17919b7f0db1711b3208793ebb52fd7f1562be1962e71c6a471e792  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/odbc_1.1.5.tgz  # [osx]
+  sha256: 1c023b69d9db866c013b9746839cbd5a523fb19647755ac67313496e9e93a6e7  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -40,10 +41,12 @@ requirements:
     - {{posix}}sed               # [win32]
     - {{posix}}grep              # [win32]
     - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake          # [linux]
     - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
     - {{posix}}make              # [linux or win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -53,7 +56,6 @@ requirements:
     - r-bit64
     - r-blob >=1.1.0
     - r-hms
-    - {{native}}unixodbc         # [linux]
 
   run:
     - mro-base
@@ -64,7 +66,6 @@ requirements:
     - r-bit64
     - r-blob >=1.1.0
     - r-hms
-    - {{native}}unixodbc         # [linux]
 
 test:
   commands:

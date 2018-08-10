@@ -1,4 +1,5 @@
-{% set version = '1.7.4' %}
+{% set version = '1.7.4' %}  # [linux or win32 or osx]
+{% set version = '1.7.4' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lubridate_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lubridate_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lubridate/lubridate_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 510ca87bd91631c395655ee5029b291e948b33df09e56f6be5839f43e3104891  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/lubridate_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/lubridate/lubridate_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 510ca87bd91631c395655ee5029b291e948b33df09e56f6be5839f43e3104891  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lubridate_1.7.4.zip  # [win64]
-  sha256: 61f018705f9ddf45aa914333f02aebac3f4e154382a423ec7d8344d6ea310db9  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lubridate_1.7.4.tgz  # [osx]
-  sha256: 373321a5e7fb70a17cc1682a33056928985366de1fb925b4b955d53113f5b8e8  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/lubridate_1.7.4.zip  # [win64]
+  sha256: 0ccbab2291c9cbe466a5d02f19b9ecec1ac2b00ce9269fd714b3aa2f294765fa  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +30,14 @@ build:
 # Suggests: testthat, knitr, covr
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

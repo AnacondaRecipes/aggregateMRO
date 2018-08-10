@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ADGofTest_0.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ADGofTest_0.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ADGofTest/ADGofTest_0.3.tar.gz  # [linux or win32]
-  sha256: 9cd9313954f6ecd82480d373f6c5371ca84ab33e3f5c39d972d35cfcf1096846  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ADGofTest_0.3.zip  # [win64]
-  sha256: dae3f53119c6905045823a77c8d0cbbfd1dee7ddd758891e8ed1f91a7793f00b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ADGofTest_0.3.tgz  # [osx]
-  sha256: fac42777b5a9e92912c3c3bffbcf9342dfe2ac11190b8d917603f7a222776af9  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/ADGofTest_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/ADGofTest/ADGofTest_{{ version }}.tar.gz
+  sha256: 9cd9313954f6ecd82480d373f6c5371ca84ab33e3f5c39d972d35cfcf1096846
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

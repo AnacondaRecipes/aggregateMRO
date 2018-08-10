@@ -8,48 +8,38 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lars_1.2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lars_1.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lars/lars_1.2.tar.gz  # [linux or win32]
-  sha256: 64745b568f20b2cfdae3dad02fba92ebf78ffee466a71aaaafd4f48c3921922e  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lars_1.2.zip  # [win64]
-  sha256: 534f0b7f19505387b97f687cdffd7be131d258b8cb51ff1515b8057570efa6b5  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lars_1.2.tgz  # [osx]
-  sha256: b55e4a41f6642b26ac36168dc8a02a3fdff4f800838c8344009b47d4cb26679c  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/lars_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/lars/lars_{{ version }}.tar.gz
+  sha256: 64745b568f20b2cfdae3dad02fba92ebf78ffee466a71aaaafd4f48c3921922e
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

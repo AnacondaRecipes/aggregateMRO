@@ -1,4 +1,5 @@
-{% set version = '0.3.0' %}
+{% set version = '0.3.0' %}  # [linux or win32 or osx]
+{% set version = '0.3.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: viridisLite_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/viridisLite_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/viridisLite/viridisLite_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 780ea12e7c4024d5ba9029f3a107321c74b8d6d9165262f6e64b79e00aa0c2af  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/viridisLite_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/viridisLite/viridisLite_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 780ea12e7c4024d5ba9029f3a107321c74b8d6d9165262f6e64b79e00aa0c2af  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/viridisLite_0.3.0.zip  # [win64]
-  sha256: 2056222beeba9349803ec80053c109eccdcf057c3b8f9c794918597b86fbcd53  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/viridisLite_0.3.0.tgz  # [osx]
-  sha256: 4a63c20e661654d8b7bc0529f707462d5b1b1e926e650119042ba42e0fca1417  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/viridisLite_0.3.0.zip  # [win64]
+  sha256: bd9040343abd6ebef73f4bc33186db2c4d10ca05bc290194e3e4d5c3998fb61f  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: hexbin (>= 1.27.0), ggplot2 (>= 1.0.1), testthat, covr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

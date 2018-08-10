@@ -1,4 +1,6 @@
-{% set version = '0.8' %}
+{% set version = '0.8' %}  # [linux or win32]
+{% set version = '0.8' %}  # [win64]
+{% set version = '0.8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: markdown_0.8.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/markdown_0.8.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/markdown/markdown_0.8.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/markdown_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/markdown/markdown_{{ version }}.tar.gz  # [linux or win32]
   sha256: 538fd912b2220f2df344c6cca58304ce11e0960de7bd7bd573b3385105d48fed  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/markdown_0.8.zip  # [win64]
+  sha256: e35d0452f8d2b3ce2c3c4a6ce09a56fc0e6ff75e54eed184867f3cd2effe0a5d  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/markdown_0.8.zip  # [win64]
-  sha256: 7bfd9868a549241fd0b4418bd905b66c09db57dd74ec07f8475f360125a2d571  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/markdown_0.8.tgz  # [osx]
-  sha256: 7f6e63a4fa1e4f124441de40cee0de308b6872a07062606138ae3127eeae9987  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/markdown_0.8.tgz  # [osx]
+  sha256: aae33cf1c86cf1150a011b1e27c5c8ab5c4648c91a1b96d3ddf7bdf6d7dec1fd  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +34,13 @@ build:
 # Suggests: knitr, RCurl
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -49,7 +48,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
     - r-mime >=0.3
 
 test:

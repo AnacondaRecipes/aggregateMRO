@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: influenceR_0.1.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/influenceR_0.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/influenceR/influenceR_0.1.0.tar.gz  # [linux or win32]
-  sha256: 4fc9324179bd8896875fc0e879a8a96b9ef2a6cf42a296c3b7b4d9098519e98a  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/influenceR_0.1.0.zip  # [win64]
-  sha256: 00ea1f1ed1f54c5760396646723311a1aa2ba0c588bc7a11bed90aa2fb02b81c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/influenceR_0.1.0.tgz  # [osx]
-  sha256: 22b3069e8a5f88e46dd27a99e30913ad25a154e284c48d782217b81ec1eed029  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/influenceR_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/influenceR/influenceR_{{ version }}.tar.gz
+  sha256: 4fc9324179bd8896875fc0e879a8a96b9ef2a6cf42a296c3b7b4d9098519e98a
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +26,13 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -50,7 +41,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-matrix >=1.1_4
     - r-igraph >=1.0.1
 

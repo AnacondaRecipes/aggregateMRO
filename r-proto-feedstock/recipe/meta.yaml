@@ -1,4 +1,5 @@
-{% set version = '1.0.0' %}
+{% set version = '1.0.0' %}  # [linux or win32 or osx]
+{% set version = '1.0.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: proto_1.0.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/proto_1.0.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/proto/proto_1.0.0.tar.gz  # [linux or win32]
-  sha256: 9294d9a3b2b680bb6fac17000bfc97453d77c87ef68cfd609b4c4eb6d11d04d1  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/proto_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/proto/proto_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 9294d9a3b2b680bb6fac17000bfc97453d77c87ef68cfd609b4c4eb6d11d04d1  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/proto_1.0.0.zip  # [win64]
-  sha256: 7bd4e77c6c9b65acaea23676c7d47758a585d1165bdf2334400c562611f447c0  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/proto_1.0.0.tgz  # [osx]
-  sha256: d5af058453f276419e6bccb81bf20cccfd4f078d02fb39ff054dc509b00dec79  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/proto_1.0.0.zip  # [win64]
+  sha256: 3de5ec14b17b8e38dc76f52f28e80708ff61ac82473df40282bf256732da3ba2  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: testthat, covr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

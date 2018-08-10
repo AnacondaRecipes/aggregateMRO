@@ -1,4 +1,5 @@
-{% set version = '0.2.0' %}
+{% set version = '0.2.0' %}  # [linux or win32 or osx]
+{% set version = '0.2.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +9,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: shinycssloaders_0.2.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/shinycssloaders_0.2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/shinycssloaders/shinycssloaders_0.2.0.tar.gz  # [linux or win32]
-  sha256: e4890ceeea49c9186cf2edc98c4ca55bbc562ab9cde240a53666b0534fd5ffae  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/shinycssloaders_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/shinycssloaders/shinycssloaders_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: e4890ceeea49c9186cf2edc98c4ca55bbc562ab9cde240a53666b0534fd5ffae  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/shinycssloaders_0.2.0.zip  # [win64]
-  sha256: 5685e35cd18f8f8755203f77923338e223a3422fcabcf3e3f8d20383612e1577  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/shinycssloaders_0.2.0.tgz  # [osx]
-  sha256: bb9a0a70e5c220d935811d4137d2f31f72c86fa29cf71a5f9153208b551fe95e  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/shinycssloaders_0.2.0.zip  # [win64]
+  sha256: 03d9a5824cd47b513eb51ac6255839d9b5aec59b2ba5831aa981b5020e71c2f4  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

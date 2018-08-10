@@ -1,4 +1,6 @@
-{% set version = '1.7.1' %}
+{% set version = '1.7.1' %}  # [linux or win32]
+{% set version = '1.7.1' %}  # [win64]
+{% set version = '1.7.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +10,30 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: R.methodsS3_1.7.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/R.methodsS3_1.7.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/R.methodsS3/R.methodsS3_1.7.1.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/R.methodsS3_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/R.methodsS3/R.methodsS3_{{ version }}.tar.gz  # [linux or win32]
   sha256: 44b840399266cd27f8f9157777b4d9d85ab7bd31bfdc143b3fc45079a2d8e687  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/R.methodsS3_1.7.1.zip  # [win64]
+  sha256: 20f488972b6917a6e879685209f3678d91ff1b02c185e68d9c7cae4c2b861f23  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/R.methodsS3_1.7.1.zip  # [win64]
-  sha256: c2aa26eba82648cccdf2063d598995c23c79233bde18590377636ea858cc4a87  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/R.methodsS3_1.7.1.tgz  # [osx]
-  sha256: f6ae77cc93bc00b0bdc69f91422e95e0c2fee402da4dcd58ed48b531c017c123  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/R.methodsS3_1.7.1.tgz  # [osx]
+  sha256: 57357781eb712c87b32eba37de77ed752739888afc798a56813fbd4ddd01ba51  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

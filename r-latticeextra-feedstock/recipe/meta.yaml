@@ -1,4 +1,5 @@
-{% set version = '0.6-28' %}
+{% set version = '0.6-28' %}  # [linux or win32 or osx]
+{% set version = '0.6-28' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: latticeExtra_0.6-28.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/latticeExtra_0.6-28.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/latticeExtra/latticeExtra_0.6-28.tar.gz  # [linux or win32]
-  sha256: 780695323dfadac108fb27000011c734e2927b1e0f069f247d65d27994c67ec2  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/latticeExtra_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/latticeExtra/latticeExtra_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 780695323dfadac108fb27000011c734e2927b1e0f069f247d65d27994c67ec2  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/latticeExtra_0.6-28.zip  # [win64]
-  sha256: 81d5b314176b859ca11ab8aa9d0cb8d68d191cbe14172f30f99858fc71fb1dce  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/latticeExtra_0.6-28.tgz  # [osx]
-  sha256: bbc0e4771b1375d0f05563e9ace9029d3f5ec64572c2d07c2e4642b0f73f9e54  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/latticeExtra_0.6-28.zip  # [win64]
+  sha256: c81cf47f5f835c9e2a85e851260b2b45f6ef71af94a29a66df8c1ec42f6bcca8  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: maps, mapproj, deldir, tripack, zoo, MASS, quantreg, mgcv
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

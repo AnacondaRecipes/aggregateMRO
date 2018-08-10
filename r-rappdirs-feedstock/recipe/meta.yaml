@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rappdirs_0.3.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rappdirs_0.3.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rappdirs/rappdirs_0.3.1.tar.gz  # [linux or win32]
-  sha256: 2fd891ec16d28862f65bb57e4a78f77a597930abb59380e757afd8b6c6d3264a  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rappdirs_0.3.1.zip  # [win64]
-  sha256: 8b9e46bb75993a695ab4a1dfac6323bf4c0e23a8cdfefbac535a04856097a017  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rappdirs_0.3.1.tgz  # [osx]
-  sha256: ca3ab39a7d0a7964dda710810fd27a9d79011281b4f12674706fa833d660da17  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/rappdirs_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rappdirs/rappdirs_{{ version }}.tar.gz
+  sha256: 2fd891ec16d28862f65bb57e4a78f77a597930abb59380e757afd8b6c6d3264a
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +26,20 @@ build:
 # Suggests: testthat, roxygen2
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

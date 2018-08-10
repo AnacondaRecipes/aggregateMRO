@@ -1,0 +1,102 @@
+{% set version = '7.3-49' %}  # [linux or win32]
+{% set version = '7.3-49' %}  # [win64]
+{% set version = '7.3-49' %}  # [osx]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-mass
+  version: {{ version|replace("-", "_") }}
+
+source:
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/MASS_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/MASS/MASS_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1a33f77d5571e97daae22d1b764f3696f088bd2b18a9c709e21b7c7283b44bfa  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/MASS_7.3-49.zip  # [win64]
+  sha256: dbd43c0a1c9e92dfeb6468df21a8843c3c52d5d995ca2cbe23c88f7d23d24ac6  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/MASS_7.3-49.tgz  # [osx]
+  sha256: 7aabaeb4a3d6d31fdeff677f90c5165ff5679109ee0de19581eb0b36a911bea9  # [osx]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: lattice, nlme, nnet, survival
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('MASS')"           # [not win]
+    - "\"%R%\" -e \"library('MASS')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: http://www.stats.ox.ac.uk/pub/MASS4/
+  license: GPL-2 | GPL-3
+  summary: Functions and datasets to support Venables and Ripley, "Modern Applied Statistics
+    with S" (4th edition, 2002).
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: MASS
+# Priority: recommended
+# Version: 7.3-49
+# Date: 2018-02-23
+# Revision: $Rev: 3481 $
+# Depends: R (>= 3.1.0), grDevices, graphics, stats, utils
+# Imports: methods
+# Suggests: lattice, nlme, nnet, survival
+# Authors@R: c(person("Brian", "Ripley", role = c("aut", "cre", "cph"), email = "ripley@stats.ox.ac.uk"), person("Bill", "Venables", role = "ctb"), person(c("Douglas", "M."), "Bates", role = "ctb"), person("Kurt", "Hornik", role = "trl", comment = "partial port ca 1998"), person("Albrecht", "Gebhardt", role = "trl", comment = "partial port ca 1998"), person("David", "Firth", role = "ctb"))
+# Description: Functions and datasets to support Venables and Ripley, "Modern Applied Statistics with S" (4th edition, 2002).
+# Title: Support Functions and Datasets for Venables and Ripley's MASS
+# LazyData: yes
+# ByteCompile: yes
+# License: GPL-2 | GPL-3
+# URL: http://www.stats.ox.ac.uk/pub/MASS4/
+# Contact: <MASS@stats.ox.ac.uk>
+# NeedsCompilation: yes
+# Packaged: 2018-02-23 05:49:55 UTC; ripley
+# Author: Brian Ripley [aut, cre, cph], Bill Venables [ctb], Douglas M. Bates [ctb], Kurt Hornik [trl] (partial port ca 1998), Albrecht Gebhardt [trl] (partial port ca 1998), David Firth [ctb]
+# Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
+# Repository: CRAN
+# Date/Publication: 2018-02-23 08:09:50 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

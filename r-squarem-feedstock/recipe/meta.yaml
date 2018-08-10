@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: SQUAREM_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/SQUAREM_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/SQUAREM/SQUAREM_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 9b89905b436f1cf3faa9e3dabc585a76299e729e85ca659bfddb4b7cba11b283  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/SQUAREM_2017.10-1.zip  # [win64]
-  sha256: 9fecd8edb5d6b40b8988a6324ce7c1cb8a940f95d75afaf8a37c99a512361444  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/SQUAREM_2017.10-1.tgz  # [osx]
-  sha256: 3b6cf29890841835ab34fb5b15dc3ad38e09d3aad5ad74799713c946e521352c  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/SQUAREM_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/SQUAREM/SQUAREM_{{ version }}.tar.gz
+  sha256: 9b89905b436f1cf3faa9e3dabc585a76299e729e85ca659bfddb4b7cba11b283
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: setRNG
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

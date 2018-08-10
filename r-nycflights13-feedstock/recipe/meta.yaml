@@ -1,4 +1,5 @@
-{% set version = '0.2.2' %}
+{% set version = '0.2.2' %}  # [linux or win32 or osx]
+{% set version = '0.2.2' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: nycflights13_0.2.2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/nycflights13_0.2.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/nycflights13/nycflights13_0.2.2.tar.gz  # [linux or win32]
-  sha256: cc13051face739eecf3a5a2654a53d51110b0aa3968cb47b5bfb95053dbfa7a0  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/nycflights13_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/nycflights13/nycflights13_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: cc13051face739eecf3a5a2654a53d51110b0aa3968cb47b5bfb95053dbfa7a0  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/nycflights13_0.2.2.zip  # [win64]
-  sha256: d655a23d00e2adca5aa57df3b33107d542c8a68e3715771880eb6f0ea3acc161  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/nycflights13_0.2.2.tgz  # [osx]
-  sha256: 977836abe08e8b4422c6c1fb635085ac0c559f8c01c0b4c5a07d4467cd687d5a  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/nycflights13_0.2.2.zip  # [win64]
+  sha256: f64e94cb4138f7ea2fed7fed3e338b70a161bbfd9d04790ded128ef2868c9bd1  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: dplyr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -64,7 +57,7 @@ about:
   license: CC0
   summary: Airline on-time data for all flights departing NYC in 2013. Also includes useful 'metadata'
     on airlines, airports, weather, and planes.
-  license_family: OTHER
+  license_family: CC
 
 extra:
   recipe-maintainers:

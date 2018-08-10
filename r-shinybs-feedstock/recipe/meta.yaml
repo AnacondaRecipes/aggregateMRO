@@ -1,4 +1,5 @@
-{% set version = '0.61' %}
+{% set version = '0.61' %}  # [linux or win32 or osx]
+{% set version = '0.61' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +9,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: shinyBS_0.61.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/shinyBS_0.61.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/shinyBS/shinyBS_0.61.tar.gz  # [linux or win32]
-  sha256: 51be29541e066d30c66e243393f20b0da705eba1b7ce7eeadea993bb2aa91166  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/shinyBS_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/shinyBS/shinyBS_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 51be29541e066d30c66e243393f20b0da705eba1b7ce7eeadea993bb2aa91166  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/shinyBS_0.61.zip  # [win64]
-  sha256: 3c9fe2bff7fa3ed19cc90965f67e76eff1e4f730888b65e99c8de1a4247fc9ba  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/shinyBS_0.61.tgz  # [osx]
-  sha256: 71b0fc0354fad01674c5d68704f00a11b70216f5e0225287588edd6b49cb4695  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/shinyBS_0.61.zip  # [win64]
+  sha256: 3b8be7e03f8aed75646101b48b0ade678cd243946c2efd837326c490f1b846c4  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

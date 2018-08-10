@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: coda_0.19-1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/coda_0.19-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/coda/coda_0.19-1.tar.gz  # [linux or win32]
-  sha256: d41ff5731da6805170769dba75dd011ab33f916d15b2336001f279e21a524491  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/coda_0.19-1.zip  # [win64]
-  sha256: ad2e8cb51df34df4acd2a9b11d997d09e2f0cd37e3d1a67624675397e83bd36c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/coda_0.19-1.tgz  # [osx]
-  sha256: a5156dfcab346206008fff676078af0e7fb0a2a936f807827823e537123ced67  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/coda_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/coda/coda_{{ version }}.tar.gz
+  sha256: d41ff5731da6805170769dba75dd011ab33f916d15b2336001f279e21a524491
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

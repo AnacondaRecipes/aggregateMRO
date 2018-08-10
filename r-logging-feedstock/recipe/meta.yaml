@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: logging_0.7-103.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/logging_0.7-103.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/logging/logging_0.7-103.tar.gz  # [linux or win32]
-  sha256: aca8153206cc815a49470844c48f44f84e6d7a6ce52686a8593f727582c0e7ea  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/logging_0.7-103.zip  # [win64]
-  sha256: ce0f970d12bea6e9f45f2c5766e99f00b4c0af6fd445736f2f3ef97dbff0a14b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/logging_0.7-103.tgz  # [osx]
-  sha256: cde2d5fb977b34406a98c3ce8e7ffaee593a775b5b5c39bbe3800c2b0b3f78d8  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/logging_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/logging/logging_{{ version }}.tar.gz
+  sha256: aca8153206cc815a49470844c48f44f84e6d7a6ce52686a8593f727582c0e7ea
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: svUnit, XML
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

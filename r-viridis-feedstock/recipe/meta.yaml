@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: viridis_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/viridis_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/viridis/viridis_{{ version }}.tar.gz  # [linux or win32]
-  sha256: ddf267515838c6eb092938133035cee62ab6a78760413bfc28b8256165701918  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/viridis_0.5.1.zip  # [win64]
-  sha256: 31d139ca92488b9f42d780e7d3e1dacd49067e28cd180afd821bf2d49b4f9c00  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/viridis_0.5.1.tgz  # [osx]
-  sha256: b4f9be0ef1c048c328b0bc5375770d3fca3218d7e0163e5b8b042a52304b5c95  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/viridis_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/viridis/viridis_{{ version }}.tar.gz
+  sha256: ddf267515838c6eb092938133035cee62ab6a78760413bfc28b8256165701918
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: hexbin (>= 1.27.0), scales, MASS, knitr, dichromat, colorspace, rasterVis, httr, mapproj, vdiffr, svglite (>= 1.2.0), testthat, covr, rmarkdown, rgdal
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

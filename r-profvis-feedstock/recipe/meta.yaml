@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: profvis_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/profvis_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/profvis/profvis_{{ version }}.tar.gz  # [linux or win32]
-  sha256: ca5437c8373d907a7688ae57d04c3af177f4fa62c706742fb0796797a9ac7772  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/profvis_0.3.5.zip  # [win64]
-  sha256: 05d0866085efe7d4b8c24b863d1ac9f082b7faf6fbc4e959a5f07203329a67d4  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/profvis_0.3.5.tgz  # [osx]
-  sha256: d39922ab6c8c02d617bed2ada74003039f72d29f0f1bf25e4622b2b6042f6653  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/profvis_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/profvis/profvis_{{ version }}.tar.gz
+  sha256: ca5437c8373d907a7688ae57d04c3af177f4fa62c706742fb0796797a9ac7772
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,10 +26,13 @@ build:
 # Suggests: knitr, ggplot2, rmarkdown, testthat, devtools
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -45,7 +41,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-htmlwidgets >=0.3.2
     - r-stringr
 

@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: manipulateWidget_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/manipulateWidget_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/manipulateWidget/manipulateWidget_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 5bf4bdb702263b0e156f40f3354922a06db7db544e497addcd6c98d9860bf3a3  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/manipulateWidget_0.9.0.zip  # [win64]
-  sha256: 4fe67eb4100dbaed02d72dd2416ecd87adff1ca0bc2eb8fe4e326814ab748814  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/manipulateWidget_0.9.0.tgz  # [osx]
-  sha256: 9544ae665bd77e1a8d3122f88757b4709da6941a7dd6d58402b3ffde0ea62db1  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/manipulateWidget_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/manipulateWidget/manipulateWidget_{{ version }}.tar.gz
+  sha256: 5bf4bdb702263b0e156f40f3354922a06db7db544e497addcd6c98d9860bf3a3
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: dygraphs, leaflet, plotly, xts, rmarkdown, testthat, covr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

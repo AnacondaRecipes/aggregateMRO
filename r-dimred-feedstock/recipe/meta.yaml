@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: dimRed_0.1.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/dimRed_0.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/dimRed/dimRed_0.1.0.tar.gz  # [linux or win32]
-  sha256: fb0cef7a21b8a5219c74e5227a282168599dd63e904130366f3d2fed8a625a39  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/dimRed_0.1.0.zip  # [win64]
-  sha256: e3d5e5a234a48d502b0cc06ce73479e19ab75de5dee3e94241c512a8a4ce9afc  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/dimRed_0.1.0.tgz  # [osx]
-  sha256: 5d0b520e4b25ec06ea45ce677458060a09d5ac3077304e4d3d0c2bf97924ee53  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/dimRed_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/dimRed/dimRed_{{ version }}.tar.gz
+  sha256: fb0cef7a21b8a5219c74e5227a282168599dd63e904130366f3d2fed8a625a39
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: MASS, Matrix, RANN, RSpectra, Rtsne, coRanking, diffusionMap, energy, fastICA, ggplot2, graphics, igraph, kernlab, lle, loe, optimx, pcaPP, rgl, scales, scatterplot3d, stats, testthat, tidyr, vegan
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

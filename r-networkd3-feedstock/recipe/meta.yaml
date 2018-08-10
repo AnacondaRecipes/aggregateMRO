@@ -1,4 +1,5 @@
-{% set version = '0.4' %}
+{% set version = '0.4' %}  # [linux or win32 or osx]
+{% set version = '0.4' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: networkD3_0.4.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/networkD3_0.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/networkD3/networkD3_0.4.tar.gz  # [linux or win32]
-  sha256: 33b82585f1eec6233303ec14033a703d0b17def441c7a0a67bf7e6764c9c9d0b  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/networkD3_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/networkD3/networkD3_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 33b82585f1eec6233303ec14033a703d0b17def441c7a0a67bf7e6764c9c9d0b  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/networkD3_0.4.zip  # [win64]
-  sha256: a0cb35d2ff3db93a9ffd03be76acc935720b714ce484b6b68074d0d0170925ce  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/networkD3_0.4.tgz  # [osx]
-  sha256: 184ac526bc7755b2963e8bf598c6cd264266ceab727e1fc79c42200ea23468d2  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/networkD3_0.4.zip  # [win64]
+  sha256: 60c1fd332faa75ee7e4d25a53467c1b955db98a7980401e5f51c4621dcaad15d  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: htmltools (>= 0.2.6), jsonlite,
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

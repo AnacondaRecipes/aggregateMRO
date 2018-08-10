@@ -8,47 +8,37 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: SnowballC_0.5.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/SnowballC_0.5.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/SnowballC/SnowballC_0.5.1.tar.gz  # [linux or win32]
-  sha256: 44170624fd906ecc67959fed5dbf80068b59b1b2a6fbab65da5054e3e1186f4d  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/SnowballC_0.5.1.zip  # [win64]
-  sha256: 0ba956696d928976b2d700890a4a983c7319ead462d3209b7b1585947ed918c6  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/SnowballC_0.5.1.tgz  # [osx]
-  sha256: d833099b75441b27cfa4ce3acca1ef8c5981dd0e286a0c744f4110af70b98fec  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/SnowballC_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/SnowballC/SnowballC_{{ version }}.tar.gz
+  sha256: 44170624fd906ecc67959fed5dbf80068b59b1b2a6fbab65da5054e3e1186f4d
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

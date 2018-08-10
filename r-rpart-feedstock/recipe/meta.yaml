@@ -1,0 +1,99 @@
+{% set version = '4.1-13' %}  # [linux or win32]
+{% set version = '4.1-13' %}  # [win64]
+{% set version = '4.1-13' %}  # [osx]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-rpart
+  version: {{ version|replace("-", "_") }}
+
+source:
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rpart_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rpart/rpart_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 8e11a6552224e0fbe23a85aba95acd21a0889a3fe48277f3d345de3147c7494c  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rpart_4.1-13.zip  # [win64]
+  sha256: 84aa417f0bb7ec63ba38544c8e5c12dc2c1bf736d5c94f31e42c8ac33592631d  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/rpart_4.1-13.tgz  # [osx]
+  sha256: 1485ce8f86ba098dbeb23104cd16195e4996fd700552edff55332472d4d31122  # [osx]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: survival
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('rpart')"           # [not win]
+    - "\"%R%\" -e \"library('rpart')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=rpart
+  license: GPL-2 | GPL-3
+  summary: Recursive partitioning for classification,  regression and survival trees.  An implementation
+    of most of the  functionality of the 1984 book by Breiman, Friedman, Olshen and
+    Stone.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: rpart
+# Priority: recommended
+# Version: 4.1-13
+# Date: 2018-02-23
+# Authors@R: c(person("Terry", "Therneau", role = "aut", email = "therneau@mayo.edu"), person("Beth", "Atkinson", role = c("aut", "cre"), email = "atkinson@mayo.edu"), person("Brian", "Ripley", role = "trl", email = "ripley@stats.ox.ac.uk", comment = "producer of the initial R port, maintainer 1999-2017"))
+# Description: Recursive partitioning for classification,  regression and survival trees.  An implementation of most of the  functionality of the 1984 book by Breiman, Friedman, Olshen and Stone.
+# Title: Recursive Partitioning and Regression Trees
+# Depends: R (>= 2.15.0), graphics, stats, grDevices
+# Suggests: survival
+# License: GPL-2 | GPL-3
+# LazyData: yes
+# ByteCompile: yes
+# NeedsCompilation: yes
+# Packaged: 2018-02-23 05:39:52 UTC; ripley
+# Author: Terry Therneau [aut], Beth Atkinson [aut, cre], Brian Ripley [trl] (producer of the initial R port, maintainer 1999-2017)
+# Maintainer: Beth Atkinson <atkinson@mayo.edu>
+# Repository: CRAN
+# Date/Publication: 2018-02-23 05:45:50 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

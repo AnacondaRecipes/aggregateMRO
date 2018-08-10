@@ -8,55 +8,42 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RODBC_1.3-15.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RODBC_1.3-15.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RODBC/RODBC_1.3-15.tar.gz  # [linux or win32]
-  sha256: c43e5a2f0aa2f46607e664bfc0bb3caa230bbb779f4ff084e01727642da136e1  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RODBC_1.3-15.zip  # [win64]
-  sha256: 206fe4caa8cb55a818b1ba9eaf5c6e48c0b4c4b1742cdfc41cc35b46ccc4f818  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RODBC_1.3-15.tgz  # [osx]
-  sha256: f50665f53b51645cb77850cb5a7c1654e3a19c23f7b0f9a8d2390b3fe14c1c98  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/RODBC_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/RODBC/RODBC_{{ version }}.tar.gz
+  sha256: c43e5a2f0aa2f46607e664bfc0bb3caa230bbb779f4ff084e01727642da136e1
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
-    - {{native}}unixodbc           # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
-    - {{native}}unixodbc           # [linux]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

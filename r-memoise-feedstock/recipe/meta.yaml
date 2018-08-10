@@ -1,4 +1,5 @@
-{% set version = '1.1.0' %}
+{% set version = '1.1.0' %}  # [linux or win32 or osx]
+{% set version = '1.1.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: memoise_1.1.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/memoise_1.1.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/memoise/memoise_1.1.0.tar.gz  # [linux or win32]
-  sha256: b276f9452a26aeb79e12dd7227fcc8712832781a42f92d70e86040da0573980c  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/memoise_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/memoise/memoise_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: b276f9452a26aeb79e12dd7227fcc8712832781a42f92d70e86040da0573980c  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/memoise_1.1.0.zip  # [win64]
-  sha256: 3d70d6f0dd8868c02047a312c0093eaf164aee15d119f0f28f5397b4bf214570  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/memoise_1.1.0.tgz  # [osx]
-  sha256: c3fd0c7925a78bb7838fa94363091645ae4c73dc25e7635279d47871da2efb4f  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/memoise_1.1.0.zip  # [win64]
+  sha256: 79c4f41d931fc35c044c7a46ba79eb26699df69da0079993964838c63b67a913  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: testthat, aws.s3, httr, covr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -1,4 +1,5 @@
-{% set version = '1.1.1' %}
+{% set version = '1.1.1' %}  # [linux or win32 or osx]
+{% set version = '1.1.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +9,27 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: shinythemes_1.1.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/shinythemes_1.1.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/shinythemes/shinythemes_1.1.1.tar.gz  # [linux or win32]
-  sha256: e6dfa2bd6f4a259feb54a9c910b21cfbb2b22efc4506d8e23007b75080074244  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/shinythemes_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/shinythemes/shinythemes_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: e6dfa2bd6f4a259feb54a9c910b21cfbb2b22efc4506d8e23007b75080074244  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/shinythemes_1.1.1.zip  # [win64]
-  sha256: 0e401320f758b1a7952d966778d9d3029f9cc912d463be2a3a28fb4e592db365  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/shinythemes_1.1.1.tgz  # [osx]
-  sha256: c168fbe2093f4930a3877705d036c0723642ebe9df70361d987baaa754141d11  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/shinythemes_1.1.1.zip  # [win64]
+  sha256: 5c4979f7b782f66f016658ce0037feeb8e098e0cf2ae3783e07c90a44e68abc1  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -1,4 +1,6 @@
-{% set version = '0.27' %}
+{% set version = '0.22' %}  # [linux or win32]
+{% set version = '0.22' %}  # [win64]
+{% set version = '0.22' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pkgmaker_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/pkgmaker_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/pkgmaker/pkgmaker_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 17a289d8f596ba5637b07077b3bff22411a2c2263c0b7de59fe848666555ec6a  # [linux or win32]
+  sha256: 19ad78c16bd5757333e7abbd5eebcec081deb494c9a4b6eec6919a3747b3386f  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/pkgmaker_0.27.zip  # [win64]
-  sha256: 22d3d74c088f348bc66481386b99114c53912eb70cad715a205165956e74e28c  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pkgmaker_0.22.zip  # [win64]
+  sha256: db260cb09baa1f0463dec531a10d7dc2a1558c461aa52dc88a9a9b14a9f4b643  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/pkgmaker_0.27.tgz  # [osx]
-  sha256: ce244480971aea03068fd2bb8a4daa24b030e2d6229619e79f5a85fad3612cc6  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/pkgmaker_0.22.tgz  # [osx]
+  sha256: 44a0ae594e43215a2a466e68c504bc88e0e86aba38f2e57e9c2929fb19e63be5  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -30,32 +31,25 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: devtools (>= 0.8), roxygen2, RUnit, testthat, knitr, rmarkdown, yaml, Biobase
+# Suggests: devtools (>= 0.8), bibtex, RUnit, testthat, knitr, ReportingTools, hwriter, argparse
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
-    - r-bibtex >=0.4
     - r-codetools
     - r-digest
-    - r-magrittr
     - r-registry
-    - r-stringi
     - r-stringr
-    - r-withr
     - r-xtable
 
   run:
     - mro-base
-    - r-bibtex >=0.4
     - r-codetools
     - r-digest
-    - r-magrittr
     - r-registry
-    - r-stringi
     - r-stringr
-    - r-withr
     - r-xtable
 
 test:
@@ -73,12 +67,12 @@ test:
 about:
   home: https://renozao.github.io/pkgmaker
   license: GPL (>= 2)
-  summary: Provides some low-level utilities to use for package development. It currently provides
-    managers for multiple package specific options and registries, vignette, unit test
-    and bibtex related utilities. It serves as a base package for packages like NMF,
-    RcppOctave, doRNG, and as an incubator package for other general purposes utilities,
-    that will eventually be packaged separately. It is still under heavy development
-    and changes in the interface(s) are more than likely to happen.
+  summary: This package provides some low-level utilities to use for package development. It
+    currently provides managers for multiple package specific options and registries,
+    vignette, unit test and bibtex related utilities. It serves as a base package for
+    packages like NMF, RcppOctave, doRNG, and as an incubator package for other general
+    purposes utilities, that will eventually be packaged separately. It is still under
+    heavy development and changes in the interface(s) are more than likely to happen.
   license_family: GPL3
 
 extra:
@@ -89,27 +83,26 @@ extra:
 
 # Package: pkgmaker
 # Type: Package
-# Title: Development Utilities for R Packages
-# Version: 0.27
-# Date: 2018-05-25
-# Authors@R: person("Renaud", "Gaujoux", email = "renozao@protonmail.com", role = c("aut", "cre"))
-# Description: Provides some low-level utilities to use for package development. It currently provides managers for multiple package specific options and registries, vignette, unit test and bibtex related utilities. It serves as a base package for packages like NMF, RcppOctave, doRNG, and as an incubator package for other general purposes utilities, that will eventually be packaged separately. It is still under heavy development and changes in the interface(s) are more than likely to happen.
+# Title: Package development utilities
+# Version: 0.22
+# Date: 2013-09-17
+# Author: Renaud Gaujoux
+# Maintainer: Renaud Gaujoux <renaud@tx.technion.ac.il>
+# Description: This package provides some low-level utilities to use for package development. It currently provides managers for multiple package specific options and registries, vignette, unit test and bibtex related utilities. It serves as a base package for packages like NMF, RcppOctave, doRNG, and as an incubator package for other general purposes utilities, that will eventually be packaged separately. It is still under heavy development and changes in the interface(s) are more than likely to happen.
 # License: GPL (>= 2)
 # URL: https://renozao.github.io/pkgmaker
 # BugReports: http://github.com/renozao/pkgmaker/issues
+# SCM: github:renozao, r-forge
 # LazyLoad: yes
-# Encoding: UTF-8
-# Depends: R (>= 3.0.0), methods, stats, registry
-# Imports: tools, grDevices, utils, graphics, codetools, digest, stringi, magrittr, stringr, xtable, withr, bibtex (>= 0.4)
-# Suggests: devtools (>= 0.8), roxygen2, RUnit, testthat, knitr, rmarkdown, yaml, Biobase
-# Collate: 'bibtex.R' 'colors.R' 'data.R' 'namespace.R' 'utils.R' 'devutils.R' 'files.R' 'graphics.R' 'options.R' 'logging.R' 'unitTests.R' 'is.R' 'knitr.R' 'registry.R' 'package-extra.R' 'package.R' 'packages.R' 'project.R' 'rd.R' 'user.R' 'vignette.R' 'with.r'
-# RoxygenNote: 6.0.1.9000
+# Depends: R (>= 3.0.0), stats, registry
+# Imports: methods, tools, codetools, digest, stringr, xtable, grDevices
+# Suggests: devtools (>= 0.8), bibtex, RUnit, testthat, knitr, ReportingTools, hwriter, argparse
+# Collate: 'utils.R' 'logging.R' 'unitTests.R' 'data.R' 'namespace.R' 'devutils.R' 'package.R' 'options.R' 'is.R' 'registry.R' 'bibtex.R' 'packages.R' 'vignette.R' 'files.R' 'package-extra.R' 'colors.R' 'graphics.R' 'rd.R' 'project.R' 'CLI.R' 'knitr.R' 'repositories.R'
+# VignetteBuilder: knitr
+# Packaged: 2014-05-14 11:49:09 UTC; renaud
 # NeedsCompilation: no
-# Packaged: 2018-05-25 21:48:47 UTC; renaud
-# Author: Renaud Gaujoux [aut, cre]
-# Maintainer: Renaud Gaujoux <renozao@protonmail.com>
 # Repository: CRAN
-# Date/Publication: 2018-05-25 22:18:01 UTC
+# Date/Publication: 2014-05-14 16:18:51
 
 # See
 # http://docs.continuum.io/conda/build.html for

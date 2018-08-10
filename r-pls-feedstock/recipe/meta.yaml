@@ -1,4 +1,5 @@
-{% set version = '2.6-0' %}
+{% set version = '2.6-0' %}  # [linux or win32 or osx]
+{% set version = '2.6-0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pls_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/pls_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/pls/pls_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 3d8708fb7f45863d3861fd231e06955e6750bcbe717e1ccfcc6d66d0cb4d4596  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/pls_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/pls/pls_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 3d8708fb7f45863d3861fd231e06955e6750bcbe717e1ccfcc6d66d0cb4d4596  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/pls_2.6-0.zip  # [win64]
-  sha256: 843d19e584beac359f685d75e714e8de57867d313c8860724bcc9774a8647207  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/pls_2.6-0.tgz  # [osx]
-  sha256: fcbc089d0c6dbdc316e36464de175bc9c09f636d3a9142b9742f8e6212c0b0c6  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pls_2.6-0.zip  # [win64]
+  sha256: e767fbef6d6e97f6c638503f3ec05a73cf7919e6c09f9df867d42ffc4ab2943b  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: MASS, parallel, Rmpi
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

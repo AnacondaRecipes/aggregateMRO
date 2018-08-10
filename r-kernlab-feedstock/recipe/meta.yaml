@@ -1,4 +1,4 @@
-{% set version = '0.9-26' %}
+{% set version = '0.9-25' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: kernlab_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/kernlab_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/kernlab/kernlab_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 954940478c6fcf60433e50e43cf10d70bcb0a809848ca8b9d683bf371cd56077  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/kernlab_0.9-26.zip  # [win64]
-  sha256: 7d7a4f0a97927a8deb6cce631dd9e2a2f2afe6f035b69ff9de8f0be2312260d0  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/kernlab_0.9-26.tgz  # [osx]
-  sha256: 58c08c4e61300bc542baca4129081edc29b82538bb950500942b6407e76d41b9  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/kernlab_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/kernlab/kernlab_{{ version }}.tar.gz
+  sha256: b9de072754bb03c02c4d6a5ca20f2290fd090de328b55ab334ac0b397ac2ca62
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,19 +25,21 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{ compiler('fortran') }}  # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:
@@ -74,7 +69,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: kernlab
-# Version: 0.9-26
+# Version: 0.9-25
 # Title: Kernel-Based Machine Learning Lab
 # Authors@R: c(person("Alexandros", "Karatzoglou", role = c("aut", "cre"), email = "alexandros.karatzoglou@gmail.com"), person("Alex", "Smola", role = "aut"), person("Kurt", "Hornik", role = "aut"))
 # Description: Kernel-based machine learning methods for classification, regression, clustering, novelty detection, quantile regression and dimensionality reduction.  Among other methods 'kernlab' includes Support Vector Machines, Spectral Clustering, Kernel PCA, Gaussian Processes and a QP solver.
@@ -83,11 +78,11 @@ extra:
 # LazyLoad: Yes
 # License: GPL-2
 # NeedsCompilation: yes
-# Packaged: 2018-04-30 15:49:11 UTC; hornik
+# Packaged: 2016-10-03 06:52:15 UTC; hornik
 # Author: Alexandros Karatzoglou [aut, cre], Alex Smola [aut], Kurt Hornik [aut]
 # Maintainer: Alexandros Karatzoglou <alexandros.karatzoglou@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2018-04-30 15:53:29 UTC
+# Date/Publication: 2016-10-03 09:43:44
 
 # See
 # http://docs.continuum.io/conda/build.html for

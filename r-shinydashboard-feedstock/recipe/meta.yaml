@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: shinydashboard_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/shinydashboard_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/shinydashboard/shinydashboard_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 0b7b102e9e5bea78ddc4da628d072a358270f2db9b63a6ebe4d8bdce3066d883  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/shinydashboard_0.7.0.zip  # [win64]
-  sha256: d86de9ff31cc5e161aff6b89b786206e69ccf5ad9f51e1c401903ef5695da015  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/shinydashboard_0.7.0.tgz  # [osx]
-  sha256: 610d2aeee981d51bb953a8a1dc979bcb277930629ffe99ccbe77af2f3cb4897b  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/shinydashboard_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/shinydashboard/shinydashboard_{{ version }}.tar.gz
+  sha256: 0b7b102e9e5bea78ddc4da628d072a358270f2db9b63a6ebe4d8bdce3066d883
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,6 +25,7 @@ build:
 
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

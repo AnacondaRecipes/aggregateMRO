@@ -1,4 +1,5 @@
-{% set version = '1.2.0' %}
+{% set version = '1.2.0' %}  # [linux or win32 or osx]
+{% set version = '1.2.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: xml2_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/xml2_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/xml2/xml2_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 0a7a916fe9c5da9ac45aeb4c6b6b25d33c07652d422b9f2bb570f2e8f4ac9494  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/xml2_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/xml2/xml2_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 0a7a916fe9c5da9ac45aeb4c6b6b25d33c07652d422b9f2bb570f2e8f4ac9494  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/xml2_1.2.0.zip  # [win64]
-  sha256: 8edd028a8244f476205718f381c3279fa643666dc29bc1938d76e62b5dec9317  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/xml2_1.2.0.tgz  # [osx]
-  sha256: ced391b4a257e327fcd656c63a63a9470b4226e70e0132d5890fdffc36b3e8f4  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/xml2_1.2.0.zip  # [win64]
+  sha256: ba5ae56c79cb7d21a53cc11b871158367a39e7ef70f0ec3f75aacb0435c88d8c  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -40,16 +37,16 @@ requirements:
     - {{posix}}sed               # [win32]
     - {{posix}}grep              # [win32]
     - {{posix}}autoconf          # [linux or win32 or osx]
+    - {{posix}}automake          # [linux or osx]
     - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
     - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
     - r-rcpp
-    - zlib                       # [osx]
-    - libxml2                    # [linux or osx]
 
   run:
     - mro-base

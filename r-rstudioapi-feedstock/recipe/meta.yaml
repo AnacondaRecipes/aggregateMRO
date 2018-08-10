@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rstudioapi_0.7.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rstudioapi_0.7.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rstudioapi/rstudioapi_0.7.tar.gz  # [linux or win32]
-  sha256: a541bc76ef082d2c27e42fd683f8262cb195b1497af3509178d2642870397a8c  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rstudioapi_0.7.zip  # [win64]
-  sha256: 0a3f0fc0bf78cadf1c49dc2d105ec181944d4d136a2e7cf9bc85c5c3c907559f  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rstudioapi_0.7.tgz  # [osx]
-  sha256: dbf7fbb393fb19a28fecd61c29c4d016b46fc5df4100d21e37e308c92651a245  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/rstudioapi_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rstudioapi/rstudioapi_{{ version }}.tar.gz
+  sha256: a541bc76ef082d2c27e42fd683f8262cb195b1497af3509178d2642870397a8c
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: testthat, knitr, rmarkdown
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

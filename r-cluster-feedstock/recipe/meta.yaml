@@ -1,0 +1,100 @@
+{% set version = '2.0.7-1' %}  # [linux or win32 or osx]
+{% set version = '2.0.7-1' %}  # [win64]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-cluster
+  version: {{ version|replace("-", "_") }}
+
+source:
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/cluster_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/cluster/cluster_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: b10141090cf3c2b62260611a0ea822eb2f7bab9f4fd656c48bdc12b65c5c3dbf  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/cluster_2.0.7-1.zip  # [win64]
+  sha256: 7ae735853e98d7b8ae0892b2c545cbaafea02130bdfdfc460bf55ce7c25afe57  # [win64]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: MASS, Matrix
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('cluster')"           # [not win]
+    - "\"%R%\" -e \"library('cluster')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=cluster
+  license: GPL (>= 2)
+  summary: Methods for Cluster analysis.  Much extended the original from Peter Rousseeuw, Anja
+    Struyf and Mia Hubert, based on Kaufman and Rousseeuw (1990) "Finding Groups in
+    Data".
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: cluster
+# Version: 2.0.7-1
+# Date: 2018-04-06
+# Priority: recommended
+# Title: "Finding Groups in Data": Cluster Analysis Extended Rousseeuw et al.
+# Description: Methods for Cluster analysis.  Much extended the original from Peter Rousseeuw, Anja Struyf and Mia Hubert, based on Kaufman and Rousseeuw (1990) "Finding Groups in Data".
+# Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+# Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch") ,person("Peter", "Rousseeuw", role="aut", email="peter.rousseeuw@kuleuven.be", comment = "Fortran original") ,person("Anja", "Struyf", role="aut", comment= "S original") ,person("Mia", "Hubert", role="aut", email= "Mia.Hubert@uia.ua.ac.be", comment= "S original") ,person("Kurt", "Hornik", role=c("trl", "ctb"), email="Kurt.Hornik@R-project.org", comment="port to R; maintenance(1999-2000)") ,person("Matthias", "Studer", role="ctb") ,person("Pierre", "Roudier", role="ctb") ,person("Juan",   "Gonzalez", role="ctb") ,person("Kamil",  "Kozlowski", role="ctb") )
+# Depends: R (>= 3.2.0)
+# Imports: graphics, grDevices, stats, utils
+# Suggests: MASS, Matrix
+# SuggestsNote: two examples using MASS' cov.rob() and mvrnorm(); Matrix tools for testing
+# LazyLoad: yes
+# LazyData: yes
+# ByteCompile: yes
+# BuildResaveData: no
+# License: GPL (>= 2)
+# NeedsCompilation: yes
+# Packaged: 2018-04-06 21:30:04 UTC; maechler
+# Author: Martin Maechler [aut, cre], Peter Rousseeuw [aut] (Fortran original), Anja Struyf [aut] (S original), Mia Hubert [aut] (S original), Kurt Hornik [trl, ctb] (port to R; maintenance(1999-2000)), Matthias Studer [ctb], Pierre Roudier [ctb], Juan Gonzalez [ctb], Kamil Kozlowski [ctb]
+# Repository: CRAN
+# Date/Publication: 2018-04-09 13:53:03 UTC
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

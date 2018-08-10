@@ -1,4 +1,5 @@
-{% set version = '1.0-6' %}
+{% set version = '1.0-6' %}  # [linux or win32 or osx]
+{% set version = '1.0-6' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: mlmRev_1.0-6.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mlmRev_1.0-6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mlmRev/mlmRev_1.0-6.tar.gz  # [linux or win32]
-  sha256: 0796b6be29f162f6fa1bc41ca0a153649315a5a69cc846794787dcb52c547557  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/mlmRev_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/mlmRev/mlmRev_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 0796b6be29f162f6fa1bc41ca0a153649315a5a69cc846794787dcb52c547557  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/mlmRev_1.0-6.zip  # [win64]
-  sha256: 0f7defdc28757ad8482d36be8828941df937e72bf628439d0b19de4c49dce2a9  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/mlmRev_1.0-6.tgz  # [osx]
-  sha256: ae8e6b50ee603b12b2a2343d3d931c7266325ede1026b1594d04bd2aafc21a8f  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/mlmRev_1.0-6.zip  # [win64]
+  sha256: 3e9da81d9f1e23fff338f3f8f316544bcd88e43f04e3a4e67eef867b241e3dbd  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: lattice
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

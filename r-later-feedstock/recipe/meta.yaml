@@ -1,4 +1,5 @@
-{% set version = '0.7.2' %}
+{% set version = '0.7.1' %}  # [linux or win32 or osx]
+{% set version = '0.7.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: later_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/later_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/later/later_{{ version }}.tar.gz  # [linux or win32]
-  sha256: dc3f18320bebde1f671408a5f50bd859398aa7ef5545d4d79159442ff5b1b450  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/later_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/later/later_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 7fe7f7e39a59e201f41adfdd6487d5e1976af5331735171efb094fca6af5327d  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/later_0.7.2.zip  # [win64]
-  sha256: ff34cc97835ebfcedcb4229ad013bfac0402ba9950feb63362a7b321cc896e7b  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/later_0.7.2.tgz  # [osx]
-  sha256: 39b5161f6dd76abd0a22844b8e0df9193f1ceb46bb9bf3c31b40195c4e1f9881  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/later_0.7.1.zip  # [win64]
+  sha256: 118a9e703532b33389b29d9f4d2de72ab87d762261eb3bfed7a9b875cf7a82bf  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +30,14 @@ build:
 # Suggests: knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -80,7 +80,7 @@ extra:
 # Package: later
 # Type: Package
 # Title: Utilities for Delaying Function Execution
-# Version: 0.7.2
+# Version: 0.7.1
 # Authors@R: c( person("Joe", "Cheng", role = c("aut", "cre"), email = "joe@rstudio.com"), person(family = "RStudio", role = "cph"), person("Marcus", "Geelnard", role = c("ctb", "cph"), comment = "TinyCThread library, https://tinycthread.github.io/"), person("Evan", "Nemerson", role = c("ctb", "cph"), comment = "TinyCThread library, https://tinycthread.github.io/") )
 # Description: Executes arbitrary R or C functions some time after the current time, after the R execution stack has emptied.
 # URL: https://github.com/r-lib/later
@@ -92,11 +92,11 @@ extra:
 # Suggests: knitr, rmarkdown, testthat
 # VignetteBuilder: knitr
 # NeedsCompilation: yes
-# Packaged: 2018-05-01 18:50:54 UTC; jcheng
+# Packaged: 2018-03-01 21:02:42 UTC; jcheng
 # Author: Joe Cheng [aut, cre], RStudio [cph], Marcus Geelnard [ctb, cph] (TinyCThread library, https://tinycthread.github.io/), Evan Nemerson [ctb, cph] (TinyCThread library, https://tinycthread.github.io/)
 # Maintainer: Joe Cheng <joe@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-05-01 22:13:04 UTC
+# Date/Publication: 2018-03-07 11:13:08 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

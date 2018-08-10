@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: glue_1.2.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/glue_1.2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/glue/glue_1.2.0.tar.gz  # [linux or win32]
-  sha256: 19275b34ee6a1bcad05360b7eb996cebaa1402f189a5dfb084e695d423f2296e  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/glue_1.2.0.zip  # [win64]
-  sha256: 0e7d8bd07937bfb3b475f670501e4a83c43cbe618b501b5d6f61c623e94a7e8d  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/glue_1.2.0.tgz  # [osx]
-  sha256: 471a5a79fdfde6be0414a45793e387af880c0bc75ea1c9be19aa12645e995092  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/glue_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/glue/glue_{{ version }}.tar.gz
+  sha256: 19275b34ee6a1bcad05360b7eb996cebaa1402f189a5dfb084e695d423f2296e
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +26,20 @@ build:
 # Suggests: testthat, covr, magrittr, crayon, knitr, rmarkdown, DBI, RSQLite, R.utils, forcats, microbenchmark, rprintf, stringr, ggplot2
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

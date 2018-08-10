@@ -3,7 +3,7 @@
 ## 1. Figure out or decide upon the latest R version and the appropriate MRAN snapshot date to use
 ```
 # For example:
-export CRAN_URL=https://mran.microsoft.com/snapshot/2018-04-23
+export CRAN_URL=https://cran.microsoft.com/snapshot/2018-04-23
 export CONDA_R=3.5.0
 # Edit ~/conda/aggregateR/conda_build_config.yaml and change:
     cran_mirror:
@@ -18,7 +18,7 @@ git submodule foreach git clean -dxf .
 git clean -dxf .
 ```
 
-## 3. Update all of the recipes that are sourced from MRAN
+## 3. Update all of the recipes that are sourced from MRAN (you probably do not want the revoutils bit)
 ```
 conda skeleton cran \
   --cran-url ${CRAN_URL} \
@@ -26,11 +26,13 @@ conda skeleton cran \
   --add-maintainer=mingwandroid \
   --update-policy=merge-keep-build-num \
   --use-binaries-ver ${CONDA_R%.*} \
+  --use-when-no-binary=old-src \
   --r-interp=mro-base \
   $(find . -name "*feedstock" | \
     sed -e 's|^./rstudio-feedstock$||' \
         -e 's|^./rstudio-1.1.442-feedstock$||' \
         -e 's|^./r-essentials-feedstock$||' \
+        -e 's|^./r-essentials-mrclient-feedstock$||' \
         -e 's|^./r-recommended-feedstock$||' \
         -e 's|^./r-shinysky-feedstock$||' \
         -e 's|^./r-rmr2-feedstock$||' \
@@ -42,6 +44,9 @@ conda skeleton cran \
         -e 's|^./r-feedstock$||' \
         -e 's|^./r-weatherdata-feedstock$||' \
         -e 's|^./_r-mutex-feedstock$||' \
+        -e 's|^./rtools-feedstock$||' \
+        -e 's|^./rwinlib-feedstock$||' \
+        -e 's|^./r-revoutils-feedstock$||' \
         -e 's|^./$||' \
         -e 's|^./\.git.*$||') \
   file:///Users/rdonnelly/conda/aggregateMRO/r-revoutils-feedstock/recipe/RevoUtils_10.0.8.tar.gz

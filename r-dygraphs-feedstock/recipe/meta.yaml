@@ -1,4 +1,5 @@
-{% set version = '1.1.1.4' %}
+{% set version = '1.1.1.4' %}  # [linux or win32 or osx]
+{% set version = '1.1.1.4' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: dygraphs_1.1.1.4.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/dygraphs_1.1.1.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/dygraphs/dygraphs_1.1.1.4.tar.gz  # [linux or win32]
-  sha256: 69d1c97573b650cfbf24d11948e5904b103fdb4b3396d244aab3f3dc0f4e8f6f  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/dygraphs_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/dygraphs/dygraphs_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 69d1c97573b650cfbf24d11948e5904b103fdb4b3396d244aab3f3dc0f4e8f6f  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/dygraphs_1.1.1.4.zip  # [win64]
-  sha256: ce9a344e929d944211565342083270f9a613b5208a928943adda05f225ba938d  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/dygraphs_1.1.1.4.tgz  # [osx]
-  sha256: 97d9252b7e24f1c15f5c77d8cc571361cb14c2bb1f1ed0739bb4a7cb176bb290  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/dygraphs_1.1.1.4.zip  # [win64]
+  sha256: 40298f461d248c12dea1a4790af26f9d75c79004ee627db3851a65ce08147ce3  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: testthat
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: sfsmisc_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/sfsmisc_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/sfsmisc/sfsmisc_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 808734644863d102263134634b89dc856dbaadc4d54c32ae697f3e1b0214f831  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/sfsmisc_1.1-2.zip  # [win64]
-  sha256: d28e858ddd3955b34af50925deaca76fc970212e88f731b43eebb905750a8184  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/sfsmisc_1.1-2.tgz  # [osx]
-  sha256: cf05e42e0419be8f9d5317129ee7b0d6cd421a1287780fd58d4d1163c137c2a6  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/sfsmisc_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/sfsmisc/sfsmisc_{{ version }}.tar.gz
+  sha256: 808734644863d102263134634b89dc856dbaadc4d54c32ae697f3e1b0214f831
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

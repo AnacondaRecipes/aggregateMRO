@@ -1,4 +1,5 @@
-{% set version = '0.1.4' %}
+{% set version = '0.1.4' %}  # [linux or win32 or osx]
+{% set version = '0.1.4' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pool_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/pool_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/pool/pool_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 78b2da4e53ed970dabec5f9a81ad85eda64083e4129a753c547c0a0a884d404c  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/pool_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/pool/pool_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 78b2da4e53ed970dabec5f9a81ad85eda64083e4129a753c547c0a0a884d404c  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/pool_0.1.4.zip  # [win64]
-  sha256: 63eb2ad967e42c75326361b3f540d3f2773d8da4b58483c0e3a4f9eb8af53a93  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/pool_0.1.4.tgz  # [osx]
-  sha256: abfb3bb7626eac0971035650471415d0d37a4166bee027840b4f61d4b95bb583  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pool_0.1.4.zip  # [win64]
+  sha256: 688b033aaeed273cfbc9752638e6307b82a55018717afd4c3e2cea5639a1d680  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: testthat, tibble, RSQLite, RMySQL
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

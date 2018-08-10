@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rstan_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rstan_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rstan/rstan_{{ version }}.tar.gz  # [linux or win32]
-  sha256: e3cbb96f7809ace95d61a119142d74d71f015ca1af4a78aad591f2b6b056cd81  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/rstan_2.17.3.zip  # [win64]
-  sha256: 1a41bf6a5bd3caa83ac48fa5d6473fa27303c92df39d7744f8a7c1d7c5ff69b0  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/rstan_2.17.3.tgz  # [osx]
-  sha256: c70a527ecc748c6b1036ddaffd0daa9dec270311778b86289639b19e8dbaf8a7  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/rstan_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rstan/rstan_{{ version }}.tar.gz
+  sha256: e3cbb96f7809ace95d61a119142d74d71f015ca1af4a78aad591f2b6b056cd81
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +26,14 @@ build:
 # Suggests: RUnit, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65), parallel, KernSmooth, loo (>= 1.0.0), shinystan (>= 2.2.1), bayesplot, rstantools, rstudioapi, Matrix, knitr (>= 1.15.1)
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -51,7 +47,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-bh >=1.65
     - r-rcpp >=0.12.0
     - r-rcppeigen >=0.3.3.3.0

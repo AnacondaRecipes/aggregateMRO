@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: httr_1.3.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/httr_1.3.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/httr/httr_1.3.1.tar.gz  # [linux or win32]
-  sha256: 22134d7426b2eba37f0cc34b99285499b8bac9fe75a7bc3222fbad179bf8f258  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/httr_1.3.1.zip  # [win64]
-  sha256: 5e9d2700da22e861708efa13160f61905dc35e39e1c7bf1f5d2287d2c741a71c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/httr_1.3.1.tgz  # [osx]
-  sha256: 7f4134a74d80ef50bd1a8e4dd2b659491f2619dc9d58ffe7b3eaf6a969f2faff  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/httr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/httr/httr_{{ version }}.tar.gz
+  sha256: 22134d7426b2eba37f0cc34b99285499b8bac9fe75a7bc3222fbad179bf8f258
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: httpuv, jpeg, knitr, png, testthat (>= 0.8.0), readr, xml2, rmarkdown, covr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: xlsx_0.5.7.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/xlsx_0.5.7.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/xlsx/xlsx_0.5.7.tar.gz  # [linux or win32]
-  sha256: 36727bc330c281dab8a028fab2dde92d032345974b15e3dde920ee16dc6db363  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/xlsx_0.5.7.zip  # [win64]
-  sha256: 353271d09bc5da44c7b97ac5b13f3d38353ea86d2ae542f51d0e3edde2d14d6a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/xlsx_0.5.7.tgz  # [osx]
-  sha256: 5a1fc26c1e9c9d8659dcae08d36e792e47188296dd30cad320d8830957df934d  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/xlsx_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/xlsx/xlsx_{{ version }}.tar.gz
+  sha256: 36727bc330c281dab8a028fab2dde92d032345974b15e3dde920ee16dc6db363
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -50,8 +38,6 @@ requirements:
     - r-xlsxjars
 
 test:
-  requires:
-    - openjdk
   commands:
     # You can put additional test commands to be run here.
     - $R -e "library('xlsx')"           # [not win]

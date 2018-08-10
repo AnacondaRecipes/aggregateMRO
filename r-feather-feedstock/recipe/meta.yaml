@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: feather_0.3.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/feather_0.3.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/feather/feather_0.3.1.tar.gz  # [linux or win32]
-  sha256: f1069bf920e9bc3da6bf43542a3a7ccc3142544d759945115ecade69dd5ccde0  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/feather_0.3.1.zip  # [win64]
-  sha256: f975ec53a89be38c3b3e81c16b28366276ce58028040e706ccd39c6075abb02e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/feather_0.3.1.tgz  # [osx]
-  sha256: 09581d58f1735879ea734cd7fc3a427fa9aaada7a91e7c270113e3f07c66d37e  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/feather_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/feather/feather_{{ version }}.tar.gz
+  sha256: f1069bf920e9bc3da6bf43542a3a7ccc3142544d759945115ecade69dd5ccde0
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +26,19 @@ build:
 # Suggests: testthat, dplyr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -58,7 +48,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
     - r-hms
     - r-tibble

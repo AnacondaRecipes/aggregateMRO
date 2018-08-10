@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: readr_1.1.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/readr_1.1.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/readr/readr_1.1.1.tar.gz  # [linux or win32]
-  sha256: 1a29b99009a06f2cee18d08bc6201fd4985b6d45c76cefca65084dcc1a2f7cb3  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/readr_1.1.1.zip  # [win64]
-  sha256: 11a1c3d20564d4ce44e97835f9ce60b177b966245afe09c9f322db3e0920b714  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/readr_1.1.1.tgz  # [osx]
-  sha256: 3e9fd364deba96cafd82acc72193f11696697260affa9a21669efea989b99746  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/readr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/readr/readr_{{ version }}.tar.gz
+  sha256: 1a29b99009a06f2cee18d08bc6201fd4985b6d45c76cefca65084dcc1a2f7cb3
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: curl, testthat, knitr, rmarkdown, stringi, covr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -54,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-bh
     - r-r6
     - r-rcpp >=0.12.0.5

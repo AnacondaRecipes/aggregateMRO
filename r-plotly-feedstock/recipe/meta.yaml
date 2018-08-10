@@ -1,4 +1,6 @@
-{% set version = '4.7.1' %}
+{% set version = '4.7.1' %}  # [linux or win32]
+{% set version = '4.7.1' %}  # [win64]
+{% set version = '4.7.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: plotly_4.7.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/plotly_4.7.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/plotly/plotly_4.7.1.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/plotly_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/plotly/plotly_{{ version }}.tar.gz  # [linux or win32]
   sha256: 7cd4b040f9bfd9356a8a2aba59ccf318cae6b5d94ded7463e2e823c10fa74972  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/plotly_4.7.1.zip  # [win64]
+  sha256: fac58dfb458d2b6a193a622e0e600759fc2f624a8e2c8dce83d60e630a6d225a  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/plotly_4.7.1.zip  # [win64]
-  sha256: 01c5f6b1589cc8c85f88441f4ca30486c3ac548add0af6cbbd9b4dc01b77a35a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/plotly_4.7.1.tgz  # [osx]
-  sha256: 29301575a31cb12bee73aca81938681dee836b401b99e75f0144dbcbf16fec75  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/plotly_4.7.1.tgz  # [osx]
+  sha256: cf9634af1bb087dcdb877934edcd60d34a7c12f86fc52aa1bcfff42a459f87ae  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +34,7 @@ build:
 # Suggests: MASS, maps, ggthemes, GGally, testthat, knitr, devtools, shiny (>= 0.14), curl, rmarkdown, Rserve, RSclient, Cairo, broom, webshot, listviewer, dendextend, sf, RSelenium, png, IRdisplay
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

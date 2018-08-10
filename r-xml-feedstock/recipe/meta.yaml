@@ -1,4 +1,6 @@
-{% set version = '3.98-1.11' %}
+{% set version = '3.98-1.11' %}  # [linux or win32]
+{% set version = '3.98-1.11' %}  # [win64]
+{% set version = '3.98-1.11' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: XML_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/XML_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/XML/XML_{{ version }}.tar.gz  # [linux or win32]
   sha256: 505bd948152213c22e255b8d38b303c0fac5e113c0f9b1bcc9bfa62e1edd3fa2  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/XML_3.98-1.11.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/XML_3.98-1.11.zip  # [win64]
   sha256: 7f9d08a2e21e6a9c1c2ec7906f403582dd03051282d9778f13045312708fc04a  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/XML_3.98-1.11.tgz  # [osx]
-  sha256: 5907c8e1d33a68ce845de9eb873cdffaefa1612330c49ca367a630b848acba45  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/XML_3.98-1.11.tgz  # [osx]
+  sha256: 4eab514424fff778d60d305ee5ba5ba6fdf3149c6d20c41c83a263993fede2aa  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -39,19 +40,19 @@ requirements:
     - {{posix}}sed               # [win32]
     - {{posix}}grep              # [win32]
     - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}automake          # [linux]
     - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
     - {{posix}}make              # [linux or win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
-    - libxml2                    # [linux]
 
   run:
     - mro-base
     - {{native}}gcc-libs         # [win32]
-    - libxml2                    # [linux]
 
 test:
   commands:

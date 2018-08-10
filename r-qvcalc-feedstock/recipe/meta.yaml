@@ -1,4 +1,6 @@
-{% set version = '0.9-1' %}
+{% set version = '0.9-1' %}  # [linux or win32]
+{% set version = '0.9-1' %}  # [win64]
+{% set version = '0.9-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: qvcalc_0.9-1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/qvcalc_0.9-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/qvcalc/qvcalc_0.9-1.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/qvcalc_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/qvcalc/qvcalc_{{ version }}.tar.gz  # [linux or win32]
   sha256: de2311ade76dae311b2b5632633003667aa46cdb8703a330b84b67c4b90f87d2  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/qvcalc_0.9-1.zip  # [win64]
+  sha256: 6ba3c67cb2084e7ea2f6fee424e73df904a084042158b0750e2a8a07af48f6a2  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/qvcalc_0.9-1.zip  # [win64]
-  sha256: 43595a88f9d2f49a79cce1b26672a5bbc101f2cd079ee4e81aad5782ee30e0e3  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/qvcalc_0.9-1.tgz  # [osx]
-  sha256: 266e9ff298bc0ea3e2a3a16fca189a6f1711fcc20fcef395b86eef944fe84166  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/qvcalc_0.9-1.tgz  # [osx]
+  sha256: 7a4affe2db65acc3907746fbe7198f3e7a4bcd3b2f190baadd9658a1ab229b3f  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +34,7 @@ build:
 # Suggests: relimp, MASS
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

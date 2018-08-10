@@ -1,4 +1,6 @@
-{% set version = '0.10-2' %}
+{% set version = '0.10-2' %}  # [linux or win32]
+{% set version = '0.10-2' %}  # [win64]
+{% set version = '0.10-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: xts_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/xts_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/xts/xts_{{ version }}.tar.gz  # [linux or win32]
   sha256: 8155888319c38e874ed87300decd65570e77ea4a7575136f4690123d3f7321c4  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/xts_0.10-2.zip  # [win64]
-  sha256: d54d6eb0a7f08c35c1e6b383c173c78ef2783b21f342deb5e463ba1b1af870f1  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/xts_0.10-2.zip  # [win64]
+  sha256: f869dacfddc8c9e5e4816f6c314c2237a42f160e31afaa62ea8884deb299b9aa  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/xts_0.10-2.tgz  # [osx]
-  sha256: 18daa71947232ec6a0950e698b6045d7c75e6ed6075ae200618ea3c2d04531de  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/xts_0.10-1.tgz  # [osx]
+  sha256: cb5633c98a4ca6609b4a3dfa4aaf10813b286539ff2cd836ee4513619afb3dd8  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -38,6 +39,9 @@ requirements:
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
     - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

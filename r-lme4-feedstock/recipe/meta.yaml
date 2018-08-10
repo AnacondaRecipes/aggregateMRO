@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lme4_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lme4_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lme4/lme4_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 3d11bcaea038ec26a221d17c574628ee335c3182e0df71b8a27a40a4836ffc33  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/lme4_1.1-17.zip  # [win64]
-  sha256: 1d215bd137170a44d837b9b59b486e90e17f90ce2fa5cdd7506ec1240dd5d775  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/lme4_1.1-17.tgz  # [osx]
-  sha256: 2a0ff37e2ce84d70cdd439c5ad48fff456b196e21e6a268511f990b9139bf84b  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/lme4_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/lme4/lme4_{{ version }}.tar.gz
+  sha256: 3d11bcaea038ec26a221d17c574628ee335c3182e0df71b8a27a40a4836ffc33
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +26,14 @@ build:
 # Suggests: knitr, boot, PKPDmodels, MEMSS, testthat (>= 0.8.1), ggplot2, mlmRev, optimx (>= 2013.8.6), gamm4, pbkrtest, HSAUR2, numDeriv
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -52,7 +48,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-mass
     - r-matrix >=1.2_1
     - r-rcpp >=0.10.5

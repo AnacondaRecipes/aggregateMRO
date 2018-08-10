@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rvest_0.3.2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rvest_0.3.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rvest/rvest_0.3.2.tar.gz  # [linux or win32]
-  sha256: 0d6e8837fb1df79b1c83e7b48d8f1e6245f34a10c4bb6952e7bec7867e4abb12  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rvest_0.3.2.zip  # [win64]
-  sha256: de74f37e336436b84a366472832c33ac0f50a47330b95b3c653da3462de6d3cb  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rvest_0.3.2.tgz  # [osx]
-  sha256: edcf62a1ad5b43938af92d1c0e9ded425cf8020f384362859d88f0a5fa8ed6f8  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/rvest_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rvest/rvest_{{ version }}.tar.gz
+  sha256: 0d6e8837fb1df79b1c83e7b48d8f1e6245f34a10c4bb6952e7bec7867e4abb12
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: testthat, knitr, png, stringi (>= 0.3.1), rmarkdown, covr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

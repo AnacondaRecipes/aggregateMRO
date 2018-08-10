@@ -1,4 +1,5 @@
-{% set version = '0.4' %}
+{% set version = '0.4' %}  # [linux or win32 or osx]
+{% set version = '0.4' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: DT_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/DT_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/DT/DT_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 3daa96b819ca54e5fbc2c7d78cb3637982a2d44be58cea0683663b71cfc7fa19  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/DT_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/DT/DT_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 3daa96b819ca54e5fbc2c7d78cb3637982a2d44be58cea0683663b71cfc7fa19  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/DT_0.4.zip  # [win64]
-  sha256: be86fd9b8f9c7f69da763164e853c1104435cb0ee92160b831f33a033c064bfc  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/DT_0.4.tgz  # [osx]
-  sha256: 3bd9ae6d05b155d5cdd3fd879b56ff4d1133f5749c4e285fba7ca3d8de105c84  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/DT_0.4.zip  # [win64]
+  sha256: e70e3c97f755e16914a1971f3ff5cf903c8bee9c4c23a00d85467cca14a1a253  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: jsonlite (>= 0.9.16), knitr (>= 1.8), rmarkdown, shiny (>= 0.12.1)
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

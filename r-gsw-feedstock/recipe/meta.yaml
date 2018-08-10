@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: gsw_1.0-5.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/gsw_1.0-5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/gsw/gsw_1.0-5.tar.gz  # [linux or win32]
-  sha256: eb468918ee91e429b47fbcac43269eca627b7f64b61520de5bbe8fa223e96453  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gsw_1.0-5.zip  # [win64]
-  sha256: 9722accd4ae97c05d3117082f838c93b264adc844e42f9f08dd1686d508e381b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gsw_1.0-5.tgz  # [osx]
-  sha256: 423fbdf39792fbad20884b156b9b87eac9c3ee97c7f1d5fbe02cc47e88e33467  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/gsw_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/gsw/gsw_{{ version }}.tar.gz
+  sha256: eb468918ee91e429b47fbcac43269eca627b7f64b61520de5bbe8fa223e96453
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +26,13 @@ build:
 # Suggests: knitr,
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -49,7 +40,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-testthat
 
 test:

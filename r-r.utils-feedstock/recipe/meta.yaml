@@ -1,4 +1,5 @@
-{% set version = '2.6.0' %}
+{% set version = '2.6.0' %}  # [linux or win32 or osx]
+{% set version = '2.6.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: R.utils_2.6.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/R.utils_2.6.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/R.utils/R.utils_2.6.0.tar.gz  # [linux or win32]
-  sha256: 5d64993d1209b512a4e97f2edecdbc185f4a369ee5fa2e334ed2cf017486470e  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/R.utils_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/R.utils/R.utils_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 5d64993d1209b512a4e97f2edecdbc185f4a369ee5fa2e334ed2cf017486470e  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/R.utils_2.6.0.zip  # [win64]
-  sha256: 1e487b845118ff7af8cc40c4d50254eb3ce8b6ff20f9b394b0fa1b124893b711  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/R.utils_2.6.0.tgz  # [osx]
-  sha256: 3595ce178ca001189befff35d3bafc753a239a279e9981fd375f0dc9f5cc38de  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/R.utils_2.6.0.zip  # [win64]
+  sha256: ae1907c9a64991552629de4c922dea136710dd5fa6d41ecca3c8a2ed210cccf7  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: digest (>= 0.6.10)
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

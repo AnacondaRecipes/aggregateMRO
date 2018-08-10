@@ -1,4 +1,5 @@
-{% set version = '1.0.1' %}
+{% set version = '1.0.1' %}  # [linux or win32 or osx]
+{% set version = '1.0.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: openssl_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/openssl_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/openssl/openssl_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 605c05868e26c5d3cbea9748d400371612bcf082322b1cea5c08397e5fa1d8e3  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/openssl_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/openssl/openssl_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 605c05868e26c5d3cbea9748d400371612bcf082322b1cea5c08397e5fa1d8e3  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/openssl_1.0.1.zip  # [win64]
-  sha256: f18eaf6b1ea31d3cb2ecb255e449cfa0b55de6fb25f3fa2ad893728ae28efcab  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/openssl_1.0.1.tgz  # [osx]
-  sha256: 57f5e16a7fcbcc738d548d9dc7816b05b2910d8967642bf4f8371e3996fecd32  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/openssl_1.0.1.zip  # [win64]
+  sha256: 98df1bc4ea5c573b70ec56e02045f6d6bcedc73121b39418317ac635bae2e71f  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,20 +30,21 @@ build:
 # Suggests: testthat, digest, knitr, rmarkdown, jsonlite, jose
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
     - {{posix}}sed               # [win32]
     - {{posix}}grep              # [win32]
-    - {{posix}}autoconf          # [linux or win32]
+    - {{posix}}autoconf          # [linux or win32 or osx]
+    - {{posix}}automake          # [linux or osx]
     - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}automake          # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make              # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
-    - openssl                    # [linux]
 
   run:
     - mro-base

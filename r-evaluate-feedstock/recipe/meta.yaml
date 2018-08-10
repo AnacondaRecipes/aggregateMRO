@@ -1,4 +1,5 @@
-{% set version = '0.10.1' %}
+{% set version = '0.10.1' %}  # [linux or win32 or osx]
+{% set version = '0.10.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: evaluate_0.10.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/evaluate_0.10.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/evaluate/evaluate_0.10.1.tar.gz  # [linux or win32]
-  sha256: c9a763895d3f460dbf87c43a6469e4b41a251a74477df8c5d7e7d2b66cdd1b1c  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/evaluate_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/evaluate/evaluate_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: c9a763895d3f460dbf87c43a6469e4b41a251a74477df8c5d7e7d2b66cdd1b1c  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/evaluate_0.10.1.zip  # [win64]
-  sha256: ea8a97f0bf0fe20c007e33804e48546da24d653c63cfe9cb4b7fbe0b98d76094  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/evaluate_0.10.1.tgz  # [osx]
-  sha256: 6d73c00a76ffa95da0e8db65dcc7681ea58375a90b301b9a2916000b6aba2d3f  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/evaluate_0.10.1.zip  # [win64]
+  sha256: 9da24cf3a15f1b341a7f853d89c424683246c2a026872d92ea24a14dd36a3045  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: testthat, lattice, ggplot2
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

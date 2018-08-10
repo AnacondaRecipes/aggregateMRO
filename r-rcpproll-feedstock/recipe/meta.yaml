@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RcppRoll_0.2.2.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RcppRoll_0.2.2.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RcppRoll/RcppRoll_0.2.2.tar.gz  # [linux or win32]
-  sha256: 51c76812687e2a8572c6037b0c095c0a30ee6a24783edf2c7c717d547ddfbfa7  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/RcppRoll_0.2.2.zip  # [win64]
-  sha256: da2967c7379517b18b75c2d8ac6ded29f26ce413526227df091bfcb846325441  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/RcppRoll_0.2.2.tgz  # [osx]
-  sha256: 686555876da6c80cf31350f023e22b751ef0b1d1c0ea911049b3ef9b59baff15  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/RcppRoll_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/RcppRoll/RcppRoll_{{ version }}.tar.gz
+  sha256: 51c76812687e2a8572c6037b0c095c0a30ee6a24783edf2c7c717d547ddfbfa7
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: zoo, microbenchmark, testthat, RcppArmadillo
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -50,7 +41,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
 
 test:

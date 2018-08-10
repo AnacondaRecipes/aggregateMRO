@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: labeling_0.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/labeling_0.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/labeling/labeling_0.3.tar.gz  # [linux or win32]
-  sha256: 0d8069eb48e91f6f6d6a9148f4e2dc5026cabead15dd15fc343eff9cf33f538f  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/labeling_0.3.zip  # [win64]
-  sha256: eca35b756d08242e9b2199ee99a2cf19eed146544a226bd0496a0d707138c709  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/labeling_0.3.tgz  # [osx]
-  sha256: 2b4776e4731618344572f61a2fe81cf44c77852d37e364f5b5aef94bb1790e8c  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/labeling_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/labeling/labeling_{{ version }}.tar.gz
+  sha256: 0d8069eb48e91f6f6d6a9148f4e2dc5026cabead15dd15fc343eff9cf33f538f
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

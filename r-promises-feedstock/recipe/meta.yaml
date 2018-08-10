@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: promises_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/promises_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/promises/promises_{{ version }}.tar.gz  # [linux or win32]
-  sha256: c2dbc7734adf009377a41e570dfe0d82afb91335c9d0ca1ef464b9bdcca65558  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/promises_1.0.1.zip  # [win64]
-  sha256: 5eab3185c7972dcc0d6c1f45293ed545b0550c8d9eb07c51640d1c2cf82eaddf  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/promises_1.0.1.tgz  # [osx]
-  sha256: 20449d107cc823a99eeb0f7327525ba6d9fa8e6eccd7d6ae09d9d48c25b24617  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/promises_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/promises/promises_{{ version }}.tar.gz
+  sha256: c2dbc7734adf009377a41e570dfe0d82afb91335c9d0ca1ef464b9bdcca65558
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +26,14 @@ build:
 # Suggests: testthat, future, knitr, rmarkdown
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -49,7 +45,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-r6
     - r-rcpp
     - r-later

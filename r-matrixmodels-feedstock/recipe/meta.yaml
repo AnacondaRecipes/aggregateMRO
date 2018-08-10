@@ -1,4 +1,6 @@
-{% set version = '0.4-1' %}
+{% set version = '0.4-1' %}  # [linux or win32]
+{% set version = '0.4-1' %}  # [win64]
+{% set version = '0.4-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +10,30 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: MatrixModels_0.4-1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/MatrixModels_0.4-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/MatrixModels/MatrixModels_0.4-1.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/MatrixModels_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/MatrixModels/MatrixModels_{{ version }}.tar.gz  # [linux or win32]
   sha256: fe878e401e697992a480cd146421c3a10fa331f6b37a51bac83b5c1119dcce33  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/MatrixModels_0.4-1.zip  # [win64]
+  sha256: 405669a222cee7d63a89d856eeca03fd76573c4a79ac11b488f14047a6cb1c73  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/MatrixModels_0.4-1.zip  # [win64]
-  sha256: ba1e28cb0b40a8270b97a487440bec101a5129333a99d600fe6c1e1bfb239b4b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/MatrixModels_0.4-1.tgz  # [osx]
-  sha256: e2518a0307cd4141731ff48ccae4d0fafc21e3b4c7bdfef5c119f13729439357  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/MatrixModels_0.4-1.tgz  # [osx]
+  sha256: f0b3cbe8276605733b86da2951bade59ec37aaaafeeb3364719dd0f5c626fc67  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

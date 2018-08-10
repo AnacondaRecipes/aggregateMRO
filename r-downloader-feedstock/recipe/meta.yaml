@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: downloader_0.4.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/downloader_0.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/downloader/downloader_0.4.tar.gz  # [linux or win32]
-  sha256: 1890e75b028775154023f2135cafb3e3eed0fe908138ab4f7eff1fc1b47dafab  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/downloader_0.4.zip  # [win64]
-  sha256: ac6f6751295c31a6acf11ee5e48d7e6a71bf3b393d4edbae047d4c6ce36ca408  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/downloader_0.4.tgz  # [osx]
-  sha256: 45694f517e4b34cec4d5b40db2a324f92aacf6e13893ee1d57044ae377417f81  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/downloader_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/downloader/downloader_{{ version }}.tar.gz
+  sha256: 1890e75b028775154023f2135cafb3e3eed0fe908138ab4f7eff1fc1b47dafab
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: testthat
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

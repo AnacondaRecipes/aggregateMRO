@@ -8,34 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: doMC_1.3.5.tar.gz  # [linux or win32 or win64]
-  url:  # [linux or win32 or win64]
-    - {{ cran_mirror }}/src/contrib/doMC_1.3.5.tar.gz  # [linux or win32 or win64]
-    - {{ cran_mirror }}/src/contrib/Archive/doMC/doMC_1.3.5.tar.gz  # [linux or win32 or win64]
-  sha256: 792254596babd8cc074bb3c83c18672dd07a0c3246b4ebab08d8ebedf6f4d9ed  # [linux or win32 or win64]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/doMC_1.3.5.tgz  # [osx]
-  sha256: ca4d1d3c7140184c827752a5d0f3e049570da726a171d1eb133a0fce56459c2e  # [osx]
-
-
+    url:
+    - {{ cran_mirror }}/src/contrib/doMC_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/doMC/doMC_{{ version }}.tar.gz
+  sha256: 792254596babd8cc074bb3c83c18672dd07a0c3246b4ebab08d8ebedf6f4d9ed
 
 build:
-  merge_build_host: True  # [win32 or win64]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

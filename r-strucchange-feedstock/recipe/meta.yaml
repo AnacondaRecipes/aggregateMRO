@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: strucchange_1.5-1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/strucchange_1.5-1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/strucchange/strucchange_1.5-1.tar.gz  # [linux or win32]
-  sha256: 740e2e20477b9fceeef767ae1002adc5ec397cb0f7daba5289a2c23b0dddaf31  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/strucchange_1.5-1.zip  # [win64]
-  sha256: de401614e8a262f1199119506c7198c68ff3819fb7672a886e4edd5ea56467cd  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/strucchange_1.5-1.tgz  # [osx]
-  sha256: 78fa0e50ac527633b268aaa9e01f255c9a6d6399251e285685eb66e6cf70fe53  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/strucchange_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/strucchange/strucchange_{{ version }}.tar.gz
+  sha256: 740e2e20477b9fceeef767ae1002adc5ec397cb0f7daba5289a2c23b0dddaf31
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: stats4, car, dynlm, e1071, foreach, lmtest, mvtnorm, tseries
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

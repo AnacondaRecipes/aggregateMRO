@@ -1,4 +1,4 @@
-{% set version = '2.0.4' %}
+{% set version = '2.0.3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: callr_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/callr_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/callr/callr_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 0e3fa4e047f61f4e29ab2dee8f585861fb77a5f5ad6c81f125e98b6130c6a380  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/callr_2.0.4.zip  # [win64]
-  sha256: b6f52f08292caf6d4ff6a296d842ae048f67e91c3017e1874698ff4658775580  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/callr_2.0.4.tgz  # [osx]
-  sha256: 4e3d4d2de5707317d5938565a753f5433dd5e9ca8ef09c2f27f8f7d13a51f0a0  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/callr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/callr/callr_{{ version }}.tar.gz
+  sha256: f1f7d511b215eb88d8680edef09d31eb93b3ef8beb124f8edf0c82601f7575cc
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -30,19 +23,34 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: covr, testthat, withr
+# Suggests: covr, parallel, testthat, withr
 requirements:
   build:
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
     - r-r6
-    - r-processx >=3.1.0
+    - r-assertthat
+    - r-crayon
+    - r-debugme
+    - r-testthat
 
   run:
     - mro-base
+    - {{native}}gcc-libs         # [win]
     - r-r6
-    - r-processx >=3.1.0
+    - r-assertthat
+    - r-crayon
+    - r-debugme
+    - r-testthat
 
 test:
   commands:
@@ -71,23 +79,23 @@ extra:
 
 # Package: callr
 # Title: Call R from R
-# Version: 2.0.4
-# Authors@R: c( person("Gabor", "Csardi", role = c("aut", "cre", "cph"), email = "csardi.gabor@gmail.com", comment = c(ORCID = "0000-0001-7098-9676")), person("Winston", "Chang", role = "aut"), person("RStudio", role = c("cph", "fnd")), person("Mango Solutions", role  = c("cph", "fnd")))
+# Version: 2.0.3
+# Author: Gabor Csardi, Winston Chang
+# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
 # Description: It is sometimes useful to perform a computation in a separate R process, without affecting the current R process at all. This packages does exactly that.
 # License: MIT + file LICENSE
 # LazyData: true
 # URL: https://github.com/r-lib/callr#readme
 # BugReports: https://github.com/r-lib/callr/issues
 # RoxygenNote: 6.0.1.9000
-# Imports: processx (>= 3.1.0), R6, utils
-# Suggests: covr, testthat, withr
+# Imports: assertthat, crayon, debugme, R6, utils
+# Suggests: covr, parallel, testthat, withr
+# LinkingTo: testthat
 # Encoding: UTF-8
-# NeedsCompilation: no
-# Packaged: 2018-05-15 15:56:01 UTC; gaborcsardi
-# Author: Gabor Csardi [aut, cre, cph] (<https://orcid.org/0000-0001-7098-9676>), Winston Chang [aut], RStudio [cph, fnd], Mango Solutions [cph, fnd]
-# Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
+# NeedsCompilation: yes
+# Packaged: 2018-04-10 22:03:50 UTC; gaborcsardi
 # Repository: CRAN
-# Date/Publication: 2018-05-15 16:36:39 UTC
+# Date/Publication: 2018-04-11 03:50:18 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

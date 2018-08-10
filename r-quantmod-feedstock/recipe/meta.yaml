@@ -1,4 +1,5 @@
-{% set version = '0.4-13' %}
+{% set version = '0.4-13' %}  # [linux or win32 or osx]
+{% set version = '0.4-13' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: quantmod_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/quantmod_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/quantmod/quantmod_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 60fb13821c9d8d5bea34223b18757f04787f4440cb82946bb9559d6fd26b5499  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/quantmod_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/quantmod/quantmod_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 60fb13821c9d8d5bea34223b18757f04787f4440cb82946bb9559d6fd26b5499  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/quantmod_0.4-13.zip  # [win64]
-  sha256: a1f5b1eea9cdf0c6594c083fde2a61624600f56dd82697f981fdb817ee11c05b  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/quantmod_0.4-13.tgz  # [osx]
-  sha256: d17d7fc7e375bf7efa9d96e5a67c7209e31d6b51c0e7747084f075add2d3332a  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/quantmod_0.4-13.zip  # [win64]
+  sha256: 00ea51fcda5f3ab09d4fd287b5068712e248f4010b86bbf8357df2683ec63014  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: DBI,RMySQL,RSQLite,timeSeries,XML,downloader,jsonlite(>= 1.1)
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

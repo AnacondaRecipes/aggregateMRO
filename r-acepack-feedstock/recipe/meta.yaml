@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: acepack_1.4.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/acepack_1.4.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/acepack/acepack_1.4.1.tar.gz  # [linux or win32]
-  sha256: 82750507926f02a696f6cc03693e8d4a5ee7e92500c8c15a16a9c12addcd28b9  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/acepack_1.4.1.zip  # [win64]
-  sha256: f03d405b9bbc16822f32596b9a72a36cdd2f768e3b8696b9d2798883eb85f98e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/acepack_1.4.1.tgz  # [osx]
-  sha256: 516802bbedbbb70970c6e61e6b1e20e50c1a0703c3dcf3447cb42d49a5cba5cb  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/acepack_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/acepack/acepack_{{ version }}.tar.gz
+  sha256: 82750507926f02a696f6cc03693e8d4a5ee7e92500c8c15a16a9c12addcd28b9
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,18 +26,21 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

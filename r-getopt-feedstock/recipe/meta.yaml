@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: getopt_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/getopt_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/getopt/getopt_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 3d6c12d32d6cd4b2909be626e570e158b3ed960e4739510e3a251e7f172de38e  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/getopt_1.20.2.zip  # [win64]
-  sha256: 4d3c9ec92b50abed3409e4b7a635cb56b89152bd1bc23026f41223766b05ccb7  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/getopt_1.20.2.tgz  # [osx]
-  sha256: 71c441844d06465a3136e4f0409600ec73f46353c35fc0eeb2a786a651f65df6  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/getopt_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/getopt/getopt_{{ version }}.tar.gz
+  sha256: 3d6c12d32d6cd4b2909be626e570e158b3ed960e4739510e3a251e7f172de38e
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: testthat
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

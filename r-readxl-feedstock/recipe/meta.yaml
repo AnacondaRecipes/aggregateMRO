@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: readxl_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/readxl_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/readxl/readxl_{{ version }}.tar.gz  # [linux or win32]
-  sha256: b63d21fc6510acb373e96deaec45e966a523ec75cbec75a089529297ed443116  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/readxl_1.1.0.zip  # [win64]
-  sha256: ff2e67fc46fe624b887d8884ad1af3c6ea06e0f6fe8676e5271c695112a15aa2  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/readxl_1.1.0.tgz  # [osx]
-  sha256: 67eda3081c21f251f75672d537eea3e7bf711cbba87f76840f14ac2a00036a19  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/readxl_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/readxl/readxl_{{ version }}.tar.gz
+  sha256: b63d21fc6510acb373e96deaec45e966a523ec75cbec75a089529297ed443116
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +26,14 @@ build:
 # Suggests: covr, knitr, rmarkdown, rprojroot (>= 1.1), testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -47,7 +43,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp >=0.12.12
     - r-cellranger
     - r-tibble >=1.1

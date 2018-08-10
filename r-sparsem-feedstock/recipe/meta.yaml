@@ -8,48 +8,38 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: SparseM_1.77.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/SparseM_1.77.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/SparseM/SparseM_1.77.tar.gz  # [linux or win32]
-  sha256: a9329fef14ae4fc646df1f4f6e57efb0211811599d015f7bc04c04285495d45c  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/SparseM_1.77.zip  # [win64]
-  sha256: 025e0a9c153d14d456aca71410d465e51f835f0dc81ce91036782bed5b196afb  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/SparseM_1.77.tgz  # [osx]
-  sha256: b244b0a91b3bca92121439e1ea1c245bcfa033dc9cc43e16a49b9e7e7684c670  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/SparseM_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/SparseM/SparseM_{{ version }}.tar.gz
+  sha256: a9329fef14ae4fc646df1f4f6e57efb0211811599d015f7bc04c04285495d45c
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

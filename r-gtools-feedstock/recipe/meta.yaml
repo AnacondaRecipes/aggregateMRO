@@ -1,4 +1,6 @@
-{% set version = '3.5.0' %}
+{% set version = '3.5.0' %}  # [linux or win32]
+{% set version = '3.5.0' %}  # [win64]
+{% set version = '3.5.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,47 +10,43 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: gtools_3.5.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/gtools_3.5.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/gtools/gtools_3.5.0.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gtools_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gtools/gtools_{{ version }}.tar.gz  # [linux or win32]
   sha256: 86b6a51a92ddb3c78095e0c5dc20414c67f6e28f915bf0ee11406adad3e476f6  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/gtools_3.5.0.zip  # [win64]
+  sha256: f8be779fc624ab8a46882db575ad39f47dc1a496772c586700c3e08b3dedc268  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gtools_3.5.0.zip  # [win64]
-  sha256: ca586d3622d3a341e761cc31481351ddfc9fb3f9fb906f6ae7190afdb8f46b86  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gtools_3.5.0.tgz  # [osx]
-  sha256: 4f89fa120a03d39c01ec235511c19cd7a3b410c11e4fcc25b0e11105c2fed962  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/gtools_3.5.0.tgz  # [osx]
+  sha256: 0e2941b06fe2f7f97f36917a35cbc8d1afc2a98d2fe0fbf3ea0684cfd40c6f63  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:

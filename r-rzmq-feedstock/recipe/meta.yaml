@@ -1,4 +1,5 @@
-{% set version = '0.9.3' %}
+{% set version = '0.9.3' %}  # [linux or win32 or osx]
+{% set version = '0.9.3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,56 +9,46 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rzmq_0.9.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rzmq_0.9.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rzmq/rzmq_0.9.3.tar.gz  # [linux or win32]
-  sha256: ab6f6da1fcd0c11003517a21bd85f5c56495e6926542db3fb320f3901f292b13  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/rzmq_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/rzmq/rzmq_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: ab6f6da1fcd0c11003517a21bd85f5c56495e6926542db3fb320f3901f292b13  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rzmq_0.9.3.zip  # [win64]
-  sha256: 905ab4b117fb2b354a116ff419bc9c483a9d49b0481169c18c687456cf1fdc5b  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rzmq_0.9.3.tgz  # [osx]
-  sha256: 8a3f21b82c0bc19a2d5047157156563ef234b7e36c6c8aae22951f937aacc3d5  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rzmq_0.9.3.zip  # [win64]
+  sha256: 38e05676a742b3a7baa0f646a226f389e742276e6e91e2755b7de40e7be82026  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 1
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}grep              # [win32]
+    - {{posix}}autoconf          # [linux or win32 or osx]
+    - {{posix}}automake          # [linux or osx]
+    - {{posix}}automake-wrapper  # [win32]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
-    - {{native}}zeromq 4.2.*       # [linux or win32]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
-    - {{native}}zeromq 4.2.*       # [linux or win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:

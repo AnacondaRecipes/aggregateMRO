@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ggvis_0.4.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ggvis_0.4.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ggvis/ggvis_0.4.3.tar.gz  # [linux or win32]
-  sha256: 34d517783016aaa1c4bef8972f4c06df5cd9ca0568035b647e60a8369043ecdc  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ggvis_0.4.3.zip  # [win64]
-  sha256: 57bb6bba4d4aa75c4310cef63dcb0d2f23324442614c02bfee59454cc5dff17e  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ggvis_0.4.3.tgz  # [osx]
-  sha256: e008fae32303024485f5ad12f4158c97ba1b1f1fc2d04e3b8126a1bacb4af1e1  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/ggvis_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/ggvis/ggvis_{{ version }}.tar.gz
+  sha256: 34d517783016aaa1c4bef8972f4c06df5cd9ca0568035b647e60a8369043ecdc
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: MASS, mgcv, lubridate, testthat (>= 0.8.1), knitr (>= 1.6), rmarkdown
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

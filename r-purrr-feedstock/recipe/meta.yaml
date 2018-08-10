@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: purrr_0.2.4.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/purrr_0.2.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/purrr/purrr_0.2.4.tar.gz  # [linux or win32]
-  sha256: ed8d0f69d29b95c2289ae52be08a0e65f8171abb6d2587de7b57328bf3b2eb71  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/purrr_0.2.4.zip  # [win64]
-  sha256: 4fedda80c3e287bb39e974de23b848435368e9ad6a19e4bc404de7ba3df2434d  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/purrr_0.2.4.tgz  # [osx]
-  sha256: e1a6e43d25dfa683f631269ba39013e2d02d97f7799dc91b7cd2ec7c51fff871  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/purrr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/purrr/purrr_{{ version }}.tar.gz
+  sha256: ed8d0f69d29b95c2289ae52be08a0e65f8171abb6d2587de7b57328bf3b2eb71
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +26,13 @@ build:
 # Suggests: covr, dplyr (>= 0.4.3), knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -51,7 +42,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-magrittr >=1.5
     - r-rlang >=0.1
     - r-tibble

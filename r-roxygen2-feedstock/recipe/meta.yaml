@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: roxygen2_6.0.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/roxygen2_6.0.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/roxygen2/roxygen2_6.0.1.tar.gz  # [linux or win32]
-  sha256: d22ddc05cd5308a48b8359b932e1f7f4c23fdf0c857ac8e52c42381b6bfcff76  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/roxygen2_6.0.1.zip  # [win64]
-  sha256: 285aaa4691a7d91720ada55dc223f0aaf01b887ffb87e65724bdefd4d5c952f4  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/roxygen2_6.0.1.tgz  # [osx]
-  sha256: 63e62ff80e044c20c5247ddd59039d790d9cd5251ff2af75e0cd044ad8a34b14  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/roxygen2_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/roxygen2/roxygen2_{{ version }}.tar.gz
+  sha256: d22ddc05cd5308a48b8359b932e1f7f4c23fdf0c857ac8e52c42381b6bfcff76
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,11 +26,14 @@ build:
 # Suggests: testthat (>= 0.8.0), knitr, devtools, rmarkdown, covr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -58,7 +49,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-r6
     - r-rcpp >=0.11.0
     - r-brew

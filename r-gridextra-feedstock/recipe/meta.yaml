@@ -1,4 +1,5 @@
-{% set version = '2.3' %}
+{% set version = '2.3' %}  # [linux or win32 or osx]
+{% set version = '2.3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: gridExtra_2.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/gridExtra_2.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/gridExtra/gridExtra_2.3.tar.gz  # [linux or win32]
-  sha256: 81b60ce6f237ec308555471ae0119158b115463df696d2eca9b177ded8988e3b  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/gridExtra_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/gridExtra/gridExtra_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 81b60ce6f237ec308555471ae0119158b115463df696d2eca9b177ded8988e3b  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gridExtra_2.3.zip  # [win64]
-  sha256: e5e101bbf36d04c1bec4cd23610b7f65b8e0200aa25da635c12b96dea1948cfc  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gridExtra_2.3.tgz  # [osx]
-  sha256: 721fe0117a1c6f4bb1458e59350d07eedd5bc95770dcb0c232c1f5ed392d3181  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/gridExtra_2.3.zip  # [win64]
+  sha256: 5fb0e3ff2cd0aad2a78917071181612ce36cbb4526c64d65763a0f8352f4e01a  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: ggplot2, egg, lattice, knitr, testthat
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

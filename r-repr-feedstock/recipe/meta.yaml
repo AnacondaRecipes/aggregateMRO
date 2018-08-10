@@ -1,4 +1,5 @@
-{% set version = '0.15.0' %}
+{% set version = '0.13' %}  # [linux or win32 or osx]
+{% set version = '0.13' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: repr_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/repr_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/repr/repr_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 00a2b8ab86bbf04b7f79e64d38ce26fe03e5069699557be27ae0de165343cf57  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/repr_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/repr/repr_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 8d3e1c01dfecaaf693c39c825a1073a4c7e019e960740a8346d9a75fb249a74c  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/repr_0.15.0.zip  # [win64]
-  sha256: 11415c51a601f93a2794b0f9efc8233251b09b1b876eb3d3fec5bae68bdad0a4  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/repr_0.15.0.tgz  # [osx]
-  sha256: 646dcea6f258ec0b71c38752d610ab727d1046c9a07dbd150c05274773d8c006  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/repr_0.13.zip  # [win64]
+  sha256: 57b52a33981e71b7768bd0a22de8e55a39a0af59f5e09c88aa7bee0096c43ea3  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -30,9 +27,10 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: methods, highr, Cairo, stringr, testthat
+# Suggests: methods, highr, Cairo, testthat
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -70,13 +68,13 @@ extra:
 
 # Package: repr
 # Title: Serializable Representations
-# Version: 0.15.0
+# Version: 0.13
 # Authors@R: c( person('Philipp', 'Angerer', email = 'phil.angerer@gmail.com', role = c('aut', 'cre')), person('Thomas', 'Kluyver', email = 'thomas@kluyver.me.uk', role = 'aut'), person('Jan', 'Schulz', email = 'jasc@gmx.net', role = 'aut'), person('abielr', role = 'ctb'), person('Denilson', 'Figueiredo de Sa', role = 'ctb'), person('Jim', 'Hester', role = 'ctb'), person('karldw', role = 'ctb'), person('Carson', 'Sievert', role = 'ctb') )
 # Maintainer: Philipp Angerer <phil.angerer@gmail.com>
 # Description: String and binary representations of objects for several formats / mime types.
 # Depends: R (>= 3.0.1)
 # Imports: utils, grDevices, htmltools, base64enc
-# Suggests: methods, highr, Cairo, stringr, testthat
+# Suggests: methods, highr, Cairo, testthat
 # Enhances: data.table, dplyr, htmlwidgets
 # License: GPL-3
 # LazyData: true
@@ -84,10 +82,10 @@ extra:
 # Collate: 'generics.r' 'options.r' 'package.r' 'repr_datatable.r' 'utils.r' 'repr_list.r' 'repr_vector.r' 'repr_factor.r' 'repr_function.r' 'repr_help_files_with_topic.r' 'repr_htmlwidget.r' 'repr_matrix_df.r' 'repr_packageIQR.r' 'repr_recordedplot.r'
 # RoxygenNote: 6.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2018-05-18 07:54:03 UTC; phil
+# Packaged: 2018-04-14 14:29:21 UTC; phil
 # Author: Philipp Angerer [aut, cre], Thomas Kluyver [aut], Jan Schulz [aut], abielr [ctb], Denilson Figueiredo de Sa [ctb], Jim Hester [ctb], karldw [ctb], Carson Sievert [ctb]
 # Repository: CRAN
-# Date/Publication: 2018-05-18 09:54:20 UTC
+# Date/Publication: 2018-04-14 16:08:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

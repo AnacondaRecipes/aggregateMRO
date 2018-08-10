@@ -1,4 +1,5 @@
-{% set version = '1.1-3' %}
+{% set version = '1.1-3' %}  # [linux or win32 or osx]
+{% set version = '1.1-3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rpanel_1.1-3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rpanel_1.1-3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rpanel/rpanel_1.1-3.tar.gz  # [linux or win32]
-  sha256: da3af9d000737ba06408ef1256ade8e4584254f3e24f8d3c8de4f7ed176ba0f2  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/rpanel_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/rpanel/rpanel_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: da3af9d000737ba06408ef1256ade8e4584254f3e24f8d3c8de4f7ed176ba0f2  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rpanel_1.1-3.zip  # [win64]
-  sha256: d4a7a7da6f83cac2282865c956da3d76b2b2ea7fb618ec674e4bbdd4bd0ded45  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rpanel_1.1-3.tgz  # [osx]
-  sha256: 9e7df56e59133ca029feae0a565202d78c0bfd814ea2222bbdc5ff4154043edd  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rpanel_1.1-3.zip  # [win64]
+  sha256: 84df73ec3cbcdbf5d57f62301461224689de8870fc9cc3489da98eb12eeca411  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: tkrplot, rgl, sp, geoR, RandomFields, akima, MASS, denstrip, lattice, sm, maps, mgcv
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -48,7 +41,7 @@ requirements:
 test:
   commands:
     # You can put additional test commands to be run here.
-    - xvfb-run $R -e "library('rpanel')"           # [not win]
+    - $R -e "library('rpanel')"           # [not win]
     - "\"%R%\" -e \"library('rpanel')\""  # [win]
 
   # You can also put a file called run_test.py, run_test.sh, or run_test.bat

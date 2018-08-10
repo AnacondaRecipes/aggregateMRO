@@ -1,4 +1,6 @@
-{% set version = '0.1-11' %}
+{% set version = '0.1-11' %}  # [linux or win32]
+{% set version = '0.1-11' %}  # [win64]
+{% set version = '0.1-11' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,36 +10,30 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: NLP_0.1-11.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/NLP_0.1-11.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/NLP/NLP_0.1-11.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/NLP_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/NLP/NLP_{{ version }}.tar.gz  # [linux or win32]
   sha256: 580551a463c14d7186f62e029504f2e95dd9cbbaaef3f979221ddffafb036597  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/NLP_0.1-11.zip  # [win64]
+  sha256: baa3875c0f69e6e8e40a694d4f1c1180af50989b7c0cc560fbdaae8e2216fc37  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/NLP_0.1-11.zip  # [win64]
-  sha256: dbb8606879410941cf511ffa06746f8f0a6f3bf7b69ec6fee8ead259d8f31055  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/NLP_0.1-11.tgz  # [osx]
-  sha256: cac549291cd5732636488f52627d9170d4a6ddd657f5204649db26736933d9c1  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/NLP_0.1-11.tgz  # [osx]
+  sha256: c2c73e37b53148c55d74a214a2b43a958b465dbe96200ddf8ca00bc838b57205  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

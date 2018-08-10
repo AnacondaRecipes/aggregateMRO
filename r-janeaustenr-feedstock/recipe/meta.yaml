@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: janeaustenr_0.1.5.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/janeaustenr_0.1.5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/janeaustenr/janeaustenr_0.1.5.tar.gz  # [linux or win32]
-  sha256: 992f6673653daf7010fe176993a01cd4127d9a88be428da8da7a28241826d6f3  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/janeaustenr_0.1.5.zip  # [win64]
-  sha256: d00b2f9051e007b2b1c07523d286f7bffa65fe79576894ca6c8721f6ceae70c2  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/janeaustenr_0.1.5.tgz  # [osx]
-  sha256: 02bc75c9f3a31595cad0d77d6b4302edc5aeb37215f4740ddee4a37c4f478b38  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/janeaustenr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/janeaustenr/janeaustenr_{{ version }}.tar.gz
+  sha256: 992f6673653daf7010fe176993a01cd4127d9a88be428da8da7a28241826d6f3
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: dplyr, testthat
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

@@ -1,4 +1,6 @@
-{% set version = '3.0-0' %}
+{% set version = '3.0-0' %}  # [linux or win32]
+{% set version = '3.0-0' %}  # [win64]
+{% set version = '3.0-0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: car_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/car_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/car/car_{{ version }}.tar.gz  # [linux or win32]
   sha256: 30a06984080a2e30c9296d2b0371bdfb8e29b5b7eb6e53f8877d51b4959242cf  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/car_3.0-0.zip  # [win64]
-  sha256: bd14907e9d6c028eeaea570da50a5cc95c91a23e8e889b3fddc294def9f4eb4d  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/car_3.0-0.zip  # [win64]
+  sha256: 2b7fe94bce4c02245c6c9b8f86480143e6d96d174065f5034d6f96344b83aaba  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/car_3.0-0.tgz  # [osx]
-  sha256: 71f421982c80c5a343ec86e72f74e6b2cd59e08d37b37f298a541c806ae2a3a2  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/car_3.0-0.tgz  # [osx]
+  sha256: 0a9eb27fa60e889259098386dc1d2afa35264de4617672e76c95ad739f15cec5  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +34,7 @@ build:
 # Suggests: alr4, boot, coxme, leaps, lmtest, Matrix, MatrixModels, rgl (>= 0.93.960), sandwich, SparseM, survival, survey
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

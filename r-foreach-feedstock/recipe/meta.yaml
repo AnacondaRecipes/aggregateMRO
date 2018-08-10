@@ -1,0 +1,97 @@
+{% set version = '1.4.4' %}  # [linux or win32 or osx]
+{% set version = '1.4.4' %}  # [win64]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-foreach
+  version: {{ version|replace("-", "_") }}
+
+source:
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/foreach_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/foreach/foreach_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: c0a71090d5b70b9a95a6936091dabae9c26e1fc6b9609bfe5fb6346033905e48  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/foreach_1.4.4.zip  # [win64]
+  sha256: 41692fcbc368287d92d21815407a93d32621aa18d12be7d3f579eb72ff3bf4b2  # [win64]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+# Suggests: randomForest
+requirements:
+  build:
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+    - r-codetools
+    - r-iterators
+
+  run:
+    - mro-base
+    - r-codetools
+    - r-iterators
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('foreach')"           # [not win]
+    - "\"%R%\" -e \"library('foreach')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://CRAN.R-project.org/package=foreach
+  license: Apache License (== 2.0)
+  summary: Support for the foreach looping construct.  Foreach is an idiom that allows for iterating
+    over elements in a collection, without the use of an explicit loop counter.  This
+    package in particular is intended to be used for its return value, rather than for
+    its side effects.  In that sense, it is similar to the standard lapply function,
+    but doesn't require the evaluation of a function.  Using foreach without side effects
+    also facilitates executing the loop in parallel.
+  license_family: APACHE
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: foreach
+# Type: Package
+# Title: Provides Foreach Looping Construct for R
+# Version: 1.4.4
+# Authors@R: c(person("Rich", "Calaway", role="cre", email="richcala@microsoft.com"), person("Microsoft", role=c("aut", "cph")), person("Steve", "Weston", role="aut"))
+# Description: Support for the foreach looping construct.  Foreach is an idiom that allows for iterating over elements in a collection, without the use of an explicit loop counter.  This package in particular is intended to be used for its return value, rather than for its side effects.  In that sense, it is similar to the standard lapply function, but doesn't require the evaluation of a function.  Using foreach without side effects also facilitates executing the loop in parallel.
+# Depends: R (>= 2.5.0)
+# Imports: codetools, utils, iterators
+# Suggests: randomForest
+# Enhances: compiler, doMC, RUnit, doParallel
+# License: Apache License (== 2.0)
+# Author: Rich Calaway [cre], Microsoft [aut, cph], Steve Weston [aut]
+# Maintainer: Rich Calaway <richcala@microsoft.com>
+# Repository: CRAN
+# Repository/R-Forge/Project: foreach
+# Repository/R-Forge/Revision: 31
+# Repository/R-Forge/DateTimeStamp: 2017-12-08 23:08:19
+# Date/Publication: 2017-12-12 22:37:36 UTC
+# NeedsCompilation: no
+# Packaged: 2017-12-08 23:33:48 UTC; rforge
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

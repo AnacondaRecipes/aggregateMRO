@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: htmlwidgets_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/htmlwidgets_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/htmlwidgets/htmlwidgets_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 1a7d21c1f3306d53a36c05d6ea7873ddeffeda654cd9be689b6d78e62a688411  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/htmlwidgets_1.2.zip  # [win64]
-  sha256: 5f01d7e28e0a243d85029b1345500ecdcdfdadc5b5b26dd0b212554a81f3323c  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/htmlwidgets_1.2.tgz  # [osx]
-  sha256: d00095f6f4de50b1bfc53a322b84a0ce579c0f96371b6e057fe5cfb43734dba3  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/htmlwidgets_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/htmlwidgets/htmlwidgets_{{ version }}.tar.gz
+  sha256: 1a7d21c1f3306d53a36c05d6ea7873ddeffeda654cd9be689b6d78e62a688411
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: knitr (>= 1.8)
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

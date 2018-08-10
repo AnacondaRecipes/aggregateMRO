@@ -8,36 +8,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: maxLik_1.3-4.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/maxLik_1.3-4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/maxLik/maxLik_1.3-4.tar.gz  # [linux or win32]
-  sha256: 181ab87721b1e6e3859c60d12eea2f67a7135bfa679db73c20a9ef76d82c4b4a  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/maxLik_1.3-4.zip  # [win64]
-  sha256: be8e687ba8de1f1b15f7362e1a4e4f6b3a10689b6d65cfd26109185b47c425d0  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/maxLik_1.3-4.tgz  # [osx]
-  sha256: c3681a854323be0f1b622fab57a275d25cc71c870bdd359297c2af471974be71  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/maxLik_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/maxLik/maxLik_{{ version }}.tar.gz
+  sha256: 181ab87721b1e6e3859c60d12eea2f67a7135bfa679db73c20a9ef76d82c4b4a
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

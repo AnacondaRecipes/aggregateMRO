@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tensorflow_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tensorflow_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tensorflow/tensorflow_{{ version }}.tar.gz  # [linux or win32]
-  sha256: d6a22dcf7dacc36927b0d760e2e4a4c210633e0ceab4876b8d5dc8087273e501  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/tensorflow_1.5.zip  # [win64]
-  sha256: b426ac6d44972b1de879ec9be2139c2e1972e095ad4aa04357deb0046ab8310d  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/tensorflow_1.5.tgz  # [osx]
-  sha256: 484c78cf8cd6af546ace36abfd06106db0211b7366f6be2590583f56d8ef8054  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/tensorflow_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/tensorflow/tensorflow_{{ version }}.tar.gz
+  sha256: d6a22dcf7dacc36927b0d760e2e4a4c210633e0ceab4876b8d5dc8087273e501
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: testthat, keras, tfestimators
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

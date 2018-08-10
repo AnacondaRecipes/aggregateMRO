@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: brglm_0.6.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/brglm_0.6.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/brglm/brglm_0.6.1.tar.gz  # [linux or win32]
-  sha256: b786db50edc703b1b6a986b1ce13d31aab76fd3c672a6540161b25f5cd57239f  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/brglm_0.6.1.zip  # [win64]
-  sha256: 6f802e300639cddb41f4785951ce956491f602c03c0be00e5c53629a2c207cfd  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/brglm_0.6.1.tgz  # [osx]
-  sha256: 55c8d567e8728bd57ca254cfe704b36421839eefb91520ec7a0cb28bef2b58ff  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/brglm_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/brglm/brglm_{{ version }}.tar.gz
+  sha256: b786db50edc703b1b6a986b1ce13d31aab76fd3c672a6540161b25f5cd57239f
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,10 +26,13 @@ build:
 # Suggests: MASS
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -49,7 +40,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-profilemodel
 
 test:

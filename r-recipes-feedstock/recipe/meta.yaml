@@ -1,4 +1,5 @@
-{% set version = '0.1.2' %}
+{% set version = '0.1.2' %}  # [linux or win32 or osx]
+{% set version = '0.1.2' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: recipes_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/recipes_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/recipes/recipes_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 891a30cce1529e29a832f3aab92b38c9a0ef959a6fb144c0bf07595c871a59b1  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/recipes_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/recipes/recipes_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 891a30cce1529e29a832f3aab92b38c9a0ef959a6fb144c0bf07595c871a59b1  # [linux or win32 or osx]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/recipes_0.1.2.zip  # [win64]
-  sha256: ba1d1cff0a42c0ab6787a9c558a79c8a86c32d87a2b52053da4d2f8fc2527704  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/recipes_0.1.2.tgz  # [osx]
-  sha256: 213723a5edd99190de7e1dd7f8c01e75c34b9779dd233ce8f0cb1e5b673bc3e5  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/recipes_0.1.2.zip  # [win64]
+  sha256: dfce80bc2cc0d9057e9baaa10ef4cc988f1ae301220faf42f5b37adeb791a027  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +30,7 @@ build:
 # Suggests: testthat, rpart, kernlab, fastICA, RANN, igraph, knitr, caret, ggplot2, rmarkdown, covr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: lazyeval_0.2.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/lazyeval_0.2.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/lazyeval/lazyeval_0.2.1.tar.gz  # [linux or win32]
-  sha256: 83b3a43e94c40fe7977e43eb607be0a3cd64c02800eae4f2774e7866d1e93f61  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/lazyeval_0.2.1.zip  # [win64]
-  sha256: fe2c8803d8a2b4a304dd1a09a930fa5971d451bd28e4dacbed27c97a391251ab  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/lazyeval_0.2.1.tgz  # [osx]
-  sha256: c7c41d8ade7e02055dcd6bac6a8fe057b69fbccdbf1125fe5b2e04df4e978adc  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/lazyeval_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/lazyeval/lazyeval_{{ version }}.tar.gz
+  sha256: 83b3a43e94c40fe7977e43eb607be0a3cd64c02800eae4f2774e7866d1e93f61
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,17 +26,20 @@ build:
 # Suggests: knitr, rmarkdown (>= 0.2.65), testthat, covr
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

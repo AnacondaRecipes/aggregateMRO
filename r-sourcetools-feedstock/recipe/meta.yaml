@@ -1,4 +1,4 @@
-{% set version = '0.1.7' %}
+{% set version = '0.1.6' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: sourcetools_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/sourcetools_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/sourcetools/sourcetools_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 47984406efb3b3face133979ccbae9fefb7360b9a6ca1a1c11473681418ed2ca  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/sourcetools_0.1.7.zip  # [win64]
-  sha256: d3f7142953f2d3ce1a9d7f6b7cdbaf447b3555796e65303e166632b5134ab8a9  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/sourcetools_0.1.7.tgz  # [osx]
-  sha256: 637f4fc196b3779eff37eb06c2ae9090deddf5378108e3e41d39a44eff78447b  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/sourcetools_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/sourcetools/sourcetools_{{ version }}.tar.gz
+  sha256: c9f48d2f0b7f7ed0e7fecdf8e730b0b80c4d567f0e1e880d118b0944b1330c51
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,18 +26,21 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:
@@ -75,7 +71,7 @@ extra:
 # Package: sourcetools
 # Type: Package
 # Title: Tools for Reading, Tokenizing and Parsing R Code
-# Version: 0.1.7
+# Version: 0.1.6
 # Author: Kevin Ushey
 # Maintainer: Kevin Ushey <kevinushey@gmail.com>
 # Description: Tools for the reading and tokenization of R code. The 'sourcetools' package provides both an R and C++ interface for the tokenization of R code, and helpers for interacting with the tokenized representation of R code.
@@ -87,9 +83,9 @@ extra:
 # BugReports: https://github.com/kevinushey/sourcetools/issues
 # Encoding: UTF-8
 # NeedsCompilation: yes
-# Packaged: 2018-04-25 03:19:22 UTC; kevin
+# Packaged: 2017-04-05 19:41:15 UTC; kevin
 # Repository: CRAN
-# Date/Publication: 2018-04-25 03:38:09 UTC
+# Date/Publication: 2017-04-05 21:57:43 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

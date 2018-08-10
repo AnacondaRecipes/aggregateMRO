@@ -1,4 +1,5 @@
-{% set version = '1.2-5' %}
+{% set version = '1.2-5' %}  # [linux or win32 or osx]
+{% set version = '1.2-5' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: AER_1.2-5.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/AER_1.2-5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/AER/AER_1.2-5.tar.gz  # [linux or win32]
-  sha256: ef0cf14ff9d3de2b97e5855243426cc918808eb1011f0e2253b3b00043927a62  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/AER_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/AER/AER_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: ef0cf14ff9d3de2b97e5855243426cc918808eb1011f0e2253b3b00043927a62  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/AER_1.2-5.zip  # [win64]
-  sha256: 510e633448071a46b57915ef5eb9b00ebbeb150bf3137949b39b03cd81df7131  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/AER_1.2-5.tgz  # [osx]
-  sha256: ed8fcc5b2d4f0822b57b64d7409524edbb274ec8f053ba29bacf998ecd860480  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/AER_1.2-5.zip  # [win64]
+  sha256: 22631fed51314942c49567e40a4c0085299cc1b8335d2a62dc874a0e0d0fb51a  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: boot, dynlm, effects, fGarch, forecast, foreign, ineq, KernSmooth, lattice, longmemo, MASS, mlogit, nlme, nnet, np, plm, pscl, quantreg, rgl, ROCR, rugarch, sampleSelection, scatterplot3d, strucchange, systemfit, truncreg, tseries, urca, vars
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

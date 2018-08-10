@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: units_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/units_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/units/units_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 749bc6b81d623d27e6a8784eff34526aa4e371ce4880e91f49cbdd7de6830b1e  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/units_0.5-1.zip  # [win64]
-  sha256: 8f709f4db66786c2ffe2404f3ac69ec526767f19da6001ed44e4a7e4ce66dc7f  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/units_0.5-1.tgz  # [osx]
-  sha256: a2a321d8d50fbc5e389dda804b5bf65c3224bb29e3781025983548427dcf449d  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/units_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/units/units_{{ version }}.tar.gz
+  sha256: 749bc6b81d623d27e6a8784eff34526aa4e371ce4880e91f49cbdd7de6830b1e
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

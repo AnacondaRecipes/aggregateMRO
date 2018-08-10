@@ -1,4 +1,5 @@
-{% set version = '0.4.6.1' %}
+{% set version = '0.4.6.1' %}  # [linux or win32 or osx]
+{% set version = '0.4.6.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rlist_0.4.6.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rlist_0.4.6.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rlist/rlist_0.4.6.1.tar.gz  # [linux or win32]
-  sha256: bb0148b124997aa4e1c89c6c7cf45927afaf5b23caefcdc5116cfa7caef05c21  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/rlist_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/rlist/rlist_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: bb0148b124997aa4e1c89c6c7cf45927afaf5b23caefcdc5116cfa7caef05c21  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rlist_0.4.6.1.zip  # [win64]
-  sha256: 546a3ef8860f7bdf501ddb4f700b71ff93520977606e4d59acb1a3d176ebbc0a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rlist_0.4.6.1.tgz  # [osx]
-  sha256: 311a777b2c48311eae40aca4bbcb7983294acdd4abf0ec7f30053fe7d5fbde0d  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rlist_0.4.6.1.zip  # [win64]
+  sha256: a9c31bc190eb66700065560a8d0cc6ea9bb1ee9de17503328ee45ba2be1756a9  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: testthat, stringdist, pipeR
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

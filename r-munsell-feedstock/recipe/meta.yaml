@@ -1,4 +1,6 @@
-{% set version = '0.4.3' %}
+{% set version = '0.4.3' %}  # [linux or win32]
+{% set version = '0.4.3' %}  # [win64]
+{% set version = '0.4.3' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +10,21 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: munsell_0.4.3.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/munsell_0.4.3.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/munsell/munsell_0.4.3.tar.gz  # [linux or win32]
+    url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/munsell_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/munsell/munsell_{{ version }}.tar.gz  # [linux or win32]
   sha256: 397c3c90af966f48eebe8f5d9e40c41b17541f0baaa102eec3ea4faae5a2bd49  # [linux or win32]
 
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/munsell_0.4.3.zip  # [win64]
+  sha256: f601297363df7451c2a06d2816985ab4459b957b7e5e17f31e09eb0ebc6a3058  # [win64]
 
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/munsell_0.4.3.zip  # [win64]
-  sha256: ee24254c1659ec567b0d5f2ca6171bee252b3ec99ad7aa4602753416d6dfb7ff  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/munsell_0.4.3.tgz  # [osx]
-  sha256: f7fd00d0f2c9fb685b84d7b22cb61930393dc5d08a9de5039be7d52a411486a8  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/munsell_0.4.3.tgz  # [osx]
+  sha256: 10a58434295384435be66402fcf88c0ab1df71b50bad8df6837d68a1bf82897e  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +34,7 @@ build:
 # Suggests: ggplot2, testthat
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: bindrcpp_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/bindrcpp_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/bindrcpp/bindrcpp_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 48130709eba9d133679a0e959e49a7b14acbce4f47c1e15c4ab46bd9e48ae467  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/bindrcpp_0.2.2.zip  # [win64]
-  sha256: a359bbe1c5ba39134cabdfaddd3ea0354fa96bd14e717b175b777da76073e0ba  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/bindrcpp_0.2.2.tgz  # [osx]
-  sha256: e917e1ad38974c887bfd3e3b894a3f8c31af65ed54f22f8a2cc9b9fa8829c20f  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/bindrcpp_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/bindrcpp/bindrcpp_{{ version }}.tar.gz
+  sha256: 48130709eba9d133679a0e959e49a7b14acbce4f47c1e15c4ab46bd9e48ae467
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,11 +26,14 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -47,7 +43,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-rcpp >=0.12.16
     - r-bindr >=0.1.1
     - r-plogr

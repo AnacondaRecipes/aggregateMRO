@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ggplot2_2.2.1.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ggplot2_2.2.1.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ggplot2/ggplot2_2.2.1.tar.gz  # [linux or win32]
-  sha256: 5fbc89fec3160ad14ba90bd545b151c7a2e7baad021c0ab4b950ecd6043a8314  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/ggplot2_2.2.1.zip  # [win64]
-  sha256: 30e6043aea58f2436f3cddce9d954121224a268cd5ba1c40bca840059471f25a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/ggplot2_2.2.1.tgz  # [osx]
-  sha256: 7e87ad53409992f4ff4fc768fc53042f60f4c9741315ddb5dc016d8cb97b30a2  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/ggplot2_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/ggplot2/ggplot2_{{ version }}.tar.gz
+  sha256: 5fbc89fec3160ad14ba90bd545b151c7a2e7baad021c0ab4b950ecd6043a8314
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: covr, ggplot2movies, hexbin, Hmisc, lattice, mapproj, maps, maptools, mgcv, multcomp, nlme, testthat (>= 0.11.0), quantreg, knitr, rpart, rmarkdown, svglite
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

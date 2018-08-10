@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: gtable_0.2.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/gtable_0.2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/gtable/gtable_0.2.0.tar.gz  # [linux or win32]
-  sha256: 801e4869830ff3da1d38e41f5a2296a54fc10a7419c6ffb108582850c701e76f  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/gtable_0.2.0.zip  # [win64]
-  sha256: 6610831cf21ca8e24f04b2a795bc08c1aa0f10e420215c26cb32d715756f996c  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/gtable_0.2.0.tgz  # [osx]
-  sha256: 612a41a58fe5c5f5c5d7b95bec13aeca7b444ad08cc544eaa7fc08c4e728eebf  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/gtable_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/gtable/gtable_{{ version }}.tar.gz
+  sha256: 801e4869830ff3da1d38e41f5a2296a54fc10a7419c6ffb108582850c701e76f
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: testthat, covr
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

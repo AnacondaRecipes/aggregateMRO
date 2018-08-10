@@ -1,4 +1,5 @@
-{% set version = '1.0-18' %}
+{% set version = '1.0-18' %}  # [linux or win32 or osx]
+{% set version = '1.0-18' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,48 +9,41 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pspline_1.0-18.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/pspline_1.0-18.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/pspline/pspline_1.0-18.tar.gz  # [linux or win32]
-  sha256: f71cf293bd5462e510ac5ad16c4a96eda18891a0bfa6447dd881c65845e19ac7  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/pspline_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/pspline/pspline_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: f71cf293bd5462e510ac5ad16c4a96eda18891a0bfa6447dd881c65845e19ac7  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/pspline_1.0-18.zip  # [win64]
-  sha256: 88766423c3d10a47ff902af8944b8eac8db1272ba2cac5477c0b328829752281  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/pspline_1.0-18.tgz  # [osx]
-  sha256: eed99f07d20a01cde7530745b008bd2848c0b718e93972e9eb094262b47da918  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pspline_1.0-18.zip  # [win64]
+  sha256: 4fb80c900e89d26f34d51acf53fd98287ce8caaa2ab09ed2e66e7f3f090c3ec6  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('fortran') }}    # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}make                # [linux or win32]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:

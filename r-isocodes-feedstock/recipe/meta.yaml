@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: ISOcodes_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ISOcodes_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ISOcodes/ISOcodes_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 57b6c6e335075995d1b56801ed7b3c72b47284cd2fb66de29a8c7e0742b8cbda  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/ISOcodes_2017.09.27.zip  # [win64]
-  sha256: 985c3d7301b11e98846723f776d8d88f25c44666b537c5f422ea9fa5fdabd9d2  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/ISOcodes_2017.09.27.tgz  # [osx]
-  sha256: f58619250fa3938f97fc281698d8a67ec9e271bf0291c59a1a82ff872df130bd  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/ISOcodes_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/ISOcodes/ISOcodes_{{ version }}.tar.gz
+  sha256: 57b6c6e335075995d1b56801ed7b3c72b47284cd2fb66de29a8c7e0742b8cbda
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,6 +25,7 @@ build:
 
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

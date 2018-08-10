@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: oce_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/oce_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/oce/oce_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 390fd082710ee1586074ff20df61208df4c76b9f2dc0c9b1125aade4c934b04c  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/oce_0.9-23.zip  # [win64]
-  sha256: 55c09afed386384bbfe5dcbb9e393ba9c14e04b574aff8a6f8efa8f7f6a55116  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/oce_0.9-23.tgz  # [osx]
-  sha256: f69ab674852f381125529117e57c025cb71b8a09f85b99c436cdfd4134b69518  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/oce_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/oce/oce_{{ version }}.tar.gz
+  sha256: 390fd082710ee1586074ff20df61208df4c76b9f2dc0c9b1125aade4c934b04c
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,12 +26,15 @@ build:
 # Suggests: ocedata, foreign, ncdf4, tiff, akima, RSQLite, DBI, rgdal (>= 1.1-9), R.utils, knitr, rmarkdown, marmap, lubridate
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
-    - {{ compiler('fortran') }}  # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -47,7 +43,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-gsw
     - r-testthat
 

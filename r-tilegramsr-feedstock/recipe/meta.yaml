@@ -1,4 +1,5 @@
-{% set version = '0.2.0' %}
+{% set version = '0.2.0' %}  # [linux or win32 or osx]
+{% set version = '0.2.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tilegramsR_0.2.0.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/tilegramsR_0.2.0.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/tilegramsR/tilegramsR_0.2.0.tar.gz  # [linux or win32]
-  sha256: 22ee5ec89158e7ad366e9e357e8ec6dde22cfd95fa4395323d1f3df8e8f69685  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/tilegramsR_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/tilegramsR/tilegramsR_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 22ee5ec89158e7ad366e9e357e8ec6dde22cfd95fa4395323d1f3df8e8f69685  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/tilegramsR_0.2.0.zip  # [win64]
-  sha256: 2710e757e08a354925e33d77711c7f4647ccdb3cbad63556f321945886840247  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/tilegramsR_0.2.0.tgz  # [osx]
-  sha256: 129e0d1260be0a79d3b0bbeb5a1c12d00e5d0d676844c06981af9ebc093faa2c  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tilegramsR_0.2.0.zip  # [win64]
+  sha256: 9e30db296d05b7b13074c5f5a2651a1d3155a4a54aa4c233f9fd759d56614ab6  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: dplyr, tidyr, knitr, rmarkdown, leaflet (>= 1.1.0),
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: withr_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/withr_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/withr/withr_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 41366f777d8adb83d0bdbac1392a1ab118b36217ca648d3bb9db763aa7ff4686  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/withr_2.1.2.zip  # [win64]
-  sha256: a10de2cf54d50854562696ac1a53bbbe2e7c551dc96bcfbc469471a2dfa30595  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/withr_2.1.2.tgz  # [osx]
-  sha256: f88b750f7509d571f4ff0750fad58e0841f9a82d6e0e0bbe21f125fb7d2d9087  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/withr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/withr/withr_{{ version }}.tar.gz
+  sha256: 41366f777d8adb83d0bdbac1392a1ab118b36217ca648d3bb9db763aa7ff4686
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,6 +26,7 @@ build:
 # Suggests: testthat, covr, lattice, DBI, RSQLite, methods, knitr, rmarkdown
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

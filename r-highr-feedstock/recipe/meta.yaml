@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: highr_0.6.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/highr_0.6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/highr/highr_0.6.tar.gz  # [linux or win32]
-  sha256: 43e152b2dea596df6e14c44398c74fcd438ece15eaae5bdb84aef8d61b213b59  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/highr_0.6.zip  # [win64]
-  sha256: dc04153c631a225ef54f1207ff93f50ebb03c49d1635ce9c7f3a3cd0af76f3ca  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/highr_0.6.tgz  # [osx]
-  sha256: 381365f5d104d4d8570338eb12adbe4083fa120805a312308c8f93c7d55ea4f7  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/highr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/highr/highr_{{ version }}.tar.gz
+  sha256: 43e152b2dea596df6e14c44398c74fcd438ece15eaae5bdb84aef8d61b213b59
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: knitr, testit
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

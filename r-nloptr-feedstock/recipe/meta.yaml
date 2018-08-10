@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: nloptr_1.0.4.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/nloptr_1.0.4.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/nloptr/nloptr_1.0.4.tar.gz  # [linux or win32]
-  sha256: 84225b993cb1ef7854edda9629858662cc8592b0d1344baadea4177486ece1eb  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/nloptr_1.0.4.zip  # [win64]
-  sha256: f258a0fc39c4d0a9a65aa78ecc157e37af940bd64a442b940477763adc356e23  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/nloptr_1.0.4.tgz  # [osx]
-  sha256: 7d5865f1f77b1566aeacbef3927d2833e0e296bada979f669cf49700eb697d33  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/nloptr_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/nloptr/nloptr_{{ version }}.tar.gz
+  sha256: 84225b993cb1ef7854edda9629858662cc8592b0d1344baadea4177486ece1eb
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,26 +26,26 @@ build:
 # Suggests: testthat (>= 0.8.1)
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{ compiler('cxx') }}        # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
-    - {{native}}nlopt              # [win32]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
-    - {{native}}nlopt              # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

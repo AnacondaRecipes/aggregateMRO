@@ -8,27 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: testit_0.7.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/testit_0.7.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/testit/testit_0.7.tar.gz  # [linux or win32]
-  sha256: 03332889bffe8b69d36e696e3a6a1a29713cdcbccf1efced6cddbf061fb41a1f  # [linux or win32]
-
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/testit_0.7.zip  # [win64]
-  sha256: 9256885dd45a3d80ffc5db9bcc7bbde9927c56434d429a2864f1c93a3830467a  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/testit_0.7.tgz  # [osx]
-  sha256: f84cc119c6a9d4906e243908196f7e088f1b1f44b35bd13ff3ee9f3295e6292e  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/testit_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/testit/testit_{{ version }}.tar.gz
+  sha256: 03332889bffe8b69d36e696e3a6a1a29713cdcbccf1efced6cddbf061fb41a1f
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +26,7 @@ build:
 # Suggests: rstudioapi
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

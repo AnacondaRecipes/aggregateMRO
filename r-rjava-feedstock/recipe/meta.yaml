@@ -8,29 +8,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: rJava_0.9-9.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/rJava_0.9-9.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/rJava/rJava_0.9-9.tar.gz  # [linux or win32]
-  sha256: 932b153f2b5c546d614bb5ac4124df3d103c9f8e09a608a14fd036dfe15e9146  # [linux or win32]
-
-
-  patches:  # [linux or win32]
-    - 0001-Improve-lib-jvm.-so-dylib-dll-loading.patch  # [linux or win32]
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/rJava_0.9-9.zip  # [win64]
-  sha256: 1ac2972e38aee4aa6c63a075a5141a26a64033783029b259153cc4b8623e4459  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/rJava_0.9-9.tgz  # [osx]
-  sha256: 5977f73031f0110e810954c8acbeb9c866a66a1fd7d1196e53a1f6ab8c1ac5a4  # [osx]
-
+    url:
+    - {{ cran_mirror }}/src/contrib/rJava_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/rJava/rJava_{{ version }}.tar.gz
+  sha256: 932b153f2b5c546d614bb5ac4124df3d103c9f8e09a608a14fd036dfe15e9146
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -41,35 +27,31 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}          # [linux]
-    - {{native}}toolchain          # [win32]
-    - {{posix}}filesystem          # [win32]
-    - {{posix}}sed                 # [win32]
-    - {{posix}}grep                # [win32]
-    - {{posix}}autoconf            # [linux or win32]
-    - {{posix}}automake-wrapper    # [win32]
-    - {{posix}}automake            # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
-    - {{posix}}make                # [linux or win32]
-    - {{ cdt('java-1.7.0-openjdk') }}        # [linux]
-    - {{ cdt('java-1.7.0-openjdk-devel') }}  # [linux]
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
-    - bzip2  # [linux]
 
   run:
     - mro-base
-    - {{native}}gcc-libs           # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
-  requires:
-    - openjdk
   commands:
     # You can put additional test commands to be run here.
-    - $R -e 'library(rJava); .jinit()'             # [not win]
-    # Yuck, cannot have a space after the ;
-    - "\"%R%\" -e \"library('rJava');.jinit()\""  # [win]
+    - $R -e "library('rJava')"           # [not win]
+    - "\"%R%\" -e \"library('rJava')\""  # [win]
 
   # You can also put a file called run_test.py, run_test.sh, or run_test.bat
   # in the recipe that will be run at test time.

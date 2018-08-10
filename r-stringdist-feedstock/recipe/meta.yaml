@@ -1,4 +1,6 @@
-{% set version = '0.9.4.7' %}
+{% set version = '0.9.4.7' %}  # [linux or win32]
+{% set version = '0.9.4.7' %}  # [win64]
+{% set version = '0.9.4.7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,20 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: stringdist_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
+    url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/stringdist_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/stringdist/stringdist_{{ version }}.tar.gz  # [linux or win32]
   sha256: 24120f19a449ab607a816e4e40f46cedf0b74a784dbe2d6d526bdecc2a07e8e1  # [linux or win32]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/stringdist_0.9.4.7.zip  # [win64]
-  sha256: 152d204c3fd293345d1efae32cd56c45d81ebd03d463c610b5edaeb448697196  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/stringdist_0.9.4.7.zip  # [win64]
+  sha256: d2c8b79f2d6ff38727ff49cf1028a0ef82ae829264e1be705b80a27d96e77ad7  # [win64]
 
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/stringdist_0.9.4.7.tgz  # [osx]
-  sha256: 310f500e07396d15bf61a967cfedc57bc072fcb922c05804d4f65a3a4c131d69  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/stringdist_0.9.4.7.tgz  # [osx]
+  sha256: 856a2520dd66bae4cec3cc87cd65905bc3a595b7436809fa7d925dbfc883d6ae  # [osx]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -37,6 +38,9 @@ requirements:
     - {{native}}toolchain        # [win32]
     - {{posix}}filesystem        # [win32]
     - {{posix}}make              # [linux or win32]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

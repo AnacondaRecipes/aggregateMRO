@@ -1,4 +1,5 @@
-{% set version = '1.6-6' %}
+{% set version = '1.6-6' %}  # [linux or win32 or osx]
+{% set version = '1.6-6' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: plm_1.6-6.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/plm_1.6-6.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/plm/plm_1.6-6.tar.gz  # [linux or win32]
-  sha256: 05f5494b5b4b018c149b193671a60c32753504034a4142be51a27ebc3e5224a8  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/plm_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/plm/plm_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 05f5494b5b4b018c149b193671a60c32753504034a4142be51a27ebc3e5224a8  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/plm_1.6-6.zip  # [win64]
-  sha256: b2762fda419f99d5bc051e1fb99deedf0773b828ffb194d541e780dfc50eb334  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/plm_1.6-6.tgz  # [osx]
-  sha256: 5fb2c1d609ddb7c6fc7eee76854227443cd5ad7709e8fec53c7ad56c8b0f8d70  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/plm_1.6-6.zip  # [win64]
+  sha256: 13f9710920559bce2703e17e1809734f92dcc0408cfa9150cef62d8d6e4214e7  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: AER, car, pcse, clusterSEs, clubSandwich, pglm, spdep, splm, statmod, Ecdat, pder, stargazer, texreg, foreign
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

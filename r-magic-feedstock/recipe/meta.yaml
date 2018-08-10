@@ -8,20 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: magic_{{ version }}.tar.gz   # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/magic_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/magic/magic_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 7f8bc26e05003168e9d2dadf64eb9a34b51bc41beba482208874803dee7d6c20  # [linux or win32]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/windows/contrib/3.5/magic_1.5-8.zip  # [win64]
-  sha256: 7ab7a25d183132bb093aaf3d243174459024ba406eedb993674698921d43f4cc  # [win64]
-
-  url: https://mran.microsoft.com/snapshot/2018-06-01/bin/macosx/el-capitan/contrib/3.5/magic_1.5-8.tgz  # [osx]
-  sha256: 978289fe51289676c61f09f03ce9351cea75601deafa00b349e5eacab98bcceb  # [osx]
+    url:
+    - {{ cran_mirror }}/src/contrib/magic_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/magic/magic_{{ version }}.tar.gz
+  sha256: 7f8bc26e05003168e9d2dadf64eb9a34b51bc41beba482208874803dee7d6c20
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -32,6 +25,7 @@ build:
 
 requirements:
   build:
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

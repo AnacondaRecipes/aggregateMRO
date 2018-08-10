@@ -1,4 +1,5 @@
-{% set version = '1.5' %}
+{% set version = '1.5' %}  # [linux or win32 or osx]
+{% set version = '1.5' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,27 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: formatR_1.5.tar.gz  # [linux or win32]
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/formatR_1.5.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/formatR/formatR_1.5.tar.gz  # [linux or win32]
-  sha256: 874c197ae3720ec11b44984a055655b99a698e1912104eb9034c11fdf6104da7  # [linux or win32]
+    url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/formatR_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/formatR/formatR_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 874c197ae3720ec11b44984a055655b99a698e1912104eb9034c11fdf6104da7  # [linux or win32 or osx]
 
-
-
-
-  url:  {{ cran_mirror }}/bin/windows/contrib/3.4/formatR_1.5.zip  # [win64]
-  sha256: 667aa2f9f0100664778773655ae0ed6d07876ebc0cef5a44b826f7767ba9a806  # [win64]
-
-  url:  {{ cran_mirror }}/bin/macosx/el-capitan/contrib/3.4/formatR_1.5.tgz  # [osx]
-  sha256: 0741a9e03a7a20917fdfdd13678610cc8e6e45e340cedac4bd51a975b7458eab  # [osx]
-
+  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/formatR_1.5.zip  # [win64]
+  sha256: 93ca8969d4dedf5b6410bcb08b96b35c0a8dd331c84b807232ccee64d39d5984  # [win64]
 
 build:
-  merge_build_host: True  # [linux or win32]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
@@ -38,6 +30,7 @@ build:
 # Suggests: codetools, shiny, testit, rmarkdown, knitr
 requirements:
   build:
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
