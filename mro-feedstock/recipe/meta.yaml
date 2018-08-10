@@ -105,6 +105,7 @@ outputs:
     activate_in_script: True
     build:
       merge_build_host: True
+      number: 1  # [osx]
       rpaths:
         - lib/R/lib/
         - lib/

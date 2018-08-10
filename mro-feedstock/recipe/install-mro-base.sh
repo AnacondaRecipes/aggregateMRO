@@ -108,6 +108,11 @@ make_mro_base () {
   pushd "$PREFIX"
     if [[ $(uname) == Darwin ]]; then
       sed -i.bak -E 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
+      if [[ ! -f lib/R/share/make/shlib.mk ]]; then
+        echo "ERROR :: Missing lib/R/share/make/shlib.mk"
+        find lib/R/share
+        exit 1
+      fi
     elif [[ -f lib/R/etc/Makeconf ]]; then
       sed -i.bak -r 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
     fi
