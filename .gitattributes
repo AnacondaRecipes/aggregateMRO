@@ -4,3 +4,7 @@ meta.yaml text eol=lf
 build.sh text eol=lf
 bld.bat text eol=crlf
 mro-feedstock/recipe/bld.bat text eol=crlf
+rpy2-2.8-feedstock/recipe/bld.bat text eof=crlf
+rpy2-feedstock/recipe/bld.bat
+rtools-feedstock/recipe/bld.bat
+rwinlib-feedstock/recipe/bld.bat
