@@ -1,0 +1,89 @@
+{% set version = '0.6.0' %}  # [linux or win32 or osx]
+{% set version = '0.6.0' %}  # [win64]
+
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-pbivnorm
+  version: {{ version|replace("-", "_") }}
+
+source:
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/pbivnorm_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/pbivnorm/pbivnorm_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 07c37d507cb8f8d2d9ae51a9a6d44dfbebd8a53e93c242c4378eaddfb1cc5f16  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pbivnorm_0.6.0.zip  # [win64]
+  sha256: d220977998c476bf2b83cbcc098fbcddc856ff120b744d784070f05388c5b4fc  # [win64]
+
+build:
+  merge_build_host: True  # [win32]
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
+    - {{native}}toolchain        # [win32]
+    - {{posix}}filesystem        # [win32]
+    - {{posix}}make              # [linux or win32 or osx]
+    - {{posix}}sed               # [win32]
+    - {{posix}}coreutils         # [win32]
+    - {{posix}}zip               # [win32]
+
+  host:
+    - mro-base
+
+  run:
+    - mro-base
+    - {{native}}gcc-libs         # [win32]
+
+test:
+  commands:
+    # You can put additional test commands to be run here.
+    - $R -e "library('pbivnorm')"           # [not win]
+    - "\"%R%\" -e \"library('pbivnorm')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
+
+about:
+  home: https://github.com/brentonk/pbivnorm
+  license: GPL (>= 2)
+  summary: Provides a vectorized R function for calculating probabilities from a standard bivariate
+    normal CDF.
+  license_family: GPL3
+
+extra:
+  recipe-maintainers:
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: pbivnorm
+# Title: Vectorized Bivariate Normal CDF
+# Version: 0.6.0
+# Date: 2015-01-23
+# Author: Fortran code by Alan Genz.  R code by Brenton Kenkel, based on Adelchi Azzalini's 'mnormt' package.
+# Maintainer: Brenton Kenkel <brenton.kenkel@gmail.com>
+# Description: Provides a vectorized R function for calculating probabilities from a standard bivariate normal CDF.
+# License: GPL (>= 2)
+# URL: https://github.com/brentonk/pbivnorm
+# Packaged: 2015-01-23 14:46:13 UTC; brenton
+# NeedsCompilation: yes
+# Repository: CRAN
+# Date/Publication: 2015-01-23 16:18:21
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
