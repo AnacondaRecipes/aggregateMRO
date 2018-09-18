@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/raster_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/raster/raster_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: fb91804fd465a4a6d9d9858e29fd05f41a99b8efdcc5cf4370ea253b68e42b01  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/raster_2.6-7.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/raster_2.6-7.zip  # [win64]
   sha256: 608b3f384e90ae675614849eac4853e41cb9d1fdbf2cd039d6c76e5144d41f35  # [win64]
 
 build:

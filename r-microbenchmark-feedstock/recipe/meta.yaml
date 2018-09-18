@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/microbenchmark_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/microbenchmark/microbenchmark_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 2cb1aad6f826f6798fbd89ac2a7839c25508596ab684405c8d28fca8b7e0623b  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/microbenchmark_1.4-4.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/microbenchmark_1.4-4.zip  # [win64]
   sha256: 2bd38cc521e99cee1c8dcdb6997d4238e34e7b5397d8f2cc2ec191991723f921  # [win64]
 
 build:

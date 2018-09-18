@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/rprojroot_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/rprojroot/rprojroot_{{ version }}.tar.gz
   sha256: df5665834941d8b0e377a8810a04f98552201678300f168de5f58a587b73238b

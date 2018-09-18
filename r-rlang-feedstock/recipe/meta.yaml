@@ -1,6 +1,6 @@
-{% set version = '0.2.0' %}  # [linux or win32]
-{% set version = '0.2.0' %}  # [win64]
-{% set version = '0.2.0' %}  # [osx]
+{% set version = '0.2.1' %}  # [linux or win32]
+{% set version = '0.2.1' %}  # [win64]
+{% set version = '0.2.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/rlang_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/rlang/rlang_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 4872a7d1b8e1e1a64a851dac707efb0c1dcbef69f6dadee417dac85b38740739  # [linux or win32]
+  sha256: f2ba4826bc376e6893d1d547b97b5df7367c08b4814e73c96416c5ecb7310f3e  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rlang_0.2.0.zip  # [win64]
-  sha256: 9e8b248f361a6a5a7942adbe79c345e7fe86201d8aa65883b9015160e59bc106  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rlang_0.2.1.zip  # [win64]
+  sha256: 564c5930510c85812c83a5ccc94fb84b841b9426fca6b2f6248ecc5415e460a3  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/rlang_0.2.0.tgz  # [osx]
-  sha256: 89afa77afbfc39daabd7a95524b68b89352e24eff2e5a324f8f0355f7521a536  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rlang_0.2.1.tgz  # [osx]
+  sha256: 8902e9e151a7cd8c36f700e60079ace5b0285dabc4de362e26faf89ff6902a37  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -75,7 +75,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: rlang
-# Version: 0.2.0
+# Version: 0.2.1
 # Title: Functions for Base Types and Core R and 'Tidyverse' Features
 # Description: A toolbox for working with base types, core R features like the condition system, and core 'Tidyverse' features like tidy evaluation.
 # Authors@R: c( person("Lionel", "Henry", ,"lionel@rstudio.com", c("aut", "cre")), person("Hadley", "Wickham", ,"hadley@rstudio.com", "aut"), person("RStudio", role = "cph") )
@@ -88,11 +88,11 @@ extra:
 # URL: http://rlang.tidyverse.org, https://github.com/r-lib/rlang
 # BugReports: https://github.com/r-lib/rlang/issues
 # NeedsCompilation: yes
-# Packaged: 2018-02-20 06:15:49 UTC; lionel
+# Packaged: 2018-05-30 13:14:55 UTC; lionel
 # Author: Lionel Henry [aut, cre], Hadley Wickham [aut], RStudio [cph]
 # Maintainer: Lionel Henry <lionel@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-02-20 10:07:47 UTC
+# Date/Publication: 2018-05-30 14:23:07 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

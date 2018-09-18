@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/highcharter_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/highcharter/highcharter_{{ version }}.tar.gz
   sha256: d77ab493f6eb8648b352205df1bf60848c8f2155d46920077bac57809cbbded7

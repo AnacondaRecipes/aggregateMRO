@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/TTR_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/TTR/TTR_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 2136032c7a2cd2a82518a4412fc655ecb16597b123dbdebe5684caef9f15261f  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/TTR_0.23-3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/TTR_0.23-3.zip  # [win64]
   sha256: 2105d3abea4d30dd0f755c2fc0592a68f78851b6b1085da3e40c1b381c908ba3  # [win64]
 
 build:

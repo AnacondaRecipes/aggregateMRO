@@ -1,5 +1,5 @@
-{% set version = '0.36' %}  # [linux or win32 or osx]
-{% set version = '0.36' %}  # [win64]
+{% set version = '0.37' %}  # [linux or win32 or osx]
+{% set version = '0.37' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/bestglm_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/bestglm/bestglm_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 90f9b1e0a718cdc1ea273ae5a6717fa849cc01e0d0d12b333484bfcf2c0e5ab5  # [linux or win32 or osx]
+  sha256: 9f268572dea45b9da5850a8e7d5a88628462344281ef3ced15f8d5721e89103e  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/bestglm_0.36.zip  # [win64]
-  sha256: 60eea1fe971acb6def2ff0fce001d9ec1190544672298ec87990c7056280b661  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/bestglm_0.37.zip  # [win64]
+  sha256: a2c6b94ab06707a690dab9d8d5cf7a3a6022c04944df3f86bfe2f93a59d427f6  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -27,7 +27,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: xtable, MASS
+# Suggests: MASS
 requirements:
   build:
     - {{posix}}zip               # [win32]
@@ -38,6 +38,7 @@ requirements:
     - r-grpreg
     - r-lattice
     - r-leaps
+    - r-pls
 
   run:
     - mro-base
@@ -45,6 +46,7 @@ requirements:
     - r-grpreg
     - r-lattice
     - r-leaps
+    - r-pls
 
 test:
   commands:
@@ -61,7 +63,9 @@ test:
 about:
   home: http://www.stats.uwo.ca/faculty/aim
   license: GPL (>= 2)
-  summary: Best subset glm using information criteria or cross-validation.
+  summary: Best subset glm using information criteria or cross-validation. Implements PCR and
+    PLS using AIC/BIC. Implements one-standard deviation rule for use with the `caret`
+    package.
   license_family: GPL3
 
 extra:
@@ -72,15 +76,16 @@ extra:
 
 # Package: bestglm
 # Type: Package
-# Title: Best Subset GLM
-# Version: 0.36
-# Date: 2017-02-23
+# Title: Best Subset GLM and Regression Utilities
+# Version: 0.37
+# Date: 2018-05-27
 # Author: A.I. McLeod  and Changjiang Xu
 # Maintainer: A.I. McLeod <aimcleod@uwo.ca>
 # Depends: R (>= 2.0.0), leaps
-# Suggests: xtable, MASS
-# Imports: lattice, glmnet, grpreg
-# Description: Best subset glm using information criteria or cross-validation.
+# Suggests: MASS
+# Imports: lattice, glmnet, grpreg, pls
+# Enhances: caret
+# Description: Best subset glm using information criteria or cross-validation. Implements PCR and PLS using AIC/BIC. Implements one-standard deviation rule for use with the `caret` package.
 # LazyLoad: yes
 # LazyData: yes
 # Classification/ACM: G.3, G.4, I.5.1
@@ -88,9 +93,9 @@ extra:
 # License: GPL (>= 2)
 # URL: http://www.stats.uwo.ca/faculty/aim
 # NeedsCompilation: yes
-# Packaged: 2017-02-23 17:54:29 UTC; IanMcLeod
+# Packaged: 2018-05-27 19:27:22 UTC; IanMcLeod
 # Repository: CRAN
-# Date/Publication: 2017-02-23 23:44:05
+# Date/Publication: 2018-05-27 21:03:04 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

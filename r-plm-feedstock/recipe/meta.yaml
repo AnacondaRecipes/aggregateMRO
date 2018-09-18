@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/plm_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/plm/plm_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 05f5494b5b4b018c149b193671a60c32753504034a4142be51a27ebc3e5224a8  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/plm_1.6-6.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/plm_1.6-6.zip  # [win64]
   sha256: 13f9710920559bce2703e17e1809734f92dcc0408cfa9150cef62d8d6e4214e7  # [win64]
 
 build:

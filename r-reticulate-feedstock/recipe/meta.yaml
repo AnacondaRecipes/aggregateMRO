@@ -1,5 +1,5 @@
-{% set version = '1.6' %}  # [linux or win32 or osx]
-{% set version = '1.6' %}  # [win64]
+{% set version = '1.9' %}  # [linux or win32 or osx]
+{% set version = '1.9' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/reticulate_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/reticulate/reticulate_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 15a5d1de30427e421be9fda1fe50b3e42d529ba57f5d1aaf8c73f6ed3a8fd20c  # [linux or win32 or osx]
+  sha256: 40b0a82770f03d067bf6948e98b76fa677f111bb7bcd9afee66465ba1c1a25e6  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/reticulate_1.6.zip  # [win64]
-  sha256: 41511e71e3f3181340aba7bfb163a8667ba1dbd58199477ca1d669d4e5c1b060  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/reticulate_1.9.zip  # [win64]
+  sha256: 8e7ff9adafe0a86f0d6ced051d63210ebc1e08076e2539710491a7966ad3d6fd  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -27,7 +27,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, knitr, callr
+# Suggests: testthat, knitr, callr, rmarkdown
 requirements:
   build:
     - {{ compiler('c') }}        # [linux or osx]
@@ -41,12 +41,14 @@ requirements:
 
   host:
     - mro-base
+    - r-matrix
     - r-rcpp >=0.12.7
     - r-jsonlite
 
   run:
     - mro-base
     - {{native}}gcc-libs         # [win32]
+    - r-matrix
     - r-rcpp >=0.12.7
     - r-jsonlite
 
@@ -80,7 +82,7 @@ extra:
 # Package: reticulate
 # Type: Package
 # Title: Interface to 'Python'
-# Version: 1.6
+# Version: 1.9
 # Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"), person("Kevin", "Ushey", role = c("aut"), email = "kevin@rstudio.com"), person("RStudio", role = c("cph", "fnd")), person("Yuan", "Tang", role = c("aut", "cph"), email = "terrytangyuan@gmail.com", comment = c(ORCID = "0000-0001-5243-233X")), person("Dirk", "Eddelbuettel", role = c("ctb", "cph"), email = "edd@debian.org"), person("Bryan", "Lewis", role = c("ctb", "cph"), email = "blewis@illposed.net"), person("Marcus", "Geelnard", role = c("ctb", "cph"), comment = "TinyThread library, http://tinythreadpp.bitsnbites.eu/") )
 # Description: Interface to 'Python' modules, classes, and functions. When calling into 'Python', R data types are automatically converted to their equivalent 'Python' types. When values are returned from 'Python' to R they are converted back to R types. Compatible with all versions of 'Python' >= 2.7.
 # License: Apache License 2.0
@@ -90,17 +92,17 @@ extra:
 # Encoding: UTF-8
 # LazyData: true
 # Depends: R (>= 3.0)
-# Imports: utils, graphics, jsonlite, Rcpp (>= 0.12.7)
-# Suggests: testthat, knitr, callr
+# Imports: utils, graphics, jsonlite, Rcpp (>= 0.12.7), Matrix
+# Suggests: testthat, knitr, callr, rmarkdown
 # LinkingTo: Rcpp
 # RoxygenNote: 6.0.1
 # VignetteBuilder: knitr
 # NeedsCompilation: yes
-# Packaged: 2018-03-21 15:29:55 UTC; jjallaire
+# Packaged: 2018-07-06 13:39:45 UTC; jjallaire
 # Author: JJ Allaire [aut, cre], Kevin Ushey [aut], RStudio [cph, fnd], Yuan Tang [aut, cph] (<https://orcid.org/0000-0001-5243-233X>), Dirk Eddelbuettel [ctb, cph], Bryan Lewis [ctb, cph], Marcus Geelnard [ctb, cph] (TinyThread library, http://tinythreadpp.bitsnbites.eu/)
 # Maintainer: JJ Allaire <jj@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-03-21 22:13:33 UTC
+# Date/Publication: 2018-07-06 15:00:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

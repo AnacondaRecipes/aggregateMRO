@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/VGAM_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/VGAM/VGAM_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 01acf530b011b8f04e1698742c51ea0682d7c9fcdf814fc65ba44869b6e76346  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/VGAM_1.0-5.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/VGAM_1.0-5.zip  # [win64]
   sha256: 9736fa5e9d6d742f6634e56b190728832dff0525e1aaaa912059fb53b706dde3  # [win64]
 
 build:

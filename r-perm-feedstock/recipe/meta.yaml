@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/perm_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/perm/perm_{{ version }}.tar.gz
   sha256: 53c6ee598d5b7b04388915dddc5adf1f8f313b73c3bceb3708db7a632857e500

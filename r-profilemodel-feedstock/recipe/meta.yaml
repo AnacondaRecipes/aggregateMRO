@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/profileModel_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/profileModel/profileModel_{{ version }}.tar.gz  # [linux or win32]
   sha256: c94f25d222521867ddc86021bd0b9a6b9f7b055212985652a8511054b24c2bdd  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/profileModel_0.5-9.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/profileModel_0.5-9.zip  # [win64]
   sha256: e22bc4bbad2174f1bfa42710457bdef1c0a189e8bfa675c7f15b84bb3f3147a3  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/profileModel_0.5-9.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/profileModel_0.5-9.tgz  # [osx]
   sha256: 1862bdae92144ce715e18650cbd55a8a6285017b306baf91144e3c51ee1524f3  # [osx]
 
 build:

@@ -1,6 +1,6 @@
-{% set version = '1.8-23' %}  # [linux or win32]
-{% set version = '1.8-23' %}  # [win64]
-{% set version = '1.8-23' %}  # [osx]
+{% set version = '1.8-24' %}  # [linux or win32]
+{% set version = '1.8-24' %}  # [win64]
+{% set version = '1.8-24' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/mgcv_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/mgcv/mgcv_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 7771ac5581542904d569388e2e498d3e3b8b65f7a81737acbb45d8ef838359d3  # [linux or win32]
+  sha256: 2ce542bcf841f722f34b936d44d859a53718a9de18ea24eb6ae843e042356795  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/mgcv_1.8-23.zip  # [win64]
-  sha256: 358f1564f0862e267c077bb93d8b05b4b390a821476852aab5ed3161101a38d4  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mgcv_1.8-24.zip  # [win64]
+  sha256: 51be651123f0c8c63afb30a008d1737394fe03b5dd352110989da7a84bb619a1  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/mgcv_1.8-23.tgz  # [osx]
-  sha256: d490ca32422ffb0c37606295259c5c10d6379fb083ed2409756dfd6019dd8851  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mgcv_1.8-24.tgz  # [osx]
+  sha256: 4d31e113e973583f59128ee1d24921a3e3a0809ea17afdbc642780cc23bbe086  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -82,7 +82,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: mgcv
-# Version: 1.8-23
+# Version: 1.8-24
 # Author: Simon Wood <simon.wood@r-project.org>
 # Maintainer: Simon Wood <simon.wood@r-project.org>
 # Title: Mixed GAM Computation Vehicle with Automatic Smoothness Estimation
@@ -95,9 +95,9 @@ extra:
 # ByteCompile: yes
 # License: GPL (>= 2)
 # NeedsCompilation: yes
-# Packaged: 2018-01-08 15:15:43 UTC; sw283
+# Packaged: 2018-06-18 13:08:20 UTC; sw283
 # Repository: CRAN
-# Date/Publication: 2018-01-15 00:23:36 UTC
+# Date/Publication: 2018-06-18 19:07:59 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

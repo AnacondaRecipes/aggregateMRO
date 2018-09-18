@@ -1,5 +1,5 @@
-{% set version = '0.10.1' %}  # [linux or win32 or osx]
-{% set version = '0.10.1' %}  # [win64]
+{% set version = '0.11' %}  # [linux or win32 or osx]
+{% set version = '0.11' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/evaluate_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/evaluate/evaluate_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: c9a763895d3f460dbf87c43a6469e4b41a251a74477df8c5d7e7d2b66cdd1b1c  # [linux or win32 or osx]
+  sha256: b04805ffb56d82e2d5b044aa32de7e9ef4162ea619fd368f83e03dbd49631bcd  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/evaluate_0.10.1.zip  # [win64]
-  sha256: 9da24cf3a15f1b341a7f853d89c424683246c2a026872d92ea24a14dd36a3045  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/evaluate_0.11.zip  # [win64]
+  sha256: f372d4a33227da9f883779fe0ff71864a92d3175acb64856e9014418b49c2b65  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -53,7 +53,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: https://github.com/hadley/evaluate
+  home: https://github.com/r-lib/evaluate
   license: MIT + file LICENSE
   summary: Parsing and evaluation tools that make it easy to recreate the command line behaviour
     of R.
@@ -68,23 +68,22 @@ extra:
 # Package: evaluate
 # Type: Package
 # Title: Parsing and Evaluation Tools that Provide More Details than the Default
-# Version: 0.10.1
-# Date: 2017-06-24
-# Authors@R: c( person("Hadley", "Wickham", role = "aut"), person("Yihui", "Xie", role = c("cre", "ctb"), email = "xie@yihui.name"), person("Michael", "Lawrence", role = "ctb"), person("Thomas", "Kluyver", role = "ctb"), person("Barret", "Schloerke", role = "ctb"), person("Adam", "Ryczkowski", role = "ctb") )
+# Version: 0.11
+# Authors@R: c( person("Hadley", "Wickham", role = "aut"), person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")), person("Michael", "Lawrence", role = "ctb"), person("Thomas", "Kluyver", role = "ctb"), person("Jeroen", "Ooms", role = "ctb"), person("Barret", "Schloerke", role = "ctb"), person("Adam", "Ryczkowski", role = "ctb"), person("Hiroaki", "Yutani", role = "ctb") )
 # Description: Parsing and evaluation tools that make it easy to recreate the command line behaviour of R.
 # License: MIT + file LICENSE
-# URL: https://github.com/hadley/evaluate
-# BugReports: https://github.com/hadley/evaluate/issues
+# URL: https://github.com/r-lib/evaluate
+# BugReports: https://github.com/r-lib/evaluate/issues
 # Depends: R (>= 3.0.2)
 # Imports: methods, stringr (>= 0.6.2)
 # Suggests: testthat, lattice, ggplot2
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-06-23 22:15:15 UTC; yihui
-# Author: Hadley Wickham [aut], Yihui Xie [cre, ctb], Michael Lawrence [ctb], Thomas Kluyver [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb]
+# Packaged: 2018-07-17 19:45:22 UTC; yihui
+# Author: Hadley Wickham [aut], Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>), Michael Lawrence [ctb], Thomas Kluyver [ctb], Jeroen Ooms [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb], Hiroaki Yutani [ctb]
 # Maintainer: Yihui Xie <xie@yihui.name>
 # Repository: CRAN
-# Date/Publication: 2017-06-24 07:25:41 UTC
+# Date/Publication: 2018-07-17 20:10:02 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/hexbin_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/hexbin/hexbin_{{ version }}.tar.gz
   sha256: 46d47b1efef75d6f126af686a4dd614228b60418b9a5bde9e9e5d11200a0ee52

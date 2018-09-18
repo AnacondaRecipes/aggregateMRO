@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/pkgconfig_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/pkgconfig/pkgconfig_{{ version }}.tar.gz  # [linux or win32]
   sha256: ab02b2a4b639ba94dcba882a059fe9cddae5498a4309841f764b62ec46ba5a40  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pkgconfig_2.0.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pkgconfig_2.0.1.zip  # [win64]
   sha256: 96e60e66e06f3519e6b9a5bfa882f5d7853aa4a868e3ba83790693266292cd52  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/pkgconfig_2.0.1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pkgconfig_2.0.1.tgz  # [osx]
   sha256: 0370a6ec1893f2b42e8df786d62dde1bb48f23c401201b9d598503e1379b7f38  # [osx]
 
 build:

@@ -1,6 +1,6 @@
-{% set version = '1.1.12' %}  # [linux or win32]
-{% set version = '1.1.12' %}  # [win64]
-{% set version = '1.1.12' %}  # [osx]
+{% set version = '1.1.13' %}  # [linux or win32]
+{% set version = '1.1.13' %}  # [win64]
+{% set version = '1.1.13' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/polspline_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/polspline/polspline_{{ version }}.tar.gz  # [linux or win32]
-  sha256: fc6bd2e0cca8c13cf099c54fe1e740730e26bb9793d439c395cf16ec8c2b0f32  # [linux or win32]
+  sha256: 937561842d754e40a48d2e6d0c49638739e3fdc9bb81e9d8d05adea828371f22  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/polspline_1.1.12.zip  # [win64]
-  sha256: 5061d1885ed096bd96d22188731ebf68818909ce756f88787d1ba59c1681d3ec  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/polspline_1.1.13.zip  # [win64]
+  sha256: 793376488083cbf55e5eabd73defe1a71ade664fb75173d8c9e3b2d8e30b20cc  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/polspline_1.1.12.tgz  # [osx]
-  sha256: 48187f0f7320e8ff580a77f888d299fff49e1095e3ff5dc24aa881492f9b0ac9  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/polspline_1.1.13.tgz  # [osx]
+  sha256: f977b76a18cf46d364b62a35f0aa1ec48f6c187a2ed912616a50bed3eaebe500  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -76,18 +76,18 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: polspline
-# Version: 1.1.12
-# Date: 2015-07-14
+# Version: 1.1.13
+# Date: 2018-06-14
 # Title: Polynomial Spline Routines
 # Author: Charles Kooperberg <clk@fredhutch.org>
 # Maintainer: Charles Kooperberg <clk@fredhutch.org>
 # Description: Routines for the polynomial spline fitting routines hazard regression, hazard estimation with flexible tails, logspline, lspec, polyclass, and polymars, by C. Kooperberg and co-authors.
 # Imports: stats, graphics
 # License: GPL (>= 2)
-# Packaged: 2015-07-14 17:49:13 UTC; clk
 # NeedsCompilation: yes
+# Packaged: 2018-06-14 19:39:07 UTC; clk
 # Repository: CRAN
-# Date/Publication: 2015-07-14 21:44:12
+# Date/Publication: 2018-06-14 21:55:50 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

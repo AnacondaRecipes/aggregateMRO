@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/mime_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/mime/mime_{{ version }}.tar.gz  # [linux or win32]
   sha256: fcc72115afb0eb43237da872754464f37ae9ae097f332ec7984149b5e3a82145  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/mime_0.5.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mime_0.5.zip  # [win64]
   sha256: abdc98d5f1983367a655c1428fc3e0905dd1e51fe532b898b56d8f64445ed457  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/mime_0.5.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mime_0.5.tgz  # [osx]
   sha256: 7352dd02cd3915cc8874789c5e64ba2b0337dc4112d2df7215004e1451237fd7  # [osx]
 
 build:

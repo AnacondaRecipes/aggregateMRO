@@ -1,4 +1,4 @@
-{% set version = '0.7' %}
+{% set version = '0.8' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/testit_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/testit/testit_{{ version }}.tar.gz
-  sha256: 03332889bffe8b69d36e696e3a6a1a29713cdcbccf1efced6cddbf061fb41a1f
+  sha256: 08a9c19c962eae60f4ab58885a23e0bc239efc39da682290be436c066f8d97f7
 
 build:
   merge_build_host: True  # [win]
@@ -62,21 +62,20 @@ extra:
 # Package: testit
 # Type: Package
 # Title: A Simple Package for Testing R Packages
-# Version: 0.7
-# Date: 2017-05-21
-# Author: Yihui Xie
-# Maintainer: Yihui Xie <xie@yihui.name>
+# Version: 0.8
+# Authors@R:  person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666"))
 # Description: Provides two convenience functions assert() and test_pkg() to facilitate testing R packages.
 # License: GPL
 # URL: https://github.com/yihui/testit
 # BugReports: https://github.com/yihui/testit/issues
 # Suggests: rstudioapi
-# Collate: 'testit.R' 'utils.R'
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-05-21 04:53:18 UTC; yihui
+# Packaged: 2018-06-14 03:31:26 UTC; yihui
+# Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>)
+# Maintainer: Yihui Xie <xie@yihui.name>
 # Repository: CRAN
-# Date/Publication: 2017-05-22 05:16:36 UTC
+# Date/Publication: 2018-06-14 05:47:58 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

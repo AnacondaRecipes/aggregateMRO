@@ -1,5 +1,5 @@
-{% set version = '0.0-23' %}  # [linux or win32 or osx]
-{% set version = '0.0-23' %}  # [win64]
+{% set version = '0.0-24' %}  # [linux or win32 or osx]
+{% set version = '0.0-24' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/tkrplot_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/tkrplot/tkrplot_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 87a4323ce3bc6c852c2dae4727639b9a1c30724327a812379f21d73cecd7deb2  # [linux or win32 or osx]
+  sha256: 2873630a37d7ae1e09a5803d9a89ca0494edd83526c7b1860d9246543722f311  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tkrplot_0.0-23.zip  # [win64]
-  sha256: 096633f772548486d7ae5eb556a4fe89c1912b3375fcf560ef52ec1b89d8a5f6  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tkrplot_0.0-24.zip  # [win64]
+  sha256: 0d785e38071150d0e8d14bf591dffd852fe98c4eedf7f9eae55ed1f9e4247504  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -64,7 +64,7 @@ test:
 about:
   home: https://CRAN.R-project.org/package=tkrplot
   license: GPL
-  summary: simple mechanism for placing R graphics in a Tk widget
+  summary: Simple mechanism for placing R graphics in a Tk widget.
   license_family: GPL
 
 extra:
@@ -74,17 +74,17 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: tkrplot
-# Version: 0.0-23
-# Author: Luke Tierney <luke@stat.uiowa.edu>
-# Description: simple mechanism for placing R graphics in a Tk widget
+# Version: 0.0-24
+# Author: Luke Tierney <luke-tierney@uiowa.edu>
+# Description: Simple mechanism for placing R graphics in a Tk widget.
 # Title: TK Rplot
 # Depends: R (>= 2.13), grDevices, tcltk
 # License: GPL
-# Maintainer: Luke Tierney <luke@stat.uiowa.edu>
-# Packaged: 2011-11-18 23:36:41 UTC; luke
-# Repository: CRAN
-# Date/Publication: 2011-11-19 09:56:45
+# Maintainer: Luke Tierney <luke-tierney@uiowa.edu>
 # NeedsCompilation: yes
+# Packaged: 2018-07-19 15:46:12 UTC; luke
+# Repository: CRAN
+# Date/Publication: 2018-07-19 20:40:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

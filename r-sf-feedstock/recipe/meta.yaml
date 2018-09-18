@@ -1,4 +1,4 @@
-{% set version = '0.6-1' %}
+{% set version = '0.6-3' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/sf_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/sf/sf_{{ version }}.tar.gz
-  sha256: 201dedad9a4f75f76900233bb47c387146b99fe49c1dca75df6861add6921ac3
+  sha256: 4aee5e166e3514d2d3d1b56ae64156e7c6c39da2cf447ead14ca524899f7ca30
 
 build:
   merge_build_host: True  # [win]
@@ -23,7 +23,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: lwgeom (>= 0.1-2), maps, rgdal, rgeos, sp (>= 1.2-4), raster, spatstat, tmap, maptools, RSQLite, RPostgreSQL, tibble (>= 1.4.1), pillar, rlang, dplyr (>= 0.7-0), tidyr (>= 0.7-2), tidyselect, ggplot2, mapview, testthat, knitr, covr, microbenchmark, rmarkdown
+# Suggests: lwgeom (>= 0.1-2), maps, rgdal, rgeos, sp (>= 1.2-4), raster, spatstat, tmap, maptools, RSQLite, tibble (>= 1.4.1), pillar, rlang, dplyr (>= 0.7-0), tidyr (>= 0.7-2), RPostgreSQL, RPostgres (>= 1.1.0), odbc, tidyselect, ggplot2, mapview, testthat, knitr, covr, microbenchmark, rmarkdown
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
@@ -42,20 +42,20 @@ requirements:
 
   host:
     - mro-base
-    - r-dbi >=0.5
+    - r-dbi >=0.8
     - r-rcpp
     - r-classint
     - r-magrittr
-    - r-units >=0.4_6
+    - r-units >=0.5_1
 
   run:
     - mro-base
     - {{native}}gcc-libs         # [win]
-    - r-dbi >=0.5
+    - r-dbi >=0.8
     - r-rcpp
     - r-classint
     - r-magrittr
-    - r-units >=0.4_6
+    - r-units >=0.5_1
 
 test:
   commands:
@@ -84,27 +84,28 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: sf
-# Version: 0.6-1
+# Version: 0.6-3
 # Title: Simple Features for R
 # Description: Support for simple features, a standardized way to encode spatial vector data. Binds to 'GDAL' for reading and writing data, to 'GEOS' for geometrical operations, and to 'PROJ' for projection conversions and datum transformations.
-# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de", comment = c(ORCID = "0000-0001-8049-7069")), person("Roger", "Bivand", role = "ctb", comment = c(ORCID = "0000-0003-2392-6140")), person("Ian", "Cook", role = "ctb"), person("Tim", "Keitt", role = "ctb"), person("Michael", "Sumner", role = "ctb"), person("Robin", "Lovelace", role = "ctb"), person("Hadley", "Wickham", role = "ctb"), person("Jeroen", "Ooms", role = "ctb", comment = c(ORCID = "0000-0002-4035-0289")), person("Etienne", "Racine", role = "ctb"))
+# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de", comment = c(ORCID = "0000-0001-8049-7069")), person("Roger", "Bivand", role = "ctb", comment = c(ORCID = "0000-0003-2392-6140")), person("Etienne", "Racine", role = "ctb"), person("Michael", "Sumner", role = "ctb"), person("Ian", "Cook", role = "ctb"), person("Tim", "Keitt", role = "ctb"), person("Robin", "Lovelace", role = "ctb"), person("Hadley", "Wickham", role = "ctb"), person("Jeroen", "Ooms", role = "ctb", comment = c(ORCID = "0000-0002-4035-0289")), person("Kirill", "Muller", role = "ctb"))
 # Depends: R (>= 3.3.0), methods
-# Imports: utils, stats, tools, graphics, grDevices, grid, Rcpp, DBI (>= 0.5), units (>= 0.4-6), classInt, magrittr
-# Suggests: lwgeom (>= 0.1-2), maps, rgdal, rgeos, sp (>= 1.2-4), raster, spatstat, tmap, maptools, RSQLite, RPostgreSQL, tibble (>= 1.4.1), pillar, rlang, dplyr (>= 0.7-0), tidyr (>= 0.7-2), tidyselect, ggplot2, mapview, testthat, knitr, covr, microbenchmark, rmarkdown
+# Imports: utils, stats, tools, graphics, grDevices, grid, Rcpp, DBI (>= 0.8), units (>= 0.5-1), classInt, magrittr
+# Suggests: lwgeom (>= 0.1-2), maps, rgdal, rgeos, sp (>= 1.2-4), raster, spatstat, tmap, maptools, RSQLite, tibble (>= 1.4.1), pillar, rlang, dplyr (>= 0.7-0), tidyr (>= 0.7-2), RPostgreSQL, RPostgres (>= 1.1.0), odbc, tidyselect, ggplot2, mapview, testthat, knitr, covr, microbenchmark, rmarkdown
 # LinkingTo: Rcpp
 # VignetteBuilder: knitr
-# SystemRequirements: GDAL (>= 2.0.0), GEOS (>= 3.3.0), PROJ.4 (>= 4.8.0)
+# SystemRequirements: GDAL (>= 2.0.1), GEOS (>= 3.4.0), PROJ.4 (>= 4.8.0)
 # License: GPL-2 | MIT + file LICENSE
 # URL: https://github.com/r-spatial/sf/
 # BugReports: https://github.com/r-spatial/sf/issues/
-# Collate: RcppExports.R init.R crs.R bbox.R read.R db.R sfc.R sfg.R sf.R bind.R wkb.R wkt.R plot.R geom.R transform.R sp.R grid.R arith.R tidyverse.R cast_sfg.R cast_sfc.R graticule.R datasets.R aggregate.R agr.R maps.R join.R sample.R valid.R collection_extract.R jitter.R sgbp.R spatstat.R stars.R gdal_utils.R
+# Collate: RcppExports.R init.R crs.R bbox.R read.R db.R sfc.R sfg.R sf.R bind.R wkb.R wkt.R plot.R geom.R transform.R sp.R grid.R arith.R tidyverse.R cast_sfg.R cast_sfc.R graticule.R datasets.R aggregate.R agr.R maps.R join.R sample.R valid.R collection_extract.R jitter.R sgbp.R spatstat.R stars.R crop.R gdal_utils.R deprecated.R
 # RoxygenNote: 6.0.1
+# Encoding: UTF-8
 # NeedsCompilation: yes
-# Packaged: 2018-03-19 20:09:43 UTC; edzer
-# Author: Edzer Pebesma [aut, cre] (<https://orcid.org/0000-0001-8049-7069>), Roger Bivand [ctb] (<https://orcid.org/0000-0003-2392-6140>), Ian Cook [ctb], Tim Keitt [ctb], Michael Sumner [ctb], Robin Lovelace [ctb], Hadley Wickham [ctb], Jeroen Ooms [ctb] (<https://orcid.org/0000-0002-4035-0289>), Etienne Racine [ctb]
+# Packaged: 2018-05-17 16:18:15 UTC; edzer
+# Author: Edzer Pebesma [aut, cre] (<https://orcid.org/0000-0001-8049-7069>), Roger Bivand [ctb] (<https://orcid.org/0000-0003-2392-6140>), Etienne Racine [ctb], Michael Sumner [ctb], Ian Cook [ctb], Tim Keitt [ctb], Robin Lovelace [ctb], Hadley Wickham [ctb], Jeroen Ooms [ctb] (<https://orcid.org/0000-0002-4035-0289>), Kirill Muller [ctb]
 # Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 # Repository: CRAN
-# Date/Publication: 2018-03-22 12:40:41 UTC
+# Date/Publication: 2018-05-17 23:47:58
 
 # See
 # http://docs.continuum.io/conda/build.html for

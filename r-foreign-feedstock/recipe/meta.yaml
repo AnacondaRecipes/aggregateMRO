@@ -1,6 +1,4 @@
-{% set version = '0.8-70' %}  # [linux or win32]
-{% set version = '0.8-70' %}  # [win64]
-{% set version = '0.8-70' %}  # [osx]
+{% set version = '0.8-71' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,19 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/foreign_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/foreign/foreign_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 86cd8645f15fca4e2854a1011469114bb93d3774a18cb6db4805873830a2b886  # [linux or win32]
-
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/foreign_0.8-70.zip  # [win64]
-  sha256: 9be872060247eeab1d1b5ab453f384b1c3b56060b0d2ab3d081008213ea76a6d  # [win64]
-
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/foreign_0.8-70.tgz  # [osx]
-  sha256: 5e3da28f69c078ed5083439e609b571c144f5d800942f904295575f39d7ccaec  # [osx]
+  url:
+    - {{ cran_mirror }}/src/contrib/foreign_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/foreign/foreign_{{ version }}.tar.gz
+  sha256: 3bd2392fbcd9dd4f385ac1418a5e454b9769e6414a21fbb5ae1e7ce6072760d7
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,20 +25,20 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
-    - {{posix}}sed               # [win32]
-    - {{posix}}coreutils         # [win32]
-    - {{posix}}zip               # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:
@@ -75,8 +67,8 @@ extra:
 
 # Package: foreign
 # Priority: recommended
-# Version: 0.8-70
-# Date: 2017-11-28
+# Version: 0.8-71
+# Date: 2018-07-20
 # Title: Read Data Stored by 'Minitab', 'S', 'SAS', 'SPSS', 'Stata', 'Systat', 'Weka', 'dBase', ...
 # Depends: R (>= 3.0.0)
 # Imports: methods, utils, stats
@@ -88,11 +80,11 @@ extra:
 # License: GPL (>= 2)
 # BugReports: https://bugs.r-project.org
 # NeedsCompilation: yes
-# Packaged: 2017-11-28 12:58:54 UTC; ripley
+# Packaged: 2018-07-20 09:11:09 UTC; ripley
 # Author: R Core Team [aut, cph, cre], Roger Bivand [ctb, cph], Vincent J. Carey [ctb, cph], Saikat DebRoy [ctb, cph], Stephen Eglen [ctb, cph], Rajarshi Guha [ctb, cph], Swetlana Herbrandt [ctb], Nicholas Lewin-Koh [ctb, cph], Mark Myatt [ctb, cph], Ben Pfaff [ctb], Brian Quistorff [ctb], Frank Warmerdam [ctb, cph], Stephen Weigand [ctb, cph], Free Software Foundation, Inc. [cph]
 # Maintainer: R Core Team <R-core@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2018-04-23 08:51:05 UTC
+# Date/Publication: 2018-07-20 09:17:09 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/mro_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/mro/mro_{{ version }}.tar.gz
   sha256: 5bde16b8be778ef79e86cba87aeb1f88f61738c68c32ae73170b168c1a14ec01

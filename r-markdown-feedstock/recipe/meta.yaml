@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/markdown_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/markdown/markdown_{{ version }}.tar.gz  # [linux or win32]
   sha256: 538fd912b2220f2df344c6cca58304ce11e0960de7bd7bd573b3385105d48fed  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/markdown_0.8.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/markdown_0.8.zip  # [win64]
   sha256: e35d0452f8d2b3ce2c3c4a6ce09a56fc0e6ff75e54eed184867f3cd2effe0a5d  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/markdown_0.8.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/markdown_0.8.tgz  # [osx]
   sha256: aae33cf1c86cf1150a011b1e27c5c8ab5c4648c91a1b96d3ddf7bdf6d7dec1fd  # [osx]
 
 build:

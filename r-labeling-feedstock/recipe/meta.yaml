@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/labeling_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/labeling/labeling_{{ version }}.tar.gz
   sha256: 0d8069eb48e91f6f6d6a9148f4e2dc5026cabead15dd15fc343eff9cf33f538f

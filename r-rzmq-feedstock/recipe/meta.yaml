@@ -9,18 +9,18 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/rzmq_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/rzmq/rzmq_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: ab6f6da1fcd0c11003517a21bd85f5c56495e6926542db3fb320f3901f292b13  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rzmq_0.9.3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rzmq_0.9.3.zip  # [win64]
   sha256: 38e05676a742b3a7baa0f646a226f389e742276e6e91e2755b7de40e7be82026  # [win64]
 
 build:
   merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
-  number: 1
+  number: 0
 
   # This is required to make R link correctly on Linux.
   rpaths:

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/praise_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/praise/praise_{{ version }}.tar.gz
   sha256: 5c035e74fd05dfa59b03afe0d5f4c53fbf34144e175e90c53d09c6baedf5debd

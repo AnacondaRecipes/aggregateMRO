@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/coin_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/coin/coin_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: d518065d3e1eb00121cb4e0200e1e4ae6b68eca6e249afc38bbffa35d24105bb  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/coin_1.2-2.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/coin_1.2-2.zip  # [win64]
   sha256: 0605e2f0ce0ba64c72771b02e2b8e690bab6821a3177a1f29d0737c9ae08f1bd  # [win64]
 
 build:

@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/classInt_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/classInt/classInt_{{ version }}.tar.gz  # [linux or win32]
   sha256: 21f447330ce7eb6f069f48cacc4bca7d14521218463ecb74f1b3df5ddae0d1a9  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/classInt_0.2-3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/classInt_0.2-3.zip  # [win64]
   sha256: dbe82c1d25c792d40764dce6542a1ce5be4d257fbc8ab34ed402511096f38d65  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/classInt_0.2-3.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/classInt_0.2-3.tgz  # [osx]
   sha256: 0b55ee54826662f3edbe401480c5b95175692b8981d3f0c062485fa3eb940d1e  # [osx]
 
 build:

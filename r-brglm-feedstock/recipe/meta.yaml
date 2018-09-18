@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/brglm_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/brglm/brglm_{{ version }}.tar.gz
   sha256: b786db50edc703b1b6a986b1ce13d31aab76fd3c672a6540161b25f5cd57239f

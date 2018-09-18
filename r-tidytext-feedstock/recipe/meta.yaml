@@ -1,6 +1,6 @@
-{% set version = '0.1.8' %}  # [linux or win32]
-{% set version = '0.1.8' %}  # [win64]
-{% set version = '0.1.8' %}  # [osx]
+{% set version = '0.1.9' %}  # [linux or win32]
+{% set version = '0.1.9' %}  # [win64]
+{% set version = '0.1.9' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/tidytext_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/tidytext/tidytext_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 743bb89d40ff032350acbc7db590977cc1c3a4dac328b08a05ca2d7cc3818383  # [linux or win32]
+  sha256: 0e4438911daa09af8cd622cc21c884ae80b9f40f356f8bb8498410c686787dc2  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tidytext_0.1.8.zip  # [win64]
-  sha256: 4f10eae824177473fa1044ffb0a5a16e6bc05dd8669e6652d836813a2bbd8e84  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tidytext_0.1.9.zip  # [win64]
+  sha256: cd9db6d4e8f1a95bc6acbfb3269744db7ed802b81fb6bd738ce16322a4d855ba  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/tidytext_0.1.8.tgz  # [osx]
-  sha256: b98a28971583a9fb37d3090cb11def1ea3c617b843fab42d1dcdd3de1dfd5a2f  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tidytext_0.1.9.tgz  # [osx]
+  sha256: cd6713ef9f1f25b7cf9af4d0caa37245d2e90c9d370fdcba13aea10c99ce0d97  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -31,7 +31,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm
+# Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm, data.table
 requirements:
   build:
     - {{posix}}zip               # [win32]
@@ -90,8 +90,8 @@ extra:
 # Package: tidytext
 # Type: Package
 # Title: Text Mining using 'dplyr', 'ggplot2', and Other Tidy Tools
-# Version: 0.1.8
-# Authors@R: c(person("Gabriela", "De Queiroz", role = c("ctb"), email = "gabidequeiroz@gmail.com"), person("Os", "Keyes", role = c("ctb"), email = "ironholds@gmail.com", comment = c(ORCID = "0000-0001-5196-609X")), person("Kanishka", "Misra", role = c("ctb"), email = "kmisra@purdue.edu"), person("David", "Robinson", role = c("aut"), email = "admiral.david@gmail.com"), person("Julia", "Silge", role = c("aut", "cre"),  email = "julia.silge@gmail.com",  comment = c(ORCID = "0000-0002-3671-836X")))
+# Version: 0.1.9
+# Authors@R: c(person("Gabriela", "De Queiroz", role = c("ctb"), email = "gabidequeiroz@gmail.com"), person("Emil", "Hvitfeldt", role = c("ctb"), email = "emilhhvitfeldt@gmail.com"), person("Os", "Keyes", role = c("ctb"), email = "ironholds@gmail.com", comment = c(ORCID = "0000-0001-5196-609X")), person("Kanishka", "Misra", role = c("ctb"), email = "kmisra@purdue.edu"), person("David", "Robinson", role = c("aut"), email = "admiral.david@gmail.com"), person("Julia", "Silge", role = c("aut", "cre"),  email = "julia.silge@gmail.com",  comment = c(ORCID = "0000-0002-3671-836X")))
 # Description: Text mining for word processing and sentiment analysis using 'dplyr', 'ggplot2', and other tidy tools.
 # License: MIT + file LICENSE
 # LazyData: TRUE
@@ -100,14 +100,14 @@ extra:
 # RoxygenNote: 6.0.1
 # Depends: R (>= 2.10)
 # Imports: rlang, dplyr, stringr, hunspell, broom, Matrix, tokenizers, janeaustenr, purrr (>= 0.1.1), methods, stopwords
-# Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm
+# Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm, data.table
 # VignetteBuilder: knitr
 # NeedsCompilation: no
-# Packaged: 2018-03-21 16:02:10 UTC; juliasilge
-# Author: Gabriela De Queiroz [ctb], Os Keyes [ctb] (<https://orcid.org/0000-0001-5196-609X>), Kanishka Misra [ctb], David Robinson [aut], Julia Silge [aut, cre] (<https://orcid.org/0000-0002-3671-836X>)
+# Packaged: 2018-05-28 17:58:30 UTC; juliasilge
+# Author: Gabriela De Queiroz [ctb], Emil Hvitfeldt [ctb], Os Keyes [ctb] (<https://orcid.org/0000-0001-5196-609X>), Kanishka Misra [ctb], David Robinson [aut], Julia Silge [aut, cre] (<https://orcid.org/0000-0002-3671-836X>)
 # Maintainer: Julia Silge <julia.silge@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2018-03-21 22:34:59 UTC
+# Date/Publication: 2018-05-29 04:59:24 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Lahman_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/Lahman/Lahman_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 6662a3674adc274aed42d6769fea3c6b0cc95561d1d6bd59cfdc7c24948a2698  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/Lahman_6.0-0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/Lahman_6.0-0.zip  # [win64]
   sha256: e71df0f39e423834ccbfd2e965a6ef2a9acc830cd24b47e799a43ed7d87dce65  # [win64]
 
 build:

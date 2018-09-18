@@ -1,6 +1,6 @@
-{% set version = '1.1.1' %}  # [linux or win32]
-{% set version = '1.1.1' %}  # [win64]
-{% set version = '1.1.1' %}  # [osx]
+{% set version = '1.1.2' %}  # [linux or win32]
+{% set version = '1.1.2' %}  # [win64]
+{% set version = '1.1.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/haven_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/haven/haven_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 5f7bf6dbee431b4e64771d9d97ee2c3da5b8f66a5e81fd1ec78a236eb3de6cba  # [linux or win32]
+  sha256: 0a077b20bf8ef2efb73c2d4b4e1de57da7d4a525b27386320f0f7f5a9cece85e  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/haven_1.1.1.zip  # [win64]
-  sha256: 7453dd7261ec6bd7b17215dd801005488f4a73cdeeaacc1324bcaa48b0df3f24  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/haven_1.1.2.zip  # [win64]
+  sha256: 3f07cedf6997bb831d25932f36726f11d33191c9c1e8993d0fda7da495e51181  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/haven_1.1.1.tgz  # [osx]
-  sha256: 44de4eacc7bb6712d8efb79ffacdc396c23f2f8bc3356d879781790e64482816  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/haven_1.1.2.tgz  # [osx]
+  sha256: a07f71d054e207e59bddb50e94c0fb4f1a696127b4f831fb6e5eab0d8c131a51  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -31,7 +31,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: covr, knitr, rmarkdown, testthat
+# Suggests: covr, fs, knitr, rmarkdown, testthat
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
@@ -86,7 +86,7 @@ extra:
 
 # Package: haven
 # Title: Import and Export 'SPSS', 'Stata' and 'SAS' Files
-# Version: 1.1.1
+# Version: 1.1.2
 # Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")), person("Evan", "Miller",  role = c("aut", "cph"), comment = "Author of included ReadStat code" ), person("RStudio", role = c("cph", "fnd")) )
 # Description: Import foreign statistical formats into R via the embedded 'ReadStat' C library, <https://github.com/WizardMac/ReadStat>.
 # License: MIT + file LICENSE
@@ -94,7 +94,7 @@ extra:
 # BugReports: https://github.com/tidyverse/haven/issues
 # Depends: R (>= 3.1)
 # Imports: forcats (>= 0.2.0), hms, Rcpp (>= 0.11.4), readr (>= 0.1.0), tibble
-# Suggests: covr, knitr, rmarkdown, testthat
+# Suggests: covr, fs, knitr, rmarkdown, testthat
 # LinkingTo: Rcpp
 # VignetteBuilder: knitr
 # Encoding: UTF-8
@@ -102,11 +102,11 @@ extra:
 # RoxygenNote: 6.0.1
 # SystemRequirements: GNU make
 # NeedsCompilation: yes
-# Packaged: 2018-01-17 20:37:09 UTC; hadley
+# Packaged: 2018-06-27 12:37:05 UTC; hadley
 # Author: Hadley Wickham [aut, cre], Evan Miller [aut, cph] (Author of included ReadStat code), RStudio [cph, fnd]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-01-18 10:31:31 UTC
+# Date/Publication: 2018-06-27 14:08:25 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

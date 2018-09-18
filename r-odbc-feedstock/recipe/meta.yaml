@@ -1,6 +1,6 @@
-{% set version = '1.1.5' %}  # [linux or win32]
-{% set version = '1.1.5' %}  # [win64]
-{% set version = '1.1.5' %}  # [osx]
+{% set version = '1.1.6' %}  # [linux or win32]
+{% set version = '1.1.6' %}  # [win64]
+{% set version = '1.1.6' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/odbc_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/odbc/odbc_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 15cb1535a6aec6fb7c24b962223d2ca415a6a944f65371d69091ec50b6165173  # [linux or win32]
+  sha256: 526e9375c96afae6d2c3347dc9dd9835f683e71485f4ee56680e023d7586d790  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/odbc_1.1.5.zip  # [win64]
-  sha256: 22e6f1cfbb4fb4eabf0aeaa1d785129127c5485026601c193adb9d69a63c7c8d  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/odbc_1.1.6.zip  # [win64]
+  sha256: 0f84bcca5caea9b3cbaf4358245a0217d85d02fc91848b06cc6109e2a300ebc5  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/odbc_1.1.5.tgz  # [osx]
-  sha256: 1c023b69d9db866c013b9746839cbd5a523fb19647755ac67313496e9e93a6e7  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/odbc_1.1.6.tgz  # [osx]
+  sha256: fe116ff0e0ae4e487e0e0375c68615cf3e37be355e83c9c2890f375e0da53d29  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -51,7 +51,7 @@ requirements:
   host:
     - mro-base
     - r-bh
-    - r-dbi >=0.3.0
+    - r-dbi >=1.0.0
     - r-rcpp >=0.12.11
     - r-bit64
     - r-blob >=1.1.0
@@ -61,7 +61,7 @@ requirements:
     - mro-base
     - {{native}}gcc-libs         # [win32]
     - r-bh
-    - r-dbi >=0.3.0
+    - r-dbi >=1.0.0
     - r-rcpp >=0.12.11
     - r-bit64
     - r-blob >=1.1.0
@@ -93,27 +93,27 @@ extra:
 
 # Package: odbc
 # Title: Connect to ODBC Compatible Databases (using the DBI Interface)
-# Version: 1.1.5
+# Version: 1.1.6
 # Authors@R: c( person("Jim", "Hester", , "james.hester@rstudio.com", role = c("aut", "cre")), person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut")), person("lexicalunit", role = c("cph"), comment = "nanodbc library"), person("Google Inc.", role = c("cph"), comment = "cctz library"), person("RStudio", role = c("cph", "fnd")) )
 # Description: A DBI-compatible interface to ODBC databases.
 # License: MIT + file LICENSE
 # URL: https://github.com/r-dbi/odbc
 # BugReports: https://github.com/r-dbi/odbc/issues
 # SystemRequirements: C++11, GNU make, An ODBC3 driver manager and drivers.
-# RoxygenNote: 6.0.1.9000
+# RoxygenNote: 6.0.1
 # LazyData: true
 # ByteCompile: true
 # Depends: R (>= 3.2.0)
-# Imports: DBI (>= 0.3.0), methods, Rcpp (>= 0.12.11), blob (>= 1.1.0), bit64, hms
+# Imports: DBI (>= 1.0.0), methods, Rcpp (>= 0.12.11), blob (>= 1.1.0), bit64, hms
 # Suggests: tibble, DBItest, testthat, covr, magrittr
 # LinkingTo: Rcpp, BH
 # Collate: 'odbc.R' 'Driver.R' 'Connection.R' 'DataTypes.R' 'RcppExports.R' 'Result.R' 'Table.R' 'Viewer.R' 'db.R' 'hidden.R' 'utils.R' 'zzz.R'
 # NeedsCompilation: yes
-# Packaged: 2018-01-23 19:17:09 UTC; jhester
+# Packaged: 2018-06-08 20:54:50 UTC; jhester
 # Author: Jim Hester [aut, cre], Hadley Wickham [aut], lexicalunit [cph] (nanodbc library), Google Inc. [cph] (cctz library), RStudio [cph, fnd]
 # Maintainer: Jim Hester <james.hester@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-01-23 21:47:04 UTC
+# Date/Publication: 2018-06-09 20:02:13 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

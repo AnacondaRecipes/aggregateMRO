@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/NMF_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/NMF/NMF_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 3b30c81c66066fab4a63c5611a0313418b840d8b63414db31ef0e932872d02e3  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/NMF_0.21.0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/NMF_0.21.0.zip  # [win64]
   sha256: 41a9dd6a47b32391aceabf38ca8b40e52e6caf2428eae157dd641c25d4fab4d1  # [win64]
 
 build:

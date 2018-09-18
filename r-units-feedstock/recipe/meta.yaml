@@ -1,4 +1,4 @@
-{% set version = '0.5-1' %}
+{% set version = '0.6-0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/units_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/units/units_{{ version }}.tar.gz
-  sha256: 749bc6b81d623d27e6a8784eff34526aa4e371ce4880e91f49cbdd7de6830b1e
+  sha256: 56f08a0e420b3e20b1e19dc983abfaa8b90245b3df86f6916889b1dd218ce419
 
 build:
   merge_build_host: True  # [win]
@@ -23,18 +23,31 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
+# Suggests: udunits2, NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
 requirements:
   build:
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
+    - {{posix}}pkg-config
+    - {{posix}}make
+    - {{posix}}coreutils         # [win]
     - {{posix}}zip               # [win]
 
   host:
     - mro-base
-    - r-udunits2 >=0.13
+    - r-rcpp
 
   run:
     - mro-base
-    - r-udunits2 >=0.13
+    - {{native}}gcc-libs         # [win]
+    - r-rcpp
 
 test:
   commands:
@@ -65,25 +78,27 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: units
-# Version: 0.5-1
+# Version: 0.6-0
 # Title: Measurement Units for R Vectors
-# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de", comment = c(ORCID = "0000-0001-8049-7069")), person("Thomas", "Mailund", role = "aut", email = "mailund@birc.au.dk"), person("Tomasz", "Kalinowski", role = "aut"))
+# Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de", comment = c(ORCID = "0000-0001-8049-7069")), person("Thomas", "Mailund", role = "aut", email = "mailund@birc.au.dk"), person("Tomasz", "Kalinowski", role = "aut"), person("James", "Hiebert", role = "ctb"), person("Inaki", "Ucar", role = "ctb", email = "i.ucar86@gmail.com", comment = c(ORCID = "0000-0001-6403-5550")) )
 # Depends: R (>= 3.0.0)
-# Imports: udunits2 (>= 0.13)
-# Suggests: NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
+# Imports: Rcpp
+# LinkingTo: Rcpp
+# Suggests: udunits2, NISTunits, measurements, xml2, tibble, pillar, knitr, testthat, ggforce, rmarkdown, magrittr
 # VignetteBuilder: knitr
 # Description: Support for measurement units in R vectors, matrices and arrays: automatic propagation, conversion, derivation and simplification of units; raising errors in case of unit incompatibility. Compatible with the POSIXct, Date and difftime  classes. Uses the UNIDATA udunits library and unit database for  unit compatibility checking and conversion.
+# SystemRequirements: udunits-2
 # License: GPL-2
 # URL: https://github.com/r-quantities/units/
 # BugReports: https://github.com/r-quantities/units/issues/
 # RoxygenNote: 6.0.1
 # Encoding: UTF-8
-# NeedsCompilation: no
-# Packaged: 2018-01-08 13:26:31 UTC; edzer
-# Author: Edzer Pebesma [aut, cre] (0000-0001-8049-7069), Thomas Mailund [aut], Tomasz Kalinowski [aut]
+# NeedsCompilation: yes
+# Packaged: 2018-06-09 10:48:44 UTC; edzer
+# Author: Edzer Pebesma [aut, cre] (<https://orcid.org/0000-0001-8049-7069>), Thomas Mailund [aut], Tomasz Kalinowski [aut], James Hiebert [ctb], Inaki Ucar [ctb] (<https://orcid.org/0000-0001-6403-5550>)
 # Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 # Repository: CRAN
-# Date/Publication: 2018-01-08 14:03:45 UTC
+# Date/Publication: 2018-06-09 19:52:55 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

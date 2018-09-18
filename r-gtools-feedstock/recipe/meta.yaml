@@ -1,6 +1,6 @@
-{% set version = '3.5.0' %}  # [linux or win32]
-{% set version = '3.5.0' %}  # [win64]
-{% set version = '3.5.0' %}  # [osx]
+{% set version = '3.8.1' %}  # [linux or win32]
+{% set version = '3.8.1' %}  # [win64]
+{% set version = '3.8.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/gtools_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/gtools/gtools_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 86b6a51a92ddb3c78095e0c5dc20414c67f6e28f915bf0ee11406adad3e476f6  # [linux or win32]
+  sha256: 051484459bd8ad1b03425b8843d24f6828fea18f7357cfa1c192198cc3f4ba38  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/gtools_3.5.0.zip  # [win64]
-  sha256: f8be779fc624ab8a46882db575ad39f47dc1a496772c586700c3e08b3dedc268  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/gtools_3.8.1.zip  # [win64]
+  sha256: b6598a7eb4b69a842684ffadac93d623cad32d9a07fed1cd9eff78356b87a364  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/gtools_3.5.0.tgz  # [osx]
-  sha256: 0e2941b06fe2f7f97f36917a35cbc8d1afc2a98d2fe0fbf3ea0684cfd40c6f63  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/gtools_3.8.1.tgz  # [osx]
+  sha256: c702ef0fde03deefeb1d88c035542321ebb2bf5ee9570834d1612b6931accb12  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -80,7 +80,8 @@ about:
     vector (''running''), - modify the TCP\_NODELAY (''de-Nagle'') flag for socket objects,
     - efficient ''rbind'' of data frames, even if the column names don''t match (''smartbind''),
     - generate significance stars from p-values (''stars.pval''), - convert characters
-    to/from ASCII codes.'
+    to/from ASCII codes (''asc'', ''chr''), - convert character vector to ASCII representation
+    (''ASCIIfy'').'
 
   license_family: GPL2
 
@@ -92,20 +93,17 @@ extra:
 
 # Package: gtools
 # Title: Various R Programming Tools
-# Description: Functions to assist in R programming, including: - assist in developing, updating, and maintaining R and R packages ('ask', 'checkRVersion', 'getDependencies', 'keywords', 'scat'), - calculate the logit and inverse logit transformations ('logit', 'inv.logit'), - test if a value is missing, empty or contains only NA and NULL values ('invalid'), - manipulate R's .Last function ('addLast'), - define macros ('defmacro'), - detect odd and even integers ('odd', 'even'), - convert strings containing non-ASCII characters (like single quotes) to plain ASCII ('ASCIIfy'), - perform a binary search ('binsearch'), - sort strings containing both numeric and character components ('mixedsort'), - create a factor variable from the quantiles of a continuous variable ('quantcut'), - enumerate permutations and combinations ('combinations', 'permutation'), - calculate and convert between fold-change and log-ratio ('foldchange', 'logratio2foldchange', 'foldchange2logratio'), - calculate probabilities and generate random numbers from Dirichlet distributions ('rdirichlet', 'ddirichlet'), - apply a function over adjacent subsets of a vector ('running'), - modify the TCP\_NODELAY ('de-Nagle') flag for socket objects, - efficient 'rbind' of data frames, even if the column names don't match ('smartbind'), - generate significance stars from p-values ('stars.pval'), - convert characters to/from ASCII codes.
-# Version: 3.5.0
-# Date: 2015-05-26
+# Description: Functions to assist in R programming, including: - assist in developing, updating, and maintaining R and R packages ('ask', 'checkRVersion', 'getDependencies', 'keywords', 'scat'), - calculate the logit and inverse logit transformations ('logit', 'inv.logit'), - test if a value is missing, empty or contains only NA and NULL values ('invalid'), - manipulate R's .Last function ('addLast'), - define macros ('defmacro'), - detect odd and even integers ('odd', 'even'), - convert strings containing non-ASCII characters (like single quotes) to plain ASCII ('ASCIIfy'), - perform a binary search ('binsearch'), - sort strings containing both numeric and character components ('mixedsort'), - create a factor variable from the quantiles of a continuous variable ('quantcut'), - enumerate permutations and combinations ('combinations', 'permutation'), - calculate and convert between fold-change and log-ratio ('foldchange', 'logratio2foldchange', 'foldchange2logratio'), - calculate probabilities and generate random numbers from Dirichlet distributions ('rdirichlet', 'ddirichlet'), - apply a function over adjacent subsets of a vector ('running'), - modify the TCP\_NODELAY ('de-Nagle') flag for socket objects, - efficient 'rbind' of data frames, even if the column names don't match ('smartbind'), - generate significance stars from p-values ('stars.pval'), - convert characters to/from ASCII codes ('asc', 'chr'), - convert character vector to ASCII representation ('ASCIIfy').
+# Version: 3.8.1
+# Date: 2018-06-19
 # Author: Gregory R. Warnes, Ben Bolker, and Thomas Lumley
 # Maintainer: Gregory R. Warnes <greg@warnes.net>
 # License: GPL-2
-# Repository: CRAN
-# Repository/R-Forge/Project: r-gregmisc
-# Repository/R-Forge/Revision: 2048
-# Repository/R-Forge/DateTimeStamp: 2015-05-27 16:38:37
-# Date/Publication: 2015-05-29 10:36:40
+# Depends: methods, stats, utils
 # NeedsCompilation: yes
-# Packaged: 2015-05-27 16:45:10 UTC; rforge
-# Depends: R (>= 2.10)
+# Packaged: 2018-06-25 14:51:36 UTC; gwarnes
+# Repository: CRAN
+# Date/Publication: 2018-06-26 14:37:57 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

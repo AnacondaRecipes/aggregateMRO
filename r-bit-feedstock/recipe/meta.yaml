@@ -1,5 +1,5 @@
-{% set version = '1.1-12' %}  # [linux or win32 or osx]
-{% set version = '1.1-12' %}  # [win64]
+{% set version = '1.1-14' %}  # [linux or win32 or osx]
+{% set version = '1.1-14' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/bit_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/bit/bit_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: ce281c87fb7602bf1a599e72f3e25f9ff7a13e390c124a4506087f69ad79d128  # [linux or win32 or osx]
+  sha256: 5cbaace1fb643a665a6ca69b90f7a6d624270de82420ca7a44f306753fcef254  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/bit_1.1-12.zip  # [win64]
-  sha256: e4106332c0a7f21f1dad38f15c40c71768f6482a5c82eb48abbbe523c91d0396  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/bit_1.1-14.zip  # [win64]
+  sha256: f51980964862d9385401be247d7bef826d55e4ce3004a20411148c64abb51a93  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -59,14 +59,14 @@ test:
 about:
   home: http://ff.r-forge.r-project.org/
   license: GPL-2
-  summary: 'bitmapped vectors of booleans (no NAs),  coercion from and to logicals, integers
-    and integer subscripts;  fast boolean operators and fast summary statistics.  With
-    ''bit'' vectors you can store true binary booleans {FALSE,TRUE} at the  expense
-    of 1 bit only, on a 32 bit architecture this means factor 32 less  RAM and ~ factor
-    32 more speed on boolean operations. Due to overhead of  R calls, actual speed gain
-    depends on the size of the vector: expect gains  for vectors of size > 10000 elements.
-    Even for one-time boolean operations  it can pay-off to convert to bit, the pay-off
-    is obvious, when such  components are used more than once.  Reading from and writing
+  summary: 'True boolean datatype (no NAs),  coercion from and to logicals, integers and integer
+    subscripts;  fast boolean operators and fast summary statistics.  With ''bit'' vectors
+    you can store true binary booleans {FALSE,TRUE} at the  expense of 1 bit only, on
+    a 32 bit architecture this means factor 32 less  RAM and ~ factor 32 more speed
+    on boolean operations. Due to overhead of  R calls, actual speed gain depends on
+    the size of the vector: expect gains  for vectors of size > 10000 elements. Even
+    for one-time boolean operations  it can pay-off to convert to bit, the pay-off is
+    obvious, when such  components are used more than once.  Reading from and writing
     to bit is approximately as fast as accessing  standard logicals - mostly due to
     R''s time for memory allocation. The package  allows to work with pre-allocated
     memory for return values by calling .Call()  directly: when evaluating the speed
@@ -87,22 +87,22 @@ extra:
 
 # Package: bit
 # Type: Package
-# Title: A class for vectors of 1-bit booleans
-# Version: 1.1-12
-# Date: 2012-01-17
+# Title: A Class for Vectors of 1-Bit Booleans
+# Version: 1.1-14
+# Date: 2018-04-11
 # Author: Jens Oehlschlagel <Jens.Oehlschlaegel@truecluster.com>
 # Maintainer: Jens Oehlschlagel <Jens.Oehlschlaegel@truecluster.com>
 # Depends: R (>= 2.9.2)
-# Description: bitmapped vectors of booleans (no NAs),  coercion from and to logicals, integers and integer subscripts;  fast boolean operators and fast summary statistics.  With 'bit' vectors you can store true binary booleans {FALSE,TRUE} at the  expense of 1 bit only, on a 32 bit architecture this means factor 32 less  RAM and ~ factor 32 more speed on boolean operations. Due to overhead of  R calls, actual speed gain depends on the size of the vector: expect gains  for vectors of size > 10000 elements. Even for one-time boolean operations  it can pay-off to convert to bit, the pay-off is obvious, when such  components are used more than once.  Reading from and writing to bit is approximately as fast as accessing  standard logicals - mostly due to R's time for memory allocation. The package  allows to work with pre-allocated memory for return values by calling .Call()  directly: when evaluating the speed of C-access with pre-allocated vector  memory, coping from bit to logical requires only 70% of the time for copying  from logical to logical; and copying from logical to bit comes at a  performance penalty of 150%. the package now contains further classes for  representing logical selections: 'bitwhich' for very skewed selections and  'ri' for selecting ranges of values for chunked processing. All three index  classes can be used for subsetting 'ff' objects (ff-2.1-0 and higher).
+# Description: True boolean datatype (no NAs),  coercion from and to logicals, integers and integer subscripts;  fast boolean operators and fast summary statistics.  With 'bit' vectors you can store true binary booleans {FALSE,TRUE} at the  expense of 1 bit only, on a 32 bit architecture this means factor 32 less  RAM and ~ factor 32 more speed on boolean operations. Due to overhead of  R calls, actual speed gain depends on the size of the vector: expect gains  for vectors of size > 10000 elements. Even for one-time boolean operations  it can pay-off to convert to bit, the pay-off is obvious, when such  components are used more than once.  Reading from and writing to bit is approximately as fast as accessing  standard logicals - mostly due to R's time for memory allocation. The package  allows to work with pre-allocated memory for return values by calling .Call()  directly: when evaluating the speed of C-access with pre-allocated vector  memory, coping from bit to logical requires only 70% of the time for copying  from logical to logical; and copying from logical to bit comes at a  performance penalty of 150%. the package now contains further classes for  representing logical selections: 'bitwhich' for very skewed selections and  'ri' for selecting ranges of values for chunked processing. All three index  classes can be used for subsetting 'ff' objects (ff-2.1-0 and higher).
 # License: GPL-2
 # LazyLoad: yes
 # ByteCompile: yes
-# Encoding: latin1
+# Encoding: UTF-8
 # URL: http://ff.r-forge.r-project.org/
-# Packaged: 2014-04-08 21:51:43 UTC; jens
 # NeedsCompilation: yes
+# Packaged: 2018-05-27 20:28:22 UTC; jens
 # Repository: CRAN
-# Date/Publication: 2014-04-09 09:54:10
+# Date/Publication: 2018-05-29 16:56:33 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

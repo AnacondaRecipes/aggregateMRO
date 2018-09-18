@@ -1,6 +1,6 @@
-{% set version = '1.0-7' %}  # [linux or win32]
-{% set version = '1.0-7' %}  # [win64]
-{% set version = '1.0-7' %}  # [osx]
+{% set version = '1.0-8' %}  # [linux or win32]
+{% set version = '1.0-8' %}  # [win64]
+{% set version = '1.0-8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/mvtnorm_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/mvtnorm/mvtnorm_{{ version }}.tar.gz  # [linux or win32]
-  sha256: d063b0dec57c2f588da4ac35fcd479dc2ab83cb473e4a6fee6cbb6e7a9fbf038  # [linux or win32]
+  sha256: 2010cab50fb7a5117e3c61f06e4a797ea6bf92b1ab20c132cb929d453d154451  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/mvtnorm_1.0-7.zip  # [win64]
-  sha256: 721b46c7b82e55307561f384a3b5eb07fa4e63144cb979ea3439974b38accb15  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mvtnorm_1.0-8.zip  # [win64]
+  sha256: e30704cdbe67e24134d154bccfd955951ed7be600b3c006748e08f8a69672abc  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/mvtnorm_1.0-7.tgz  # [osx]
-  sha256: 104c29b2c9a6438a0340496edd00a74f120fdafcfc35b70ad074c4e1e788d716  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mvtnorm_1.0-8.tgz  # [osx]
+  sha256: 2c6645f4914414164e8d99d2fd9549622f757403752f92fc4329868094f95da2  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -75,8 +75,8 @@ extra:
 
 # Package: mvtnorm
 # Title: Multivariate Normal and t Distributions
-# Version: 1.0-7
-# Date: 2019-01-25
+# Version: 1.0-8
+# Date: 2018-05-31
 # Authors@R: c(person("Alan", "Genz", role = "aut"), person("Frank", "Bretz", role = "aut"), person("Tetsuhisa", "Miwa", role = "aut"), person("Xuefei", "Mi", role = "aut"), person("Friedrich", "Leisch", role = "ctb"), person("Fabian", "Scheipl", role = "ctb"), person("Bjoern", "Bornkamp", role = "ctb"), person("Martin", "Maechler", role = "ctb"), person("Torsten", "Hothorn", role = c("aut", "cre"), email = "Torsten.Hothorn@R-project.org", comment = c(ORCID = "0000-0001-8301-0471")))
 # Description: Computes multivariate normal and t probabilities, quantiles, random deviates and densities.
 # Imports: stats, methods
@@ -84,11 +84,11 @@ extra:
 # License: GPL-2
 # URL: http://mvtnorm.R-forge.R-project.org
 # NeedsCompilation: yes
-# Packaged: 2018-01-25 15:15:27 UTC; hothorn
+# Packaged: 2018-05-31 08:37:50 UTC; hothorn
 # Author: Alan Genz [aut], Frank Bretz [aut], Tetsuhisa Miwa [aut], Xuefei Mi [aut], Friedrich Leisch [ctb], Fabian Scheipl [ctb], Bjoern Bornkamp [ctb], Martin Maechler [ctb], Torsten Hothorn [aut, cre] (<https://orcid.org/0000-0001-8301-0471>)
 # Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2018-01-26 00:17:08
+# Date/Publication: 2018-05-31 20:38:18 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

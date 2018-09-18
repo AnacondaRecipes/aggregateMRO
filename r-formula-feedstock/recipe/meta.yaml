@@ -1,5 +1,5 @@
-{% set version = '1.2-2' %}  # [linux or win32 or osx]
-{% set version = '1.2-2' %}  # [win64]
+{% set version = '1.2-3' %}  # [linux or win32 or osx]
+{% set version = '1.2-3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Formula_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/Formula/Formula_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 8def4600fb7457d38db8083733477501b54528974aa216e4adf8871bff4aa429  # [linux or win32 or osx]
+  sha256: 1411349b20bd09611a9fd0ee6d15f780c758ad2b0e490e908facb49433823872  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/Formula_1.2-2.zip  # [win64]
-  sha256: c35f97dfe3892d0ae92f6d2bbf09d0ddd410753bc9b16060a3d8b9d78189864e  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/Formula_1.2-3.zip  # [win64]
+  sha256: 3a21e834c6d0f3b8392957a43a9b6ced22ca6b1b36177b252da1f48255b4c1c0  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -63,19 +63,19 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: Formula
-# Version: 1.2-2
-# Date: 2017-07-11
+# Version: 1.2-3
+# Date: 2018-05-02
 # Title: Extended Model Formulas
 # Description: Infrastructure for extended formulas with multiple parts on the right-hand side and/or multiple responses on the left-hand side (see <DOI:10.18637/jss.v034.i01>).
-# Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"), person(given = "Yves", family = "Croissant", role = "aut", email = "Yves.Croissant@univ-reunion.fr"))
+# Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")), person(given = "Yves", family = "Croissant", role = "aut", email = "Yves.Croissant@univ-reunion.fr"))
 # Depends: R (>= 2.0.0), stats
 # License: GPL-2 | GPL-3
 # NeedsCompilation: no
-# Packaged: 2017-07-10 23:09:07 UTC; zeileis
-# Author: Achim Zeileis [aut, cre], Yves Croissant [aut]
+# Packaged: 2018-05-02 23:06:48 UTC; zeileis
+# Author: Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Yves Croissant [aut]
 # Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-07-10 23:28:09 UTC
+# Date/Publication: 2018-05-03 07:53:28 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

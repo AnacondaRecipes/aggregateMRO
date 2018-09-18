@@ -1,4 +1,5 @@
-{% set version = '1.0.1' %}
+{% set version = '1.0.1' %}  # [linux or win32 or osx]
+{% set version = '1.0.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
-    - {{ cran_mirror }}/src/contrib/manipulate_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/manipulate/manipulate_{{ version }}.tar.gz
-  sha256: 7e7e829252c3b3c1f768bb76a5d952f0e98f95c843b5f58da325deeb1ab693ce
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/manipulate_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/manipulate/manipulate_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 7e7e829252c3b3c1f768bb76a5d952f0e98f95c843b5f58da325deeb1ab693ce  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/manipulate_1.0.1.zip  # [win64]
+  sha256: 93c2f80d67246e04e3c4d7120a45f774d4cede1732a58326f51ea9722740a4eb  # [win64]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,7 +29,7 @@ build:
 
 requirements:
   build:
-    - {{posix}}zip               # [win]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

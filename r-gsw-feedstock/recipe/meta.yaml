@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/gsw_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/gsw/gsw_{{ version }}.tar.gz
   sha256: eb468918ee91e429b47fbcac43269eca627b7f64b61520de5bbe8fa223e96453

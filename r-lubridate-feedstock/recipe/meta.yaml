@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/lubridate_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/lubridate/lubridate_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 510ca87bd91631c395655ee5029b291e948b33df09e56f6be5839f43e3104891  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/lubridate_1.7.4.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lubridate_1.7.4.zip  # [win64]
   sha256: 0ccbab2291c9cbe466a5d02f19b9ecec1ac2b00ce9269fd714b3aa2f294765fa  # [win64]
 
 build:

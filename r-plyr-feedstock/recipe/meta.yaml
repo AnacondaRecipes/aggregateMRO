@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/plyr_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/plyr/plyr_{{ version }}.tar.gz  # [linux or win32]
   sha256: 60b522d75961007658c9806f8394db27989f1154727cb0bb970062c96ec9eac5  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/plyr_1.8.4.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/plyr_1.8.4.zip  # [win64]
   sha256: 7b2eeadb3b5b33347791718818b968a965b6ce49e859dc4c73af7b8e61418fc1  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/plyr_1.8.4.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/plyr_1.8.4.tgz  # [osx]
   sha256: ee8bc70e24762f5f0cad377f9527e61f9eb4e861c81d1429923ad4b4bd032444  # [osx]
 
 build:

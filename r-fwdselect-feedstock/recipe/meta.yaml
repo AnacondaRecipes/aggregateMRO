@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/FWDselect_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/FWDselect/FWDselect_{{ version }}.tar.gz
   sha256: e77313b3066806333edec3904d05e4fd51b596737edc337ba4019ecf609d1070

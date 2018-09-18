@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/lars_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/lars/lars_{{ version }}.tar.gz
   sha256: 64745b568f20b2cfdae3dad02fba92ebf78ffee466a71aaaafd4f48c3921922e

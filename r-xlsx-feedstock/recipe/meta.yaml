@@ -1,4 +1,4 @@
-{% set version = '0.5.7' %}
+{% set version = '0.6.1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/xlsx_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/xlsx/xlsx_{{ version }}.tar.gz
-  sha256: 36727bc330c281dab8a028fab2dde92d032345974b15e3dde920ee16dc6db363
+  sha256: a580bd16b5477c1c185bf681c12c1ffff4088089f97b6a37997913d93ec5a8b4
 
 build:
   merge_build_host: True  # [win]
@@ -50,7 +50,7 @@ test:
     # Put any additional test requirements here.
 
 about:
-  home: http://code.google.com/p/rexcel/, http://groups.google.com/group/R-package-xlsx
+  home: https://github.com/dragua/rexcel, http://groups.google.com/group/R-package-xlsx
   license: GPL-3
   summary: Provide R functions to read/write/format Excel 2007 and Excel 97/2000/XP/2003 file
     formats.
@@ -64,21 +64,22 @@ extra:
 
 # Package: xlsx
 # Type: Package
-# Title: Read, write, format Excel 2007 and Excel 97/2000/XP/2003 files
-# Version: 0.5.7
-# Date: 2014-08-01
-# Depends: rJava, xlsxjars
+# Title: Read, Write, Format Excel 2007 and Excel 97/2000/XP/2003 Files
+# Version: 0.6.1
+# Date: 2018-06-07
+# Imports: rJava, xlsxjars, grDevices, utils
 # LazyLoad: yes
-# Author: Adrian A. Dragulescu
+# Author: Adrian A. Dragulescu, Cole Arendt
 # Maintainer: Adrian A. Dragulescu <adrian.dragulescu@gmail.com>
 # Description: Provide R functions to read/write/format Excel 2007 and Excel 97/2000/XP/2003 file formats.
 # License: GPL-3
-# URL: http://code.google.com/p/rexcel/, http://groups.google.com/group/R-package-xlsx
-# BugReports: https://code.google.com/p/rexcel/issues/list
-# Packaged: 2014-08-02 18:06:51 UTC; adrian
+# URL: https://github.com/dragua/rexcel, http://groups.google.com/group/R-package-xlsx
+# BugReports: https://github.com/dragua/rexcel/issues
+# SystemRequirements: java (>= 1.6)
 # NeedsCompilation: no
+# Packaged: 2018-06-11 00:21:04 UTC; adrian
 # Repository: CRAN
-# Date/Publication: 2014-08-02 23:32:07
+# Date/Publication: 2018-06-11 05:50:21 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

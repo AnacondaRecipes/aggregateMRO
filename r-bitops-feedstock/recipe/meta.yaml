@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/bitops_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/bitops/bitops_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 9b731397b7166dd54941fb0d2eac6df60c7a483b2e790f7eb15b4d7b79c9d69c  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/bitops_1.0-6.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/bitops_1.0-6.zip  # [win64]
   sha256: 6ca5b3695f933ec584b81b6c9ea3346c5530d76c83e2c0add16431ccdf74eebf  # [win64]
 
 build:

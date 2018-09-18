@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/quadprog_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/quadprog/quadprog_{{ version }}.tar.gz  # [linux or win32]
   sha256: d999620688354c283de5bb305203f5db70271b4dfdc23577cae8c2ba94c9e349  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/quadprog_1.5-5.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/quadprog_1.5-5.zip  # [win64]
   sha256: e5c88aad747fcb6e12b0f16156dab98a0e1c089eba5cc56361cae844830ef8df  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/quadprog_1.5-5.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/quadprog_1.5-5.tgz  # [osx]
   sha256: 0442ca7d33d0170faadc568249f90d147efa54a53b409d554a526b5488bf7f63  # [osx]
 
 build:

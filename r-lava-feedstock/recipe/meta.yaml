@@ -1,6 +1,6 @@
-{% set version = '1.6.1' %}  # [linux or win32]
-{% set version = '1.6.1' %}  # [win64]
-{% set version = '1.6.1' %}  # [osx]
+{% set version = '1.6.2' %}  # [linux or win32]
+{% set version = '1.6.2' %}  # [win64]
+{% set version = '1.6.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/lava_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/lava/lava_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 33f04b315ad639e057bf7791e2536b8dc83398e3bc05083a16d38efbebb56986  # [linux or win32]
+  sha256: 9561274e581ceed8592cd81c06d6ba2151499c9d78011d1eecfbb134f4bd87e4  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/lava_1.6.1.zip  # [win64]
-  sha256: 75a429f4aa859b12e582faa4dcb1712637a95605e5cd80432c4fd3cbe3ad4c71  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lava_1.6.2.zip  # [win64]
+  sha256: 54235d1c78d65f8fbdd497259cd51c331797fd0fe08cb4690dfd2e0b16842bc9  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/lava_1.6.1.tgz  # [osx]
-  sha256: 5b90eaa50c7af7b19db798b570cc58e95bd3e50cad9dcb9684b7754abf427c99  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/lava_1.6.2.tgz  # [osx]
+  sha256: d0a3c05cf677f92130499972794979f365c75d13bb5e98e88a61e5fa0fab8214  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -31,7 +31,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), optimx, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
+# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), nlme, optimx, polycor, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
 requirements:
   build:
     - {{posix}}zip               # [win32]
@@ -82,8 +82,8 @@ extra:
 # Package: lava
 # Type: Package
 # Title: Latent Variable Models
-# Version: 1.6.1
-# Date: 2018-03-23
+# Version: 1.6.2
+# Date: 2018-07-02
 # Authors@R: c(person("Klaus K.", "Holst", email="klaus@holst.it", role=c("aut", "cre")), person("Brice", "Ozenne", role = "ctb"), person("Thomas", "Gerds", role = "ctb"))
 # Author: Klaus K. Holst [aut, cre], Brice Ozenne [ctb], Thomas Gerds [ctb]
 # Maintainer: Klaus K. Holst <klaus@holst.it>
@@ -94,13 +94,13 @@ extra:
 # LazyLoad: yes
 # Depends: R (>= 3.0)
 # Imports: grDevices, graphics, methods, numDeriv, stats, survival, SQUAREM, utils
-# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), optimx, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
+# Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), nlme, optimx, polycor, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
 # ByteCompile: yes
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2018-03-28 11:56:03 UTC; klaus
+# Packaged: 2018-07-01 22:27:16 UTC; klaus
 # Repository: CRAN
-# Date/Publication: 2018-03-28 14:53:25 UTC
+# Date/Publication: 2018-07-02 08:40:05 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

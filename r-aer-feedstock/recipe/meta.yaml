@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/AER_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/AER/AER_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: ef0cf14ff9d3de2b97e5855243426cc918808eb1011f0e2253b3b00043927a62  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/AER_1.2-5.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/AER_1.2-5.zip  # [win64]
   sha256: 22631fed51314942c49567e40a4c0085299cc1b8335d2a62dc874a0e0d0fb51a  # [win64]
 
 build:

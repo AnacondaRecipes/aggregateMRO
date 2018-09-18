@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/shinyBS_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/shinyBS/shinyBS_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 51be29541e066d30c66e243393f20b0da705eba1b7ce7eeadea993bb2aa91166  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/shinyBS_0.61.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/shinyBS_0.61.zip  # [win64]
   sha256: 3b8be7e03f8aed75646101b48b0ade678cd243946c2efd837326c490f1b846c4  # [win64]
 
 build:

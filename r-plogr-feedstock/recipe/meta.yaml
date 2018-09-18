@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/plogr_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/plogr/plogr_{{ version }}.tar.gz
   sha256: 0e63ba2e1f624005fe25c67cdd403636a912e063d682eca07f2f1d65e9870d29

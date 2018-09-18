@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/oce_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/oce/oce_{{ version }}.tar.gz
   sha256: 390fd082710ee1586074ff20df61208df4c76b9f2dc0c9b1125aade4c934b04c

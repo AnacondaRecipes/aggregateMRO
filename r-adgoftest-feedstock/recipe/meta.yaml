@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/ADGofTest_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/ADGofTest/ADGofTest_{{ version }}.tar.gz
   sha256: 9cd9313954f6ecd82480d373f6c5371ca84ab33e3f5c39d972d35cfcf1096846

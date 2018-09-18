@@ -1,5 +1,5 @@
-{% set version = '1.8-1' %}  # [linux or win32 or osx]
-{% set version = '1.8-1' %}  # [win64]
+{% set version = '1.8-3' %}  # [linux or win32 or osx]
+{% set version = '1.8-3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/zoo_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/zoo/zoo_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: d93d88500374fce7f5c047f25240ac60483bcfd6fadf81df4eb2b879ad2ccc9a  # [linux or win32 or osx]
+  sha256: 20b681c20531f12d26e4ac590712fcfa22e7f4e94fc69d804bb50abcf99b5596  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/zoo_1.8-1.zip  # [win64]
-  sha256: 373de8aa901de501c37996b56b87076f7c3efacc33969f877cf607800be433ce  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/zoo_1.8-3.zip  # [win64]
+  sha256: 1fb1b8284f7e9f9ee6f0f85fea902188f61d46c0d1854775c62d11c645e45786  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -75,22 +75,22 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: zoo
-# Version: 1.8-1
-# Date: 2018-01-08
+# Version: 1.8-3
+# Date: 2018-07-16
 # Title: S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)
 # Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")), person(given = "Gabor", family = "Grothendieck", role = "aut", email = "ggrothendieck@gmail.com"), person(given = c("Jeffrey", "A."), family = "Ryan", role = "aut", email = "jeff.a.ryan@gmail.com"), person(given = c("Joshua", "M."), family = "Ulrich", role = "ctb", email = "josh.m.ulrich@gmail.com"), person(given = "Felix", family = "Andrews", role = "ctb", email = "felix@nfrac.org"))
 # Description: An S3 class with methods for totally ordered indexed observations. It is particularly aimed at irregular time series of numeric vectors/matrices and factors. zoo's key design goals are independence of a particular index/date/time class and consistency with ts and base R by providing methods to extend standard generics.
-# Depends: R (>= 2.10.0), stats
+# Depends: R (>= 3.1.0), stats
 # Suggests: coda, chron, DAAG, fts, ggplot2, mondate, scales, strucchange, timeDate, timeSeries, tis, tseries, xts
 # Imports: utils, graphics, grDevices, lattice (>= 0.20-27)
 # License: GPL-2 | GPL-3
 # URL: http://zoo.R-Forge.R-project.org/
 # NeedsCompilation: yes
-# Packaged: 2018-01-08 09:22:51 UTC; zeileis
-# Author: Achim Zeileis [aut, cre] (0000-0003-0918-3766), Gabor Grothendieck [aut], Jeffrey A. Ryan [aut], Joshua M. Ulrich [ctb], Felix Andrews [ctb]
+# Packaged: 2018-07-16 10:42:07 UTC; zeileis
+# Author: Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Gabor Grothendieck [aut], Jeffrey A. Ryan [aut], Joshua M. Ulrich [ctb], Felix Andrews [ctb]
 # Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2018-01-08 09:44:12 UTC
+# Date/Publication: 2018-07-16 15:56:56 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

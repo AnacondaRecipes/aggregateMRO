@@ -1,4 +1,4 @@
-{% set version = '0.7-3' %}
+{% set version = '0.7-5' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/tm_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/tm/tm_{{ version }}.tar.gz
-  sha256: f3c3e151e621ffb0c82048b5bf9c2a34c8fb34cf5d2943544979b4fcc2cc1c11
+  sha256: 5d3150d2bf0964405be07c30aa6be3c415bf56e24e6041ac77ccb9de8c9ca317
 
 build:
   merge_build_host: True  # [win]
@@ -78,9 +78,9 @@ extra:
 
 # Package: tm
 # Title: Text Mining Package
-# Version: 0.7-3
-# Date: 2017-12-06
-# Authors@R: c(person("Ingo", "Feinerer", role = c("aut", "cre"), email = "feinerer@logic.at"), person("Kurt", "Hornik", role = "aut", comment = c(ORCID = "0000-0003-4198-9911")), person("Artifex Software, Inc.", role = c("ctb", "cph"), comment = "pdf_info.ps taken from GPL Ghostscript"))
+# Version: 0.7-5
+# Date: 2018-07-29
+# Authors@R: c(person("Ingo", "Feinerer", role = c("aut", "cre"), email = "feinerer@logic.at", comment = c(ORCID = "0000-0001-7656-8338")), person("Kurt", "Hornik", role = "aut", comment = c(ORCID = "0000-0003-4198-9911")), person("Artifex Software, Inc.", role = c("ctb", "cph"), comment = "pdf_info.ps taken from GPL Ghostscript"))
 # Depends: R (>= 3.2.0), NLP (>= 0.1-6.2)
 # Imports: Rcpp, parallel, slam (>= 0.1-37), stats, tools, utils, graphics, xml2
 # LinkingTo: BH, Rcpp
@@ -89,13 +89,13 @@ extra:
 # Description: A framework for text mining applications within R.
 # License: GPL-3
 # URL: http://tm.r-forge.r-project.org/
-# Additional_repositories: http://datacube.wu.ac.at
+# Additional_repositories: https://datacube.wu.ac.at
 # NeedsCompilation: yes
-# Packaged: 2017-12-06 09:38:32 UTC; hornik
-# Author: Ingo Feinerer [aut, cre], Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>), Artifex Software, Inc. [ctb, cph] (pdf_info.ps taken from GPL Ghostscript)
+# Packaged: 2018-07-29 16:33:17 UTC; hornik
+# Author: Ingo Feinerer [aut, cre] (<https://orcid.org/0000-0001-7656-8338>), Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>), Artifex Software, Inc. [ctb, cph] (pdf_info.ps taken from GPL Ghostscript)
 # Maintainer: Ingo Feinerer <feinerer@logic.at>
 # Repository: CRAN
-# Date/Publication: 2017-12-06 18:26:44 UTC
+# Date/Publication: 2018-07-29 16:56:27 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

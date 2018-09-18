@@ -1,6 +1,6 @@
-{% set version = '1.95-4.10' %}  # [linux or win32]
-{% set version = '1.95-4.10' %}  # [win64]
-{% set version = '1.95-4.10' %}  # [osx]
+{% set version = '1.95-4.11' %}  # [linux or win32]
+{% set version = '1.95-4.11' %}  # [win64]
+{% set version = '1.95-4.11' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/RCurl_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/RCurl/RCurl_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 6f8324f1cb2de6ca818851bd9b83be33083f8752e76ce4187b7c39bda781fe0a  # [linux or win32]
+  sha256: 792a091cf5b80c460d98ed80fe1cad5d9406d0afc32e466e970ee4d2f68c97bf  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/RCurl_1.95-4.10.zip  # [win64]
-  sha256: 17b209be87c45a157fc9188d1e52d3d0eb7b49bc0175e801f542d0e8f1b7e775  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/RCurl_1.95-4.11.zip  # [win64]
+  sha256: 8100212cf9a996407d4a36fd667d8c36672acf82a7b28c4d63e56aa600172af5  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/RCurl_1.95-4.10.tgz  # [osx]
-  sha256: 0c029555f4e84ab3f063a74f9a56e483bc8c0c9b8a3c3d4711e2eda7cf34d97e  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/RCurl_1.95-4.11.tgz  # [osx]
+  sha256: b5c4f9efa2f622f149fb6c316a7e5a8d5cefc61f314f35845c5db9a3bafb1165  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -88,7 +88,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: RCurl
-# Version: 1.95-4.10
+# Version: 1.95-4.11
 # Title: General Network (HTTP/FTP/...) Client Interface for R
 # Author: Duncan Temple Lang and the CRAN team
 # SystemRequirements: GNU make, libcurl
@@ -104,9 +104,9 @@ extra:
 # Check: To run R CMD check, one really needs network access. It is an HTTP client! This can be problematic as a Web site may be down when you run but the real tests are important.
 # Collate: aclassesEnums.R bitClasses.R xbits.R base64.R binary.S classes.S curl.S curlAuthConstants.R curlEnums.R curlError.R curlInfo.S dynamic.R form.S getFormParams.R getURLContent.R header.R http.R httpError.R httpErrors.R iconv.R info.S mime.R multi.S options.S scp.R support.S upload.R urlExists.R zclone.R zzz.R
 # NeedsCompilation: yes
-# Packaged: 2018-01-02 17:59:16 UTC; ripley
+# Packaged: 2018-07-15 16:08:05 UTC; ripley
 # Repository: CRAN
-# Date/Publication: 2018-01-04 07:31:37 UTC
+# Date/Publication: 2018-07-15 17:13:41 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

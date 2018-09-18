@@ -1,6 +1,6 @@
-{% set version = '2.0.3' %}  # [linux or win32]
-{% set version = '2.0.3' %}  # [win64]
-{% set version = '2.0.3' %}  # [osx]
+{% set version = '2.0.4' %}  # [linux or win32]
+{% set version = '2.0.4' %}  # [win64]
+{% set version = '2.0.4' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/visNetwork_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/visNetwork/visNetwork_{{ version }}.tar.gz  # [linux or win32]
-  sha256: bc2e75cf4cc1410d8eb528a38870666117e674f1b9ba5fa1ff769b8ab2e2462f  # [linux or win32]
+  sha256: 0503408b195a812bcf589f8d34f5c3f9a38e92e78b699c3c7d737f7054d5ed15  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/visNetwork_2.0.3.zip  # [win64]
-  sha256: 2fb8eb3426c59389187fdf215f1a4ca39bd155317ca52886fa44a8fd796cf1ec  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/visNetwork_2.0.4.zip  # [win64]
+  sha256: f969077197848b22302e8d30d2b6fe995a2e1e801e19b6e809c96866065ee21b  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/visNetwork_2.0.3.tgz  # [osx]
-  sha256: 0fc15a237622a22f3c10ebb728c5ac6c44540bbdf6acb62f31ebd9944bcfb022  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/visNetwork_2.0.4.tgz  # [osx]
+  sha256: af1ac5bd05332581b6ed85d850712996d5ab21a71e423d7c5eec2c52d437c06c  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -77,8 +77,8 @@ extra:
 
 # Package: visNetwork
 # Title: Network Visualization using 'vis.js' Library
-# Version: 2.0.3
-# Date: 2018-01-09
+# Version: 2.0.4
+# Date: 2018-06-13
 # Authors@R: c( person(family = "Almende B.V.", role = c("aut", "cph"), comment = "vis.js library in htmlwidgets/lib, http://visjs.org, http://www.almende.com/home"), person("Benoit", "Thieurmel", role = c("aut", "cre"), comment = "R interface", email = "benoit.thieurmel@datastorm.fr"), person(given = "Titouan", family = "Robert",  email = "titouan.robert@datastorm.fr", role = c("aut", "ctb")) )
 # Maintainer: Benoit Thieurmel <benoit.thieurmel@datastorm.fr>
 # Description: Provides an R interface to the 'vis.js' JavaScript charting library. It allows an interactive visualization of networks.
@@ -91,10 +91,10 @@ extra:
 # VignetteBuilder: knitr, rmarkdown, webshot
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2018-01-09 14:56:59 UTC; Datastorm
+# Packaged: 2018-06-14 07:23:11 UTC; Datastorm
 # Author: Almende B.V. [aut, cph] (vis.js library in htmlwidgets/lib, http://visjs.org, http://www.almende.com/home), Benoit Thieurmel [aut, cre] (R interface), Titouan Robert [aut, ctb]
 # Repository: CRAN
-# Date/Publication: 2018-01-09 17:25:29 UTC
+# Date/Publication: 2018-06-14 08:23:00 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

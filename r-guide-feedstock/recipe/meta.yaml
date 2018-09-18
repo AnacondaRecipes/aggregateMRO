@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/GUIDE_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/GUIDE/GUIDE_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 44de2214b08fee5db746737df5355e2838970b6600dc8c76ac551bf8abb09009  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/GUIDE_1.2.3.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/GUIDE_1.2.3.1.zip  # [win64]
   sha256: ebf07b742a5e0ce9b1e4f2c35b3c70709f23cec7983ebad5015c02b57beb4018  # [win64]
 
 build:

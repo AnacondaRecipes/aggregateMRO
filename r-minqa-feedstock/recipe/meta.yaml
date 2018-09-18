@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/minqa_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/minqa/minqa_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: cfa193a4a9c55cb08f3faf4ab09c11b70412523767f19894e4eafc6e94cccd0c  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/minqa_1.2.4.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/minqa_1.2.4.zip  # [win64]
   sha256: 8adfec78e164f92d905d3ae3e902e323d69ef36875de85901ff472958f80fc78  # [win64]
 
 build:

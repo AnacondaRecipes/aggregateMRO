@@ -48,17 +48,17 @@ pushd unpack
         rm -f $SRC_DIR/unpack/$ARCHIVE
         msiexec -a $(cygpath -w $PWD/AttachedContainer/ROpen.msi) -qb TARGETDIR=$(cygpath -w "$PWD")
         mv Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab "$SRC_DIR"/unpack || exit 1
-        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.3.0.0_1033.cab "$SRC_DIR"/unpack || exit 1
+        mv Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_${PKG_VERSION}.0_1033.cab "$SRC_DIR"/unpack || exit 1
         # This contains VCRT_14.0.23026.0_1033.exe and RSetup.exe
         rm -rf Microsoft/MRO-$PKG_VERSION.0/Setup
         mkdir -p "$SRC_DIR"/unpack/lib
         mv Microsoft/MRO-$PKG_VERSION.0 "$SRC_DIR"/unpack/lib/R
         mkdir -p  "$SRC_DIR"/unpack/lib/R.mkl
         # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MKL_2017.0.36.5_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
-        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_9.3.0.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
+        # msiexec -a $(cygpath -w $PWD/Microsoft/MRO-$PKG_VERSION.0/Setup/MROPKGS_${PKG_VERSION}.0_1033.cab) -qb TARGETDIR=$(cygpath -w "$SRC_DUR"/unpack)
         # TODO :: The MKL archive should probably be unpacked when during install-r-package.sh for RevoUtilsMath instead.
         ARCHIVES+=(MKL_2017.0.36.5_1033.cab,lib/R.mkl)
-        ARCHIVES+=(MROPKGS_9.3.0.0_1033.cab,lib/R)
+        ARCHIVES+=(MROPKGS_${PKG_VERSION}.0_1033.cab,lib/R)
       popd
     elif [[ $target_platform == osx-64 ]]; then
       # https://github.com/libarchive/libarchive/issues/456
@@ -283,8 +283,8 @@ pushd unpack
       echo "Pushed to libdir $libdir"
         for SHARED_LIB in $(find . -type f -iname "*.dylib" -or -iname "*.so" -or -iname "R"); do
           echo "fixing SHARED_LIB $SHARED_LIB"
-          install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
-          install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+          install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+          install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/clang4/lib/libomp.dylib "$PREFIX"/lib/libomp.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/gfortran/lib/libgfortran.3.dylib "$PREFIX"/lib/libgfortran.3.dylib $SHARED_LIB || true
           install_name_tool -change /usr/local/gfortran/lib/libquadmath.0.dylib "$PREFIX"/lib/libquadmath.0.dylib $SHARED_LIB || true
@@ -298,13 +298,13 @@ pushd unpack
         done
       popd
     done
-    # One-off fixups. It seems some packages were not rebuilt against R 3.5.0 (doing them for every dylib would be slow):
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5.0-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
-    install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
+    # One-off fixups. It seems some packages do not get built against the latest R (doing them for every dylib would be slow):
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
+    install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
   fi
   # rm -rf lib/R/library/RevoUtils || exit 1
   # mv $SRC_DIR/RevoUtils lib/R/library/ || exit 1

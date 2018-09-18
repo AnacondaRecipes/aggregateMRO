@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/xtable_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/xtable/xtable_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 1623a1cde2e130fedb46f98840c3a882f1cbb167b292ef2bd86d70baefc4280d  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/xtable_1.8-2.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/xtable_1.8-2.zip  # [win64]
   sha256: 4f6bba9420d216600b95c4bded00b624891c9daff887bb76c3ab6bae810a5635  # [win64]
 
 build:

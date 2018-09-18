@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/tidyverse_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/tidyverse/tidyverse_{{ version }}.tar.gz
   sha256: ad67a27bb4e89417a15338fe1a40251a7b5dedba60e9b72637963d3de574c37b

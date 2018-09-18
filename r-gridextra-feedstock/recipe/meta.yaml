@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/gridExtra_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/gridExtra/gridExtra_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 81b60ce6f237ec308555471ae0119158b115463df696d2eca9b177ded8988e3b  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/gridExtra_2.3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/gridExtra_2.3.zip  # [win64]
   sha256: 5fb0e3ff2cd0aad2a78917071181612ce36cbb4526c64d65763a0f8352f4e01a  # [win64]
 
 build:

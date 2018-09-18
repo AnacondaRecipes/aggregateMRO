@@ -1,6 +1,6 @@
-{% set version = '0.9.4.7' %}  # [linux or win32]
-{% set version = '0.9.4.7' %}  # [win64]
-{% set version = '0.9.4.7' %}  # [osx]
+{% set version = '0.9.5.1' %}  # [linux or win32]
+{% set version = '0.9.5.1' %}  # [win64]
+{% set version = '0.9.5.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/stringdist_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/stringdist/stringdist_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 24120f19a449ab607a816e4e40f46cedf0b74a784dbe2d6d526bdecc2a07e8e1  # [linux or win32]
+  sha256: aa8b6e3f25c820512ac224e73bc00728ee9b15136cdaaf71ffe042ded30b573d  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/stringdist_0.9.4.7.zip  # [win64]
-  sha256: d2c8b79f2d6ff38727ff49cf1028a0ef82ae829264e1be705b80a27d96e77ad7  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/stringdist_0.9.5.1.zip  # [win64]
+  sha256: b30fe15f4c9739ff80c79d187065947ae4ced72497537019560d1af7fcd55bf3  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/stringdist_0.9.4.7.tgz  # [osx]
-  sha256: 856a2520dd66bae4cec3cc87cd65905bc3a595b7436809fa7d925dbfc883d6ae  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/stringdist_0.9.5.1.tgz  # [osx]
+  sha256: 56afb2e3d169e6ed1a913af75029faa058134a30545d10410078d9384e12b91a  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -69,7 +69,9 @@ about:
     Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance)
     or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided
     as well. Distances can be computed between character vectors while taking proper
-    care of encoding or between integer vectors representing generic sequences.
+    care of encoding or between integer vectors representing generic sequences. This
+    package is built for speed and runs in parallel by using 'openMP'. An API for C
+    or C++ is exposed as well.
   license_family: GPL3
 
 extra:
@@ -85,21 +87,20 @@ extra:
 # LazyData: no
 # Type: Package
 # LazyLoad: yes
-# Authors@R: c( person("Mark", "van der Loo", role=c("aut","cre"),email="mark.vanderloo@gmail.com") , person("Jan", "van der Laan", role="ctb"),person("R Core Team","",role=c("ctb")),person("Nick","Logan",role="ctb"))
-# Description: Implements an approximate string matching version of R's native 'match' function. Can calculate various string distances based on edits (Damerau-Levenshtein, Hamming, Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance) or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided as well. Distances can be computed between character vectors while taking proper care of encoding or between integer vectors representing generic sequences.
-# Version: 0.9.4.7
+# Authors@R: c( person("Mark", "van der Loo", role=c("aut","cre"),email="mark.vanderloo@gmail.com") , person("Jan", "van der Laan", role="ctb") , person("R Core Team",""     , role="ctb") , person("Nick","Logan"       , role="ctb") , person("Chris","Muir"       , role="ctb"))
+# Description: Implements an approximate string matching version of R's native 'match' function. Can calculate various string distances based on edits (Damerau-Levenshtein, Hamming, Levenshtein, optimal sting alignment), qgrams (q- gram, cosine, jaccard distance) or heuristic metrics (Jaro, Jaro-Winkler). An implementation of soundex is provided as well. Distances can be computed between character vectors while taking proper care of encoding or between integer vectors representing generic sequences. This package is built for speed and runs in parallel by using 'openMP'. An API for C or C++ is exposed as well.
+# Version: 0.9.5.1
 # Depends: R (>= 2.15.3)
 # Imports: parallel
 # URL: https://github.com/markvanderloo/stringdist
 # BugReports: https://github.com/markvanderloo/stringdist/issues
-# Date: 2018-03-05
 # Suggests: testthat
 # RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2018-03-13 15:45:20 UTC; mark
-# Author: Mark van der Loo [aut, cre], Jan van der Laan [ctb], R Core Team [ctb], Nick Logan [ctb]
+# Packaged: 2018-06-08 11:22:22 UTC; mark
+# Author: Mark van der Loo [aut, cre], Jan van der Laan [ctb], R Core Team [ctb], Nick Logan [ctb], Chris Muir [ctb]
 # Repository: CRAN
-# Date/Publication: 2018-03-13 17:12:48 UTC
+# Date/Publication: 2018-06-08 13:52:58 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

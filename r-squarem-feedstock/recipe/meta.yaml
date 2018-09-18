@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/SQUAREM_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/SQUAREM/SQUAREM_{{ version }}.tar.gz
   sha256: 9b89905b436f1cf3faa9e3dabc585a76299e729e85ca659bfddb4b7cba11b283

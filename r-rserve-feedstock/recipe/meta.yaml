@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Rserve_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/Rserve/Rserve_{{ version }}.tar.gz  # [linux or win32]
   sha256: f6d636c736c3f16487d9987e54554fe0c55257b9bc0671b43e536d832e513027  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/Rserve_1.7-3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/Rserve_1.7-3.zip  # [win64]
   sha256: a462c4990bae8f25314c276cd4bda9aa1054ba0df59d9a9ef60f2af673a39efe  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/Rserve_1.7-3.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/Rserve_1.7-3.tgz  # [osx]
   sha256: 8e83d6f39bc77b2e6738ad64d0657daf025fc3bdf822c640fceccd7cf4017801  # [osx]
 
 build:

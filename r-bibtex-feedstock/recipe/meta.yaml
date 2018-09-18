@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/bibtex_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/bibtex/bibtex_{{ version }}.tar.gz
   sha256: 1f06ab3660c940405230ad16ff6e4ba38d4418a59cd9b16d78a4349f8b488372

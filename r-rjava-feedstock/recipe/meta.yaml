@@ -1,4 +1,4 @@
-{% set version = '0.9-9' %}
+{% set version = '0.9-10' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/rJava_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/rJava/rJava_{{ version }}.tar.gz
-  sha256: 932b153f2b5c546d614bb5ac4124df3d103c9f8e09a608a14fd036dfe15e9146
+  sha256: c9934bdd3ae08746c4d4b9faa235af2c147a71235a9af108e58bff11c179fe78
 
 build:
   merge_build_host: True  # [win]
@@ -22,8 +22,6 @@ build:
   rpaths:
     - lib/R/lib/
     - lib/
-  script_env:
-    - JAVA_HOME
 
 requirements:
   build:
@@ -73,7 +71,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: rJava
-# Version: 0.9-9
+# Version: 0.9-10
 # Title: Low-Level R to Java Interface
 # Author: Simon Urbanek <simon.urbanek@r-project.org>
 # Maintainer: Simon Urbanek <simon.urbanek@r-project.org>
@@ -82,10 +80,11 @@ extra:
 # License: GPL-2
 # URL: http://www.rforge.net/rJava/
 # SystemRequirements: Java JDK 1.2 or higher (for JRI/REngine JDK 1.4 or higher), GNU make
+# BugReports: https://github.com/s-u/rJava/issues
 # NeedsCompilation: yes
-# Packaged: 2017-10-12 07:21:38 UTC; ripley
+# Packaged: 2018-05-14 20:48:38 UTC; svnuser
 # Repository: CRAN
-# Date/Publication: 2017-10-12 10:54:13 UTC
+# Date/Publication: 2018-05-29 10:16:27 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

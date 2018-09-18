@@ -1,6 +1,6 @@
-{% set version = '3.0-0' %}  # [linux or win32]
-{% set version = '3.0-0' %}  # [win64]
-{% set version = '3.0-0' %}  # [osx]
+{% set version = '3.0-1' %}  # [linux or win32]
+{% set version = '3.0-1' %}  # [win64]
+{% set version = '3.0-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/lmerTest_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/lmerTest/lmerTest_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 5b94cc9ec0c10dd79d8a282a085bef71b81c7d1ae3ae47dc46902dd97dfbc622  # [linux or win32]
+  sha256: 95e07c9e1b231ac14c379324570c5a387e1a6348aee51b673dc32ec474322a5e  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/lmerTest_3.0-0.zip  # [win64]
-  sha256: a06566e807360253bc1f04985d6c1ce371c327180462f4be4c4cccd37ccf760a  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lmerTest_3.0-1.zip  # [win64]
+  sha256: 7f1b6e468e7335aa64198644bc0b233bc8bda0f3a5511190a79a455977fd0a53  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/lmerTest_3.0-0.tgz  # [osx]
-  sha256: 1f7cc782372c571917bacbfa72f79309fb0304dbd6c23f3e0c070dbd7c73952c  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/lmerTest_3.0-1.tgz  # [osx]
+  sha256: 0cef8b3f1afa3ac1361621f4a7d61cae077b96f120cc9549184d21c8cae4defe  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -31,7 +31,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: pbkrtest, tools
+# Suggests: pbkrtest (>= 0.4-3), tools
 requirements:
   build:
     - {{posix}}zip               # [win32]
@@ -40,14 +40,14 @@ requirements:
     - mro-base
     - r-mass
     - r-ggplot2
-    - r-lme4 >=1.0
+    - r-lme4 >=1.1_10
     - r-numderiv
 
   run:
     - mro-base
     - r-mass
     - r-ggplot2
-    - r-lme4 >=1.0
+    - r-lme4 >=1.1_10
     - r-numderiv
 
 test:
@@ -66,10 +66,10 @@ about:
   home: https://github.com/runehaubo/lmerTestR
   license: GPL (>= 2)
   summary: Provides p-values in type I, II or III anova and summary tables for lmer model fits
-    (cf. lme4) via Satterthwaite's degrees of  freedom method. A Kenward-Roger method
+    (cf. lme4) via Satterthwaite's degrees of freedom method. A Kenward-Roger method
     is also available via the pbkrtest package. Model selection methods include step,
-    drop1 and anova-like  tables for random effects (ranova). Methods for Least-Square
-    means (LS-means)  and tests of linear contrasts of fixed effects are also available.
+    drop1 and anova-like tables for random effects (ranova). Methods for Least-Square
+    means (LS-means) and tests of linear contrasts of fixed effects are also available.
   license_family: GPL3
 
 extra:
@@ -81,12 +81,12 @@ extra:
 # Package: lmerTest
 # Type: Package
 # Title: Tests in Linear Mixed Effects Models
-# Version: 3.0-0
+# Version: 3.0-1
 # Authors@R: c(person("Alexandra", "Kuznetsova", role = c("aut")), person("Per", "Bruun Brockhoff", role = c("aut", "ths", "cre"), email = "perbb@dtu.dk"), person("Rune", "Haubo Bojesen Christensen", role =  c("aut"), email = "Rune@ChristensenStatistics.dk"))
-# Depends: lme4 (>= 1.0), stats, methods
+# Depends: R (>= 3.2.5), lme4 (>= 1.1-10), stats, methods
 # Imports: numDeriv, MASS, ggplot2
-# Suggests: pbkrtest, tools
-# Description: Provides p-values in type I, II or III anova and summary tables for lmer model fits (cf. lme4) via Satterthwaite's degrees of  freedom method. A Kenward-Roger method is also available via the pbkrtest package. Model selection methods include step, drop1 and anova-like  tables for random effects (ranova). Methods for Least-Square means (LS-means)  and tests of linear contrasts of fixed effects are also available.
+# Suggests: pbkrtest (>= 0.4-3), tools
+# Description: Provides p-values in type I, II or III anova and summary tables for lmer model fits (cf. lme4) via Satterthwaite's degrees of freedom method. A Kenward-Roger method is also available via the pbkrtest package. Model selection methods include step, drop1 and anova-like tables for random effects (ranova). Methods for Least-Square means (LS-means) and tests of linear contrasts of fixed effects are also available.
 # License: GPL (>= 2)
 # Encoding: UTF-8
 # LazyData: true
@@ -95,11 +95,11 @@ extra:
 # RoxygenNote: 6.0.1
 # Collate: 'anova_contrasts.R' 'contest.R' 'contrast_utils.R' 'data_documentation.R' 'drop1.R' 'estimability.R' 'lmer.R' 'lmerTest.R' 'lmer_anova.R' 'lmer_summary.R' 'ls_means.R' 'ranova.R' 'step.R' 'terms_utils.R' 'utils.R'
 # NeedsCompilation: no
-# Packaged: 2018-04-16 12:40:44 UTC; rhbc
+# Packaged: 2018-04-23 06:08:01 UTC; rhbc
 # Author: Alexandra Kuznetsova [aut], Per Bruun Brockhoff [aut, ths, cre], Rune Haubo Bojesen Christensen [aut]
 # Maintainer: Per Bruun Brockhoff <perbb@dtu.dk>
 # Repository: CRAN
-# Date/Publication: 2018-04-16 19:57:22 UTC
+# Date/Publication: 2018-04-23 22:33:22 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

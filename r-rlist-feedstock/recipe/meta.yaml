@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/rlist_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/rlist/rlist_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: bb0148b124997aa4e1c89c6c7cf45927afaf5b23caefcdc5116cfa7caef05c21  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rlist_0.4.6.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rlist_0.4.6.1.zip  # [win64]
   sha256: a9c31bc190eb66700065560a8d0cc6ea9bb1ee9de17503328ee45ba2be1756a9  # [win64]
 
 build:

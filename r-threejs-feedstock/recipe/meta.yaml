@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/threejs_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/threejs/threejs_{{ version }}.tar.gz  # [linux or win32]
   sha256: 71750b741672a435ecf749b69c72f0681aa8bb795e317f4e3056d5e33f6d79e8  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/threejs_0.3.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/threejs_0.3.1.zip  # [win64]
   sha256: 3309b340dc3596f3ff4b1cbf2d1313cffe3185b4c126ee04375d64dbe4b6ec04  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/threejs_0.3.1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/threejs_0.3.1.tgz  # [osx]
   sha256: cd86017c70397ff83305f4f113961006d2d4cec13dc6d650dd5f0b67ad3267de  # [osx]
 
 build:

@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/vars_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/vars/vars_{{ version }}.tar.gz  # [linux or win32]
   sha256: 50fa365a24885f021f7f5a3bd4d898ecfec0c14784ca9d9db284f30356f985e0  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/vars_1.5-2.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/vars_1.5-2.zip  # [win64]
   sha256: 72a43b7d3ba8f4e29b0c4aa6a49a2d65dc91eab4d9de41eae74736afe261993d  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/vars_1.5-2.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/vars_1.5-2.tgz  # [osx]
   sha256: 1ab1bfa57d0a687846670b372b62e7718023fea2225f8fc6e2d4a8020a4d40e8  # [osx]
 
 build:

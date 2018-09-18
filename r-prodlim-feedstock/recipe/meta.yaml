@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/prodlim_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/prodlim/prodlim_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 4b22b54fdf712439309be0ff74f63cde9080464667b00e19823372ac0fc254ab  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/prodlim_2018.04.18.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/prodlim_2018.04.18.zip  # [win64]
   sha256: 8bb0139d0971a8331bb2d440fff9414f10de204f9891f3fc6c6f9d1ee7c42cf0  # [win64]
 
 build:

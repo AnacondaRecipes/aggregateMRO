@@ -1,4 +1,4 @@
-{% set version = '1.6-8' %}
+{% set version = '1.7-0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/e1071_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/e1071/e1071_{{ version }}.tar.gz
-  sha256: f68601743b9b49e1d1f8b9ec9963d6500d66158417c53f65bf7232678d88c622
+  sha256: 93699a2e16826459221cf7c9896d99e87fdc1c0e2e270bda302670760cbf643a
 
 build:
   merge_build_host: True  # [win]
@@ -76,7 +76,7 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: e1071
-# Version: 1.6-8
+# Version: 1.7-0
 # Title: Misc Functions of the Department of Statistics, Probability Theory Group (Formerly: E1071), TU Wien
 # Imports: graphics, grDevices, class, stats, methods, utils
 # Suggests: cluster, mlbench, nnet, randomForest, rpart, SparseM, xtable, Matrix, MASS
@@ -85,11 +85,11 @@ extra:
 # License: GPL-2
 # LazyLoad: yes
 # NeedsCompilation: yes
-# Packaged: 2017-02-01 16:13:21 UTC; meyer
+# Packaged: 2018-07-23 12:08:44 UTC; meyer
 # Author: David Meyer [aut, cre], Evgenia Dimitriadou [aut, cph], Kurt Hornik [aut], Andreas Weingessel [aut], Friedrich Leisch [aut], Chih-Chung Chang [ctb, cph] (libsvm C++-code), Chih-Chen Lin [ctb, cph] (libsvm C++-code)
 # Maintainer: David Meyer <David.Meyer@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-02-02 12:37:10
+# Date/Publication: 2018-07-28 15:50:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

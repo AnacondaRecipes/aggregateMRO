@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/uroot_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/uroot/uroot_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 9b7616d64ed87b29ee45368bf7f08d15c0ec058e450c69171fbfecb44943ac5b  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/uroot_2.0-9.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/uroot_2.0-9.zip  # [win64]
   sha256: 5ef1d3bac2d39e91c42e3f16c754e7e51be42a857db2ca5f5d5e303a7a4d9c73  # [win64]
 
 build:

@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/bindr_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/bindr/bindr_{{ version }}.tar.gz  # [linux or win32]
   sha256: 7c785ca77ceb3ab9282148bcecf64d1857d35f5b800531d49483622fe67505d0  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/bindr_0.1.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/bindr_0.1.1.zip  # [win64]
   sha256: 1c936745dd002e640a4c8031717f76b2ca405912a089084da47845acc4972426  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/bindr_0.1.1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/bindr_0.1.1.tgz  # [osx]
   sha256: 6f82efa70ff6ee7b0f360ffc813093542b339630a318f985a3e0c3aa0c3e483b  # [osx]
 
 build:

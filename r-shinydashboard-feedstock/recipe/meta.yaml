@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/shinydashboard_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/shinydashboard/shinydashboard_{{ version }}.tar.gz
   sha256: 0b7b102e9e5bea78ddc4da628d072a358270f2db9b63a6ebe4d8bdce3066d883

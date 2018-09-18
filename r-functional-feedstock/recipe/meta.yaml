@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/functional_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/functional/functional_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 19b78e27c27b1081245222c42da4dd1cb65c5643e6da9d6c1a6e997755c21888  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/functional_0.6.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/functional_0.6.zip  # [win64]
   sha256: 03b5690f1ed5ffc72e58e5c8e8d47993d5966d0002e1b3456ef576c20b1d5214  # [win64]
 
 build:

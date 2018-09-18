@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/DT_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/DT/DT_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 3daa96b819ca54e5fbc2c7d78cb3637982a2d44be58cea0683663b71cfc7fa19  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/DT_0.4.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/DT_0.4.zip  # [win64]
   sha256: e70e3c97f755e16914a1971f3ff5cf903c8bee9c4c23a00d85467cca14a1a253  # [win64]
 
 build:

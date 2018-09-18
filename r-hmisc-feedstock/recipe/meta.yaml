@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Hmisc_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/Hmisc/Hmisc_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 991db21cdf73ffbf5b0239a4876b2e76fd243ea33528afd88dc968792f281498  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/Hmisc_4.1-1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/Hmisc_4.1-1.zip  # [win64]
   sha256: 80e08ca831c49e1a89d6981e1997cf17e92fedde20973ba94baaf0c3883908ce  # [win64]
 
 build:

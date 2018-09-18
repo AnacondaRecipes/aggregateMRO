@@ -1,4 +1,4 @@
-{% set version = '0.10-44' %}
+{% set version = '0.10-45' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/tseries_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/tseries/tseries_{{ version }}.tar.gz
-  sha256: 4f114a807995a7df6c53842acc144e592370412e5411e4decd97750dcdd9e65b
+  sha256: c08eb1682286e9f2e0633976e4fad6c224f760f5e70b55006dbbfd5f207d4193
 
 build:
   merge_build_host: True  # [win]
@@ -37,14 +37,14 @@ requirements:
   host:
     - mro-base
     - r-quadprog
-    - r-quantmod >=0.4.9
+    - r-quantmod >=0.4_9
     - r-zoo
 
   run:
     - mro-base
     - {{native}}gcc-libs         # [win]
     - r-quadprog
-    - r-quantmod >=0.4.9
+    - r-quantmod >=0.4_9
     - r-zoo
 
 test:
@@ -72,19 +72,19 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: tseries
-# Version: 0.10-44
+# Version: 0.10-45
 # Title: Time Series Analysis and Computational Finance
 # Authors@R: c(person("Adrian", "Trapletti", role = "aut", email = "adrian@trapletti.org"), person("Kurt", "Hornik", role = c("aut", "cre"), email = "Kurt.Hornik@R-project.org"), person("Blake", "LeBaron", role = "ctb", comment = "BDS test code"))
 # Description: Time series analysis and computational finance.
 # Depends: R (>= 2.10.0)
-# Imports: graphics, stats, utils, quadprog, zoo, quantmod (>= 0.4.9)
+# Imports: graphics, stats, utils, quadprog, zoo, quantmod (>= 0.4-9)
 # License: GPL-2
 # NeedsCompilation: yes
-# Packaged: 2018-04-15 15:14:39 UTC; hornik
+# Packaged: 2018-06-04 09:49:39 UTC; hornik
 # Author: Adrian Trapletti [aut], Kurt Hornik [aut, cre], Blake LeBaron [ctb] (BDS test code)
 # Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2018-04-15 16:35:20 UTC
+# Date/Publication: 2018-06-04 10:36:40 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

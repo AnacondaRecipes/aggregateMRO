@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/findpython_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/findpython/findpython_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 5486535ae2f0a123b630d8eabf93a61b730765f55dfcc8ef4f6e56e7c49408f8  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/findpython_1.0.3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/findpython_1.0.3.zip  # [win64]
   sha256: dac3c9b627a0cdd4bc1c549dd0356a07b2e26307112bcdc2a07d4b6da946b3cf  # [win64]
 
 build:

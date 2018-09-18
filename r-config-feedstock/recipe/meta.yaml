@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/config_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/config/config_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 5ade6a768db6225634095ac0e71e5710fd1597c15512bac0b45a0b52afb3c750  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/config_0.3.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/config_0.3.zip  # [win64]
   sha256: ce550cd78126ae7e1d89a260f06d0fd469dd6f5f7f5a329febcb414169349098  # [win64]
 
 build:

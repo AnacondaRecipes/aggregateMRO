@@ -1,5 +1,5 @@
-{% set version = '0.7' %}  # [linux or win32 or osx]
-{% set version = '0.7' %}  # [win64]
+{% set version = '0.8' %}  # [linux or win32 or osx]
+{% set version = '0.8' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/tkrgl_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/tkrgl/tkrgl_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 455f2f9c15e8067afe70d488611c4dd8c59a878e39ba51f20f36e31fcd2df8ce  # [linux or win32 or osx]
+  sha256: 24fcf76d927decb8c09addcead6393904dda0a3a7ad63f977776b88ba18ab2b0  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tkrgl_0.7.zip  # [win64]
-  sha256: fce77d348f59506979811d3880e90251effe9d486d8771977855d3d4d1707e43  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tkrgl_0.8.zip  # [win64]
+  sha256: c7fc44a48ba4cf3aaefa747142e6497d7353eae403b599ad1ed3fa3434bd6ca4  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -54,7 +54,7 @@ test:
 about:
   home: http://www.stats.uwo.ca/faculty/murdoch
   license: GPL
-  summary: 'TK widget tools for rgl package '
+  summary: 'Provides ''TK'' widget tools for the ''rgl'' package. '
 
   license_family: GPL
 
@@ -65,22 +65,21 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: tkrgl
-# Title: TK widget tools for rgl package
-# Version: 0.7
+# Title: 'TK' Widget Tools for 'rgl'
+# Version: 0.8
 # Author: Duncan Murdoch/Ming Chen
-# Description: TK widget tools for rgl package
+# Description: Provides 'TK' widget tools for the 'rgl' package.
 # Maintainer: Duncan Murdoch <murdoch@stats.uwo.ca>
 # License: GPL
-# Depends: R (>= 2.0.0), tcltk, rgl (>= 0.66)
+# Depends: R (>= 2.0.0)
+# Imports: rgl (>= 0.66), tcltk
 # SystemRequirements: rgl packages for rendering
 # URL: http://www.stats.uwo.ca/faculty/murdoch
 # BugReports: https://r-forge.r-project.org/projects/rgl/
-# Repository: CRAN
-# Repository/R-Forge/Project: rgl
-# Repository/R-Forge/Revision: 831
-# Date/Publication: 2011-11-27 09:14:21
-# Packaged: 2011-11-25 22:38:01 UTC; rforge
 # NeedsCompilation: no
+# Packaged: 2018-05-16 11:27:21 UTC; murdoch
+# Repository: CRAN
+# Date/Publication: 2018-05-16 12:31:45 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

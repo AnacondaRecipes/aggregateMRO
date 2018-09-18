@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/maps_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/maps/maps_{{ version }}.tar.gz
   sha256: 199afe19a4edcef966ae79ef802f5dcc15a022f9c357fcb8cae8925fe8bd2216

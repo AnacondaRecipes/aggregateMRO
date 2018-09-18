@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/acepack_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/acepack/acepack_{{ version }}.tar.gz
   sha256: 82750507926f02a696f6cc03693e8d4a5ee7e92500c8c15a16a9c12addcd28b9

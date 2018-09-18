@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/forcats_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/forcats/forcats_{{ version }}.tar.gz
   sha256: 95814610ec18b8a8830eba63751954387f9d21400d6ab40394ed0ff22c0cb657

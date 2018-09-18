@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/pryr_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/pryr/pryr_{{ version }}.tar.gz
   sha256: d39834316504c49ecd4936cbbcaf3ee3dae6ded287af42475bf38c9e682f721b

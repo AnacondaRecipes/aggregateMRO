@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/qvcalc_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/qvcalc/qvcalc_{{ version }}.tar.gz  # [linux or win32]
   sha256: de2311ade76dae311b2b5632633003667aa46cdb8703a330b84b67c4b90f87d2  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/qvcalc_0.9-1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/qvcalc_0.9-1.zip  # [win64]
   sha256: 6ba3c67cb2084e7ea2f6fee424e73df904a084042158b0750e2a8a07af48f6a2  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/qvcalc_0.9-1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/qvcalc_0.9-1.tgz  # [osx]
   sha256: 7a4affe2db65acc3907746fbe7198f3e7a4bcd3b2f190baadd9658a1ab229b3f  # [osx]
 
 build:

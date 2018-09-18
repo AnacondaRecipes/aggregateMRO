@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/tilegramsR_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/tilegramsR/tilegramsR_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 22ee5ec89158e7ad366e9e357e8ec6dde22cfd95fa4395323d1f3df8e8f69685  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tilegramsR_0.2.0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tilegramsR_0.2.0.zip  # [win64]
   sha256: 9e30db296d05b7b13074c5f5a2651a1d3155a4a54aa4c233f9fd759d56614ab6  # [win64]
 
 build:

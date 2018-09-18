@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/copula_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/copula/copula_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 067db37a3123dd8e324c4912866b661244b9deb64494eb7b8442d1f7d1b5b2f5  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/copula_0.999-18.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/copula_0.999-18.zip  # [win64]
   sha256: 20fe7da1c94f2c40aab2efb4ae53a921994748789b23e90bf229d90aecf5e681  # [win64]
 
 build:

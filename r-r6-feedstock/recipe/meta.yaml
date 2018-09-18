@@ -1,6 +1,5 @@
-{% set version = '2.2.2' %}  # [linux or win32]
+{% set version = '2.2.2' %}  # [linux or win32 or osx]
 {% set version = '2.2.2' %}  # [win64]
-{% set version = '2.2.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/R6_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/R6/R6_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 087756f471884c3b3ead80215a7cc5636a78b8a956e91675acfe2896426eae8f  # [linux or win32]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/R6_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/R6/R6_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 087756f471884c3b3ead80215a7cc5636a78b8a956e91675acfe2896426eae8f  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/R6_2.2.2.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/R6_2.2.2.zip  # [win64]
   sha256: 546f69b8b4dbcffd3c7162507b1c9baa95dc74d706a664feb6547001ec5c77e4  # [win64]
-
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/R6_2.2.2.tgz  # [osx]
-  sha256: 979c13854495abb68ae8f142b7e87c015c38f216f9215bb7a413ef0c982c4fcf  # [osx]
 
 build:
   merge_build_host: True  # [win32]

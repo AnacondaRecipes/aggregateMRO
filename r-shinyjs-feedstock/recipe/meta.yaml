@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/shinyjs_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/shinyjs/shinyjs_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 286b11136bc999738592d01f980e7db86930fb3216effc680688829865bc7f84  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/shinyjs_1.0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/shinyjs_1.0.zip  # [win64]
   sha256: 5409c01f86717a65107a81f1762ecf7931180ce46a7eef0d5768dd61d605bf3f  # [win64]
 
 build:

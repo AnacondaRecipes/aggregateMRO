@@ -1,5 +1,5 @@
-{% set version = '0.3-2' %}  # [linux or win32 or osx]
-{% set version = '0.3-2' %}  # [win64]
+{% set version = '0.3-3' %}  # [linux or win32 or osx]
+{% set version = '0.3-3' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/pbdZMQ_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/pbdZMQ/pbdZMQ_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: ece2a2881c662f77126e4801ba4e01c991331842b0d636ce5a2b591b9de3fc37  # [linux or win32 or osx]
+  sha256: ae26c13400e2acfb6463ff9b67156847a22ec79f3b53baf65119efaba1636eca  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pbdZMQ_0.3-2.zip  # [win64]
-  sha256: 46aba3ffc1f75bd77dd320f1f7facfc257ae99861c68a37d204752c5708c5f50  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pbdZMQ_0.3-3.zip  # [win64]
+  sha256: acf0913a6d9e8bf285a9de99fddb699db159806d31bfbc11faf68f3296441de9  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -81,8 +81,8 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: pbdZMQ
-# Version: 0.3-2
-# Date: 2018-01-11
+# Version: 0.3-3
+# Date: 2018-04-30
 # Title: Programming with Big Data -- Interface to 'ZeroMQ'
 # Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email = "wccsnow@gmail.com"), person("Drew", "Schmidt", role = "aut"), person("Christian", "Heckendorf", role = "aut", comment = "file transfer"), person("George", "Ostrouchov", role = "aut", comment = "Mac OSX"), person("Whit", "Armstrong", role = "ctb", comment = "some functions are modified from the rzmq package for backwards compatibility"), person("Brian", "Ripley", role = "ctb", comment = "C code of shellexec, and Solaris"), person("R Core team", role = "ctb", comment = "some functions are modified from the R source code"), person("Philipp", "A.", role = "ctb", comment = "Fedora"), person("Elliott Sales", "de Andrade", role = "ctb", comment = "sprintf"), person("Spencer", "Aiello", role = "ctb", comment = "windows conf") )
 # Depends: R (>= 3.2.0)
@@ -93,15 +93,15 @@ extra:
 # SystemRequirements: Linux, Mac OSX, and Windows, or 'ZeroMQ' library >= 4.0.4. Solaris 10 needs 'ZeroMQ' library 4.0.7 and 'OpenCSW'.
 # License: GPL-3
 # URL: http://r-pbd.org/
-# BugReports: http://group.r-pbd.org/
+# BugReports: https://github.com/snoweye/pbdZMQ/issues
 # MailingList: Please send questions and comments regarding pbdR to RBigData@gmail.com
 # NeedsCompilation: yes
 # Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
 # RoxygenNote: 6.0.1
-# Packaged: 2018-01-31 01:22:48 UTC; snoweye
+# Packaged: 2018-05-01 03:19:59 UTC; snoweye
 # Author: Wei-Chen Chen [aut, cre], Drew Schmidt [aut], Christian Heckendorf [aut] (file transfer), George Ostrouchov [aut] (Mac OSX), Whit Armstrong [ctb] (some functions are modified from the rzmq package for backwards compatibility), Brian Ripley [ctb] (C code of shellexec, and Solaris), R Core team [ctb] (some functions are modified from the R source code), Philipp A. [ctb] (Fedora), Elliott Sales de Andrade [ctb] (sprintf), Spencer Aiello [ctb] (windows conf)
 # Repository: CRAN
-# Date/Publication: 2018-01-31 12:41:34 UTC
+# Date/Publication: 2018-05-05 19:33:08 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

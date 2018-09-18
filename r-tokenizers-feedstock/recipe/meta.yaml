@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/tokenizers_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/tokenizers/tokenizers_{{ version }}.tar.gz  # [linux or win32]
   sha256: 28617cdc5ddef5276abfe14a2642999833322b6c34697de1d4e9d6dc7670dd00  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/tokenizers_0.2.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tokenizers_0.2.1.zip  # [win64]
   sha256: efe13f36119f8e3a6300cac8ee1ced2e820ee59d71a1d5ecddca7baf8873cd2c  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/tokenizers_0.2.1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tokenizers_0.2.1.tgz  # [osx]
   sha256: 0a398bcd48ab48f3218f55daaa33ce8e5f88d0ff01a015a20ab4a4e163bd9969  # [osx]
 
 build:

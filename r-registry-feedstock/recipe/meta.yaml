@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/registry_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/registry/registry_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 5d8be59ba791987b2400e9e8eaaac614cd544c1aece785ec4782ea6d5ea00efb  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/registry_0.5.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/registry_0.5.zip  # [win64]
   sha256: 2014850e1faf03d3949996171f50bc207f69f147884ab5f11d7f15d82f4d3c18  # [win64]
 
 build:

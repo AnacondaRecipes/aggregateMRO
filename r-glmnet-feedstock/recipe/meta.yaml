@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
   sha256: a54ccd802fce6625f3b69d747b28efe62ed8cc23397a5f8df4777d177e2839af

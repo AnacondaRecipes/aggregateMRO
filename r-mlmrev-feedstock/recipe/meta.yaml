@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/mlmRev_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/mlmRev/mlmRev_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 0796b6be29f162f6fa1bc41ca0a153649315a5a69cc846794787dcb52c547557  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/mlmRev_1.0-6.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mlmRev_1.0-6.zip  # [win64]
   sha256: 3e9da81d9f1e23fff338f3f8f316544bcd88e43f04e3a4e67eef867b241e3dbd  # [win64]
 
 build:

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/anomalyDetection_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/anomalyDetection/anomalyDetection_{{ version }}.tar.gz
   sha256: e127eefdd9db3c83624dd1779d4f026e66430a164b0074fa58f113f03b585c8c

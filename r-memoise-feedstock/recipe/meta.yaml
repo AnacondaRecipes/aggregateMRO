@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/memoise_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/memoise/memoise_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: b276f9452a26aeb79e12dd7227fcc8712832781a42f92d70e86040da0573980c  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/memoise_1.1.0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/memoise_1.1.0.zip  # [win64]
   sha256: 79c4f41d931fc35c044c7a46ba79eb26699df69da0079993964838c63b67a913  # [win64]
 
 build:

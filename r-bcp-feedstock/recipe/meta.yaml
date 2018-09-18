@@ -1,5 +1,5 @@
-{% set version = '4.0.1' %}  # [linux or win32 or osx]
-{% set version = '4.0.1' %}  # [win64]
+{% set version = '4.0.2' %}  # [linux or win32 or osx]
+{% set version = '4.0.2' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/bcp_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/bcp/bcp_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: eb693aecf9b84d8a663bbe1e2bf3911f0914b5543dbbbe4aa198ffa9a77d87b3  # [linux or win32 or osx]
+  sha256: b4bce69f8a0f4f4988a8d590d0d0731a762d0c985add1e057be72bec3d94b747  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/bcp_4.0.1.zip  # [win64]
-  sha256: 49a496afa297de11ace626433d0c94d3347fe9bfb2e9dd0fb922014eafb5d24b  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/bcp_4.0.2.zip  # [win64]
+  sha256: 0e4aedeb9ce11ab0f537278e3004cc150995cd590681385d633f228a45782730  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -81,8 +81,8 @@ extra:
 # Package: bcp
 # Type: Package
 # Title: Bayesian Analysis of Change Point Problems
-# Version: 4.0.1
-# Date: 2018-04-07
+# Version: 4.0.2
+# Date: 2018-06-08
 # Author: Xiaofei Wang, Chandra Erdman, and John W. Emerson
 # Maintainer: Xiaofei Wang <xiaofei.wang@yale.edu>
 # Depends: graphics, methods, grid
@@ -94,8 +94,8 @@ extra:
 # NeedsCompilation: yes
 # Repository: CRAN
 # RoxygenNote: 6.0.1
-# Packaged: 2018-04-07 20:48:07 UTC; eastie
-# Date/Publication: 2018-04-11 07:05:27 UTC
+# Packaged: 2018-06-08 16:53:22 UTC; eastie
+# Date/Publication: 2018-06-08 21:37:58 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

@@ -1,5 +1,5 @@
-{% set version = '2.1.18' %}  # [linux or win32 or osx]
-{% set version = '2.1.18' %}  # [win64]
+{% set version = '2.2.0' %}  # [linux or win32 or osx]
+{% set version = '2.2.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/yaml_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/yaml/yaml_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 1bb54d5f28f0adc24a5f3cfbf5cda4a71ca2ad7922a687f756e0619767c1a496  # [linux or win32 or osx]
+  sha256: 55bcac87eca360ab5904914fcff473a6981a1f5e6d2215d2634344d0ac30c546  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/yaml_2.1.18.zip  # [win64]
-  sha256: bdf9825b35fd6c2422c79ee0b9453d55a0b7f48c1bcf257a40bf52cffc1d3f40  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/yaml_2.2.0.zip  # [win64]
+  sha256: 6ac7141a3dd07628e07e9c57537fe7f2dbe8762bf903838074ca6e0d7218aa35  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -27,7 +27,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat
+# Suggests: RUnit
 requirements:
   build:
     - {{ compiler('c') }}        # [linux or osx]
@@ -73,19 +73,19 @@ extra:
 # Package: yaml
 # Type: Package
 # Title: Methods to Convert R Data to YAML and Back
-# Version: 2.1.18
-# Date: 2018-03-08
-# Suggests: testthat
-# Author: Jeremy Stephens <jeremy.stephens@vanderbilt.edu>
-# Maintainer: Jeremy Stephens <jeremy.stephens@vanderbilt.edu>
+# Date: 2018-07-20
+# Version: 2.2.0
+# Suggests: RUnit
+# Author: Jeremy Stephens [aut, cre], Kirill Simonov [aut], Yihui Xie [ctb], Zhuoer Dong [ctb], Hadley Wickham [ctb], Jeffrey Horner [ctb], reikoch [ctb], Will Beasley [ctb], Brendan O'Connor [ctb], Gregory R. Warnes [ctb]
+# Maintainer: Jeremy Stephens <jeremy.f.stephens@vumc.org>
 # License: BSD_3_clause + file LICENSE
 # Description: Implements the 'libyaml' 'YAML' 1.1 parser and emitter (<http://pyyaml.org/wiki/LibYAML>) for R.
 # URL: https://github.com/viking/r-yaml/
 # BugReports: https://github.com/viking/r-yaml/issues
 # NeedsCompilation: yes
-# Packaged: 2018-03-08 17:16:23 UTC; stephej1
+# Packaged: 2018-07-24 19:09:41 UTC; stephej1
 # Repository: CRAN
-# Date/Publication: 2018-03-08 22:39:53 UTC
+# Date/Publication: 2018-07-25 15:40:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

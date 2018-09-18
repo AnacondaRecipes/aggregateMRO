@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/cvTools_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/cvTools/cvTools_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 520f0b194444d918440e971b16ad4e8579f953dd6d39ffc5f87b61589b59fd2c  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/cvTools_0.3.2.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/cvTools_0.3.2.zip  # [win64]
   sha256: 6030c58274de21bc79f227fe5a45e7bf2a6b735a95249e9a16dd20a44cf0f0e4  # [win64]
 
 build:

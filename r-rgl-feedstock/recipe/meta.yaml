@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/rgl_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/rgl/rgl_{{ version }}.tar.gz  # [linux or win32]
   sha256: 692a545ed2ff0f5e15289338736f0e3c092667574c43ac358d8004901d7a1a61  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rgl_0.99.16.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rgl_0.99.16.zip  # [win64]
   sha256: 708a82a1c0c2aa1ffdf9ecb5c2bc449b76208038109d4d3866aa2e9ecae4f951  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/rgl_0.99.16.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rgl_0.99.16.tgz  # [osx]
   sha256: 762b88220dbb0a891d435981aaf63eebe1b6df1380042b05ec122a7fe6ebeaee  # [osx]
 
 build:

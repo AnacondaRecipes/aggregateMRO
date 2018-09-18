@@ -1,4 +1,4 @@
-{% set version = '1.2.0' %}
+{% set version = '1.3.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/glue_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/glue/glue_{{ version }}.tar.gz
-  sha256: 19275b34ee6a1bcad05360b7eb996cebaa1402f189a5dfb084e695d423f2296e
+  sha256: 789e5a44c3635c3d3db26666e635e88adcf61cd02b75465125d95d7a12291cee
 
 build:
   merge_build_host: True  # [win]
@@ -23,7 +23,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, covr, magrittr, crayon, knitr, rmarkdown, DBI, RSQLite, R.utils, forcats, microbenchmark, rprintf, stringr, ggplot2
+# Suggests: testthat, covr, magrittr, crayon, knitr, rmarkdown, DBI, RSQLite, R.utils, forcats, microbenchmark, rprintf, stringr, ggplot2, dplyr, withr
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
@@ -69,12 +69,12 @@ extra:
 
 # Package: glue
 # Title: Interpreted String Literals
-# Version: 1.2.0
+# Version: 1.3.0
 # Authors@R: person("Jim", "Hester", email = "james.f.hester@gmail.com", role = c("aut", "cre"))
 # Description: An implementation of interpreted string literals, inspired by Python's Literal String Interpolation <https://www.python.org/dev/peps/pep-0498/> and Docstrings <https://www.python.org/dev/peps/pep-0257/> and Julia's Triple-Quoted String Literals <https://docs.julialang.org/en/stable/manual/strings/#triple-quoted-string-literals>.
 # Depends: R (>= 3.1)
-# Suggests: testthat, covr, magrittr, crayon, knitr, rmarkdown, DBI, RSQLite, R.utils, forcats, microbenchmark, rprintf, stringr, ggplot2
 # Imports: methods
+# Suggests: testthat, covr, magrittr, crayon, knitr, rmarkdown, DBI, RSQLite, R.utils, forcats, microbenchmark, rprintf, stringr, ggplot2, dplyr, withr
 # License: MIT + file LICENSE
 # Encoding: UTF-8
 # LazyData: true
@@ -84,11 +84,11 @@ extra:
 # VignetteBuilder: knitr
 # ByteCompile: true
 # NeedsCompilation: yes
-# Packaged: 2017-10-29 19:05:15 UTC; jhester
+# Packaged: 2018-07-17 14:19:58 UTC; jhester
 # Author: Jim Hester [aut, cre]
 # Maintainer: Jim Hester <james.f.hester@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2017-10-29 20:03:53 UTC
+# Date/Publication: 2018-07-17 19:10:02 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

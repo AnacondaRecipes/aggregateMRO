@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/reshape2_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
   sha256: 8aff94c935e75032344b52407593392ddd4e16a88bb206984340c816d42c710e

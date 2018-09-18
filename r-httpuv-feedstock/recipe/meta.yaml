@@ -1,5 +1,5 @@
-{% set version = '1.4.1' %}  # [linux or win32 or osx]
-{% set version = '1.4.1' %}  # [win64]
+{% set version = '1.4.5' %}  # [linux or win32 or osx]
+{% set version = '1.4.5' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/httpuv_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/httpuv/httpuv_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: be2898eabec2bf24661ad3ebcc3496c0683abf57e9d505e68acf838320d8cdde  # [linux or win32 or osx]
+  sha256: f19113d45ba0617ff826abd7963224db61fa0a3dbfdde21f802419f7b362b7b5  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/httpuv_1.4.1.zip  # [win64]
-  sha256: b10d70244caa3330ca58340501e1ac7311f04eb49b621abd838125b2e117e5e2  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/httpuv_1.4.5.zip  # [win64]
+  sha256: 161a3a289f8175fb808cfef9ca85cc8312f4e1c095406eb344f5ec6c47c51a37  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -48,7 +48,7 @@ requirements:
     - mro-base
     - r-bh
     - r-rcpp >=0.11.0
-    - r-later >=0.7.1
+    - r-later >=0.7.3
     - r-promises
 
   run:
@@ -56,7 +56,7 @@ requirements:
     - {{native}}gcc-libs         # [win32]
     - r-bh
     - r-rcpp >=0.11.0
-    - r-later >=0.7.1
+    - r-later >=0.7.3
     - r-promises
 
 test:
@@ -91,23 +91,23 @@ extra:
 # Package: httpuv
 # Type: Package
 # Title: HTTP and WebSocket Server Library
-# Version: 1.4.1
+# Version: 1.4.5
 # Author: Joe Cheng, Hector Corrada Bravo [ctb], Jeroen Ooms [ctb], Winston Chang [ctb]
 # Copyright: RStudio, Inc.; Joyent, Inc.; Nginx Inc.; Igor Sysoev; Niels Provos; Internet Systems Consortium, Inc.; Alexander Chemeris
 # Maintainer: Joe Cheng <joe@rstudio.com>
 # Description: Provides low-level socket and protocol support for handling HTTP and WebSocket requests directly from within R. It is primarily intended as a building block for other packages, rather than making it particularly easy to create complete web applications using httpuv alone. httpuv is built on top of the libuv and http-parser C libraries, both of which were developed by Joyent, Inc. (See LICENSE file for libuv and http-parser license information.)
 # License: GPL (>= 2) | file LICENSE
 # Depends: R (>= 2.15.1), methods
-# Imports: Rcpp (>= 0.11.0), utils, promises, later (>= 0.7.1)
+# Imports: Rcpp (>= 0.11.0), utils, promises, later (>= 0.7.3)
 # LinkingTo: Rcpp, BH, later
 # URL: https://github.com/rstudio/httpuv
 # SystemRequirements: GNU make
 # RoxygenNote: 6.0.1.9000
 # Suggests: testthat, callr
 # NeedsCompilation: yes
-# Packaged: 2018-04-20 22:15:38 UTC; winston
+# Packaged: 2018-07-18 15:28:56 UTC; winston
 # Repository: CRAN
-# Date/Publication: 2018-04-21 05:48:04 UTC
+# Date/Publication: 2018-07-19 07:40:06 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

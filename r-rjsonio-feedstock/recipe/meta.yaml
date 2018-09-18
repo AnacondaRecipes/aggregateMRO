@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/RJSONIO_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/RJSONIO/RJSONIO_{{ version }}.tar.gz  # [linux or win32]
   sha256: 119334b7761c6c1c3cec52fa17dbc1b72eaebb520c53e68d873dea147cf48fb7  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/RJSONIO_1.3-0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/RJSONIO_1.3-0.zip  # [win64]
   sha256: ef1f416bac3a5d0c8eb2224e0140682bb97385c7c6cebf5d4ec2eaf577de6e2a  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/RJSONIO_1.3-0.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/RJSONIO_1.3-0.tgz  # [osx]
   sha256: aaddd312664165dad2ecc90a1d0529d5be0d7cb52af26c329332e0d0260d1b27  # [osx]
 
 build:

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/bdsmatrix_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/bdsmatrix/bdsmatrix_{{ version }}.tar.gz
   sha256: 70ea81708c97dedd483a5d3866d2e906fa0e9098ff854c41cf0746fbc8dfad9d

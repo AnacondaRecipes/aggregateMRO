@@ -1,6 +1,6 @@
-{% set version = '0.4.4' %}  # [linux or win32]
-{% set version = '0.4.4' %}  # [win64]
-{% set version = '0.4.4' %}  # [osx]
+{% set version = '0.5.0' %}  # [linux or win32]
+{% set version = '0.5.0' %}  # [win64]
+{% set version = '0.5.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/IRdisplay_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/IRdisplay/IRdisplay_{{ version }}.tar.gz  # [linux or win32]
-  sha256: e83a0bc52800618bf9a3ac5ef3d432512e00f392b7216fd515fca319377584a6  # [linux or win32]
+  sha256: 3db5428e50c9ee6bbf4a4da34571793955fdd9fad4e08f3ac36d86dbd26590cb  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/IRdisplay_0.4.4.zip  # [win64]
-  sha256: 82ad99401f153dd012225a9ca10038beca43d6988a7347cc29b940605ca78cfb  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/IRdisplay_0.5.0.zip  # [win64]
+  sha256: d96434df6cb98cfa25a5bfd31b07d903794bb8eac6c7d81b9fb0e1853b78ef7b  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/IRdisplay_0.4.4.tgz  # [osx]
-  sha256: 5cbe459c818d5f438fae0cb6ea7d971ab366aec19cc986ff237a93bf45554936  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/IRdisplay_0.5.0.tgz  # [osx]
+  sha256: 8c761fc1b1a5bdaea597d96a60d2f677e8fd41206ad78f4a8346c6dff20678a8  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -74,20 +74,21 @@ extra:
 # Package: IRdisplay
 # Title: 'Jupyter' Display Machinery
 # Description:  An interface to the rich display capabilities of 'Jupyter' front-ends (e.g. 'Jupyter Notebook') <https://jupyter.org>. Designed to be used from a running 'IRkernel' session <https://irkernel.github.io>.
-# Version: 0.4.4
+# Version: 0.5.0
 # Authors@R: c( person('Thomas', 'Kluyver', role = c('aut', 'cph'), email = 'thomas@kluyver.me.uk'), person('Philipp', 'Angerer', role = c('aut', 'cph', 'cre'), email = 'phil.angerer@gmail.com'), person('Jan', 'Schulz', role = c('aut', 'cph'), email = 'jasc@gmx.net'))
 # Depends: R (>= 3.0.1)
 # Suggests: testthat, withr
-# Imports: repr
+# Imports: methods, repr
 # License: MIT + file LICENSE
 # LazyData: true
-# RoxygenNote: 5.0.1
+# Encoding: UTF-8
+# RoxygenNote: 6.0.1.9000
 # NeedsCompilation: no
-# Packaged: 2016-08-02 11:52:46 UTC; angerer
+# Packaged: 2018-05-17 11:38:24 UTC; angerer
 # Author: Thomas Kluyver [aut, cph], Philipp Angerer [aut, cph, cre], Jan Schulz [aut, cph]
 # Maintainer: Philipp Angerer <phil.angerer@gmail.com>
 # Repository: CRAN
-# Date/Publication: 2016-08-02 14:45:35
+# Date/Publication: 2018-05-17 14:50:49 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

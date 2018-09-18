@@ -1,12 +1,12 @@
 {% set pfx = 'r-' %}
-{% set version = '3.5.0' %}
+{% set version = '3.5.1' %}
 {% set rc_version = '3.4.3' %}
 {% set ml_version = '9.3.0' %}
 {% set build_mrclient = False %}
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.exe' %}  # [win64]
 {% set fn = 'microsoft-r-open-'+version+'.exe' %}  # [win64]
-{% set shasum = 'd227e0710cfe9b7fceceae9b8a903fe3c810279c3f94403cad4a42d2b6ef91e8' %}  # [win64]
+{% set shasum = '30de2b2fefed091452695e03c805fcefcef00ab30b3df04363b72d9d44bac494' %}  # [win64]
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
 {% set fn = 'microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
@@ -14,7 +14,7 @@
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.pkg' %}  # [osx]
 {% set fn = 'microsoft-r-open-'+version+'.pkg' %}  # [osx]
-{% set shasum = '105551bc5e6d4d6e1b24d328d27cae01c63fe0a357076bb2599c9be40e296f3a' %}  # [osx]
+{% set shasum = '95739c07d4fb90f9a3aef19269dd4939f368457d928328adf5126b30c4229601' %}  # [osx]
 
 package:
   name: mro-suite

@@ -3,8 +3,8 @@
 ## 1. Figure out or decide upon the latest R version and the appropriate MRAN snapshot date to use
 ```
 # For example:
-export CRAN_URL=https://cran.microsoft.com/snapshot/2018-04-23
-export CONDA_R=3.5.0
+export CRAN_URL=https://cran.microsoft.com/snapshot/2018-08-01
+export CONDA_R=3.5.1
 # Edit ~/conda/aggregateR/conda_build_config.yaml and change:
     cran_mirror:
       - <CRAN_URL>
@@ -127,7 +127,11 @@ For linux-64 (edit ~/conda/pcr/rays-scratch-scripts/c3i-build-orderer-config/bui
 c3i examine --matrix-base-dir ~/conda/pcr/rays-scratch-scripts/c3i-build-orderer-config \
     ~/conda/aggregateMRO \
     --output /tmp/build-order \
-    --folders $(find . -maxdepth 1 -type d | grep -v -e '\.git' -e '\.$')
+    --folders $(find . -maxdepth 1 -type d | grep -v \
+        -e '\.git' \
+        -e '\.$' \
+        -e '\./mro-feedstock')
+
 # TODO :: The source filename is not correct here, find the correct file and update this document.
 cp /tmp/build-order/output_order_recipes_linux-64 ~/conda/pcr/rays-scratch-scripts/build-order/mro/all
 # Now use git to put back some of the useful comments in this file iff you are using `build-in-order` to do the build-out.

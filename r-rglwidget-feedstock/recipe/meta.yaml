@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/rglwidget_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/rglwidget/rglwidget_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 9be19b393ecef214509f559004a2b8b965b282400a7a70098a2851ff86ed386a  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/rglwidget_0.2.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rglwidget_0.2.1.zip  # [win64]
   sha256: 933235f1200b53c32f46b5b0a73bb5e9ff4063975d3f9a43e9cdab454faa92b9  # [win64]
 
 build:

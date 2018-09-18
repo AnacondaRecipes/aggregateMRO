@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/DiagrammeR_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/DiagrammeR/DiagrammeR_{{ version }}.tar.gz
   sha256: 2b186dae1b19018681b979e9444bf16559c42740d8382676fbaf3b0f8a44337e

@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/RcppEigen_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/RcppEigen/RcppEigen_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 11020c567b299b1eac95e8a4d57abf0315931286907823dc7b66c44d0dd6dad4  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/RcppEigen_0.3.3.4.0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/RcppEigen_0.3.3.4.0.zip  # [win64]
   sha256: 5806831c92419b03d22a24185d2c728392dd06df418db4c7f351f0ab66fd84f8  # [win64]
 
 build:

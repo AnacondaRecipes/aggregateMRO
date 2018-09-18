@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/RJDBC_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/RJDBC/RJDBC_{{ version }}.tar.gz  # [linux or win32]
   sha256: 4540ad34a6dc46b07aee4da39e79872088b72da2f96ce8bad4f0513e879666b4  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/RJDBC_0.2-7.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/RJDBC_0.2-7.1.zip  # [win64]
   sha256: a5881d687fc7e0c21744158f78909ea4d5c6be7285816b45fbbc9f906d2004e3  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/RJDBC_0.2-7.1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/RJDBC_0.2-7.1.tgz  # [osx]
   sha256: d1b6d998a37fdcfdeb06db8df115964fa2696631c6f645b0485859968137dc81  # [osx]
 
 build:

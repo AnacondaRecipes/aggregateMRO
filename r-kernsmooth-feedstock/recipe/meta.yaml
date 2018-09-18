@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/KernSmooth_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/KernSmooth/KernSmooth_{{ version }}.tar.gz  # [linux or win32]
   sha256: 8b72d23ed121a54af188b2cda4441e3ce2646359309885f6455b82c0275210f6  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/KernSmooth_2.23-15.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/KernSmooth_2.23-15.zip  # [win64]
   sha256: 35cf843ee20168aac520ff9011be98c6fab7ff9e84ee09e1a1a605d0d8b3f238  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/KernSmooth_2.23-15.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/KernSmooth_2.23-15.tgz  # [osx]
   sha256: f877d8dd47469d539ed9fefebb3f5d9b0e9b21ec373d4472d4cc5d08790dcf21  # [osx]
 
 build:

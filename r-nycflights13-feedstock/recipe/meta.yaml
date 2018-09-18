@@ -1,5 +1,5 @@
-{% set version = '0.2.2' %}  # [linux or win32 or osx]
-{% set version = '0.2.2' %}  # [win64]
+{% set version = '1.0.0' %}  # [linux or win32 or osx]
+{% set version = '1.0.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/nycflights13_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/nycflights13/nycflights13_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: cc13051face739eecf3a5a2654a53d51110b0aa3968cb47b5bfb95053dbfa7a0  # [linux or win32 or osx]
+  sha256: 1626cae2329e23343fe797553c5a2af341cf7abe31d3545ca45bfb783b2b6081  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/nycflights13_0.2.2.zip  # [win64]
-  sha256: f64e94cb4138f7ea2fed7fed3e338b70a161bbfd9d04790ded128ef2868c9bd1  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/nycflights13_1.0.0.zip  # [win64]
+  sha256: af21b28d904b2377ea7216b1df687cfeceabc257006613c7c4d836b0a7f08a34  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -67,23 +67,23 @@ extra:
 
 # Package: nycflights13
 # Title: Flights that Departed NYC in 2013
-# Version: 0.2.2
+# Version: 1.0.0
 # Authors@R: c( person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")), person("RStudio", role = "cph") )
 # Description: Airline on-time data for all flights departing NYC in 2013. Also includes useful 'metadata' on airlines, airports, weather, and planes.
 # License: CC0
-# LazyData: true
+# URL: http://github.com/hadley/nycflights13
+# BugReports: https://github.com/hadley/nycflights13/issues
 # Depends: R (>= 2.10)
 # Imports: tibble
 # Suggests: dplyr
-# URL: http://github.com/hadley/nycflights13
-# BugReports: https://github.com/hadley/nycflights13/issues
-# RoxygenNote: 5.0.1.9000
+# LazyData: true
+# RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2017-01-27 14:44:04 UTC; hadley
+# Packaged: 2018-06-26 17:30:08 UTC; hadley
 # Author: Hadley Wickham [aut, cre], RStudio [cph]
 # Maintainer: Hadley Wickham <hadley@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2017-01-27 15:54:20
+# Date/Publication: 2018-06-26 17:39:38 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

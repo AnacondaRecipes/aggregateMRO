@@ -1,4 +1,4 @@
-{% set version = '0.12.16' %}
+{% set version = '0.12.18' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/Rcpp_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/Rcpp/Rcpp_{{ version }}.tar.gz
-  sha256: d4e1636e53e2b656e173b49085b7abbb627981787cd63d63df325c713c83a8e6
+  sha256: fcecd01e53cfcbcf58dec19842b7235a917b8d98988e4003cc090478c5bbd300
 
 build:
   merge_build_host: True  # [win]
@@ -60,11 +60,11 @@ about:
   summary: The 'Rcpp' package provides R functions as well as C++ classes which offer a seamless
     integration of R and C++. Many R data types and objects can be mapped back and forth
     to C++ equivalents which facilitates both writing of new code as well as easier
-    integration of third-party libraries. Documentation  about 'Rcpp' is provided by
-    several vignettes included in this package, via the  'Rcpp Gallery' site at <http://gallery.rcpp.org>,
-    the paper by Eddelbuettel and  Francois (2011, <doi:10.18637/jss.v040.i08>), the
+    integration of third-party libraries. Documentation about 'Rcpp' is provided by
+    several vignettes included in this package, via the 'Rcpp Gallery' site at <http://gallery.rcpp.org>,
+    the paper by Eddelbuettel and Francois (2011, <doi:10.18637/jss.v040.i08>), the
     book by Eddelbuettel (2013, <doi:10.1007/978-1-4614-6868-4>) and the paper by Eddelbuettel
-    and Balamuta (2017, <doi:10.7287/peerj.preprints.3188v1>); see 'citation("Rcpp")'
+    and Balamuta (2018, <doi:10.1080/00031305.2017.1375990>); see 'citation("Rcpp")'
     for details.
   license_family: GPL3
 
@@ -76,11 +76,11 @@ extra:
 
 # Package: Rcpp
 # Title: Seamless R and C++ Integration
-# Version: 0.12.16
-# Date: 2018-03-08
+# Version: 0.12.18
+# Date: 2018-07-21
 # Author: Dirk Eddelbuettel, Romain Francois, JJ Allaire, Kevin Ushey, Qiang Kou, Nathan Russell, Douglas Bates and John Chambers
 # Maintainer: Dirk Eddelbuettel <edd@debian.org>
-# Description: The 'Rcpp' package provides R functions as well as C++ classes which offer a seamless integration of R and C++. Many R data types and objects can be mapped back and forth to C++ equivalents which facilitates both writing of new code as well as easier integration of third-party libraries. Documentation  about 'Rcpp' is provided by several vignettes included in this package, via the  'Rcpp Gallery' site at <http://gallery.rcpp.org>, the paper by Eddelbuettel and  Francois (2011, <doi:10.18637/jss.v040.i08>), the book by Eddelbuettel (2013, <doi:10.1007/978-1-4614-6868-4>) and the paper by Eddelbuettel and Balamuta (2017, <doi:10.7287/peerj.preprints.3188v1>); see 'citation("Rcpp")' for details.
+# Description: The 'Rcpp' package provides R functions as well as C++ classes which offer a seamless integration of R and C++. Many R data types and objects can be mapped back and forth to C++ equivalents which facilitates both writing of new code as well as easier integration of third-party libraries. Documentation about 'Rcpp' is provided by several vignettes included in this package, via the 'Rcpp Gallery' site at <http://gallery.rcpp.org>, the paper by Eddelbuettel and Francois (2011, <doi:10.18637/jss.v040.i08>), the book by Eddelbuettel (2013, <doi:10.1007/978-1-4614-6868-4>) and the paper by Eddelbuettel and Balamuta (2018, <doi:10.1080/00031305.2017.1375990>); see 'citation("Rcpp")' for details.
 # Depends: R (>= 3.0.0)
 # Imports: methods, utils
 # Suggests: RUnit, inline, rbenchmark, knitr, rmarkdown, pinp, pkgKitten (>= 0.1.2)
@@ -91,9 +91,9 @@ extra:
 # MailingList: Please send questions and comments regarding Rcpp to rcpp-devel@lists.r-forge.r-project.org
 # RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2018-03-08 17:04:51.131351 UTC; edd
+# Packaged: 2018-07-21 21:40:37.784076 UTC; edd
 # Repository: CRAN
-# Date/Publication: 2018-03-13 22:46:12 UTC
+# Date/Publication: 2018-07-23 07:50:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

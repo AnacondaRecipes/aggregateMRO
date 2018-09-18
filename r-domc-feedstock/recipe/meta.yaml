@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/doMC_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/doMC/doMC_{{ version }}.tar.gz
   sha256: 792254596babd8cc074bb3c83c18672dd07a0c3246b4ebab08d8ebedf6f4d9ed

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/estimability_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/estimability/estimability_{{ version }}.tar.gz
   sha256: a33179c5fbd6a1a623d90cb6f1743148f92c09429fac466867f3ea70946a2e32

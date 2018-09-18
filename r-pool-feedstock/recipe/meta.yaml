@@ -1,5 +1,5 @@
-{% set version = '0.1.4' %}  # [linux or win32 or osx]
-{% set version = '0.1.4' %}  # [win64]
+{% set version = '0.1.4.1' %}  # [linux or win32 or osx]
+{% set version = '0.1.4.1' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/pool_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/pool/pool_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 78b2da4e53ed970dabec5f9a81ad85eda64083e4129a753c547c0a0a884d404c  # [linux or win32 or osx]
+  sha256: 1cc0c5ad43ae35ea0078fd06473de01bfb538c71d5092ebea00f65eab9f313a9  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/pool_0.1.4.zip  # [win64]
-  sha256: 688b033aaeed273cfbc9752638e6307b82a55018717afd4c3e2cea5639a1d680  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pool_0.1.4.1.zip  # [win64]
+  sha256: 674ba32c8142e9c642d2eefb3723c0bbee6066eab9dafb8125adecda66de5612  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -76,8 +76,8 @@ extra:
 # Package: pool
 # Type: Package
 # Title: Object Pooling
-# Version: 0.1.4
-# Authors@R: c( person("Barbara", "Borges", email = "barbara@rstudio.com", role = c("aut", "cre")), person(family = "RStudio", role = "cph") )
+# Version: 0.1.4.1
+# Authors@R: c( person("Joe", "Cheng", email = "joe@rstudio.com", role = c("aut", "cre")), person("Barbara", "Borges", email = "barb.b.ribeiro@gmail.com", role = c("aut")), person(family = "RStudio", role = "cph") )
 # Description: Enables the creation of object pools, which make it less computationally expensive to fetch a new object. Currently the only supported pooled objects are 'DBI' connections.
 # License: GPL-3
 # Depends: R (>= 3.0.0), methods
@@ -89,11 +89,11 @@ extra:
 # Collate: 'utils.R' 'scheduler.R' 'pool.R' 'pool-methods.R' 'object.R' 'DBI.R' 'DBI-connection-interpolate.R' 'DBI-connection-quote.R' 'DBI-connection-sql.R' 'DBI-connection-transaction.R' 'DBI-connection.R' 'DBI-driver.R' 'DBI-object-deprecated.R' 'DBI-object.R' 'DBI-pool.R' 'dbplyr.R'
 # RoxygenNote: 6.0.1
 # NeedsCompilation: no
-# Packaged: 2018-03-09 22:13:12 UTC; barbaraborges
-# Author: Barbara Borges [aut, cre], RStudio [cph]
-# Maintainer: Barbara Borges <barbara@rstudio.com>
+# Packaged: 2018-06-28 21:56:16 UTC; jcheng
+# Author: Joe Cheng [aut, cre], Barbara Borges [aut], RStudio [cph]
+# Maintainer: Joe Cheng <joe@rstudio.com>
 # Repository: CRAN
-# Date/Publication: 2018-03-10 15:59:22 UTC
+# Date/Publication: 2018-06-29 21:22:59 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

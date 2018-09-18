@@ -1,5 +1,5 @@
-{% set version = '1.2.1' %}  # [linux or win32 or osx]
-{% set version = '1.2.1' %}  # [win64]
+{% set version = '1.2.2' %}  # [linux or win32 or osx]
+{% set version = '1.2.2' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/igraph_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/igraph/igraph_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 55341848f85a436c32d60f59a4db485238d535f2e8afe0d5a360804fc33299c1  # [linux or win32 or osx]
+  sha256: 9da2dadf9c1ed495413b32464c6a32fae9d33636822754043e708d8dd6a9efad  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/igraph_1.2.1.zip  # [win64]
-  sha256: ba2b74df7325d6d7e735a0a04daa3116f2ddc8f7db6bc8eedda0db3c87687eb0  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/igraph_1.2.2.zip  # [win64]
+  sha256: f428284b4de333aedc689870cb3d3ca82c811f1beec2f458849cac17b4b9b982  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -27,7 +27,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: ape, graph, igraphdata, rgl, scales, stats4, tcltk, testthat
+# Suggests: ape, digest, graph, igraphdata, rgl, scales, stats4, tcltk, testthat
 requirements:
   build:
     - {{ compiler('c') }}        # [linux or osx]
@@ -85,24 +85,25 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: igraph
-# Version: 1.2.1
+# Version: 1.2.2
 # Title: Network Analysis and Visualization
 # Author: See AUTHORS file.
 # Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
 # Description: Routines for simple graphs and network analysis. It can handle large graphs very well and provides functions for generating random and regular graphs, graph visualization, centrality methods and much more.
 # Depends: methods
 # Imports: graphics, grDevices, magrittr, Matrix, pkgconfig (>= 2.0.0), stats, utils
-# Suggests: ape, graph, igraphdata, rgl, scales, stats4, tcltk, testthat
+# Suggests: ape, digest, graph, igraphdata, rgl, scales, stats4, tcltk, testthat
 # License: GPL (>= 2)
 # URL: http://igraph.org
 # SystemRequirements: gmp (optional), libxml2 (optional), glpk (optional)
 # BugReports: https://github.com/igraph/igraph/issues
 # Encoding: UTF-8
 # Collate: 'adjacency.R' 'auto.R' 'assortativity.R' 'attributes.R' 'basic.R' 'bipartite.R' 'centrality.R' 'centralization.R' 'cliques.R' 'cocitation.R' 'cohesive.blocks.R' 'community.R' 'components.R' 'console.R' 'conversion.R' 'data_frame.R' 'decomposition.R' 'degseq.R' 'demo.R' 'embedding.R' 'epi.R' 'fit.R' 'flow.R' 'foreign.R' 'games.R' 'glet.R' 'hrg.R' 'igraph-package.R' 'incidence.R' 'indexing.R' 'interface.R' 'iterators.R' 'layout.R' 'layout_drl.R' 'lazyeval.R' 'make.R' 'minimum.spanning.tree.R' 'motifs.R' 'nexus.R' 'operators.R' 'other.R' 'package.R' 'palette.R' 'par.R' 'paths.R' 'plot.R' 'plot.common.R' 'plot.shapes.R' 'pp.R' 'print.R' 'printr.R' 'random_walk.R' 'rewire.R' 'scan.R' 'scg.R' 'sgm.R' 'similarity.R' 'simple.R' 'sir.R' 'socnet.R' 'sparsedf.R' 'structural.properties.R' 'structure.info.R' 'test.R' 'tkplot.R' 'topology.R' 'triangles.R' 'utils.R' 'uuid.R' 'versions.R' 'weakref.R' 'zzz-deprecate.R'
+# RoxygenNote: 6.0.1
 # NeedsCompilation: yes
-# Packaged: 2018-03-10 12:30:48 UTC; gaborcsardi
+# Packaged: 2018-07-27 08:53:48 UTC; gaborcsardi
 # Repository: CRAN
-# Date/Publication: 2018-03-10 21:33:20 UTC
+# Date/Publication: 2018-07-27 14:50:02 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

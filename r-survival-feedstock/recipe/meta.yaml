@@ -1,6 +1,6 @@
-{% set version = '2.42-3' %}  # [linux or win32]
-{% set version = '2.41-3' %}  # [win64]
-{% set version = '2.42-3' %}  # [osx]
+{% set version = '2.42-6' %}  # [linux or win32]
+{% set version = '2.42-6' %}  # [win64]
+{% set version = '2.42-6' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/survival_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/survival/survival_{{ version }}.tar.gz  # [linux or win32]
-  sha256: a07732d7717f7a01543d95cf60cdc7cb5f46544cb7297ddd2a59bcfaddd2ea96  # [linux or win32]
+  sha256: e33c44ee95961ff3c1bd1afe040d3059c143a72387d8e47fdbeba61c9d605daf  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/survival_2.41-3.zip  # [win64]
-  sha256: 07c87c15d9a0340b9a9bea2684fd0268e8ac158c0e29fbef63715facd2048ca8  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/survival_2.42-6.zip  # [win64]
+  sha256: 5adb2398bd85e7626086c1ee60e2fd9da3c31c9c1876e50ad2fad514d2b203e7  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/survival_2.42-3.tgz  # [osx]
-  sha256: 0ec205dc7028ccf2080820b9e6f9764782799819036b8ec8494fff80e8965fa4  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/survival_2.42-6.tgz  # [osx]
+  sha256: 47a225fd4f96cfcb456bdce3dc91adb17146d67b6b4f8c57f33fc11d1eee877c  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -80,7 +80,7 @@ extra:
 # Maintainer: Terry M Therneau <therneau.terry@mayo.edu>
 # Priority: recommended
 # Package: survival
-# Version: 2.42-3
+# Version: 2.42-6
 # Depends: R (>= 2.13.0)
 # Imports: graphics, Matrix, methods, splines, stats, utils
 # LazyData: Yes
@@ -91,10 +91,10 @@ extra:
 # License: LGPL (>= 2)
 # URL: https://github.com/therneau/survival
 # NeedsCompilation: yes
-# Packaged: 2018-04-15 19:36:11 UTC; therneau
+# Packaged: 2018-07-12 12:21:01 UTC; therneau
 # Author: Terry M Therneau [aut, cre], Thomas Lumley [ctb, trl] (original S->R port and R maintainer until 2009)
 # Repository: CRAN
-# Date/Publication: 2018-04-16 18:25:59 UTC
+# Date/Publication: 2018-07-13 07:50:04 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

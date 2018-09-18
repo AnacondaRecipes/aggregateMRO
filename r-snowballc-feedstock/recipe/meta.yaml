@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/SnowballC_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/SnowballC/SnowballC_{{ version }}.tar.gz
   sha256: 44170624fd906ecc67959fed5dbf80068b59b1b2a6fbab65da5054e3e1186f4d

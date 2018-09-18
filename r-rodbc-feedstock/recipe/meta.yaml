@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/RODBC_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/RODBC/RODBC_{{ version }}.tar.gz
   sha256: c43e5a2f0aa2f46607e664bfc0bb3caa230bbb779f4ff084e01727642da136e1

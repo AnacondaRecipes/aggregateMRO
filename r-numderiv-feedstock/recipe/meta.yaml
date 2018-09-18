@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/numDeriv_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/numDeriv/numDeriv_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 1b681d273697dc780a3ac5bedabb4a257785732d9ca4ef68e4e4aac8b328d11e  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/numDeriv_2016.8-1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/numDeriv_2016.8-1.zip  # [win64]
   sha256: 10a26026bb5401952fe1f3e7ee7d4d034b9aced57aa34a6d926c2961619d7bbe  # [win64]
 
 build:

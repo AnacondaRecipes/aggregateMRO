@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/ModelMetrics_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/ModelMetrics/ModelMetrics_{{ version }}.tar.gz
   sha256: 487d53fda57da4b29f83a927dda8b1ae6655ab044ee3eec33c38aeb27eed3d85

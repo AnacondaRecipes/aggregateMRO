@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/shinycssloaders_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/shinycssloaders/shinycssloaders_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: e4890ceeea49c9186cf2edc98c4ca55bbc562ab9cde240a53666b0534fd5ffae  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/shinycssloaders_0.2.0.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/shinycssloaders_0.2.0.zip  # [win64]
   sha256: 03d9a5824cd47b513eb51ac6255839d9b5aec59b2ba5831aa981b5020e71c2f4  # [win64]
 
 build:

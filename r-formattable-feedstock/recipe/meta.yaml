@@ -9,12 +9,12 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/formattable_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/formattable/formattable_{{ version }}.tar.gz  # [linux or win32 or osx]
   sha256: 2e935699fb8c68f55cad824ee2ff76acdb6ee0f363a4342a6f9b0809ea93f2e8  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/formattable_0.2.0.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/formattable_0.2.0.1.zip  # [win64]
   sha256: db95111c44ee832f11bcf49b28ded6f5d9aadff55b66b0cdb0c245682f84d568  # [win64]
 
 build:

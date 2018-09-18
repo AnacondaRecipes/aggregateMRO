@@ -10,15 +10,15 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
+  url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/ape_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/ape/ape_{{ version }}.tar.gz  # [linux or win32]
   sha256: b7d5dca66881638227a40aa59533904aa5efe0f4b867851b248e8f948a01a26e  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/ape_5.1.zip  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/ape_5.1.zip  # [win64]
   sha256: 04b4b31f37f341234a6782cb6098cf50c6106596cf5e954a7c2e55c985fcb07c  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/ape_5.1.tgz  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/ape_5.1.tgz  # [osx]
   sha256: b1815c1d43719792fa6d8fab4243c7daa647287b9587cb986c6e08148407d79a  # [osx]
 
 build:

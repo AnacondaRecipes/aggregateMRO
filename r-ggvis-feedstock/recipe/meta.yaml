@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/ggvis_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/ggvis/ggvis_{{ version }}.tar.gz
   sha256: 34d517783016aaa1c4bef8972f4c06df5cd9ca0568035b647e60a8369043ecdc

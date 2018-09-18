@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/profvis_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/profvis/profvis_{{ version }}.tar.gz
   sha256: ca5437c8373d907a7688ae57d04c3af177f4fa62c706742fb0796797a9ac7772

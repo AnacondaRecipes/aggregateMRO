@@ -1,5 +1,5 @@
-{% set version = '2.27-61' %}  # [linux or win32 or osx]
-{% set version = '2.27-61' %}  # [win64]
+{% set version = '2.27-62' %}  # [linux or win32 or osx]
+{% set version = '2.27-62' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/lsmeans_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/lsmeans/lsmeans_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 152a4b612756703633295e3f22b6c8861dbcb12ddeb7cdbd298d5aafdea48463  # [linux or win32 or osx]
+  sha256: ffccf0235854a7cae477c1141e678e64f300fe2a4a0d0545c648aa8a66a369b5  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/lsmeans_2.27-61.zip  # [win64]
-  sha256: 3f5618aa57997126cdfe2da707b344072f0624f6a45789c91fa8be8e46972950  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lsmeans_2.27-62.zip  # [win64]
+  sha256: 77c2ee464ca22b3f2f75ea62315b59683b022a2830c013e41f0852cfee62210f  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -89,8 +89,8 @@ extra:
 # Package: lsmeans
 # Type: Package
 # Title: Least-Squares Means
-# Version: 2.27-61
-# Date: 2017-11-05
+# Version: 2.27-62
+# Date: 2018-05-10
 # Authors@R: c(person("Russell", "Lenth", role = c("aut", "cre", "cph"),  email = "russell-lenth@uiowa.edu"), person("Jonathon", "Love", role = "ctb"))
 # Depends: methods, R (>= 3.2)
 # Suggests: car, lattice, MCMCpack, mediation, multcompView, ordinal, pbkrtest (>= 0.4-1), CARBayes, coxme, gee, geepack, glmmADMB, lme4, lmerTest (>= 2.0.32), MASS, MCMCglmm, nnet, pscl, rsm, rstan, rstanarm, survival
@@ -102,11 +102,11 @@ extra:
 # Description: Obtain least-squares means for many linear, generalized linear,  and mixed models. Compute contrasts or linear functions of  least-squares means, and comparisons of slopes.  Plots and compact letter displays. Least-squares means were proposed in Harvey, W (1960) "Least-squares analysis of data with unequal subclass numbers", Tech Report ARS-20-8, USDA National Agricultural Library, and discussed further in Searle, Speed, and Milliken (1980) "Population marginal means  in the linear model: An alternative to least squares means",  The American Statistician 34(4), 216-221 <doi:10.1080/00031305.1980.10483031>. NOTE: Users are encouraged to switch to the 'emmeans' package, as 'lsmeans' will be archived in the not-too-distant future.
 # License: GPL-2 | GPL-3
 # NeedsCompilation: no
-# Packaged: 2017-11-04 20:55:44 UTC; rlenth
+# Packaged: 2018-05-10 15:10:04 UTC; rlenth
 # Author: Russell Lenth [aut, cre, cph], Jonathon Love [ctb]
 # Maintainer: Russell Lenth <russell-lenth@uiowa.edu>
 # Repository: CRAN
-# Date/Publication: 2017-11-05 15:03:26 UTC
+# Date/Publication: 2018-05-11 11:03:05 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

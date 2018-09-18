@@ -1,4 +1,4 @@
-{% set version = '1.0-8' %}
+{% set version = '1.0-9' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/TH.data_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/TH.data/TH.data_{{ version }}.tar.gz
-  sha256: 478f109fcc1226500ead8e3bd6e047cecde2294fde4df8ec216d38313db79a9d
+  sha256: d8318a172ce2b9f7f284dc297c8a8d5093de8eccbb566c8e7580e70938dfae0f
 
 build:
   merge_build_host: True  # [win]
@@ -64,8 +64,8 @@ extra:
 
 # Package: TH.data
 # Title: TH's Data Archive
-# Date: 2017-01-23
-# Version: 1.0-8
+# Date: 2018-07-04
+# Version: 1.0-9
 # Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"), email = "Torsten.Hothorn@R-project.org"))
 # Description: Contains data sets used in other packages Torsten Hothorn maintains.
 # Depends: R (>= 2.10.0), survival, MASS
@@ -73,11 +73,11 @@ extra:
 # LazyData: yes
 # License: GPL-3
 # NeedsCompilation: no
-# Packaged: 2017-01-23 13:13:20 UTC; hothorn
+# Packaged: 2018-07-04 11:14:12 UTC; hothorn
 # Author: Torsten Hothorn [aut, cre]
 # Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2017-01-23 21:08:04
+# Date/Publication: 2018-07-10 16:10:03 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

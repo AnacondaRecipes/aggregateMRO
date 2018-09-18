@@ -1,4 +1,4 @@
-{% set version = '8.3' %}
+{% set version = '8.4' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,10 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/forecast_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/forecast/forecast_{{ version }}.tar.gz
-  sha256: 9259af21507980f424a9019d48df474e502e521bce7cd4d63bfdfb2ba74eab4c
+  sha256: 695cdf0376f1f519a236bec52722c41ea5896f2064f1403d0ad4914c5611188f
 
 build:
   merge_build_host: True  # [win]
@@ -41,7 +41,7 @@ requirements:
     - r-rcpparmadillo >=0.2.35
     - r-colorspace
     - r-fracdiff
-    - r-ggplot2 >=2.0.0
+    - r-ggplot2 >=2.2.1
     - r-lmtest
     - r-magrittr
     - r-nnet
@@ -58,7 +58,7 @@ requirements:
     - r-rcpparmadillo >=0.2.35
     - r-colorspace
     - r-fracdiff
-    - r-ggplot2 >=2.0.0
+    - r-ggplot2 >=2.2.1
     - r-lmtest
     - r-magrittr
     - r-nnet
@@ -94,11 +94,11 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: forecast
-# Version: 8.3
+# Version: 8.4
 # Title: Forecasting Functions for Time Series and Linear Models
 # Description: Methods and tools for displaying and analysing univariate time series forecasts including exponential smoothing via state space models and automatic ARIMA modelling.
 # Depends: R (>= 3.0.2),
-# Imports: colorspace, fracdiff, ggplot2 (>= 2.0.0), graphics, lmtest, magrittr, nnet, parallel, Rcpp (>= 0.11.0), stats, timeDate, tseries, urca, uroot, zoo
+# Imports: colorspace, fracdiff, ggplot2 (>= 2.2.1), graphics, lmtest, magrittr, nnet, parallel, Rcpp (>= 0.11.0), stats, timeDate, tseries, urca, uroot, zoo
 # Suggests: expsmooth, knitr, rmarkdown, rticles, testthat
 # LinkingTo: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.2.35)
 # LazyData: yes
@@ -110,11 +110,11 @@ extra:
 # VignetteBuilder: knitr
 # RoxygenNote: 6.0.1.9000
 # NeedsCompilation: yes
-# Packaged: 2018-04-08 01:22:14 UTC; hyndman
+# Packaged: 2018-06-21 04:53:37 UTC; mitchell
 # Author: Rob Hyndman [aut, cre, cph] (<https://orcid.org/0000-0002-2140-5352>), George Athanasopoulos [aut], Christoph Bergmeir [aut] (<https://orcid.org/0000-0002-3665-9021>), Gabriel Caceres [aut], Leanne Chhay [aut], Mitchell O'Hara-Wild [aut], Fotios Petropoulos [aut] (<https://orcid.org/0000-0003-3039-4955>), Slava Razbash [aut], Earo Wang [aut], Farah Yasmeen [aut] (<https://orcid.org/0000-0002-1479-5401>), R Core Team [ctb, cph], Ross Ihaka [ctb, cph], Daniel Reid [ctb], David Shaub [ctb], Yuan Tang [ctb] (<https://orcid.org/0000-0001-5243-233X>), Zhenyu Zhou [ctb]
 # Maintainer: Rob Hyndman <Rob.Hyndman@monash.edu>
 # Repository: CRAN
-# Date/Publication: 2018-04-11 15:18:56 UTC
+# Date/Publication: 2018-06-21 13:59:21 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

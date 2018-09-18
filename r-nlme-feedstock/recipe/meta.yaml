@@ -1,6 +1,4 @@
-{% set version = '3.1-137' %}  # [linux or win32]
-{% set version = '3.1-137' %}  # [win64]
-{% set version = '3.1-137' %}  # [osx]
+{% set version = '3.1-137' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,19 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/nlme_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/nlme/nlme_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 01049bb9c53826ff4ec5ba7117d766b17a0108c85f80871a5adb0c0b58ef7e87  # [linux or win32]
-
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/nlme_3.1-137.zip  # [win64]
-  sha256: 8878b56d165129d01d28d79a38f7f12d857c9bc07d8321a83c371266c59939c2  # [win64]
-
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/macosx/el-capitan/contrib/3.5/nlme_3.1-137.tgz  # [osx]
-  sha256: 0464f9470ecba8c9ba6ac52893f3ffe9ae55a72c2846cf66638a967eec942850  # [osx]
+  url:
+    - {{ cran_mirror }}/src/contrib/nlme_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/nlme/nlme_{{ version }}.tar.gz
+  sha256: 01049bb9c53826ff4ec5ba7117d766b17a0108c85f80871a5adb0c0b58ef7e87
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -34,14 +26,14 @@ build:
 # Suggests: Hmisc, MASS
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('fortran') }}  # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
-    - {{posix}}sed               # [win32]
-    - {{posix}}coreutils         # [win32]
-    - {{posix}}zip               # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base
@@ -49,7 +41,7 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
+    - {{native}}gcc-libs         # [win]
     - r-lattice
 
 test:

@@ -8,7 +8,7 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
+  url:
     - {{ cran_mirror }}/src/contrib/readxl_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/readxl/readxl_{{ version }}.tar.gz
   sha256: b63d21fc6510acb373e96deaec45e966a523ec75cbec75a089529297ed443116

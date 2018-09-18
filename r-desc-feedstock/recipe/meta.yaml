@@ -1,4 +1,5 @@
-{% set version = '1.1.1' %}
+{% set version = '1.2.0' %}  # [linux or win32 or osx]
+{% set version = '1.2.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:
-    - {{ cran_mirror }}/src/contrib/desc_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/desc/desc_{{ version }}.tar.gz
-  sha256: 32ff99b658db3bf0172cf30d15b7f34021144ffc08a5896afd3d30055fc4074c
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/desc_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/desc/desc_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: e66fb5d4fc7974bc558abcdc107a1f258c9177a29dcfcf9164bc6b33dd08dae8  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/desc_1.2.0.zip  # [win64]
+  sha256: 7d5ae0934e7d42f2586eb0a8351b0b19979a8dd0c867b6c0861ff572af4ebfd8  # [win64]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,7 +30,7 @@ build:
 # Suggests: covr, testthat, whoami, withr
 requirements:
   build:
-    - {{posix}}zip               # [win]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -69,8 +73,8 @@ extra:
 
 # Package: desc
 # Title: Manipulate DESCRIPTION Files
-# Version: 1.1.1
-# Authors@R: c( person("Gabor", "Csardi",, "csardi.gabor@gmail.com", role = c("aut", "cre")), person("Kirill", "Muller", role = c("aut")))
+# Version: 1.2.0
+# Authors@R: c( person("Gabor", "Csardi",, "csardi.gabor@gmail.com", role = c("aut", "cre")), person("Kirill", "Muller", role = c("aut")), person("Jim", "Hester", email = "james.f.hester@gmail.com", role = c("aut")))
 # Maintainer: Gabor Csardi <csardi.gabor@gmail.com>
 # Description: Tools to read, write, create, and manipulate DESCRIPTION files. It is intended for packages that create or manipulate other packages.
 # License: MIT + file LICENSE
@@ -81,13 +85,13 @@ extra:
 # Suggests: covr, testthat, whoami, withr
 # Imports: assertthat, utils, R6, crayon, rprojroot
 # Encoding: UTF-8
-# RoxygenNote: 5.0.1.9000
-# Collate: 'assertions.R' 'authors-at-r.R' 'classes.R' 'collate.R' 'constants.R' 'deps.R' 'description.R' 'encoding.R' 'latex.R' 'non-oo-api.R' 'package-archives.R' 'read.R' 'remotes.R' 'str.R' 'syntax_checks.R' 'urls.R' 'utils.R' 'validate.R' 'version.R'
+# RoxygenNote: 6.0.1.9000
+# Collate: 'assertions.R' 'authors-at-r.R' 'built.R' 'classes.R' 'collate.R' 'constants.R' 'deps.R' 'description.R' 'encoding.R' 'latex.R' 'non-oo-api.R' 'package-archives.R' 'read.R' 'remotes.R' 'str.R' 'syntax_checks.R' 'urls.R' 'utils.R' 'validate.R' 'version.R'
 # NeedsCompilation: no
-# Packaged: 2017-08-03 09:45:28 UTC; gaborcsardi
-# Author: Gabor Csardi [aut, cre], Kirill Muller [aut]
+# Packaged: 2018-05-01 20:22:08 UTC; gaborcsardi
+# Author: Gabor Csardi [aut, cre], Kirill Muller [aut], Jim Hester [aut]
 # Repository: CRAN
-# Date/Publication: 2017-08-03 15:22:33 UTC
+# Date/Publication: 2018-05-01 20:48:05 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for

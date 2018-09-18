@@ -1,5 +1,5 @@
-{% set version = '0.8-4' %}  # [linux or win32 or osx]
-{% set version = '0.8-4' %}  # [win64]
+{% set version = '0.8-5' %}  # [linux or win32 or osx]
+{% set version = '0.8-5' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +9,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-    url:  # [linux or win32 or osx]
+  url:  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/ctv_{{ version }}.tar.gz  # [linux or win32 or osx]
     - {{ cran_mirror }}/src/contrib/Archive/ctv/ctv_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 62ad5dece279d43519257e42aaf98cb7efa834071b1b0c5e58213024c302827a  # [linux or win32 or osx]
+  sha256: 3714ea29f29bad0ffa1195d20c6363c53d092335be17067012f5c9b51afa864e  # [linux or win32 or osx]
 
-  url: https://cran.microsoft.com/snapshot/2018-04-23/bin/windows/contrib/3.5/ctv_0.8-4.zip  # [win64]
-  sha256: 478f73ed86d269ae72b5a1d684789c7a22bbae83a4a9d6444a5a0c1d81875df7  # [win64]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/ctv_0.8-5.zip  # [win64]
+  sha256: 0876db336486d347a9e190912041eca87e2f056593c4f1423193c5e0455c9131  # [win64]
 
 build:
   merge_build_host: True  # [win32]
@@ -66,8 +66,8 @@ extra:
 # The original CRAN metadata for this package was:
 
 # Package: ctv
-# Version: 0.8-4
-# Date: 2018-01-18
+# Version: 0.8-5
+# Date: 2018-05-17
 # Title: CRAN Task Views
 # Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766")), person(given = "Kurt", family = "Hornik", role = "aut", email = "Kurt.Hornik@R-project.org", comment = c(ORCID = "0000-0003-4198-9911")))
 # Description: Infrastructure for task views to CRAN-style repositories: Querying task views and installing the associated packages (client-side tools), generating HTML pages and storing task view information in the repository (server-side tools).
@@ -75,11 +75,11 @@ extra:
 # Suggests: XML
 # License: GPL-2 | GPL-3
 # NeedsCompilation: no
-# Packaged: 2018-01-18 22:02:41 UTC; zeileis
-# Author: Achim Zeileis [aut, cre] (0000-0003-0918-3766), Kurt Hornik [aut] (0000-0003-4198-9911)
+# Packaged: 2018-05-17 05:40:02 UTC; zeileis
+# Author: Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>)
 # Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 # Repository: CRAN
-# Date/Publication: 2018-01-18 22:15:52 UTC
+# Date/Publication: 2018-05-17 06:03:43 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
