@@ -21,6 +21,7 @@ git clean -dxf .
 ## 3. Update all of the recipes that are sourced from MRAN (you probably do not want the revoutils bit)
 ```
 conda skeleton cran \
+  --use-rtools-win \
   --cran-url ${CRAN_URL} \
   --output-suffix=-feedstock/recipe --recursive \
   --add-maintainer=mingwandroid \
@@ -48,8 +49,7 @@ conda skeleton cran \
         -e 's|^./rwinlib-feedstock$||' \
         -e 's|^./r-revoutils-feedstock$||' \
         -e 's|^./$||' \
-        -e 's|^./\.git.*$||') \
-  file:///Users/rdonnelly/conda/aggregateMRO/r-revoutils-feedstock/recipe/RevoUtils_10.0.8.tar.gz
+        -e 's|^./\.git.*$||')
 ```
 
 Here, the exclusion of `r-rmr2` and `r-shinysky` are because they are from `GitHub` but not from git repos which breaks some assumptions made by `conda skeleton cran`, namely:
@@ -63,7 +63,10 @@ The other excluded packages are not R packages at all (`rpy2`, `rstudio` and met
 
 ## 4. Update all of the recipes that are sourced from `GitHub`
 ```
-conda skeleton cran --output-suffix=-feedstock/recipe \
+conda skeleton cran \
+    --use-rtools-win \
+    --cran-url ${CRAN_URL} \
+    --output-suffix=-feedstock/recipe \
     --add-maintainer=mingwandroid \
     --update-policy=merge-keep-build-num \
     https://github.com/bokeh/rbokeh \
@@ -95,9 +98,12 @@ rm r-essentials-feedstock/recipe/meta.yaml.bak
 
 ## 6. Add new dependencies
 ```
-conda skeleton cran foo --output-suffix=-feedstock/recipe \
+conda skeleton cran \
+    --use-rtools-win \
+    --output-suffix=-feedstock/recipe \
     --add-maintainer=mingwandroid \
-    --update-policy=merge-keep-build-num
+    --update-policy=merge-keep-build-num \
+    foo
 # Git add the remaining ones (the cleanup in 1. is important for this to work right):
 git add -N .
 git commit -m "Added new dependencies as of R ${CONDA_R}"
@@ -160,20 +166,20 @@ thing. In particular, the first part (compiling the toolchain) and the final par
 # `conda-build` (doing all packages):
 CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
   conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/mro/all | tr '\n' ' ') \
-  -c https://repo.continuum.io/pkgs/main \
+  -c https://repo.anaconda.com/pkgs/main \
   --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/MRO-${CONDA_R}-$(uname)-$(uname -m).log
 
 # `conda-build` (starting at `_r-mutex-feedstock`):
 CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0 \
   conda-build $(cat ~/conda/pcr/rays-scratch-scripts/build-order/mro/all | sed '/^_r-mutex-feedstock/,$!d' | tr '\n' ' ') \
-  -c https://repo.continuum.io/pkgs/main \
+  -c https://repo.anaconda.com/pkgs/main \
   --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/MRO-${CONDA_R}-$(uname)-$(uname -m).log
 
 # Windows cmd.exe
 set CONDA_ADD_PIP_AS_PYTHON_DEPENDENCY=0
 for /f "tokens=* usebackq" %p IN (`C:\msys32\usr\bin\bash -lc "/usr/bin/cat /c/Users/builder/conda/private_conda_recipes/rays-scratch-scripts/build-order/r/all | /usr/bin/sed '/_r-mutex-feedstock/,$!d'"`) DO set "ALL_RECIPES=%ALL_RECIPES% %p"
 conda-build C:/msys32/usr/bin/bash -c $(cat ~/conda/pcr/rays-scratch-scripts/build-order/r/all | sed '/r-foo-feedstock/,$d' | tr '\n' ' ') \
--c https://repo.continuum.io/pkgs/main \
+-c https://repo.anaconda.com/pkgs/main \
 --skip-existing --error-overlinking 2>&1 | tee -a ~/conda/R-${CONDA_R}-$(uname)-$(uname -m).log
 >>>>>>> README.md: Add some Windows help
 ```

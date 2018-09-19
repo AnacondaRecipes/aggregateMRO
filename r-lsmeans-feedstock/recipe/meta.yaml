@@ -30,6 +30,7 @@ build:
 # Suggests: car, lattice, MCMCpack, mediation, multcompView, ordinal, pbkrtest (>= 0.4-1), CARBayes, coxme, gee, geepack, glmmADMB, lme4, lmerTest (>= 2.0.32), MASS, MCMCglmm, nnet, pscl, rsm, rstan, rstanarm, survival
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

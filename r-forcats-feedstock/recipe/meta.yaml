@@ -26,6 +26,7 @@ build:
 # Suggests: covr, ggplot2, testthat
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

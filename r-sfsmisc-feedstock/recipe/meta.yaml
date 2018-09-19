@@ -26,6 +26,7 @@ build:
 # Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

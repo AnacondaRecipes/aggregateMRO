@@ -30,6 +30,7 @@ build:
 # Suggests: AER, car, geepack, lattice, lmtest, MASS, multiwayvcov, pcse, plm, pscl, scatterplot3d, stats4, strucchange, survival
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

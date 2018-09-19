@@ -26,6 +26,7 @@ build:
 # Suggests: Ecdat (>= 0.1-5)
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

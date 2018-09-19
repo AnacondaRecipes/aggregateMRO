@@ -26,6 +26,7 @@ build:
 # Suggests: setRNG
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

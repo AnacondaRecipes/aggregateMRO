@@ -26,16 +26,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
-    - {{native}}toolchain        # [win]
-    - {{posix}}filesystem        # [win]
-    - {{posix}}sed               # [win]
-    - {{posix}}grep              # [win]
-    - {{posix}}autoconf
-    - {{posix}}automake          # [not win]
-    - {{posix}}automake-wrapper  # [win]
-    - {{posix}}pkg-config
-    - {{posix}}make
-    - {{posix}}coreutils         # [win]
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:
@@ -44,7 +35,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win]
     - r-base64enc
 
 test:

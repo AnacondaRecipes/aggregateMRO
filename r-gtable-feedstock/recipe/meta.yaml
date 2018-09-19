@@ -26,6 +26,7 @@ build:
 # Suggests: testthat, covr
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

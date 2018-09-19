@@ -26,6 +26,7 @@ build:
 # Suggests: GPArotation, lavaan, sem, lme4,Rcsdp, graph, Rgraphviz
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

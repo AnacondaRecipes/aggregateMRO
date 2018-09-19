@@ -34,6 +34,7 @@ build:
 # Suggests: knitr, rmarkdown, webshot, igraph, rpart, shiny, shinyWidgets, colourpicker, sparkline, ggraph, flashClust
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

@@ -1,9 +1,12 @@
 #!/bin/bash
 
 LIBRARY_NAME=${PKG_NAME//r-/}
-
 LIBRARY=/lib/R/library
 PREFIX_LIB="$PREFIX"/$LIBRARY
+
+pushd unpack
+  find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-$LIBRARY_NAME-$PKG_VERSION-$target_platform.install-r-package-sh.txt
+popd
 
 mkdir -p "$PREFIX_LIB"
 
@@ -41,5 +44,3 @@ pushd unpack$LIBRARY || exit 1
     mv $LIBRARY_CASED "$PREFIX_LIB"/
   done
 popd
-
-find . | wc -l

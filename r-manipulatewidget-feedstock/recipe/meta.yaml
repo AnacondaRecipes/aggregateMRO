@@ -26,6 +26,7 @@ build:
 # Suggests: dygraphs, leaflet, plotly, xts, rmarkdown, testthat, covr
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

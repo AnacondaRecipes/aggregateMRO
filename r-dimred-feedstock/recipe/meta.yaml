@@ -26,6 +26,7 @@ build:
 # Suggests: MASS, Matrix, RANN, RSpectra, Rtsne, coRanking, diffusionMap, energy, fastICA, ggplot2, graphics, igraph, kernlab, lle, loe, optimx, pcaPP, rgl, scales, scatterplot3d, stats, testthat, tidyr, vegan
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

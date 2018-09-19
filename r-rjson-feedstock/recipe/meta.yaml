@@ -27,11 +27,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [not win]
     - {{ compiler('cxx') }}      # [not win]
-    - {{native}}toolchain        # [win]
-    - {{posix}}filesystem        # [win]
-    - {{posix}}make
-    - {{posix}}sed               # [win]
-    - {{posix}}coreutils         # [win]
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:
@@ -39,7 +35,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win]
 
 test:
   commands:

@@ -26,6 +26,7 @@ build:
 # Suggests: knitr (>= 1.15.19), testthat
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

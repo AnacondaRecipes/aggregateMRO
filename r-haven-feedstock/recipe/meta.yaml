@@ -36,11 +36,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [linux]
     - {{ compiler('cxx') }}      # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32]
-    - {{posix}}sed               # [win32]
-    - {{posix}}coreutils         # [win32]
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:
@@ -53,7 +49,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
     - r-rcpp >=0.11.4
     - r-forcats >=0.2.0
     - r-hms

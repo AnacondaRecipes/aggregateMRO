@@ -30,6 +30,7 @@ build:
 # Suggests: AER, car, pcse, clusterSEs, clubSandwich, pglm, spdep, splm, statmod, Ecdat, pder, stargazer, texreg, foreign
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

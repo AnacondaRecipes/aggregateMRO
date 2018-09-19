@@ -30,6 +30,7 @@ build:
 # Suggests: bit64, covr, knitr, Lahman (>= 5.0.0), nycflights13 (>= 0.2.2), rmarkdown, RMariaDB (>= 1.0.2), RMySQL (>= 0.10.11), RPostgreSQL (>= 0.4.1), RSQLite (>= 2.0), testthat (>= 2.0.0), withr
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

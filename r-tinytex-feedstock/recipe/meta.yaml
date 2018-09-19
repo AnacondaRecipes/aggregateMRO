@@ -1,4 +1,6 @@
-{% set version = '0.6' %}
+{% set version = '0.6' %}  # [linux or win32]
+{% set version = '0.6' %}  # [win64]
+{% set version = '0.6' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/tinytex_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/tinytex/tinytex_{{ version }}.tar.gz
-  sha256: 6ea08758854b265fdc6b77ab4a6bcbac0178e93f57a43a5de85338a71a6dc99b
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tinytex_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tinytex/tinytex_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 6ea08758854b265fdc6b77ab4a6bcbac0178e93f57a43a5de85338a71a6dc99b  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tinytex_0.6.zip  # [win64]
+  sha256: 6641c079821bb1e451ea1bb16b5227a9ab93a8537a74eaccdaf3d01eff7b68e3  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tinytex_0.6.tgz  # [osx]
+  sha256: ba5ac7d7c1ba2ab59e97ff8213fcd7cf9ee88a473f5f4bdd30e21331a91c7d57  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,7 +34,8 @@ build:
 # Suggests: testit
 requirements:
   build:
-    - {{posix}}zip               # [win]
+    - {{native}}rtools           # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

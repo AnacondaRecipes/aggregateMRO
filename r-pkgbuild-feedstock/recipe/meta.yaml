@@ -1,4 +1,5 @@
-{% set version = '1.0.0' %}
+{% set version = '1.0.0' %}  # [linux or win32 or osx]
+{% set version = '1.0.0' %}  # [win64]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/pkgbuild_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/pkgbuild/pkgbuild_{{ version }}.tar.gz
-  sha256: a9691dd3e27cd053a5d4cc8df8b46baa9915c95d4ce03b8e4cb4c77a0a403f82
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/pkgbuild_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/pkgbuild/pkgbuild_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: a9691dd3e27cd053a5d4cc8df8b46baa9915c95d4ce03b8e4cb4c77a0a403f82  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pkgbuild_1.0.0.zip  # [win64]
+  sha256: 455151b55bf0c7bfc61cd08d33438345117da47525020c3da6b017e0ad25ca3e  # [win64]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,7 +30,8 @@ build:
 # Suggests: Rcpp, testthat, covr
 requirements:
   build:
-    - {{posix}}zip               # [win]
+    - {{native}}rtools           # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

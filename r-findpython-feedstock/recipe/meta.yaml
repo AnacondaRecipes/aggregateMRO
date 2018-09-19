@@ -30,6 +30,7 @@ build:
 # Suggests: reticulate, testthat
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

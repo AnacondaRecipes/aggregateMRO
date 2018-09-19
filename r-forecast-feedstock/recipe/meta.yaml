@@ -28,11 +28,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [not win]
     - {{ compiler('cxx') }}      # [not win]
-    - {{native}}toolchain        # [win]
-    - {{posix}}filesystem        # [win]
-    - {{posix}}make
-    - {{posix}}sed               # [win]
-    - {{posix}}coreutils         # [win]
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:
@@ -53,7 +49,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win]
     - r-rcpp >=0.11.0
     - r-rcpparmadillo >=0.2.35
     - r-colorspace

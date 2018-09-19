@@ -33,6 +33,7 @@ build:
 # Suggests: testthat, lintr, roxygen2 (>= 5.0.0)
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}filesystem        # [win32]
     - {{posix}}git
     - {{posix}}zip               # [win32]

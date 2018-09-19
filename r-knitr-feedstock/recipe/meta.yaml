@@ -30,6 +30,7 @@ build:
 # Suggests: formatR, testit, digest, rgl (>= 0.95.1201), codetools, rmarkdown, htmlwidgets (>= 0.7), webshot, tikzDevice (>= 0.10), tinytex, xfun, reticulate (>= 1.4), JuliaCall (>= 0.11.1), png, jpeg, xml2, httr, DBI (>= 0.4-1), showtext, tibble
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

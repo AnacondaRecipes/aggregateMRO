@@ -31,11 +31,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux or osx]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}make              # [linux or win32 or osx]
-    - {{posix}}sed               # [win32]
-    - {{posix}}coreutils         # [win32]
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:
@@ -46,7 +42,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
     - r-foreign >=0.8
     - r-lattice
     - r-sp >=1.0_11

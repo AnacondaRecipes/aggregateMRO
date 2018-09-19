@@ -34,6 +34,7 @@ build:
 # Suggests: covr, htmltools, htmlwidgets, knitr, rmarkdown, testthat
 requirements:
   build:
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:

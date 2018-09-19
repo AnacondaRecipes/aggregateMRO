@@ -31,16 +31,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux or osx]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}sed               # [win32]
-    - {{posix}}grep              # [win32]
-    - {{posix}}autoconf          # [linux or win32 or osx]
-    - {{posix}}automake          # [linux or osx]
-    - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}pkg-config
-    - {{posix}}make              # [linux or win32 or osx]
-    - {{posix}}coreutils         # [win32]
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:
@@ -51,7 +42,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
     - r-jsonlite >=1.4
     - r-mime
     - r-openssl >=0.9.4

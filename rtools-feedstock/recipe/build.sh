@@ -1,7 +1,8 @@
 #!/bin/bash
 
 pushd $(mktemp -d)
-  "$SRC_DIR"/innoextract/innoextract.exe "$SRC_DIR"/Rtools34.exe
+  "$SRC_DIR"/innoextract/innoextract.exe "$SRC_DIR"/Rtools35.exe
+  find .
   mkdir -p $PREFIX/Rtools/{bin,mingw_64,mingw_libs/lib/x64,mingw_libs/include,texinfo5}
   mv app/bin/* $PREFIX/Rtools/bin/
   mv app/mingw_64/* $PREFIX/Rtools/mingw_64/

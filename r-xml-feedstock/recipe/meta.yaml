@@ -35,16 +35,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
-    - {{native}}toolchain        # [win32]
-    - {{posix}}filesystem        # [win32]
-    - {{posix}}sed               # [win32]
-    - {{posix}}grep              # [win32]
-    - {{posix}}autoconf          # [linux or win32]
-    - {{posix}}automake          # [linux]
-    - {{posix}}automake-wrapper  # [win32]
-    - {{posix}}pkg-config
-    - {{posix}}make              # [linux or win32]
-    - {{posix}}coreutils         # [win32]
+    - {{native}}rtools           # [win32]
     - {{posix}}zip               # [win32]
 
   host:
@@ -52,7 +43,6 @@ requirements:
 
   run:
     - mro-base
-    - {{native}}gcc-libs         # [win32]
 
 test:
   commands:

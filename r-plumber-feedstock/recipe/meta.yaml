@@ -26,6 +26,7 @@ build:
 # Suggests: testthat (>= 0.11.0), XML, rmarkdown, PKI, base64enc, htmlwidgets, visNetwork, analogsea
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:

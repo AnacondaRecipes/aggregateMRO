@@ -26,6 +26,7 @@ build:
 # Suggests: knitr (>= 1.19), lubridate, testthat (>= 2.0.0), withr
 requirements:
   build:
+    - {{native}}rtools           # [win]
     - {{posix}}zip               # [win]
 
   host:
