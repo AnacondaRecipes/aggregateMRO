@@ -30,7 +30,7 @@ build:
 # Suggests: stats4, car, dynlm, e1071, foreach, lmtest, mvtnorm, tseries
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

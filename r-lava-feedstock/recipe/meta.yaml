@@ -34,7 +34,7 @@ build:
 # Suggests: KernSmooth, Matrix, Rgraphviz, ascii, data.table, ellipse, fields, foreach, geepack, gof (>= 0.9), graph, igraph (>= 0.6), lava.tobit (>= 0.4.7), lme4, mets (>= 1.1), nlme, optimx, polycor, quantreg, rgl, testthat (>= 0.11), visNetwork, zoo
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

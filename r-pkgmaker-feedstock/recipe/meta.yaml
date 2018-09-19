@@ -34,7 +34,7 @@ build:
 # Suggests: devtools (>= 0.8), roxygen2, RUnit, testthat, knitr, rmarkdown, yaml, Biobase
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

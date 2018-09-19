@@ -28,7 +28,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [not win]
     - {{ compiler('fortran') }}  # [not win]
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

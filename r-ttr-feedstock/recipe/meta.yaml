@@ -32,7 +32,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [linux or osx]
     - {{ compiler('fortran') }}  # [linux or osx]
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

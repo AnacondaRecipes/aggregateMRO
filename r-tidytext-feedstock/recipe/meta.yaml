@@ -34,7 +34,7 @@ build:
 # Suggests: readr, tidyr, XML, tm, quanteda, knitr, rmarkdown, ggplot2, reshape2, wordcloud, topicmodels, NLP, scales, gutenbergr, testthat, mallet, stm, data.table
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

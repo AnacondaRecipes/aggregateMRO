@@ -34,7 +34,7 @@ build:
 # Suggests: crayon, lubridate, pillar (>= 1.1.0), testthat
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

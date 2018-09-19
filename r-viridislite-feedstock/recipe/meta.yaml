@@ -30,7 +30,7 @@ build:
 # Suggests: hexbin (>= 1.27.0), ggplot2 (>= 1.0.1), testthat, covr
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

@@ -26,7 +26,7 @@ build:
 # Suggests: knitr, maps, sf, shiny, testit (>= 0.4), rgdal, rgeos, R6, RJSONIO, purrr, testthat
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

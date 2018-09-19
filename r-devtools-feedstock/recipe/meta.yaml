@@ -26,7 +26,7 @@ build:
 # Suggests: curl (>= 0.9), crayon, testthat (>= 1.0.2), BiocInstaller, Rcpp (>= 0.10.0), MASS, rmarkdown, knitr, hunspell (>= 2.0), lintr (>= 0.2.1), bitops, roxygen2 (>= 5.0.0), evaluate, rversions, covr, gmailr (> 0.7.0)
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

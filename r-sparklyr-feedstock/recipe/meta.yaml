@@ -34,7 +34,7 @@ build:
 # Suggests: ggplot2, glmnet, janeaustenr, Lahman, mlbench, nnet, nycflights13, RCurl, reshape2, testthat, tibble
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

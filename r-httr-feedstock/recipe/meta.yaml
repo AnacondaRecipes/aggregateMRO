@@ -26,7 +26,7 @@ build:
 # Suggests: httpuv, jpeg, knitr, png, testthat (>= 0.8.0), readr, xml2, rmarkdown, covr
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

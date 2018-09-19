@@ -26,7 +26,7 @@ build:
 # Suggests: covr, pillar (>= 1.2.1), testthat
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

@@ -30,7 +30,7 @@ build:
 # Suggests: covr, dplyr, ggplot2movies, hexbin, Hmisc, lattice, mapproj, maps, maptools, multcomp, munsell, nlme, testthat (>= 0.11.0), vdiffr, quantreg, knitr, rgeos, rpart, rmarkdown, sf (>= 0.3-4), svglite (>= 1.2.0.9001)
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

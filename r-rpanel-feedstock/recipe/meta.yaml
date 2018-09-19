@@ -30,7 +30,7 @@ build:
 # Suggests: tkrplot, rgl, sp, geoR, RandomFields, akima, MASS, denstrip, lattice, sm, maps, mgcv, colorspace, ggplot2
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

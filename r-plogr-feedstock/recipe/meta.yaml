@@ -26,7 +26,7 @@ build:
 # Suggests: Rcpp
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

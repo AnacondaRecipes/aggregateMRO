@@ -26,7 +26,7 @@ build:
 # Suggests: rstudioapi (>= 0.5), testthat, covr
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

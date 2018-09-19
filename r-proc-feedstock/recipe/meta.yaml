@@ -36,7 +36,7 @@ requirements:
   build:
     - {{ compiler('c') }}        # [linux]
     - {{ compiler('cxx') }}      # [linux]
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

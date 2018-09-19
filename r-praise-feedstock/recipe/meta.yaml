@@ -26,7 +26,7 @@ build:
 # Suggests: testthat
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

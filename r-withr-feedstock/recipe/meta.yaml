@@ -26,7 +26,7 @@ build:
 # Suggests: testthat, covr, lattice, DBI, RSQLite, methods, knitr, rmarkdown
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

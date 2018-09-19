@@ -30,7 +30,7 @@ build:
 # Suggests: Lahman (>= 3.0-1), odbc, RJDBC, rJava (>= 0.4-15), nycflights13, testthat
 requirements:
   build:
-    - {{native}}rtools           # [win32]
+    - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:

@@ -26,7 +26,7 @@ build:
 # Suggests: knitr, testthat, rmarkdown (>= 1.1), plumber (>= 0.3.2), shiny, sourcetools, xtable
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:

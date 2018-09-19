@@ -26,7 +26,7 @@ build:
 # Suggests: bayesplot, brms, car, coda (>= 0.17), ggplot2, lattice, mediation, multcomp, multcompView, nlme, ordinal, pbkrtest (>= 0.4-1), lme4, lmerTest (>= 2.0.32), MASS, rsm, knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{native}}rtools           # [win]
+    - rtools                     # [win]
     - {{posix}}zip               # [win]
 
   host:
