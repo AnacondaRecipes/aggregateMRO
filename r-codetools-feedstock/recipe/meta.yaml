@@ -1,5 +1,6 @@
-{% set version = '0.2-15' %}  # [linux or win32 or osx]
+{% set version = '0.2-15' %}  # [linux or win32]
 {% set version = '0.2-15' %}  # [win64]
+{% set version = '0.2-15' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/codetools_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/codetools/codetools_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 4e0798ed79281a614f8cdd199e25f2c1bd8f35ecec902b03016544bd7795fa40  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/codetools_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/codetools/codetools_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 4e0798ed79281a614f8cdd199e25f2c1bd8f35ecec902b03016544bd7795fa40  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/codetools_0.2-15.zip  # [win64]
-  sha256: 266a23600214910a1d818ed7ecf00c5b20e07e45c2c3933ad78d16ee870ad419  # [win64]
+  sha256: df84a806f4fe05c8dbfdbef2f94fc18cb796a452650b4fa99df2d21867bc365c  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/codetools_0.2-15.tgz  # [osx]
+  sha256: 0843968b02deb1aee55b0140162ea931a00c63426b9ec13df2101bb02296d5a4  # [osx]
 
 build:
   merge_build_host: True  # [win32]

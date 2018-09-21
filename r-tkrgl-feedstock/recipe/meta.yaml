@@ -1,5 +1,6 @@
-{% set version = '0.8' %}  # [linux or win32 or osx]
+{% set version = '0.8' %}  # [linux or win32]
 {% set version = '0.8' %}  # [win64]
+{% set version = '0.8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/tkrgl_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/tkrgl/tkrgl_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 24fcf76d927decb8c09addcead6393904dda0a3a7ad63f977776b88ba18ab2b0  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tkrgl_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tkrgl/tkrgl_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 24fcf76d927decb8c09addcead6393904dda0a3a7ad63f977776b88ba18ab2b0  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tkrgl_0.8.zip  # [win64]
   sha256: c7fc44a48ba4cf3aaefa747142e6497d7353eae403b599ad1ed3fa3434bd6ca4  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tkrgl_0.8.tgz  # [osx]
+  sha256: 0ce5dac603024d6ba3060a3993fbf6746b9119eabae62f6232cfda95bb20af1d  # [osx]
 
 build:
   merge_build_host: True  # [win32]

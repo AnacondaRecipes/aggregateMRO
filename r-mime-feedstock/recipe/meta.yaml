@@ -19,7 +19,7 @@ source:
   sha256: abdc98d5f1983367a655c1428fc3e0905dd1e51fe532b898b56d8f64445ed457  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mime_0.5.tgz  # [osx]
-  sha256: 7352dd02cd3915cc8874789c5e64ba2b0337dc4112d2df7215004e1451237fd7  # [osx]
+  sha256: b6401e130a52dc8033e6dabb04776c762e8b1d86749e0e74d4fab05136787f55  # [osx]
 
 build:
   merge_build_host: True  # [win32]

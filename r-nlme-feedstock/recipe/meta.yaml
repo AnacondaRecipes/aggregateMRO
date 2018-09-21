@@ -1,4 +1,6 @@
-{% set version = '3.1-137' %}
+{% set version = '3.1-137' %}  # [linux or win32]
+{% set version = '3.1-137' %}  # [win64]
+{% set version = '3.1-137' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/nlme_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/nlme/nlme_{{ version }}.tar.gz
-  sha256: 01049bb9c53826ff4ec5ba7117d766b17a0108c85f80871a5adb0c0b58ef7e87
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/nlme_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/nlme/nlme_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 01049bb9c53826ff4ec5ba7117d766b17a0108c85f80871a5adb0c0b58ef7e87  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/nlme_3.1-137.zip  # [win64]
+  sha256: 65da4a3e76bbcf6d880ee82b14cc8f970401cfa25b78dada71deb981663c244f  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/nlme_3.1-137.tgz  # [osx]
+  sha256: a1e7ac708fd70f1dbe19a026f1231e07b5643433c3408452e67a9824f74bbc11  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: Hmisc, MASS
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux or osx]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

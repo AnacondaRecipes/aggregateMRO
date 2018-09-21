@@ -1,5 +1,6 @@
-{% set version = '0.2.0.1' %}  # [linux or win32 or osx]
+{% set version = '0.2.0.1' %}  # [linux or win32]
 {% set version = '0.2.0.1' %}  # [win64]
+{% set version = '0.2.0.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/formattable_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/formattable/formattable_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 2e935699fb8c68f55cad824ee2ff76acdb6ee0f363a4342a6f9b0809ea93f2e8  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/formattable_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/formattable/formattable_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2e935699fb8c68f55cad824ee2ff76acdb6ee0f363a4342a6f9b0809ea93f2e8  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/formattable_0.2.0.1.zip  # [win64]
-  sha256: db95111c44ee832f11bcf49b28ded6f5d9aadff55b66b0cdb0c245682f84d568  # [win64]
+  sha256: e082fad004fd17b6de73b124226024befa2513dad4d3ed8e76d0d7a577a9c12e  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/formattable_0.2.0.1.tgz  # [osx]
+  sha256: 8f4dc3fe311b059330344c85fa0b530f96f2d8a4c3cc0f157f5c3ed42d2b4c38  # [osx]
 
 build:
   merge_build_host: True  # [win32]

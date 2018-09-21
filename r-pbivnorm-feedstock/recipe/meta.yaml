@@ -1,4 +1,6 @@
-{% set version = '0.6.0' %}
+{% set version = '0.6.0' %}  # [linux or win32]
+{% set version = '0.6.0' %}  # [win64]
+{% set version = '0.6.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/pbivnorm_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/pbivnorm/pbivnorm_{{ version }}.tar.gz
-  sha256: 07c37d507cb8f8d2d9ae51a9a6d44dfbebd8a53e93c242c4378eaddfb1cc5f16
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pbivnorm_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pbivnorm/pbivnorm_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 07c37d507cb8f8d2d9ae51a9a6d44dfbebd8a53e93c242c4378eaddfb1cc5f16  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pbivnorm_0.6.0.zip  # [win64]
+  sha256: d220977998c476bf2b83cbcc098fbcddc856ff120b744d784070f05388c5b4fc  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pbivnorm_0.6.0.tgz  # [osx]
+  sha256: bb8a0238737d2f96f2319a3d1885a57727d88e8245b5d12360e3d6a2dd51ad79  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,10 +33,10 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -60,7 +60,7 @@ requirements:
 test:
   requires:
     - r-survival
-    - r-ggplot2 2.2.1
+    - r-ggplot2 >=3.0.0
     - r-dplyr
     - ipython
     - numpy
@@ -86,7 +86,8 @@ test:
 
 about:
   home: http://rpy.sourceforge.net
-  license: GPL-2.0
+  license: GPL2
+  license_family: GPL2
   summary: 'Python interface to the R language (embedded R)'
 
 extra:

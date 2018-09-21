@@ -1,4 +1,6 @@
-{% set version = '1.1.0' %}
+{% set version = '1.1.0' %}  # [linux or win32]
+{% set version = '1.1.0' %}  # [win64]
+{% set version = '1.1.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/shiny_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/shiny/shiny_{{ version }}.tar.gz
-  sha256: 70b564cd1b0ba89bae10bc94c6a3b50bd8ffb1a7d85f4aa41b2949e0ea245c89
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/shiny_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/shiny/shiny_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 70b564cd1b0ba89bae10bc94c6a3b50bd8ffb1a7d85f4aa41b2949e0ea245c89  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/shiny_1.1.0.zip  # [win64]
+  sha256: 94f995472550d014dc98413d60b18cc84805afe18b9c5f61772fa8a9d3e341d7  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/shiny_1.1.0.tgz  # [osx]
+  sha256: db1ec620a6dde6813d236633d4e4b2e56a1fae77e6c58833fa2cd0e73ae49afe  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: datasets, Cairo (>= 1.5-5), testthat, knitr (>= 1.6), markdown, rmarkdown, ggplot2, magrittr
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

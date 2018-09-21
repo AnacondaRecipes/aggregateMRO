@@ -1,5 +1,6 @@
-{% set version = '1.0.2' %}  # [linux or win32 or osx]
+{% set version = '1.0.2' %}  # [linux or win32]
 {% set version = '1.0.2' %}  # [win64]
+{% set version = '1.0.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/prettyunits_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/prettyunits/prettyunits_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 35a4980586c20650538ae1e4fed4d80fdde3f212b98546fc3c7d9469a1207f5c  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/prettyunits_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/prettyunits/prettyunits_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 35a4980586c20650538ae1e4fed4d80fdde3f212b98546fc3c7d9469a1207f5c  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/prettyunits_1.0.2.zip  # [win64]
-  sha256: 2f082abd59e7133f1ffa5b229cd6a8a960cb6b2e6c15b4b57129ce296687423a  # [win64]
+  sha256: ddb589c252f0205ca56c60836ce506c5880379a2b4795f7d8f3258f214a62986  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/prettyunits_1.0.2.tgz  # [osx]
+  sha256: 815b60e98e09372e4c318fd3ad2b572a373be7f70698aaa3c261afd23b74523e  # [osx]
 
 build:
   merge_build_host: True  # [win32]

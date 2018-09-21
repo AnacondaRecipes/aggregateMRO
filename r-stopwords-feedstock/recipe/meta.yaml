@@ -1,5 +1,6 @@
-{% set version = '0.9.0' %}  # [linux or win32 or osx]
+{% set version = '0.9.0' %}  # [linux or win32]
 {% set version = '0.9.0' %}  # [win64]
+{% set version = '0.9.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/stopwords_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/stopwords/stopwords_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: f0bb7f2ab34a46c5cd827131a1b52b4ee363acd9d69c9bff407c341e301c1b14  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stopwords_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stopwords/stopwords_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f0bb7f2ab34a46c5cd827131a1b52b4ee363acd9d69c9bff407c341e301c1b14  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/stopwords_0.9.0.zip  # [win64]
-  sha256: 3aadedb63480bd5bd62f49468ce376686f781be50dcbd903363bfaa45c312576  # [win64]
+  sha256: 5f043cc073d428f11319d67fcc0413e246bd758b482d3b37f1a37b6951db7204  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/stopwords_0.9.0.tgz  # [osx]
+  sha256: d378a943730ba34d9b155d07b5410a029ae950cebcba01b7840eddbc24d54d74  # [osx]
 
 build:
   merge_build_host: True  # [win32]

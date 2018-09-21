@@ -19,7 +19,7 @@ source:
   sha256: 9277fafb7a319eee820d0483621026d3faabf895511414e37e5b42b6f10933d6  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/backports_1.1.2.tgz  # [osx]
-  sha256: 913a6612e3cabbdbf1c2ab27ff54cadfc4c83e43dd0678dd8d67cf16b9e7bfc6  # [osx]
+  sha256: bfb808e92bcb4857640aff3b1ce196041541fc78b07032f7edd15718e5c9e457  # [osx]
 
 build:
   merge_build_host: True  # [win32]

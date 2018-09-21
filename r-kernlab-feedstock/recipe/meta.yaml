@@ -1,5 +1,6 @@
-{% set version = '0.9-26' %}  # [linux or win32 or osx]
+{% set version = '0.9-26' %}  # [linux or win32]
 {% set version = '0.9-26' %}  # [win64]
+{% set version = '0.9-26' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -16,6 +17,9 @@ source:
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/kernlab_0.9-26.zip  # [win64]
   sha256: 7d7a4f0a97927a8deb6cce631dd9e2a2f2afe6f035b69ff9de8f0be2312260d0  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/kernlab_0.9-26.tgz  # [osx and false]
+  sha256: 58c08c4e61300bc542baca4129081edc29b82538bb950500942b6407e76d41b9  # [osx and false]
 
 build:
   merge_build_host: True  # [win32]

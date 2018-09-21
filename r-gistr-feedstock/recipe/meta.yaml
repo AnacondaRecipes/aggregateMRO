@@ -1,4 +1,6 @@
-{% set version = '0.4.2' %}
+{% set version = '0.4.2' %}  # [linux or win32]
+{% set version = '0.4.2' %}  # [win64]
+{% set version = '0.4.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/gistr_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/gistr/gistr_{{ version }}.tar.gz
-  sha256: 43c00c7f565732125f45f6c067724771ba1b337d6dd3a6e301639fe16e11032e
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gistr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gistr/gistr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 43c00c7f565732125f45f6c067724771ba1b337d6dd3a6e301639fe16e11032e  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/gistr_0.4.2.zip  # [win64]
+  sha256: 717f40d316eefb897ef50d7c5c531c34bc76054bb54d0e5707f800ab3b0ab2af  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/gistr_0.4.2.tgz  # [osx]
+  sha256: d5ed1d9f197b49e406dc83b1de7a793bc1bf8cc8c7aafb8b15e30eb3159cf9a9  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: git2r, testthat
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

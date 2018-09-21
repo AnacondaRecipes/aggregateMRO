@@ -1,5 +1,6 @@
-{% set version = '0.5.0' %}  # [linux or win32 or osx]
+{% set version = '0.5.0' %}  # [linux or win32]
 {% set version = '0.5.0' %}  # [win64]
+{% set version = '0.5.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/webshot_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/webshot/webshot_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: f0a1be8b0563d95550569a0620d546a9876d1e279a932e9293e4be57ff0f271f  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/webshot_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/webshot/webshot_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f0a1be8b0563d95550569a0620d546a9876d1e279a932e9293e4be57ff0f271f  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/webshot_0.5.0.zip  # [win64]
   sha256: 5b038535a93a8f3ca4b482a1d5c76636accbba3b5d8c1f787f22b89c7a1032e3  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/webshot_0.5.0.tgz  # [osx]
+  sha256: 606ae09603f2c9426eb9169344d4baa68838d50e4c119195f92f88ddd79be66e  # [osx]
 
 build:
   merge_build_host: True  # [win32]

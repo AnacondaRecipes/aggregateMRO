@@ -16,10 +16,10 @@ source:
   sha256: dd9fd2342b650456901d014e7ff6d2e201f8bec0b555be63b1a878d2e1513e34  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/colorspace_1.3-2.zip  # [win64]
-  sha256: 30448717d404d9166de3713cb823c7f0f675e5bb083ebf2990b9aa527b13a96f  # [win64]
+  sha256: 97db44ad25d8bab6825c4b3efd614aa8ad7dd8444c120cfc3feb2a49c1027fa5  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/colorspace_1.3-2.tgz  # [osx]
-  sha256: 023cc7cf310a9389fd4a973c503d8208bf9f122b2158d945c12903dd64f24d54  # [osx]
+  sha256: a254c56bd6a4235d579a5b8190b23fd3bfaa19fc3314cdae7c0d87ae048b6ad8  # [osx]
 
 build:
   merge_build_host: True  # [win32]

@@ -1,5 +1,6 @@
-{% set version = '0.8.7' %}  # [linux or win32 or osx]
+{% set version = '0.8.7' %}  # [linux or win32]
 {% set version = '0.8.7' %}  # [win64]
+{% set version = '0.8.7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/reshape_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/reshape/reshape_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 2fa6c87d1e89f182e51bc5a4fcda3d42d83b8fb4474ca525fa7a8db5081f3992  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/reshape_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/reshape/reshape_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2fa6c87d1e89f182e51bc5a4fcda3d42d83b8fb4474ca525fa7a8db5081f3992  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/reshape_0.8.7.zip  # [win64]
-  sha256: 33e4812cf91a6463294c29b27a462f1ae72880bc4b2dfba7793f724cc289d7c3  # [win64]
+  sha256: 7185fbef32220c0a8887ef8ac4a307ad77a0bbfdd1ba65702bc05539afb19bb1  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/reshape_0.8.7.tgz  # [osx]
+  sha256: 77fd80879b813f2c256824be5083763f8a78dc4b7b6491d4e62b485c93a0b86a  # [osx]
 
 build:
   merge_build_host: True  # [win32]

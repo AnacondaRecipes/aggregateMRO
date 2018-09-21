@@ -1,4 +1,6 @@
-{% set version = '1.0.2' %}
+{% set version = '1.0.2' %}  # [linux or win32]
+{% set version = '1.0.2' %}  # [win64]
+{% set version = '1.0.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/lintr_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/lintr/lintr_{{ version }}.tar.gz
-  sha256: f61eb02fe102f30aedf60b8f526659623eeb87c1c520de49e45ab05645748692
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lintr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lintr/lintr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f61eb02fe102f30aedf60b8f526659623eeb87c1c520de49e45ab05645748692  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lintr_1.0.2.zip  # [win64]
+  sha256: e5ba96b0a64cc39b22bd5af0f8854d6e99edf74e9fb802a142c0f564e142ac21  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/lintr_1.0.2.tgz  # [osx]
+  sha256: 53c01d9a5cdb5ac33468f6c18e8a95de9a5fd4b145451331276f99b6a23b9d3b  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: rmarkdown, mockery
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

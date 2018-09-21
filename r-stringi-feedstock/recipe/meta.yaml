@@ -1,4 +1,6 @@
-{% set version = '1.2.4' %}
+{% set version = '1.2.4' %}  # [linux or win32]
+{% set version = '1.1.7' %}  # [win64]
+{% set version = '1.2.4' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/stringi_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/stringi/stringi_{{ version }}.tar.gz
-  sha256: 01570a200a25bde62c47b241636e67d73425efa10b924b63959a867796ea86f8
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stringi_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stringi/stringi_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 01570a200a25bde62c47b241636e67d73425efa10b924b63959a867796ea86f8  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/stringi_1.1.7.zip  # [win64]
+  sha256: 3e38eaab31d86ac3cf21ba7fcb27f3b8a6d4f98d93c849fcad0993234e7c917e  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/stringi_1.2.4.tgz  # [osx]
+  sha256: e2db3635009dd48ffc53a06374f5f7eb0ad87cc4e54a61fb2a5dffd104cba513  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,16 +33,17 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
 
   run:
     - mro-base
+    - libcxx                     # [osx]
 
 test:
   commands:

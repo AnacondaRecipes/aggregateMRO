@@ -1,4 +1,6 @@
-{% set version = '8.4' %}
+{% set version = '8.4' %}  # [linux or win32]
+{% set version = '8.4' %}  # [win64]
+{% set version = '8.4' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/forecast_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/forecast/forecast_{{ version }}.tar.gz
-  sha256: 695cdf0376f1f519a236bec52722c41ea5896f2064f1403d0ad4914c5611188f
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/forecast_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/forecast/forecast_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 695cdf0376f1f519a236bec52722c41ea5896f2064f1403d0ad4914c5611188f  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/forecast_8.4.zip  # [win64]
+  sha256: 861df16e62ba80fac86676e01327cb382d59baac2f747e06b667a1afe4b54c43  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/forecast_8.4.tgz  # [osx and false]
+  sha256: 45b11240a5f6536d354b5da0a8bc786c1632aa70edb22e2bced79fd397825008  # [osx and false]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,11 @@ build:
 # Suggests: expsmooth, knitr, rmarkdown, rticles, testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
+    - {{ compiler('fortran') }}  # [osx]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

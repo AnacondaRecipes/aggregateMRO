@@ -1,5 +1,6 @@
-{% set version = '1.4-8' %}  # [linux or win32 or osx]
+{% set version = '1.4-8' %}  # [linux or win32]
 {% set version = '1.4-8' %}  # [win64]
+{% set version = '1.4-8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/multcomp_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/multcomp/multcomp_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: a20876619312310e9523d67e9090af501383ce49dc6113c6b4ca30f9c943a73a  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/multcomp_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/multcomp/multcomp_{{ version }}.tar.gz  # [linux or win32]
+  sha256: a20876619312310e9523d67e9090af501383ce49dc6113c6b4ca30f9c943a73a  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/multcomp_1.4-8.zip  # [win64]
-  sha256: 9f6a7c4eb3bd7d306edb1934f5ad41d378dc3fe93281d9d348c8e9f857148b5e  # [win64]
+  sha256: 26616cd119c98bd80674f5ed6512b787db99148f62574c099affff26becd6dbe  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/multcomp_1.4-8.tgz  # [osx]
+  sha256: 0b4acdf89988ebe7fa66cc599c1bcbd12704d25e50994ffe1f34abc76e30fe82  # [osx]
 
 build:
   merge_build_host: True  # [win32]

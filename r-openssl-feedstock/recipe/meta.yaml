@@ -1,5 +1,6 @@
-{% set version = '1.0.2' %}  # [linux or win32 or osx]
+{% set version = '1.0.2' %}  # [linux or win32]
 {% set version = '1.0.2' %}  # [win64]
+{% set version = '1.0.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/openssl_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/openssl/openssl_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 2c17c6c555b0684b11bf02420dd8d3d83694d1fb4ee6325b44bdb309afbd4eb6  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/openssl_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/openssl/openssl_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2c17c6c555b0684b11bf02420dd8d3d83694d1fb4ee6325b44bdb309afbd4eb6  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/openssl_1.0.2.zip  # [win64]
   sha256: 9473bac04778de2d7329b7543d8e6c28a23131fe785061191b9967453651c9a7  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/openssl_1.0.2.tgz  # [osx]
+  sha256: 82420b45dcf534a79c3a00c274974e5704ed8d35c0ed0eb58e80173494120194  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,7 +34,7 @@ build:
 # Suggests: testthat, digest, knitr, rmarkdown, jsonlite, jose
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

@@ -16,10 +16,10 @@ source:
   sha256: f1cfeef466ac436105756679353a3468027d97a600e3be755b819aef30ed9207  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rms_5.1-2.zip  # [win64]
-  sha256: 8b5a143a5c0efd7778968a425fe1cd8f2d41dd106c42f94a56956c52a2a7fa0c  # [win64]
+  sha256: e58d568697e7f306997935bf163727eaaea5bdcad156c5e0748865628661a62a  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rms_5.1-2.tgz  # [osx]
-  sha256: 909d63e6565d38571ab338e8f7a610c9b8dd05e6ed0df9a2db45ad3e0cf700cb  # [osx]
+  sha256: 183bdf0a2f878e70ea2db4d6509517424a49f816b66767419b23591c7f323249  # [osx]
 
 build:
   merge_build_host: True  # [win32]

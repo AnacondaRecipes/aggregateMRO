@@ -1,5 +1,4 @@
-{% set version = '3043.102' %}  # [linux or win32 or osx]
-{% set version = '3043.102' %}  # [win64]
+{% set version = '3043.102' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,16 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/timeDate_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/timeDate/timeDate_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 377cba03cddab8c6992e31d0683c1db3a73afa9834eee3e95b3b0723f02d7473  # [linux or win32 or osx]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/timeDate_3043.102.zip  # [win64]
-  sha256: eed08eca0aaae4300da6cee6b2fb1369d6f830621d531d1b001fa5a9fa51082d  # [win64]
+  url:
+    - {{ cran_mirror }}/src/contrib/timeDate_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/timeDate/timeDate_{{ version }}.tar.gz
+  sha256: 377cba03cddab8c6992e31d0683c1db3a73afa9834eee3e95b3b0723f02d7473
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -30,8 +26,8 @@ build:
 # Suggests: date, RUnit
 requirements:
   build:
-    - rtools                     # [win32]
-    - {{posix}}zip               # [win32]
+    - rtools                     # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

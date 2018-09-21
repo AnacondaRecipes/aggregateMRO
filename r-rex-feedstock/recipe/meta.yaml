@@ -16,10 +16,10 @@ source:
   sha256: bd3c74ceaf335336f5dd04314d0a791f6311e421a2158f321f5aab275f539a2a  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rex_1.1.2.zip  # [win64]
-  sha256: 081c090d33403511233580352323f4478c8072977cdac47fce6dc835cb322eec  # [win64]
+  sha256: 61c1e38e6bc8178be108ac8f05296396b2174b4f02d572bb463bd6b729977179  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rex_1.1.2.tgz  # [osx]
-  sha256: cf261a342643ff48183a8736932041eebc415809cb33b6351a05e492dbcfa32f  # [osx]
+  sha256: b2e783c9fc088c30dbc567f67b00133a2462fdbb4105ea482e7cf946bfcca6cf  # [osx]
 
 build:
   merge_build_host: True  # [win32]

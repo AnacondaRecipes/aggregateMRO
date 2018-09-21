@@ -1,4 +1,6 @@
-{% set version = '3.2' %}
+{% set version = '3.2' %}  # [linux or win32]
+{% set version = '3.2' %}  # [win64]
+{% set version = '3.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/curl_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/curl/curl_{{ version }}.tar.gz
-  sha256: 1636aea6422a0ad81cfd2e2a1ccd7e6924cc486711fc8d7d72168230c2f11596
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/curl_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/curl/curl_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1636aea6422a0ad81cfd2e2a1ccd7e6924cc486711fc8d7d72168230c2f11596  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/curl_3.2.zip  # [win64]
+  sha256: 52032bb80c9131ac867533ba5b65666c6d260ec8ae5170e99eb1ce5cc1f9d5ca  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/curl_3.2.tgz  # [osx]
+  sha256: 18f441298822b48682b4b9e94016c3525fc81201d6a3147edf08cacdd32d66eb  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,9 @@ build:
 # Suggests: spelling, testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

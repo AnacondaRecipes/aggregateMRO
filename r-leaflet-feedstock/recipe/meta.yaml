@@ -1,4 +1,6 @@
-{% set version = '2.0.1' %}
+{% set version = '2.0.1' %}  # [linux or win32]
+{% set version = '2.0.1' %}  # [win64]
+{% set version = '2.0.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/leaflet_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/leaflet/leaflet_{{ version }}.tar.gz
-  sha256: 9876d5adf3235ea5683db79ec2435d3997c626774e8c4ec4ef14022e24dfcf06
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/leaflet_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/leaflet/leaflet_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 9876d5adf3235ea5683db79ec2435d3997c626774e8c4ec4ef14022e24dfcf06  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/leaflet_2.0.1.zip  # [win64]
+  sha256: fcecf78bcbd22d0130e576dd6b3b276e9e21c562acb46a702fc66953239c443c  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/leaflet_2.0.1.tgz  # [osx]
+  sha256: 71afd06d628e796c28b8a065c17bffbca6c3ff14007b56a2bd8dbd47578529f0  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: knitr, maps, sf, shiny, testit (>= 0.4), rgdal, rgeos, R6, RJSONIO, purrr, testthat
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

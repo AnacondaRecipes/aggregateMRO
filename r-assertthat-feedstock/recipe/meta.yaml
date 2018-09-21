@@ -1,5 +1,6 @@
-{% set version = '0.2.0' %}  # [linux or win32 or osx]
+{% set version = '0.2.0' %}  # [linux or win32]
 {% set version = '0.2.0' %}  # [win64]
+{% set version = '0.2.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/assertthat_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/assertthat/assertthat_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: d73ef79b1e75293ed889a99571b237a95829c099f7da094d4763f83ea6fde5f2  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/assertthat_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/assertthat/assertthat_{{ version }}.tar.gz  # [linux or win32]
+  sha256: d73ef79b1e75293ed889a99571b237a95829c099f7da094d4763f83ea6fde5f2  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/assertthat_0.2.0.zip  # [win64]
-  sha256: b59dba4ee91637f653913a0b2679d03ded16497f333f8bb113944ddf9db11847  # [win64]
+  sha256: 9703a11a017f040e6b7fa4c637717079f751236b0dbbce8c0066f7b5d52984c8  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/assertthat_0.2.0.tgz  # [osx]
+  sha256: cfcab8e66e41c7dc2244b8b336380a3c548f5d2b1dcf772e6e8faab98d33346e  # [osx]
 
 build:
   merge_build_host: True  # [win32]

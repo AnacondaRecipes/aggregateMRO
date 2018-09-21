@@ -1,5 +1,6 @@
-{% set version = '2.17.3' %}  # [linux or win32 or osx]
+{% set version = '2.17.3' %}  # [linux or win32]
 {% set version = '2.17.3' %}  # [win64]
+{% set version = '2.17.3' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/rstan_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/rstan/rstan_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: e3cbb96f7809ace95d61a119142d74d71f015ca1af4a78aad591f2b6b056cd81  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rstan_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rstan/rstan_{{ version }}.tar.gz  # [linux or win32]
+  sha256: e3cbb96f7809ace95d61a119142d74d71f015ca1af4a78aad591f2b6b056cd81  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rstan_2.17.3.zip  # [win64]
   sha256: e91c674d72ee93773ced871935675d71be954659d6f31ae1a44af3527c7e6c70  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rstan_2.17.3.tgz  # [osx]
+  sha256: c70a527ecc748c6b1036ddaffd0daa9dec270311778b86289639b19e8dbaf8a7  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,8 +34,8 @@ build:
 # Suggests: RUnit, RcppEigen (>= 0.3.3.3.0), BH (>= 1.65), parallel, KernSmooth, loo (>= 1.0.0), shinystan (>= 2.2.1), bayesplot, rstantools, rstudioapi, Matrix, knitr (>= 1.15.1)
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
-    - {{ compiler('cxx') }}      # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

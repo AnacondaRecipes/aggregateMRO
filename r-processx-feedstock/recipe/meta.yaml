@@ -1,4 +1,6 @@
-{% set version = '3.1.0' %}
+{% set version = '3.1.0' %}  # [linux or win32]
+{% set version = '3.1.0' %}  # [win64]
+{% set version = '3.1.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/processx_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/processx/processx_{{ version }}.tar.gz
-  sha256: 11ac120ab4e4aa0e99c9b2eda87d07bc683bab735f1761e95e5ddacd311b5972
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/processx_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/processx/processx_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 11ac120ab4e4aa0e99c9b2eda87d07bc683bab735f1761e95e5ddacd311b5972  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/processx_3.1.0.zip  # [win64]
+  sha256: d1c78951cb1d6c1873b4475b1e492b210bea2d29ed7da6bb66a94d1f620ed3dc  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/processx_3.1.0.tgz  # [osx]
+  sha256: 3b6a335d01165ce45708211b8fc1f63bb6e03ec79b9b398b21341a056528118f  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: covr, debugme, parallel, testthat, withr
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -44,6 +52,7 @@ requirements:
     - r-assertthat
     - r-crayon
     - r-testthat
+    - libcxx >=4.0.1             # [osx]
 
 test:
   commands:

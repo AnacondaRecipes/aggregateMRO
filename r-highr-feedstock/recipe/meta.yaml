@@ -1,4 +1,6 @@
-{% set version = '0.7' %}
+{% set version = '0.7' %}  # [linux or win32]
+{% set version = '0.7' %}  # [win64]
+{% set version = '0.7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/highr_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/highr/highr_{{ version }}.tar.gz
-  sha256: cabba5b6f2ea82024a49c5ced5f1aa476f864bc52bc129038e319e4e26b6f3b7
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/highr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/highr/highr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: cabba5b6f2ea82024a49c5ced5f1aa476f864bc52bc129038e319e4e26b6f3b7  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/highr_0.7.zip  # [win64]
+  sha256: e64685d9887cbfb5b32394989743a07a69855f830c2b480f40b547daad0c7053  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/highr_0.7.tgz  # [osx]
+  sha256: db4fc61adbdc616abb12986a70c3764a0fb36dfdf7cd633d7e654a8de4a18570  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: knitr, testit
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

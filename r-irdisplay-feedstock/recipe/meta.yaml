@@ -1,6 +1,4 @@
-{% set version = '0.5.0' %}  # [linux or win32]
-{% set version = '0.5.0' %}  # [win64]
-{% set version = '0.5.0' %}  # [osx]
+{% set version = '0.5.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,19 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/IRdisplay_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/IRdisplay/IRdisplay_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 3db5428e50c9ee6bbf4a4da34571793955fdd9fad4e08f3ac36d86dbd26590cb  # [linux or win32]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/IRdisplay_0.5.0.zip  # [win64]
-  sha256: d96434df6cb98cfa25a5bfd31b07d903794bb8eac6c7d81b9fb0e1853b78ef7b  # [win64]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/IRdisplay_0.5.0.tgz  # [osx]
-  sha256: 8c761fc1b1a5bdaea597d96a60d2f677e8fd41206ad78f4a8346c6dff20678a8  # [osx]
+  url:
+    - {{ cran_mirror }}/src/contrib/IRdisplay_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/IRdisplay/IRdisplay_{{ version }}.tar.gz
+  sha256: 3db5428e50c9ee6bbf4a4da34571793955fdd9fad4e08f3ac36d86dbd26590cb
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -34,8 +26,8 @@ build:
 # Suggests: testthat, withr
 requirements:
   build:
-    - rtools                     # [win32]
-    - {{posix}}zip               # [win32]
+    - rtools                     # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

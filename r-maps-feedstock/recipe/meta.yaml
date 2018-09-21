@@ -1,4 +1,6 @@
-{% set version = '3.3.0' %}
+{% set version = '3.3.0' %}  # [linux or win32]
+{% set version = '3.3.0' %}  # [win64]
+{% set version = '3.3.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/maps_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/maps/maps_{{ version }}.tar.gz
-  sha256: 199afe19a4edcef966ae79ef802f5dcc15a022f9c357fcb8cae8925fe8bd2216
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/maps_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/maps/maps_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 199afe19a4edcef966ae79ef802f5dcc15a022f9c357fcb8cae8925fe8bd2216  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/maps_3.3.0.zip  # [win64]
+  sha256: 7e8fd9f3be440f873c7f6257c47c254710eac12029394f91c8aaf225d4faf5ac  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/maps_3.3.0.tgz  # [osx]
+  sha256: f599fd892b036f9f9264ceb4aa2aeebfcbcd3f9f3040a1da078518d63b7a78e4  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,9 @@ build:
 # Suggests: mapproj (>= 1.2-0), mapdata (>= 2.3.0), sp, maptools, rnaturalearth
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

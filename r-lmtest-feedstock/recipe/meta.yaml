@@ -1,5 +1,6 @@
-{% set version = '0.9-36' %}  # [linux or win32 or osx]
+{% set version = '0.9-36' %}  # [linux or win32]
 {% set version = '0.9-36' %}  # [win64]
+{% set version = '0.9-36' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/lmtest_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/lmtest/lmtest_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: be9f168d6554e9cd2be0f9d8fc3244f055dce90d1fca00f05bcbd01daa4ed56b  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lmtest_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lmtest/lmtest_{{ version }}.tar.gz  # [linux or win32]
+  sha256: be9f168d6554e9cd2be0f9d8fc3244f055dce90d1fca00f05bcbd01daa4ed56b  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lmtest_0.9-36.zip  # [win64]
-  sha256: 4971772c1c0b0be7db9ae36d0727893ad3cdc40daa2658006f23bfee21b45a0a  # [win64]
+  sha256: 021c3ca001befe64476095b2f8eab284f7f47bc2673a622ef6b013a998be44ee  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/lmtest_0.9-36.tgz  # [osx]
+  sha256: ed0d50f6f77316d273c439e373a7fa2f606357c1bef083a4b24a62ec7d5c6a9c  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,7 +34,7 @@ build:
 # Suggests: car, strucchange, sandwich, dynlm, stats4, survival, AER
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
     - {{ compiler('fortran') }}  # [linux or osx]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]

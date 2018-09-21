@@ -1,4 +1,6 @@
-{% set version = '2.0.7-1' %}
+{% set version = '2.0.7-1' %}  # [linux or win32]
+{% set version = '2.0.7-1' %}  # [win64]
+{% set version = '2.0.7-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/cluster_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/cluster/cluster_{{ version }}.tar.gz
-  sha256: b10141090cf3c2b62260611a0ea822eb2f7bab9f4fd656c48bdc12b65c5c3dbf
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/cluster_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/cluster/cluster_{{ version }}.tar.gz  # [linux or win32]
+  sha256: b10141090cf3c2b62260611a0ea822eb2f7bab9f4fd656c48bdc12b65c5c3dbf  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/cluster_2.0.7-1.zip  # [win64]
+  sha256: 58a1d88b875e26b420eb91c249a8150e69d7d286a97efd8a4c8da7534aa98191  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/cluster_2.0.7-1.tgz  # [osx]
+  sha256: 9da62f3b940a22b2adf26fb65242c8a9cc0f40117ec8644a717cad9c0abce610  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: MASS, Matrix
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

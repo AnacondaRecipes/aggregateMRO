@@ -16,10 +16,10 @@ source:
   sha256: 5d38f288c752bbb9cea6ff830b8388bdd65a8571fd82d8d96064586bd588cf99  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/cellranger_1.1.0.zip  # [win64]
-  sha256: bd5b2a099320bbc149311271d31018fbcb8af5b08f2e0212844bb06d2907d3e5  # [win64]
+  sha256: 32bdcd2e2fe04c904e823a1884283eebb9d7c93d9d09b0ec0aaac085302145da  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/cellranger_1.1.0.tgz  # [osx]
-  sha256: 46e25c4045fe017a6468dae71a36f958bb48a64ccdb79515f269010218247d13  # [osx]
+  sha256: 7a9992790664898e5db583b2c0c0cdcf48c95e5b93e7e3dec54b6d830a15561c  # [osx]
 
 build:
   merge_build_host: True  # [win32]

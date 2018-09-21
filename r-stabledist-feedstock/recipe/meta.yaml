@@ -1,4 +1,6 @@
-{% set version = '0.7-1' %}
+{% set version = '0.7-1' %}  # [linux or win32]
+{% set version = '0.7-1' %}  # [win64]
+{% set version = '0.7-1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/stabledist_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/stabledist/stabledist_{{ version }}.tar.gz
-  sha256: 06c5704d3a3c179fa389675c537c39a006867bc6e4f23dd7e406476ed2c88a69
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/stabledist_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/stabledist/stabledist_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 06c5704d3a3c179fa389675c537c39a006867bc6e4f23dd7e406476ed2c88a69  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/stabledist_0.7-1.zip  # [win64]
+  sha256: 6c956ae79844099fe22aa6b352d603022d6b70be50e852664c1de6fc70c08e50  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/stabledist_0.7-1.tgz  # [osx]
+  sha256: b825efa03a3e16f7dc81e441bac512339bde813b7ffe1d32f683802e9e7d0c8e  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: Matrix, fBasics, FMStable, RUnit, Rmpfr, sfsmisc
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

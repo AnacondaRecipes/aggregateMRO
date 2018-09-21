@@ -1,4 +1,6 @@
-{% set version = '0.7' %}
+{% set version = '0.7' %}  # [linux or win32]
+{% set version = '0.7' %}  # [win64]
+{% set version = '0.7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/rstudioapi_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/rstudioapi/rstudioapi_{{ version }}.tar.gz
-  sha256: a541bc76ef082d2c27e42fd683f8262cb195b1497af3509178d2642870397a8c
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rstudioapi_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rstudioapi/rstudioapi_{{ version }}.tar.gz  # [linux or win32]
+  sha256: a541bc76ef082d2c27e42fd683f8262cb195b1497af3509178d2642870397a8c  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rstudioapi_0.7.zip  # [win64]
+  sha256: ec3f79b651b9d58bbe86bc1e16e7b512f002fddba82a9ca253ee090f59aaca55  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rstudioapi_0.7.tgz  # [osx]
+  sha256: eaf1e30a14119e0cffdf686d57ef5c69da60fa3cd7454caf0d8ab740b93b3698  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: testthat, knitr, rmarkdown
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

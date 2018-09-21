@@ -1,4 +1,6 @@
-{% set version = '0.8.8' %}
+{% set version = '0.8.8' %}  # [linux or win32]
+{% set version = '0.8.8' %}  # [win64]
+{% set version = '0.8.8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/rsconnect_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/rsconnect/rsconnect_{{ version }}.tar.gz
-  sha256: 91825eca63172ed0d36f02a8db9c4e0a44188bb01af8341558398a5715873705
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rsconnect_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rsconnect/rsconnect_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 91825eca63172ed0d36f02a8db9c4e0a44188bb01af8341558398a5715873705  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rsconnect_0.8.8.zip  # [win64]
+  sha256: b33de5a6dca8495a897251d57cee5fb12e16a0e164d413e09b1aec6e01081f91  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rsconnect_0.8.8.tgz  # [osx]
+  sha256: c87b3d6f274f4c3b34089e5468e696d56a5242a00d0975a3b537a8013698217a  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: knitr, testthat, rmarkdown (>= 1.1), plumber (>= 0.3.2), shiny, sourcetools, xtable
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

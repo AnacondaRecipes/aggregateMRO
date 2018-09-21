@@ -1,5 +1,6 @@
-{% set version = '0.9.3' %}  # [linux or win32 or osx]
+{% set version = '0.9.3' %}  # [linux or win32]
 {% set version = '0.9.3' %}  # [win64]
+{% set version = '0.9.3' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/rzmq_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/rzmq/rzmq_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: ab6f6da1fcd0c11003517a21bd85f5c56495e6926542db3fb320f3901f292b13  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rzmq_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rzmq/rzmq_{{ version }}.tar.gz  # [linux or win32]
+  sha256: ab6f6da1fcd0c11003517a21bd85f5c56495e6926542db3fb320f3901f292b13  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rzmq_0.9.3.zip  # [win64]
   sha256: 38e05676a742b3a7baa0f646a226f389e742276e6e91e2755b7de40e7be82026  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rzmq_0.9.3.tgz  # [osx]
+  sha256: 380251815d455a8ab7887c4c418adc0499db6589202eaf4b4a0bce61bc207f42  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -29,8 +33,8 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
-    - {{ compiler('cxx') }}      # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

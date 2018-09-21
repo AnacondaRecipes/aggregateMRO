@@ -1,9 +1,5 @@
-if "%target_platform%" == "win-64" goto skip_source_build
+move Rextsoft\include\libxml2\libxml Rextsoft\include
+mkdir "%PREFIX%\Rextsoft"
+robocopy /E Rextsoft "%PREFIX%\Rextsoft"
 "%R%" CMD INSTALL --build .
 IF %ERRORLEVEL% NEQ 0 exit 1
-exit 0
-:skip_source_build
-mkdir %PREFIX%\lib\R\library
-robocopy /E . "%PREFIX%\lib\R\library\XML"
-if %ERRORLEVEL% NEQ 1 exit 1
-exit 0

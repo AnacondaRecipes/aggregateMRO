@@ -1,5 +1,6 @@
-{% set version = '3.2.8' %}  # [linux or win32 or osx]
+{% set version = '3.2.8' %}  # [linux or win32]
 {% set version = '3.2.8' %}  # [win64]
+{% set version = '3.2.8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/seacarb_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/seacarb/seacarb_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: f790fcdfd3711f5fe6bc44afd884048c4297fd75df61c4c2703b1d2e9f04810a  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/seacarb_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/seacarb/seacarb_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f790fcdfd3711f5fe6bc44afd884048c4297fd75df61c4c2703b1d2e9f04810a  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/seacarb_3.2.8.zip  # [win64]
   sha256: 95a80f8cccacc633da81d248841e51709208677e9c4ca8b6684671103d1f10d7  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/seacarb_3.2.8.tgz  # [osx]
+  sha256: 07e30389fd0f88f2f369bf7ccea505d032e3c0647ca77d2b9c858f58a1df098d  # [osx]
 
 build:
   merge_build_host: True  # [win32]

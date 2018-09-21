@@ -1,6 +1,4 @@
-{% set version = '1.66.0-1' %}  # [linux or win32]
-{% set version = '1.66.0-1' %}  # [win64]
-{% set version = '1.66.0-1' %}  # [osx]
+{% set version = '1.66.0-1' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,19 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/BH_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/BH/BH_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 17d9eb5512d74aa7dd02ec98953408422e728b01ce63493a6a473070b9596a92  # [linux or win32]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/BH_1.66.0-1.zip  # [win64]
-  sha256: 65aec0a455513551618b9032d06fe70030f1a755c3ec581c3c06d8c1ed8b3e48  # [win64]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/BH_1.66.0-1.tgz  # [osx]
-  sha256: 1e0e8db0656f50c4ee590bb343eb5b196af3fd6587acaa8dc302cb1a864d7013  # [osx]
+  url:
+    - {{ cran_mirror }}/src/contrib/BH_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/BH/BH_{{ version }}.tar.gz
+  sha256: 17d9eb5512d74aa7dd02ec98953408422e728b01ce63493a6a473070b9596a92
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -33,8 +25,8 @@ build:
 
 requirements:
   build:
-    - rtools                     # [win32]
-    - {{posix}}zip               # [win32]
+    - rtools                     # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

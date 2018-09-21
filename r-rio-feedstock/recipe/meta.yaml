@@ -16,10 +16,10 @@ source:
   sha256: 3dc2898ca3c5bbf62295b5b961a759a27a5739f7ce444eb51b933e20f7781d95  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rio_0.5.10.zip  # [win64]
-  sha256: e013baf47238787d379a9031493a6dd54c7fde3b0a5993a3c066b35db0ad5b96  # [win64]
+  sha256: 71b32e4a891e09a3a046549f1219ecb64548961d52e7f4c9f77410329d50f145  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rio_0.5.10.tgz  # [osx]
-  sha256: 6b0023aec1dfae41683256f4ad850822ad676d25ec1e39bbe516c7270b082844  # [osx]
+  sha256: 929bc0dd66cfb914dfad5209200d8d3b4dab055c631eaf269b271f87cf362f09  # [osx]
 
 build:
   merge_build_host: True  # [win32]

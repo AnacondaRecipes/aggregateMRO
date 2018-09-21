@@ -1,4 +1,6 @@
-{% set version = '2.0.0' %}
+{% set version = '2.0.0' %}  # [linux or win32]
+{% set version = '2.0.0' %}  # [win64]
+{% set version = '2.0.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/testthat_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/testthat/testthat_{{ version }}.tar.gz
-  sha256: 3bc047ad1c4522104023d4fbbfc9aceed14d316fdb16865a514f26b3e628b494
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/testthat_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/testthat/testthat_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3bc047ad1c4522104023d4fbbfc9aceed14d316fdb16865a514f26b3e628b494  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/testthat_2.0.0.zip  # [win64]
+  sha256: b176cfa148c350af066a128f9359199e0e3111c2981991024b768fa6d2934858  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/testthat_2.0.0.tgz  # [osx]
+  sha256: 218be3121e025f12781fb058a19a0f9f1421569020987feb78e51420a1b071ac  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: covr, devtools, knitr, rmarkdown, xml2
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -52,6 +60,7 @@ requirements:
     - r-praise
     - r-rlang
     - r-withr >=2.0.0
+    - libcxx >=4.0.1             # [osx]
 
 test:
   commands:

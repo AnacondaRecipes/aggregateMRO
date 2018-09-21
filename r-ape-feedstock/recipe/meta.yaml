@@ -16,10 +16,10 @@ source:
   sha256: b7d5dca66881638227a40aa59533904aa5efe0f4b867851b248e8f948a01a26e  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/ape_5.1.zip  # [win64]
-  sha256: 04b4b31f37f341234a6782cb6098cf50c6106596cf5e954a7c2e55c985fcb07c  # [win64]
+  sha256: fad274580b6aa84c1411759e9db92d8e069ec3c867cdc50fc542f9536b152c1f  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/ape_5.1.tgz  # [osx]
-  sha256: b1815c1d43719792fa6d8fab4243c7daa647287b9587cb986c6e08148407d79a  # [osx]
+  sha256: 57dbd1a48ed69841ac7f0540ebe5934488dfe1e18840ea89490fdb1ac47b723c  # [osx]
 
 build:
   merge_build_host: True  # [win32]

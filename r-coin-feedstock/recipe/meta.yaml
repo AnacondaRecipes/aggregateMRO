@@ -1,5 +1,6 @@
-{% set version = '1.2-2' %}  # [linux or win32 or osx]
+{% set version = '1.2-2' %}  # [linux or win32]
 {% set version = '1.2-2' %}  # [win64]
+{% set version = '1.2-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/coin_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/coin/coin_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: d518065d3e1eb00121cb4e0200e1e4ae6b68eca6e249afc38bbffa35d24105bb  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/coin_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/coin/coin_{{ version }}.tar.gz  # [linux or win32]
+  sha256: d518065d3e1eb00121cb4e0200e1e4ae6b68eca6e249afc38bbffa35d24105bb  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/coin_1.2-2.zip  # [win64]
-  sha256: 0605e2f0ce0ba64c72771b02e2b8e690bab6821a3177a1f29d0737c9ae08f1bd  # [win64]
+  sha256: fbe2899462b933c10a7993356fd7c71ee79373f0c604e43cdeca3ef1e397cd81  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/coin_1.2-2.tgz  # [osx]
+  sha256: 09e3d823057dda8bf1c3ea78997c3c5847d609e161b077c65c0f08a54ba26509  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,7 +34,7 @@ build:
 # Suggests: parallel, xtable, e1071, vcd, TH.data (>= 1.0-7)
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

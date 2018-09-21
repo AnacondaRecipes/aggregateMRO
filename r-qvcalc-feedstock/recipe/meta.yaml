@@ -16,10 +16,10 @@ source:
   sha256: de2311ade76dae311b2b5632633003667aa46cdb8703a330b84b67c4b90f87d2  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/qvcalc_0.9-1.zip  # [win64]
-  sha256: 6ba3c67cb2084e7ea2f6fee424e73df904a084042158b0750e2a8a07af48f6a2  # [win64]
+  sha256: 158227441a6d24b99f972b6e86faa80f64f879123d82bc10ebea26f9d5563b0e  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/qvcalc_0.9-1.tgz  # [osx]
-  sha256: 7a4affe2db65acc3907746fbe7198f3e7a4bcd3b2f190baadd9658a1ab229b3f  # [osx]
+  sha256: d695c76287eb7783726079778b7b86e9802a26a800b0425edcf846589929259d  # [osx]
 
 build:
   merge_build_host: True  # [win32]

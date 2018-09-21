@@ -1,4 +1,6 @@
-{% set version = '1.3-2' %}
+{% set version = '1.3-2' %}  # [linux or win32]
+{% set version = '1.3-2' %}  # [win64]
+{% set version = '1.3-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/rprojroot_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/rprojroot/rprojroot_{{ version }}.tar.gz
-  sha256: df5665834941d8b0e377a8810a04f98552201678300f168de5f58a587b73238b
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rprojroot_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rprojroot/rprojroot_{{ version }}.tar.gz  # [linux or win32]
+  sha256: df5665834941d8b0e377a8810a04f98552201678300f168de5f58a587b73238b  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rprojroot_1.3-2.zip  # [win64]
+  sha256: f23664a708434215e8e26e3d7fbc93ea54a9f245d320a3b3dc575cf2ef4ab572  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rprojroot_1.3-2.tgz  # [osx]
+  sha256: 78d23606e94736a596658c968d7e6553a299a01a7c7bf7b0bd2d642463c848dd  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: testthat, mockr, knitr, withr, rmarkdown
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -29,6 +29,7 @@
 ./lib/R/bin/SHLIB
 ./lib/R/bin/Stangle
 ./lib/R/bin/Sweave
+./lib/R/COPYING
 ./lib/R/etc
 ./lib/R/etc/javaconf
 ./lib/R/etc/ldpaths
@@ -3199,7 +3200,6 @@
 ./Library/Frameworks/R.framework/Versions/3.5.1-MRO/PrivateHeaders/vg/valgrind.h
 ./Library/Frameworks/R.framework/Versions/3.5.1-MRO/R
 ./Library/Frameworks/R.framework/Versions/3.5.1-MRO/Resources
-./Library/Frameworks/R.framework/Versions/3.5.1-MRO/Resources/COPYING
 ./Library/Frameworks/R.framework/Versions/3.5.1-MRO/Resources/doc
 ./Library/Frameworks/R.framework/Versions/3.5.1-MRO/Resources/doc/AUTHORS
 ./Library/Frameworks/R.framework/Versions/3.5.1-MRO/Resources/doc/BioC_mirrors.csv

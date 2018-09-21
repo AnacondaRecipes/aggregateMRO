@@ -1,5 +1,6 @@
-{% set version = '3.0.0' %}  # [linux or win32 or osx]
+{% set version = '3.0.0' %}  # [linux or win32]
 {% set version = '3.0.0' %}  # [win64]
+{% set version = '3.0.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/ggplot2_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/ggplot2/ggplot2_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: c768f5039ef684c3874a92210a975af52e74f00927ff31c31a73eb1fe139694d  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/ggplot2_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/ggplot2/ggplot2_{{ version }}.tar.gz  # [linux or win32]
+  sha256: c768f5039ef684c3874a92210a975af52e74f00927ff31c31a73eb1fe139694d  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/ggplot2_3.0.0.zip  # [win64]
   sha256: 34bc2253486d373186b6cdc84eee858872bc189c16d6756679437c5a47c9fd28  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/ggplot2_3.0.0.tgz  # [osx]
+  sha256: c7457854940a7f3d690a83391577a30a896e242975cc5504007fcebf2fb63abb  # [osx]
 
 build:
   merge_build_host: True  # [win32]

@@ -16,10 +16,10 @@ source:
   sha256: 71750b741672a435ecf749b69c72f0681aa8bb795e317f4e3056d5e33f6d79e8  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/threejs_0.3.1.zip  # [win64]
-  sha256: 3309b340dc3596f3ff4b1cbf2d1313cffe3185b4c126ee04375d64dbe4b6ec04  # [win64]
+  sha256: 73b29e78011136f2880e731b616dc57f860b50831af6e16ed1480def4f3a7706  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/threejs_0.3.1.tgz  # [osx]
-  sha256: cd86017c70397ff83305f4f113961006d2d4cec13dc6d650dd5f0b67ad3267de  # [osx]
+  sha256: 02c903c411db881df71ff5b4eeb334a8d62783553fc736322001b4dd720beaa6  # [osx]
 
 build:
   merge_build_host: True  # [win32]

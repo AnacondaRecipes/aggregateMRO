@@ -148,6 +148,7 @@ pushd unpack
     FRAMEWORK=/Library/Frameworks/R.framework
     RESOURCES=$FRAMEWORK/Versions/$PKG_VERSION-MRO/Resources
     mkdir -p lib/R
+    mv .$RESOURCES/COPYING lib/R/COPYING
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
     mv .$RESOURCES/etc lib/R/
@@ -305,6 +306,11 @@ pushd unpack
     install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/jsonlite/libs/jsonlite.so || exit 1
     install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
     install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/png/libs/png.so || exit 1
+  elif [[ $target_platform == win-64 ]]; then
+    PREFIXM=$(cygpath -m ${PREFIX})
+    sed -i'.bak' "s|c:/Rtools|$PREFIXM/Rtools|g" lib/R/etc/x64/Makeconf
+    sed -i'.bak' "s|C:/swarm/workspace/External-R-$PKG_VERSION/vendor/extsoft|$PREFIXM/Rextsoft|g" lib/R/etc/x64/Makeconf
+    rm lib/R/etc/x64/Makeconf.bak
   fi
   # rm -rf lib/R/library/RevoUtils || exit 1
   # mv $SRC_DIR/RevoUtils lib/R/library/ || exit 1
@@ -335,5 +341,6 @@ fi
 
 # 7. Save end of build.sh filelist back to the recipe.
 pushd unpack
+  cp lib/R/COPYING $SRC_DIR/COPYING
   find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-$PKG_VERSION-$target_platform.end-of-build-sh.txt
 popd

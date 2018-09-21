@@ -1,4 +1,6 @@
-{% set version = '1.8.4' %}
+{% set version = '1.8.4' %}  # [linux or win32]
+{% set version = '1.8.4' %}  # [win64]
+{% set version = '1.8.4' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/psych_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/psych/psych_{{ version }}.tar.gz
-  sha256: eea18e479bf603e148d61431218f9a141f66f4ca1db5fe83d4c1f27c984dfbcf
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/psych_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/psych/psych_{{ version }}.tar.gz  # [linux or win32]
+  sha256: eea18e479bf603e148d61431218f9a141f66f4ca1db5fe83d4c1f27c984dfbcf  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/psych_1.8.4.zip  # [win64]
+  sha256: e2f2ff583737dfd7404d7f8183e163a88bd3ae58bcccf77c9f526ef134534a36  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/psych_1.8.4.tgz  # [osx]
+  sha256: aa02ed0f375bb638743e1100d569c71bd2424e304ce04f38196a80d908dbf6e2  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: GPArotation, lavaan, sem, lme4,Rcsdp, graph, Rgraphviz
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

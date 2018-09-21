@@ -1,4 +1,6 @@
-{% set version = '0.3.1' %}
+{% set version = '0.3.1' %}  # [linux or win32]
+{% set version = '0.3.1' %}  # [win64]
+{% set version = '0.3.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/rappdirs_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/rappdirs/rappdirs_{{ version }}.tar.gz
-  sha256: 2fd891ec16d28862f65bb57e4a78f77a597930abb59380e757afd8b6c6d3264a
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/rappdirs_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/rappdirs/rappdirs_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2fd891ec16d28862f65bb57e4a78f77a597930abb59380e757afd8b6c6d3264a  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rappdirs_0.3.1.zip  # [win64]
+  sha256: 3221d76cb54e8577370c1ced7290a6582990806639ba299453403c8bcf19e397  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rappdirs_0.3.1.tgz  # [osx]
+  sha256: 7377762ae006cad0e6162e6db4cb417d0e8dfcb0bea612c4eaa443190361167c  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,9 @@ build:
 # Suggests: testthat, roxygen2
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

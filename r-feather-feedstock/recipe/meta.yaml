@@ -1,4 +1,5 @@
-{% set version = '0.3.1' %}
+{% set version = '0.3.1' %}  # [linux or win32 or win64]
+{% set version = '0.3.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +9,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/feather_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/feather/feather_{{ version }}.tar.gz
-  sha256: f1069bf920e9bc3da6bf43542a3a7ccc3142544d759945115ecade69dd5ccde0
+  url:  # [linux or win32 or win64]
+    - {{ cran_mirror }}/src/contrib/feather_{{ version }}.tar.gz  # [linux or win32 or win64]
+    - {{ cran_mirror }}/src/contrib/Archive/feather/feather_{{ version }}.tar.gz  # [linux or win32 or win64]
+  sha256: f1069bf920e9bc3da6bf43542a3a7ccc3142544d759945115ecade69dd5ccde0  # [linux or win32 or win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/feather_0.3.1.tgz  # [osx]
+  sha256: 0a3a68ed2eb1ff836d5e088f28dbddc0149ff754eac15e24c63133c90717b481  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32 or win64]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +30,10 @@ build:
 # Suggests: testthat, dplyr
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - rtools                     # [win32 or win64]
+    - {{posix}}zip               # [win32 or win64]
 
   host:
     - mro-base

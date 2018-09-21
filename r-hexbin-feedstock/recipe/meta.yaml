@@ -1,4 +1,6 @@
-{% set version = '1.27.2' %}
+{% set version = '1.27.2' %}  # [linux or win32]
+{% set version = '1.27.2' %}  # [win64]
+{% set version = '1.27.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/hexbin_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/hexbin/hexbin_{{ version }}.tar.gz
-  sha256: 46d47b1efef75d6f126af686a4dd614228b60418b9a5bde9e9e5d11200a0ee52
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/hexbin_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/hexbin/hexbin_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 46d47b1efef75d6f126af686a4dd614228b60418b9a5bde9e9e5d11200a0ee52  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/hexbin_1.27.2.zip  # [win64]
+  sha256: 7f003bc803efef2711d28f93be6e450fe2d1e370d72738adcfd1822c9cc2bd45  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/hexbin_1.27.2.tgz  # [osx]
+  sha256: 8411408ef7b59a3c690c1f1c209458153334b156e4c56b1bbafd80d93816f9e9  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: marray, affy, Biobase, limma
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

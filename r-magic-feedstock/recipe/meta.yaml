@@ -1,4 +1,6 @@
-{% set version = '1.5-8' %}
+{% set version = '1.5-8' %}  # [linux or win32]
+{% set version = '1.5-8' %}  # [win64]
+{% set version = '1.5-8' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/magic_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/magic/magic_{{ version }}.tar.gz
-  sha256: 7f8bc26e05003168e9d2dadf64eb9a34b51bc41beba482208874803dee7d6c20
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/magic_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/magic/magic_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 7f8bc26e05003168e9d2dadf64eb9a34b51bc41beba482208874803dee7d6c20  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/magic_1.5-8.zip  # [win64]
+  sha256: 7ab7a25d183132bb093aaf3d243174459024ba406eedb993674698921d43f4cc  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/magic_1.5-8.tgz  # [osx]
+  sha256: 978289fe51289676c61f09f03ce9351cea75601deafa00b349e5eacab98bcceb  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,8 +33,8 @@ build:
 
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

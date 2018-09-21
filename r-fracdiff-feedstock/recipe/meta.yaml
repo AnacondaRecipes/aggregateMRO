@@ -1,4 +1,6 @@
-{% set version = '1.4-2' %}
+{% set version = '1.4-2' %}  # [linux or win32]
+{% set version = '1.4-2' %}  # [win64]
+{% set version = '1.4-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/fracdiff_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/fracdiff/fracdiff_{{ version }}.tar.gz
-  sha256: 983781cedc2b4e3ba9fa020213957d5133ae9cd6710bc61d6225728e2f6e850e
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/fracdiff_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/fracdiff/fracdiff_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 983781cedc2b4e3ba9fa020213957d5133ae9cd6710bc61d6225728e2f6e850e  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/fracdiff_1.4-2.zip  # [win64]
+  sha256: 72d07050351b82ddf87ed71686264e0662184108d72bb15bdfa8d32799681105  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/fracdiff_1.4-2.tgz  # [osx and false]
+  sha256: 566912673a48c23685ad5d63636f014f7fb66ed194545851c9dc583ecd3c9e61  # [osx and false]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,10 @@ build:
 # Suggests: longmemo, urca
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [osx]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

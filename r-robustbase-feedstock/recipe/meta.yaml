@@ -1,4 +1,6 @@
-{% set version = '0.93-2' %}
+{% set version = '0.93-2' %}  # [linux or win32]
+{% set version = '0.93-2' %}  # [win64]
+{% set version = '0.93-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/robustbase_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/robustbase/robustbase_{{ version }}.tar.gz
-  sha256: 27b282ef2c91274f6d88ba0cea468d1078c5d37639cdb141c538a61dc7b96298
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/robustbase_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/robustbase/robustbase_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 27b282ef2c91274f6d88ba0cea468d1078c5d37639cdb141c538a61dc7b96298  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/robustbase_0.93-2.zip  # [win64]
+  sha256: e6db2fe79a928bf6032f06d0b1a79f58b6ae9ae9cde9b4b622c31b361601cfee  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/robustbase_0.93-2.tgz  # [osx and false]
+  sha256: e6f96312a6c44489ea6d40619d3024cdb8e6a479c0c3207e5a5ec2d35b178f1c  # [osx and false]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: grid, MASS, lattice, boot, cluster, Matrix, robust, fit.models, MPV, xtable, ggplot2, GGally, RColorBrewer, reshape2, sfsmisc, catdata, doParallel, foreach, skewt
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

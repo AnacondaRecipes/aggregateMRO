@@ -1,4 +1,6 @@
-{% set version = '0.8.1' %}
+{% set version = '0.8.1' %}  # [linux or win32]
+{% set version = '0.8.1' %}  # [win64]
+{% set version = '0.8.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/tidyr_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/tidyr/tidyr_{{ version }}.tar.gz
-  sha256: 3d3e2821c3eb711b5eebe26b880e6acfe5444d5dc69fb21761f4cd5953700511
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tidyr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tidyr/tidyr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3d3e2821c3eb711b5eebe26b880e6acfe5444d5dc69fb21761f4cd5953700511  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tidyr_0.8.1.zip  # [win64]
+  sha256: 56be1da3f94693e626c6131e10aed88686267ad54e6b9e521f43667c2d246ce8  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tidyr_0.8.1.tgz  # [osx]
+  sha256: 793a9bead689f1a3aa6f0db1fc54463d6aa1e9b5731a86258716e2c9037dd0cc  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: covr, gapminder, knitr, rmarkdown, testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -54,6 +62,7 @@ requirements:
     - r-stringi
     - r-tibble
     - r-tidyselect
+    - libcxx >=4.0.1             # [osx]
 
 test:
   commands:

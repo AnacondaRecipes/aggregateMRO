@@ -1,4 +1,6 @@
-{% set version = '1.0.0' %}
+{% set version = '1.0.0' %}  # [linux or win32]
+{% set version = '1.0.0' %}  # [win64]
+{% set version = '1.0.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/cli_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/cli/cli_{{ version }}.tar.gz
-  sha256: 8fa3dbfc954ca61b8510f767ede9e8a365dac2ef95fe87c715a0f37d721b5a1d
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/cli_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/cli/cli_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 8fa3dbfc954ca61b8510f767ede9e8a365dac2ef95fe87c715a0f37d721b5a1d  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/cli_1.0.0.zip  # [win64]
+  sha256: ab74c86ba8a28ff975501574461d5bd8bb93541e4890197bd4780a0f8b861dd0  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/cli_1.0.0.tgz  # [osx]
+  sha256: 149aaaabf0b4e22435a0bfc2a67bae637c8d83a2d3806c3af954d31bb69a5ff9  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: covr, mockery, testthat, withr
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

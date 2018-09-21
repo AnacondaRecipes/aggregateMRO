@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mgcv_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mgcv/mgcv_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 2ce542bcf841f722f34b936d44d859a53718a9de18ea24eb6ae843e042356795  # [linux or win32]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/mgcv_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/mgcv/mgcv_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 2ce542bcf841f722f34b936d44d859a53718a9de18ea24eb6ae843e042356795  # [linux or win32 or osx]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mgcv_1.8-24.zip  # [win64]
   sha256: 51be651123f0c8c63afb30a008d1737394fe03b5dd352110989da7a84bb619a1  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mgcv_1.8-24.tgz  # [osx]
-  sha256: 4d31e113e973583f59128ee1d24921a3e3a0809ea17afdbc642780cc23bbe086  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mgcv_1.8-24.tgz  # [osx and false]
+  sha256: 4d31e113e973583f59128ee1d24921a3e3a0809ea17afdbc642780cc23bbe086  # [osx and false]
 
 build:
   merge_build_host: True  # [win32]
@@ -34,7 +34,7 @@ build:
 # Suggests: splines, parallel, survival, MASS
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
@@ -47,6 +47,7 @@ requirements:
     - mro-base
     - r-matrix
     - r-nlme >=3.1_64
+    - llvm-openmp                # [osx]
 
 test:
   commands:

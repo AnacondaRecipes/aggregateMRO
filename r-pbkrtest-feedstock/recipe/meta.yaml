@@ -1,4 +1,6 @@
-{% set version = '0.4-7' %}
+{% set version = '0.4-7' %}  # [linux or win32]
+{% set version = '0.4-7' %}  # [win64]
+{% set version = '0.4-7' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/pbkrtest_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/pbkrtest/pbkrtest_{{ version }}.tar.gz
-  sha256: 5cbb03ad2b2468720a5a610a0ebda48ac08119a34fca77810a85f554225c23ea
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pbkrtest_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pbkrtest/pbkrtest_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5cbb03ad2b2468720a5a610a0ebda48ac08119a34fca77810a85f554225c23ea  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pbkrtest_0.4-7.zip  # [win64]
+  sha256: e17564961dc7d5d3d634f5790adf1d13ce4ccbe60d7e9f1421bbdb438b0b4c9c  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pbkrtest_0.4-7.tgz  # [osx]
+  sha256: 6dca6cf4cab79d58683fd8b9bf654b910082571fbef31f140843bb88d317a050  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,8 +33,8 @@ build:
 
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

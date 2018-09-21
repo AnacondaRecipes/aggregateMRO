@@ -1,4 +1,6 @@
-{% set version = '1.2.6' %}
+{% set version = '1.2.6' %}  # [linux or win32]
+{% set version = '1.2.6' %}  # [win64]
+{% set version = '1.2.6' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/mapproj_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/mapproj/mapproj_{{ version }}.tar.gz
-  sha256: 62a5aa97837ae95ef9f973d95fe45fe43dbbf482dfa922e9df60f3c510e7efe5
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/mapproj_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/mapproj/mapproj_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 62a5aa97837ae95ef9f973d95fe45fe43dbbf482dfa922e9df60f3c510e7efe5  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mapproj_1.2.6.zip  # [win64]
+  sha256: 293b06c01dff07bd9be3dd746c363d4c5a6c81e3895abca4e8091c4305eec445  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mapproj_1.2.6.tgz  # [osx]
+  sha256: e87bd7944a74bcbeeed538967edc8bd7de657b4245d8c55f323d1e47c865edf2  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,9 +33,9 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -1,5 +1,5 @@
-{% set version = '2.9.3' %}
-{% set versionu = '2_9_3' %}
+{% set version = '2.9.4' %}
+{% set versionu = '2_9_4' %}
 {% set pfx = 'm2w64-' if win else '' %}
 
 package:
@@ -9,7 +9,7 @@ package:
 source:
   fn: rpy2-{{version}}.tar.gz
   url: https://pypi.io/packages/source/r/rpy2/rpy2-{{ version }}.tar.gz
-  sha256: 1b72958e683339ea0c3bd9f73738e9ece2da8da8008a10e2e0c68fc7864e9361
+  sha256: be57f741d0c284b5d8785ab03dff0e829303e5ac30e548d5ceb46e05b168812e
   # Regenerate the patches using the following command:
   # mercurial_program export -r 3066:3072 -o 000%n-%m.patch -g
   patches:
@@ -38,6 +38,7 @@ requirements:
     - posix                # [win]
     - {{pfx}}toolchain     # [win]
   host:
+    - git
     - python
     - setuptools
     - mro-base
@@ -60,7 +61,7 @@ requirements:
 test:
   requires:
     - r-survival
-    - r-ggplot2 2.2.1
+    - r-ggplot2 >=3.0.0
     - r-dplyr
     - ipython
     - numpy
@@ -88,7 +89,8 @@ test:
 
 about:
   home: http://rpy.sourceforge.net
-  license: GPL-2.0
+  license: GPL2
+  license_family: GPL2
   summary: 'Python interface to the R language (embedded R)'
 
 extra:

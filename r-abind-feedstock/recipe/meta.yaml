@@ -19,7 +19,7 @@ source:
   sha256: 5f0ff5d4330685cb9f195429afca2405524b32496db025618ddc7fa8eccbd6ff  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/abind_1.4-5.tgz  # [osx]
-  sha256: 99754f82698e6d3beead608d439bec2d73e5747b8e436c0a9a0eb46a9d600239  # [osx]
+  sha256: fec99c252f25942411737edd52f5da5a2d681a34092d794208e9039b7880d844  # [osx]
 
 build:
   merge_build_host: True  # [win32]

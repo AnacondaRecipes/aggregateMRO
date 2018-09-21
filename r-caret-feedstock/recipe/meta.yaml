@@ -1,4 +1,6 @@
-{% set version = '6.0-80' %}
+{% set version = '6.0-80' %}  # [linux or win32]
+{% set version = '6.0-80' %}  # [win64]
+{% set version = '6.0-80' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/caret_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/caret/caret_{{ version }}.tar.gz
-  sha256: 0705874a30bd5960a51616338534255734e792a4af3f28368e1040f7bf820d76
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/caret_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/caret/caret_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 0705874a30bd5960a51616338534255734e792a4af3f28368e1040f7bf820d76  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/caret_6.0-80.zip  # [win64]
+  sha256: af7dc4c5f0611a2d560de6f2a0526ba8f87a8ba2ccf74ef81344ad89f754f39d  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/caret_6.0-80.tgz  # [osx]
+  sha256: 14186913e436b4d329c6381d17709e247a0a768a3ac8fa93dfac2f4a4b4e0b31  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,9 @@ build:
 # Suggests: BradleyTerry2, e1071, earth (>= 2.2-3), fastICA, gam (>= 1.15), ipred, kernlab, knitr, klaR, MASS, ellipse, mda, mgcv, mlbench, MLmetrics, nnet, party (>= 0.9-99992), pls, pROC, proxy, randomForest, RANN, spls, subselect, pamr, superpc, Cubist, testthat (>= 0.9.1), rpart, dplyr
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

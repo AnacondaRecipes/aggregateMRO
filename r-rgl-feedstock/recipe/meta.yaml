@@ -16,10 +16,10 @@ source:
   sha256: 692a545ed2ff0f5e15289338736f0e3c092667574c43ac358d8004901d7a1a61  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rgl_0.99.16.zip  # [win64]
-  sha256: 708a82a1c0c2aa1ffdf9ecb5c2bc449b76208038109d4d3866aa2e9ecae4f951  # [win64]
+  sha256: 011884eaaa983f2c41848043988aae1d032158a199a2be7fea8b220cc538461d  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rgl_0.99.16.tgz  # [osx]
-  sha256: 762b88220dbb0a891d435981aaf63eebe1b6df1380042b05ec122a7fe6ebeaee  # [osx]
+  sha256: 6f464fe3adf362fa34da95a6e23faca3fc86d2c30fbb6654388460e5e5ea7526  # [osx]
 
 build:
   merge_build_host: True  # [win32]

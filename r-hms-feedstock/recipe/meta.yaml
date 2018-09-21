@@ -16,10 +16,10 @@ source:
   sha256: a57820b3e3221e973cba9500b4ad7953730110ee398693d150af833f26d5d0bc  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/hms_0.4.2.zip  # [win64]
-  sha256: 79e5a9de8786a56a50e081ce5604ca781b5499d30a49fa6ca9569330b05bf055  # [win64]
+  sha256: 8bf94f64d274d32faa58056991e38a9a0ef3dd93bf1c74bba47baae99faa1387  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/hms_0.4.2.tgz  # [osx]
-  sha256: 1ca3e4c5fa25431f1046cfbbdb04f8c639eb1426079166980025bbc4e8954cfb  # [osx]
+  sha256: cb3a6348ea8250c636868e797f218673cad599cd5e1e0d304674d6676fefbe26  # [osx]
 
 build:
   merge_build_host: True  # [win32]

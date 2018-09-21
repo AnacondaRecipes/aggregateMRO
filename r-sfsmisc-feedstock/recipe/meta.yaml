@@ -1,4 +1,6 @@
-{% set version = '1.1-2' %}
+{% set version = '1.1-2' %}  # [linux or win32]
+{% set version = '1.1-2' %}  # [win64]
+{% set version = '1.1-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/sfsmisc_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/sfsmisc/sfsmisc_{{ version }}.tar.gz
-  sha256: 808734644863d102263134634b89dc856dbaadc4d54c32ae697f3e1b0214f831
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/sfsmisc_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/sfsmisc/sfsmisc_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 808734644863d102263134634b89dc856dbaadc4d54c32ae697f3e1b0214f831  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/sfsmisc_1.1-2.zip  # [win64]
+  sha256: 19d6d2e2bc598360fabb4d9692f8068ed36984afce0c2a27c54a34f86cdbf646  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/sfsmisc_1.1-2.tgz  # [osx]
+  sha256: cf05e42e0419be8f9d5317129ee7b0d6cd421a1287780fd58d4d1163c137c2a6  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: datasets, tcltk, cluster, lattice, MASS, Matrix, nlme, lokern
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

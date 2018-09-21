@@ -1,5 +1,6 @@
-{% set version = '0.11' %}  # [linux or win32 or osx]
+{% set version = '0.11' %}  # [linux or win32]
 {% set version = '0.11' %}  # [win64]
+{% set version = '0.11' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/evaluate_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/evaluate/evaluate_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: b04805ffb56d82e2d5b044aa32de7e9ef4162ea619fd368f83e03dbd49631bcd  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/evaluate_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/evaluate/evaluate_{{ version }}.tar.gz  # [linux or win32]
+  sha256: b04805ffb56d82e2d5b044aa32de7e9ef4162ea619fd368f83e03dbd49631bcd  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/evaluate_0.11.zip  # [win64]
   sha256: f372d4a33227da9f883779fe0ff71864a92d3175acb64856e9014418b49c2b65  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/evaluate_0.11.tgz  # [osx]
+  sha256: 46014e77926684b21e7a1abfa46571012b4e4868c79f635c70362e3c7b895e82  # [osx]
 
 build:
   merge_build_host: True  # [win32]

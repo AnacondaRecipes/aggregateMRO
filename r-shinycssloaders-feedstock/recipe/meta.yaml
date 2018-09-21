@@ -1,5 +1,6 @@
-{% set version = '0.2.0' %}  # [linux or win32 or osx]
+{% set version = '0.2.0' %}  # [linux or win32]
 {% set version = '0.2.0' %}  # [win64]
+{% set version = '0.2.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/shinycssloaders_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/shinycssloaders/shinycssloaders_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: e4890ceeea49c9186cf2edc98c4ca55bbc562ab9cde240a53666b0534fd5ffae  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/shinycssloaders_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/shinycssloaders/shinycssloaders_{{ version }}.tar.gz  # [linux or win32]
+  sha256: e4890ceeea49c9186cf2edc98c4ca55bbc562ab9cde240a53666b0534fd5ffae  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/shinycssloaders_0.2.0.zip  # [win64]
-  sha256: 03d9a5824cd47b513eb51ac6255839d9b5aec59b2ba5831aa981b5020e71c2f4  # [win64]
+  sha256: a0f4924895303d572e3b564dc3264366331dbcff26dc889d2c66e7aa91430d2e  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/shinycssloaders_0.2.0.tgz  # [osx]
+  sha256: 187fdecb8486281e67d171e418eb10173b6c4cc9154ba79ecd296d91f7ea2cb4  # [osx]
 
 build:
   merge_build_host: True  # [win32]

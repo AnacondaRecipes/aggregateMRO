@@ -1,6 +1,4 @@
-{% set version = '0.10.15' %}  # [linux or win32]
-{% set version = '0.10.15' %}  # [win64]
-{% set version = '0.10.15' %}  # [osx]
+{% set version = '0.10.15' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -10,19 +8,13 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/RMySQL_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/RMySQL/RMySQL_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 7610de7ebc4c7739bf07af2b575faa620c1fa786803d3dc6704a4eeb0a3fac2e  # [linux or win32]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/RMySQL_0.10.15.zip  # [win64]
-  sha256: 9d7a73e521a1d9e2df7cba8d569dfe37b207b20dd8fe47c16a724ca892428d53  # [win64]
-
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/RMySQL_0.10.15.tgz  # [osx]
-  sha256: 61176ecd76dc48f8bedc86f40caf7ce264ce80fab02c7b3bccdc76444c19aa2d  # [osx]
+  url:
+    - {{ cran_mirror }}/src/contrib/RMySQL_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/RMySQL/RMySQL_{{ version }}.tar.gz
+  sha256: 7610de7ebc4c7739bf07af2b575faa620c1fa786803d3dc6704a4eeb0a3fac2e
 
 build:
-  merge_build_host: True  # [win32]
+  merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -34,9 +26,9 @@ build:
 # Suggests: testthat, curl
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - rtools                     # [win32]
-    - {{posix}}zip               # [win32]
+    - {{ compiler('c') }}        # [not win]
+    - rtools                     # [win]
+    - {{posix}}zip               # [win]
 
   host:
     - mro-base

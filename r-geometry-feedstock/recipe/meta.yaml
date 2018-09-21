@@ -1,4 +1,6 @@
-{% set version = '0.3-6' %}
+{% set version = '0.3-6' %}  # [linux or win32]
+{% set version = '0.3-6' %}  # [win64]
+{% set version = '0.3-6' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/geometry_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/geometry/geometry_{{ version }}.tar.gz
-  sha256: 2be231ac99171367635cd957f27da77705329df97520ab86f655839c41dc0968
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/geometry_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/geometry/geometry_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 2be231ac99171367635cd957f27da77705329df97520ab86f655839c41dc0968  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/geometry_0.3-6.zip  # [win64]
+  sha256: 8968cc5c9d923f36011029eed46a81f3cfe6d3e656c307b468209b728d5d2e01  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/geometry_0.3-6.tgz  # [osx]
+  sha256: 4d569806f983233ace6e5c8940fedbac2fadadca43f949db3ea62bdca7572612  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,9 @@ build:
 # Suggests: testthat, rgl, R.matlab, tripack
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

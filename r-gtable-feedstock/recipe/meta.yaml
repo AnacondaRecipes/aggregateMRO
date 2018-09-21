@@ -1,4 +1,6 @@
-{% set version = '0.2.0' %}
+{% set version = '0.2.0' %}  # [linux or win32]
+{% set version = '0.2.0' %}  # [win64]
+{% set version = '0.2.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/gtable_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/gtable/gtable_{{ version }}.tar.gz
-  sha256: 801e4869830ff3da1d38e41f5a2296a54fc10a7419c6ffb108582850c701e76f
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/gtable_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/gtable/gtable_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 801e4869830ff3da1d38e41f5a2296a54fc10a7419c6ffb108582850c701e76f  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/gtable_0.2.0.zip  # [win64]
+  sha256: 99a822746df5ce0233bf1cc2a28ee589c3b749823dabd7404e103b6209b3741c  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/gtable_0.2.0.tgz  # [osx]
+  sha256: 0802836bf2815b1a3d28725e79a9348ac2eebc4fa92673f3fd79a105c2949f9b  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: testthat, covr
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

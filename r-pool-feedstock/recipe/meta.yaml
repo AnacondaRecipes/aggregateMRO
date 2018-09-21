@@ -1,5 +1,6 @@
-{% set version = '0.1.4.1' %}  # [linux or win32 or osx]
+{% set version = '0.1.4.1' %}  # [linux or win32]
 {% set version = '0.1.4.1' %}  # [win64]
+{% set version = '0.1.4.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/pool_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/pool/pool_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 1cc0c5ad43ae35ea0078fd06473de01bfb538c71d5092ebea00f65eab9f313a9  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pool_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pool/pool_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 1cc0c5ad43ae35ea0078fd06473de01bfb538c71d5092ebea00f65eab9f313a9  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pool_0.1.4.1.zip  # [win64]
   sha256: 674ba32c8142e9c642d2eefb3723c0bbee6066eab9dafb8125adecda66de5612  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pool_0.1.4.1.tgz  # [osx]
+  sha256: df97655b062d50f5cf9ec3174bb7b08e9191259a1555d15f6becd4a1ca295985  # [osx]
 
 build:
   merge_build_host: True  # [win32]

@@ -16,10 +16,10 @@ source:
   sha256: 343df84327ac3d03494992e79ee3afc78ba3bdc08af9a305ee3fb0a38745cb0a  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/gplots_3.0.1.zip  # [win64]
-  sha256: 772eec2d2ccb37fa695cf9167ef732e0638c4805b3dfc03f17236e84041aa00a  # [win64]
+  sha256: 415ae535f05eb8d918cd1a219eff323c1ce23f349877e05cbb1ccd67c44f8854  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/gplots_3.0.1.tgz  # [osx]
-  sha256: 1788d1f7745ce013d1e6f60fcf1b466024eecd0bc7472972cb46a6d469039b40  # [osx]
+  sha256: 97acfe68bc248fa6d0ec1189e376bf28260013e9493ba138e8e5eb94b033b5ff  # [osx]
 
 build:
   merge_build_host: True  # [win32]

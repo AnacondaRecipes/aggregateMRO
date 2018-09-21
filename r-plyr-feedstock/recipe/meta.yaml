@@ -16,10 +16,10 @@ source:
   sha256: 60b522d75961007658c9806f8394db27989f1154727cb0bb970062c96ec9eac5  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/plyr_1.8.4.zip  # [win64]
-  sha256: 7b2eeadb3b5b33347791718818b968a965b6ce49e859dc4c73af7b8e61418fc1  # [win64]
+  sha256: 02420e36801bbc0dfedcc3f0a433c96c3f17a87df3370b1756e9aea3a236d194  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/plyr_1.8.4.tgz  # [osx]
-  sha256: ee8bc70e24762f5f0cad377f9527e61f9eb4e861c81d1429923ad4b4bd032444  # [osx]
+  sha256: a63d497d45796cdeedf6c6145ef87202b5071a191b3f4210bcd2435d8a286d8d  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -46,6 +46,7 @@ requirements:
   run:
     - mro-base
     - r-rcpp >=0.11.0
+    - libcxx >=4.0.1             # [osx]
 
 test:
   commands:

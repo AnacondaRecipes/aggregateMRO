@@ -1,5 +1,6 @@
-{% set version = '1.2.0' %}  # [linux or win32 or osx]
+{% set version = '1.2.0' %}  # [linux or win32]
 {% set version = '1.2.0' %}  # [win64]
+{% set version = '1.2.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/desc_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/desc/desc_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: e66fb5d4fc7974bc558abcdc107a1f258c9177a29dcfcf9164bc6b33dd08dae8  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/desc_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/desc/desc_{{ version }}.tar.gz  # [linux or win32]
+  sha256: e66fb5d4fc7974bc558abcdc107a1f258c9177a29dcfcf9164bc6b33dd08dae8  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/desc_1.2.0.zip  # [win64]
   sha256: 7d5ae0934e7d42f2586eb0a8351b0b19979a8dd0c867b6c0861ff572af4ebfd8  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/desc_1.2.0.tgz  # [osx]
+  sha256: 971851adb5e6e6572f2260023bce65d5fb2fa26901d8eff167f2196d540c4316  # [osx]
 
 build:
   merge_build_host: True  # [win32]

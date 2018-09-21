@@ -1,4 +1,6 @@
-{% set version = '1.2.3' %}
+{% set version = '1.2.3' %}  # [linux or win32]
+{% set version = '1.2.3' %}  # [win64]
+{% set version = '1.2.3' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/emmeans_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/emmeans/emmeans_{{ version }}.tar.gz
-  sha256: 5bb8e26431d7406c43ccca8058b189bca5a73e5ba2468b4a676d51dffca93b4b
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/emmeans_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/emmeans/emmeans_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5bb8e26431d7406c43ccca8058b189bca5a73e5ba2468b4a676d51dffca93b4b  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/emmeans_1.2.3.zip  # [win64]
+  sha256: 3cc9e2c60b0c7f1ef5dbdbcf37a2835a6415655fa74e0bfc009677243c6013ed  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/emmeans_1.2.3.tgz  # [osx]
+  sha256: e060d4a34c5a734eae3a7473e1bc880c2bc21c76b832545e34340744b5e06ccd  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: bayesplot, brms, car, coda (>= 0.17), ggplot2, lattice, mediation, multcomp, multcompView, nlme, ordinal, pbkrtest (>= 0.4-1), lme4, lmerTest (>= 2.0.32), MASS, rsm, knitr, rmarkdown, testthat
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

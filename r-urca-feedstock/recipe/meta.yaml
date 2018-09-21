@@ -1,4 +1,6 @@
-{% set version = '1.3-0' %}
+{% set version = '1.3-0' %}  # [linux or win32]
+{% set version = '1.3-0' %}  # [win64]
+{% set version = '1.3-0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/urca_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/urca/urca_{{ version }}.tar.gz
-  sha256: 621cc82398e25b58b4a16edf000ed0a1484d9a0bc458f734e97b6f371cc76aaa
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/urca_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/urca/urca_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 621cc82398e25b58b4a16edf000ed0a1484d9a0bc458f734e97b6f371cc76aaa  # [linux or win32 or osx]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/urca_1.3-0.zip  # [win64]
+  sha256: 08cf1a638c793bc628e25697c1393af5699daa52c2b46f34d2cad519ec844d5d  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/urca_1.3-0.tgz  # [osx and false]
+  sha256: 9b0c52a05b322ab9084eb0b2611f4c58624e6cdfde8bb1bd643dd16ee2b9ccc7  # [osx and false]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,10 +33,10 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('fortran') }}  # [linux or osx]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

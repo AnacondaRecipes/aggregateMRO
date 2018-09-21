@@ -1,4 +1,6 @@
-{% set version = '0.21-2' %}
+{% set version = '0.21-2' %}  # [linux or win32]
+{% set version = '0.21-2' %}  # [win64]
+{% set version = '0.21-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/afex_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/afex/afex_{{ version }}.tar.gz
-  sha256: bfcee80813aa2b96217621f390530c799f12b2580ac970b95e6287c9dd76c671
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/afex_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/afex/afex_{{ version }}.tar.gz  # [linux or win32]
+  sha256: bfcee80813aa2b96217621f390530c799f12b2580ac970b95e6287c9dd76c671  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/afex_0.21-2.zip  # [win64]
+  sha256: 7c1ac87bc6ea009e7fe18f982b74167dbcee2c11ad7a3a78f74b790e6c814696  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/afex_0.21-2.tgz  # [osx]
+  sha256: 29d744fc6b9fbd901e7572cd3e6acb7145bbc5c8b0b31b6dccab3629bf2fe616  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: coin, xtable, parallel, plyr, optimx, nloptr, knitr, rmarkdown, R.rsp, lattice, latticeExtra, multcomp, testthat, mlmRev, dplyr, tidyr, dfoptim, Matrix, psych, ggplot2, MEMSS, effects, carData
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

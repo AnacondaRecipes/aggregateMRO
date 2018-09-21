@@ -19,7 +19,7 @@ source:
   sha256: 52347a307601b7d0dcf718d02fae9ccbdacff43ec2725493157e23b2af44f17a  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/plotly_4.7.1.tgz  # [osx]
-  sha256: cf9634af1bb087dcdb877934edcd60d34a7c12f86fc52aa1bcfff42a459f87ae  # [osx]
+  sha256: 970e3a8a565810300728d0f75349ba1c7e2206f71e62edaf22e5866c2b8103a2  # [osx]
 
 build:
   merge_build_host: True  # [win32]

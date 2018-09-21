@@ -2670,6 +2670,7 @@
 ./lib/R/bin/SHLIB
 ./lib/R/bin/Stangle
 ./lib/R/bin/Sweave
+./lib/R/COPYING
 ./lib/R/etc
 ./lib/R/etc/javaconf
 ./lib/R/etc/ldpaths

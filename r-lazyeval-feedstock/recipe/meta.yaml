@@ -1,4 +1,6 @@
-{% set version = '0.2.1' %}
+{% set version = '0.2.1' %}  # [linux or win32]
+{% set version = '0.2.1' %}  # [win64]
+{% set version = '0.2.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/lazyeval_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/lazyeval/lazyeval_{{ version }}.tar.gz
-  sha256: 83b3a43e94c40fe7977e43eb607be0a3cd64c02800eae4f2774e7866d1e93f61
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lazyeval_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lazyeval/lazyeval_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 83b3a43e94c40fe7977e43eb607be0a3cd64c02800eae4f2774e7866d1e93f61  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lazyeval_0.2.1.zip  # [win64]
+  sha256: d5e974c261d1d80ffcc039e44263ff11f439f00fef49bb08a510f628533fb883  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/lazyeval_0.2.1.tgz  # [osx]
+  sha256: 7968a1ebefec0a662f49e84123a797f2d25980bc6747be1ba0f262164b286ad1  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,9 +34,9 @@ build:
 # Suggests: knitr, rmarkdown (>= 0.2.65), testthat, covr
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

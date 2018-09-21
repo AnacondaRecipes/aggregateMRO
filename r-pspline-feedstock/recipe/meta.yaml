@@ -1,5 +1,6 @@
-{% set version = '1.0-18' %}  # [linux or win32 or osx]
+{% set version = '1.0-18' %}  # [linux or win32]
 {% set version = '1.0-18' %}  # [win64]
+{% set version = '1.0-18' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/pspline_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/pspline/pspline_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: f71cf293bd5462e510ac5ad16c4a96eda18891a0bfa6447dd881c65845e19ac7  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pspline_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pspline/pspline_{{ version }}.tar.gz  # [linux or win32]
+  sha256: f71cf293bd5462e510ac5ad16c4a96eda18891a0bfa6447dd881c65845e19ac7  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pspline_1.0-18.zip  # [win64]
   sha256: 4fb80c900e89d26f34d51acf53fd98287ce8caaa2ab09ed2e66e7f3f090c3ec6  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pspline_1.0-18.tgz  # [osx]
+  sha256: e2ef4385f5d1c20bb4016b0ffa170c939493e907d996a2433c410d7dae98a2fd  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -29,8 +33,8 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
-    - {{ compiler('fortran') }}  # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

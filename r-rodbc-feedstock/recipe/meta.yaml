@@ -31,9 +31,11 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}unixodbc         # [not win]
 
   run:
     - mro-base
+    - {{native}}unixodbc         # [not win]
 
 test:
   commands:

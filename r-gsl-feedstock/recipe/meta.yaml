@@ -19,12 +19,12 @@ source:
   sha256: bcb27eb0d40df23359229365c70b3cd064216fc3b5658e5568b0d7b004669c79  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/gsl_1.9-10.3.tgz  # [osx]
-  sha256: 3c1b36d4a9388bc41b00253c4a9c81f67490e3570d35a3e9492c4c140a7b98ed  # [osx]
+  sha256: 51ef409ee95f4fa48310eada6eebb7336bf60ea93ec638e0778ffc2f42bcce6b  # [osx]
 
 build:
   merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
-  number: 1
+  number: 0
 
   # This is required to make R link correctly on Linux.
   rpaths:

@@ -16,10 +16,10 @@ source:
   sha256: a409dec978cd02914cdddfedc974d9b45bd2975a124d8870d52cfd7d37d47578  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rematch_1.0.1.zip  # [win64]
-  sha256: 119bc92971b27beed6e7657ae7b5d1a09cd385b61de89b693874bc79a93d037f  # [win64]
+  sha256: 68c181472d4d895a851f1611aaff998b6fcba4336369588a8f06e43d08afb734  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rematch_1.0.1.tgz  # [osx]
-  sha256: 9312fc19a592a0edac2a11e47dd80780b0d80b4e015434168eabf2cbdabf5724  # [osx]
+  sha256: b659b9b83693ab7041bdc6ee0c90f89fc567f15d496073d121c84bcc1b906c9a  # [osx]
 
 build:
   merge_build_host: True  # [win32]

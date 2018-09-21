@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ $target_platform == osx-64 ]]; then
+  SED_REGEX=-E
+else
+  SED_REGEX=-r
+fi
+
 contains () {
   local e match="$1"
   shift
@@ -73,6 +79,12 @@ make_mro_base () {
 
   [[ -d unpack/sysroot ]] && mv unpack/sysroot $PREFIX
 
+  if [[ $target_platform == win-64 ]]; then
+    MAKECONF=lib/R/etc/x64/Makeconf
+  else
+    MAKECONF=lib/R/etc/Makeconf
+  fi
+
   pushd unpack$LIBRARY/.. || exit 1
     mv library ../
     [[ -d lib/mro_mkl ]] && mv lib/mro_mkl ../
@@ -89,8 +101,8 @@ make_mro_base () {
   # Rewrite Makeconf to prefer our various flags.
   if [[ -f $RECIPE_DIR/Makeconf.$target_platform ]]; then
     pushd $PREFIX
-      cp $RECIPE_DIR/Makeconf.$target_platform lib/R/etc/Makeconf
-      sed -i.mro.original "s|/opt/anaconda1anaconda2anaconda3|$PREFIX|g" lib/R/etc/Makeconf
+      cp $RECIPE_DIR/Makeconf.$target_platform $MAKECONF
+      sed -i.mro.original "s|/opt/anaconda1anaconda2anaconda3|$PREFIX|g" $MAKECONF
     popd
   fi
 
@@ -106,17 +118,21 @@ make_mro_base () {
 
   # Prevent C and C++ extensions from linking to libgfortran.
   pushd "$PREFIX"
-    if [[ $(uname) == Darwin ]]; then
-      sed -i.bak -E 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
+    if [[ -f $MAKECONF ]]; then
+      sed -i.bak ${SED_REGEX} 's|(^LDFLAGS = .*)-lgfortran|\1|g' $MAKECONF
+    fi
+    if [[ $target_platform == osx-64 ]]; then
       if [[ ! -f lib/R/share/make/shlib.mk ]]; then
         echo "ERROR :: Missing lib/R/share/make/shlib.mk"
         find lib/R/share
         exit 1
       fi
-    elif [[ -f lib/R/etc/Makeconf ]]; then
-      sed -i.bak -r 's|(^LDFLAGS = .*)-lgfortran|\1|g' lib/R/etc/Makeconf
     fi
-    [[ -f lib/R/etc/Makeconf.bak ]] && rm -f lib/R/etc/Makeconf.bak
+    # Add our prefix/include to CPPFLAGS, needed for things like r-rodbc which queries this via `R CMD config CPPFLAGS`
+    sed -i.bak "s|^\(CPPFLAGS = .*\)$|\1 -I${PREFIX}/include|g" $MAKECONF
+    # Add our LDFLAGS too, this is important for -Wl,-headerpad_max_install_names and -Wl,-dead_strip_dylibs
+    sed -i.bak "s|^\(LDFLAGS = .*\)$|\1 ${LDFLAGS}|g" $MAKECONF
+    [[ -f $MAKECONF.bak ]] && rm -f $MAKECONF.bak
   popd
 
   # This file is included in RevoUtils instead, otherwise R fails to load.

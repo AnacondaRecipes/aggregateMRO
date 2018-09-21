@@ -16,10 +16,10 @@ source:
   sha256: 28617cdc5ddef5276abfe14a2642999833322b6c34697de1d4e9d6dc7670dd00  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tokenizers_0.2.1.zip  # [win64]
-  sha256: efe13f36119f8e3a6300cac8ee1ced2e820ee59d71a1d5ecddca7baf8873cd2c  # [win64]
+  sha256: dea2ca0afe171762825fa1a01e96574a9dff9daee7e61ff27f83213f42e546b5  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tokenizers_0.2.1.tgz  # [osx]
-  sha256: 0a398bcd48ab48f3218f55daaa33ce8e5f88d0ff01a015a20ab4a4e163bd9969  # [osx]
+  sha256: e6c9805f4f6d603feefb6ea709793d7d2c9029fab32da8fb6323fc879a5b624e  # [osx]
 
 build:
   merge_build_host: True  # [win32]

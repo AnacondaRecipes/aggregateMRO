@@ -1,4 +1,6 @@
-{% set version = '0.1.4' %}
+{% set version = '0.1.4' %}  # [linux or win32]
+{% set version = '0.1.4' %}  # [win64]
+{% set version = '0.1.4' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/pryr_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/pryr/pryr_{{ version }}.tar.gz
-  sha256: d39834316504c49ecd4936cbbcaf3ee3dae6ded287af42475bf38c9e682f721b
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pryr_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pryr/pryr_{{ version }}.tar.gz  # [linux or win32]
+  sha256: d39834316504c49ecd4936cbbcaf3ee3dae6ded287af42475bf38c9e682f721b  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pryr_0.1.4.zip  # [win64]
+  sha256: 73460ece5145c787af68c6f12c2a24034ae877f4e47a6b2bd09915b7e25b9516  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pryr_0.1.4.tgz  # [osx]
+  sha256: 8aacdb531776e2f509032afbd7f1c3f626c521a16e4e1bf4503276ec82472f60  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: testthat (>= 0.8.0)
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux or osx]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

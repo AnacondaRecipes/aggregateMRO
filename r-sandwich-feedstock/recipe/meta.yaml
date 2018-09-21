@@ -1,5 +1,6 @@
-{% set version = '2.4-0' %}  # [linux or win32 or osx]
+{% set version = '2.4-0' %}  # [linux or win32]
 {% set version = '2.4-0' %}  # [win64]
+{% set version = '2.4-0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/sandwich_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/sandwich/sandwich_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 34315b9ced76a3ed109aead7b8f77eea6398a6eb2e1ad71515a48bed9808ccc0  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/sandwich_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/sandwich/sandwich_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 34315b9ced76a3ed109aead7b8f77eea6398a6eb2e1ad71515a48bed9808ccc0  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/sandwich_2.4-0.zip  # [win64]
-  sha256: 1dd009f27d524b1cc77f9483ba93668cd7bd7ac50d95e0c160364f3c0d794e4d  # [win64]
+  sha256: ee1e3709b7033b46671f0f7aea74b9b3fe8e31599f8824d7113d2017c5213d3c  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/sandwich_2.4-0.tgz  # [osx]
+  sha256: 4764a81887f87a8e42344776e52486e2e02fbe6ebc90c087beb056603888fbaa  # [osx]
 
 build:
   merge_build_host: True  # [win32]

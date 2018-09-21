@@ -15,10 +15,10 @@ source:
   git_tag: v0.6.3
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rbokeh_0.5.0.zip  # [win64]
-  sha256: 894933c1b366c907c4bb572a4ab8d953763fad078c4115c4561b422f112f1770  # [win64]
+  sha256: bac3803af25960d5c46af54c6d730f3fe0ffd09444e94e751cd6c872e3e4707e  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/rbokeh_0.5.0.tgz  # [osx]
-  sha256: 4b792c6935ab4625a129845c9e6ca106b9178bcea41b247e3e860fa6574f5253  # [osx]
+  sha256: 0b771874e45e6cac4a5268de89280f054201de9d3acbfb568b5a993f2a38d6ec  # [osx]
 
 build:
   merge_build_host: True  # [win32]

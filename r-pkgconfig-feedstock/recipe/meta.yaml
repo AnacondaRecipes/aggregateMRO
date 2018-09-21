@@ -16,10 +16,10 @@ source:
   sha256: ab02b2a4b639ba94dcba882a059fe9cddae5498a4309841f764b62ec46ba5a40  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pkgconfig_2.0.1.zip  # [win64]
-  sha256: 96e60e66e06f3519e6b9a5bfa882f5d7853aa4a868e3ba83790693266292cd52  # [win64]
+  sha256: e4945313101470c03701250cf2b55682cf990ae8a001854c0068951e4ec098e4  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pkgconfig_2.0.1.tgz  # [osx]
-  sha256: 0370a6ec1893f2b42e8df786d62dde1bb48f23c401201b9d598503e1379b7f38  # [osx]
+  sha256: 29722a40fd16c5e079c97a2a12601a28a8f3b799d60e63027da096a697075421  # [osx]
 
 build:
   merge_build_host: True  # [win32]

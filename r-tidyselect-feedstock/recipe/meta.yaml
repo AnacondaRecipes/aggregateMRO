@@ -1,4 +1,6 @@
-{% set version = '0.2.4' %}
+{% set version = '0.2.4' %}  # [linux or win32]
+{% set version = '0.2.4' %}  # [win64]
+{% set version = '0.2.4' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/tidyselect_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/tidyselect/tidyselect_{{ version }}.tar.gz
-  sha256: 5cb30e56ad5c1ac59786969edc8d542a7a1735a129a474f585a141aefe6a2295
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/tidyselect_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/tidyselect/tidyselect_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 5cb30e56ad5c1ac59786969edc8d542a7a1735a129a474f585a141aefe6a2295  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/tidyselect_0.2.4.zip  # [win64]
+  sha256: dd781d3eb883f3470b62f330cb0f78439ab00c9128b5c1664337f5295e5af869  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/tidyselect_0.2.4.tgz  # [osx]
+  sha256: 8c46f0eaddd2e14f5ee721d61c522ff98e096511c26c3e955f052f1c1483e792  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,10 +34,10 @@ build:
 # Suggests: covr, dplyr, testthat
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - {{ compiler('cxx') }}      # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base
@@ -44,6 +52,7 @@ requirements:
     - r-glue
     - r-purrr
     - r-rlang >=0.2.0
+    - libcxx >=4.0.1             # [osx]
 
 test:
   commands:

@@ -1,4 +1,6 @@
-{% set version = '0.8-71' %}
+{% set version = '0.8-71' %}  # [linux or win32]
+{% set version = '0.8-71' %}  # [win64]
+{% set version = '0.8-71' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/foreign_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/foreign/foreign_{{ version }}.tar.gz
-  sha256: 3bd2392fbcd9dd4f385ac1418a5e454b9769e6414a21fbb5ae1e7ce6072760d7
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/foreign_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/foreign/foreign_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3bd2392fbcd9dd4f385ac1418a5e454b9769e6414a21fbb5ae1e7ce6072760d7  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/foreign_0.8-71.zip  # [win64]
+  sha256: 38ba35205897875f64e46711565d93d62a1e48f0c2dbef5198048e62dee4c5f4  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/foreign_0.8-71.tgz  # [osx]
+  sha256: 8927f34bfb7c7ef9a3d83504821e5902eca76cea357602c1fb84114a13b29f1b  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -25,9 +33,9 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - {{ compiler('c') }}        # [linux]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

@@ -39,7 +39,7 @@ requirements:
     - mro-base
     - r-matrix >=1.1_4
     - r-igraph >=1.0.1
-
+    - llvm-openmp                # [osx]
 test:
   commands:
     # You can put additional test commands to be run here.

@@ -16,10 +16,10 @@ source:
   sha256: fc6e9bf990e9532c4fcf1a3d2ce22d8cf12d25a95e4779adfa17713ed836fa68  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/crayon_1.3.4.zip  # [win64]
-  sha256: 0a5caf3325e689bcb04cd787fb223a3298082bf3b571485857b541f66db64034  # [win64]
+  sha256: 9ef7571e23aad1e94dfa63c2230f27eb81790093bd049c26f44152199360301e  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/crayon_1.3.4.tgz  # [osx]
-  sha256: 3b4d95677da71e052897a3722a0f7f3f4263feffbf0c7a91f96b6d6e1c267a08  # [osx]
+  sha256: 38e446dfd25ce603ab40baed3ed2feb219f77f16f5206a25bf0dc30a1d7f6766  # [osx]
 
 build:
   merge_build_host: True  # [win32]

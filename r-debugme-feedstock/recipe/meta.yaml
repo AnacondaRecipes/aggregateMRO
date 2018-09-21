@@ -1,4 +1,6 @@
-{% set version = '1.1.0' %}
+{% set version = '1.1.0' %}  # [linux or win32]
+{% set version = '1.1.0' %}  # [win64]
+{% set version = '1.1.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,13 +10,19 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/debugme_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/debugme/debugme_{{ version }}.tar.gz
-  sha256: 4dae0e2450d6689a6eab560e36f8a7c63853abbab64994028220b8fd4b793ab1
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/debugme_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/debugme/debugme_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 4dae0e2450d6689a6eab560e36f8a7c63853abbab64994028220b8fd4b793ab1  # [linux or win32]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/debugme_1.1.0.zip  # [win64]
+  sha256: a526a0ddc5db49f936737e973eda7c9d23deb1db74981361ae1eba6b70815ec6  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/debugme_1.1.0.tgz  # [osx]
+  sha256: b1fe2c4450b82af0ece36d8164edd08df56adf7414e14a883da47bbfcffdaa23  # [osx]
 
 build:
-  merge_build_host: True  # [win]
+  merge_build_host: True  # [win32]
   # If this is a new build for the same version, increment the build number.
   number: 0
 
@@ -26,8 +34,8 @@ build:
 # Suggests: covr, mockery, R6, testthat, withr
 requirements:
   build:
-    - rtools                     # [win]
-    - {{posix}}zip               # [win]
+    - rtools                     # [win32]
+    - {{posix}}zip               # [win32]
 
   host:
     - mro-base

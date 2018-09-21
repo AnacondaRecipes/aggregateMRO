@@ -1,5 +1,6 @@
-{% set version = '1.0-6' %}  # [linux or win32 or osx]
+{% set version = '1.0-6' %}  # [linux or win32]
 {% set version = '1.0-6' %}  # [win64]
+{% set version = '1.0-6' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/brew_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/brew/brew_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: d70d1a9a01cf4a923b4f11e4374ffd887ad3ff964f35c6f9dc0f29c8d657f0ed  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/brew_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/brew/brew_{{ version }}.tar.gz  # [linux or win32]
+  sha256: d70d1a9a01cf4a923b4f11e4374ffd887ad3ff964f35c6f9dc0f29c8d657f0ed  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/brew_1.0-6.zip  # [win64]
   sha256: 19958e1cb072f1987514ea76783127f519147a4301601dedcc51647ac9a6501b  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/brew_1.0-6.tgz  # [osx]
+  sha256: 16ae3e3b9696b544358fbbdc7527563a539dc5080f1cf359563789a243a2bc98  # [osx]
 
 build:
   merge_build_host: True  # [win32]

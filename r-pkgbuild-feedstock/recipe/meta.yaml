@@ -1,5 +1,6 @@
-{% set version = '1.0.0' %}  # [linux or win32 or osx]
+{% set version = '1.0.0' %}  # [linux or win32]
 {% set version = '1.0.0' %}  # [win64]
+{% set version = '1.0.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/pkgbuild_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/pkgbuild/pkgbuild_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: a9691dd3e27cd053a5d4cc8df8b46baa9915c95d4ce03b8e4cb4c77a0a403f82  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/pkgbuild_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/pkgbuild/pkgbuild_{{ version }}.tar.gz  # [linux or win32]
+  sha256: a9691dd3e27cd053a5d4cc8df8b46baa9915c95d4ce03b8e4cb4c77a0a403f82  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/pkgbuild_1.0.0.zip  # [win64]
   sha256: 455151b55bf0c7bfc61cd08d33438345117da47525020c3da6b017e0ad25ca3e  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/pkgbuild_1.0.0.tgz  # [osx]
+  sha256: 30b8775e2587711bec4864c47add42c774fda825ca0e60c73bd957d598f53861  # [osx]
 
 build:
   merge_build_host: True  # [win32]

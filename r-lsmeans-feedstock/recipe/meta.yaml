@@ -1,5 +1,6 @@
-{% set version = '2.27-62' %}  # [linux or win32 or osx]
+{% set version = '2.27-62' %}  # [linux or win32]
 {% set version = '2.27-62' %}  # [win64]
+{% set version = '2.27-62' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/lsmeans_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/lsmeans/lsmeans_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: ffccf0235854a7cae477c1141e678e64f300fe2a4a0d0545c648aa8a66a369b5  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/lsmeans_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/lsmeans/lsmeans_{{ version }}.tar.gz  # [linux or win32]
+  sha256: ffccf0235854a7cae477c1141e678e64f300fe2a4a0d0545c648aa8a66a369b5  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/lsmeans_2.27-62.zip  # [win64]
   sha256: 77c2ee464ca22b3f2f75ea62315b59683b022a2830c013e41f0852cfee62210f  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/lsmeans_2.27-62.tgz  # [osx]
+  sha256: e61e5004d76894d6ee43ddd0cce89ea4ff3ba6552cbccd10d0fb7ed0cd71be11  # [osx]
 
 build:
   merge_build_host: True  # [win32]

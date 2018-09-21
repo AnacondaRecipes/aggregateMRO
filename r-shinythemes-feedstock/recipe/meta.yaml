@@ -1,5 +1,6 @@
-{% set version = '1.1.1' %}  # [linux or win32 or osx]
+{% set version = '1.1.1' %}  # [linux or win32]
 {% set version = '1.1.1' %}  # [win64]
+{% set version = '1.1.1' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/shinythemes_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/shinythemes/shinythemes_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: e6dfa2bd6f4a259feb54a9c910b21cfbb2b22efc4506d8e23007b75080074244  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/shinythemes_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/shinythemes/shinythemes_{{ version }}.tar.gz  # [linux or win32]
+  sha256: e6dfa2bd6f4a259feb54a9c910b21cfbb2b22efc4506d8e23007b75080074244  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/shinythemes_1.1.1.zip  # [win64]
-  sha256: 5c4979f7b782f66f016658ce0037feeb8e098e0cf2ae3783e07c90a44e68abc1  # [win64]
+  sha256: 771efd48f26d9bdaae2f471e1a8ba3bb865c944f4cc8706d64fbfc88b57037c5  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/shinythemes_1.1.1.tgz  # [osx]
+  sha256: 0f0a4adaf5bbbcd0b622495e0ea3aea6d4e8eae7681b907056bf94af1ca0e14d  # [osx]
 
 build:
   merge_build_host: True  # [win32]

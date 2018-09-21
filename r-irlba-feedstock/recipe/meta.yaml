@@ -1,5 +1,6 @@
-{% set version = '2.3.2' %}  # [linux or win32 or osx]
+{% set version = '2.3.2' %}  # [linux or win32]
 {% set version = '2.3.2' %}  # [win64]
+{% set version = '2.3.2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/irlba_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/irlba/irlba_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 3fdf2d8fefa6ab14cd0992740de7958f9f501c71aca93229f5eb03c54558fc38  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/irlba_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/irlba/irlba_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 3fdf2d8fefa6ab14cd0992740de7958f9f501c71aca93229f5eb03c54558fc38  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/irlba_2.3.2.zip  # [win64]
-  sha256: 6727bcd8942c69e31343fcba7ab3ba5990b0a5d70731a9195cd00de019314ed1  # [win64]
+  sha256: c8d3cb864a9c3fa09db18a76eab1e97d8c5e338444efc001c2efde06a4209683  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/irlba_2.3.2.tgz  # [osx]
+  sha256: 941f6eaf437871ba9330476e7113065c9035d45160135cdfc27be91bb66cf2a1  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,7 +34,7 @@ build:
 # Suggests: PMA
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

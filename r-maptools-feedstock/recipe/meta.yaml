@@ -1,5 +1,6 @@
-{% set version = '0.9-3' %}  # [linux or win32 or osx]
+{% set version = '0.9-3' %}  # [linux or win32]
 {% set version = '0.9-3' %}  # [win64]
+{% set version = '0.9-2' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -9,13 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/maptools_{{ version }}.tar.gz  # [linux or win32 or osx]
-    - {{ cran_mirror }}/src/contrib/Archive/maptools/maptools_{{ version }}.tar.gz  # [linux or win32 or osx]
-  sha256: 289f5051e6b562f7a5e88fdcf8db9fa01b0e4261f7c5c7330ef3a71a03d8ab43  # [linux or win32 or osx]
+  url:  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/maptools_{{ version }}.tar.gz  # [linux or win32]
+    - {{ cran_mirror }}/src/contrib/Archive/maptools/maptools_{{ version }}.tar.gz  # [linux or win32]
+  sha256: 289f5051e6b562f7a5e88fdcf8db9fa01b0e4261f7c5c7330ef3a71a03d8ab43  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/maptools_0.9-3.zip  # [win64]
   sha256: 60330b8cee24859948ca172e78c9d9dc5c54b888b2b7252d8a7eca573e6d57c6  # [win64]
+
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/maptools_0.9-2.tgz  # [osx]
+  sha256: 721557758380352cc24d432fa36ae7c784972b2470ad90f2315bc8a16db5ce73  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,7 +34,7 @@ build:
 # Suggests: rgeos (>= 0.1-8), spatstat (>= 1.50), PBSmapping, maps, RColorBrewer, raster, polyclip, spatstat.utils
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('c') }}        # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

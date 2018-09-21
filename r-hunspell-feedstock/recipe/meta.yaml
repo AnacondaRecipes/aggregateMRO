@@ -16,10 +16,10 @@ source:
   sha256: 33e6fa939f3458d151cce1855c6743e850dd736f111ca29668de1a4d48312880  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/hunspell_2.9.zip  # [win64]
-  sha256: 5a525ce24c971a38cc98a3dc6f37fff0b014512babc1dab6a9fbcea4d2c4563d  # [win64]
+  sha256: a76253c82e27b4a78fb8c4fb7ab4e898bfb9fde1a79aa48dbf9b60eaf2941e7b  # [win64]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/hunspell_2.9.tgz  # [osx]
-  sha256: 14a4578e5f2f8694ddc32aee77ff25882b1e573cc27f1fc840cbe047e7e45ccc  # [osx]
+  sha256: 2695b835fb54d43fd8463371122eeacd6a879d4b04ef1f45860bc84d0aff4874  # [osx]
 
 build:
   merge_build_host: True  # [win32]
