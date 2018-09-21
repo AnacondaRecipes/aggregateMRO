@@ -725,6 +725,8 @@ outputs:
       missing_dso_whitelist:
         - /lib/librt.so.1
         - /lib/libc.so.6
+        - librt.so.1
+        - libc.so.6
 
     # Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr, httpuv, webutils
     requirements:
