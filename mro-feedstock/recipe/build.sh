@@ -128,6 +128,10 @@ pushd unpack
   # 3. Rearrange layout so it is compatible with conda, or at least does not stomp all over
   #    conda packages (MKL for example).
   if [[ $target_platform == linux-64 ]]; then
+    if [[ ! -d opt/microsoft/rclient ]]; then
+      echo "ERROR: opt/microsoft/rclient does not exist!"
+      exit 1
+    fi
     mv opt/microsoft/ropen/$PKG_VERSION/lib64 lib
     mv opt/microsoft/ropen/$PKG_VERSION/stage stage
     patch -p1 < $RECIPE_DIR/0001-r-client-Relocate-bin-R-R.patch

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 if [[ $target_platform == osx-64 ]]; then
   SED_REGEX=-E
 else

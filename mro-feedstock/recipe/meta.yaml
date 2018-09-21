@@ -10,7 +10,7 @@
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
 {% set fn = 'microsoft-r-open-'+version+'.tar.gz' %}  # [linux64]
-{% set shasum = '7e1091587429c1545804b514269f4b0c588b85ec86052b512aafd491db797d93' %}  # [linux64]
+{% set shasum = '9791aafb94844544930a1d896f2bf1404205dbf2ec059c51ae75ebb3a31b3792' %}  # [linux64]
 
 {% set url = 'https://mran.blob.core.windows.net/install/mro/'+version+'/microsoft-r-open-'+version+'.pkg' %}  # [osx]
 {% set fn = 'microsoft-r-open-'+version+'.pkg' %}  # [osx]
@@ -193,6 +193,8 @@ outputs:
       missing_dso_whitelist:
         - /lib/libc.so.6
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
 
     # Suggests: MASS
     requirements:
@@ -265,6 +267,8 @@ outputs:
       missing_dso_whitelist:
         - /lib/libc.so.6
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
 
     # Suggests: expm, MASS
     requirements:
@@ -499,8 +503,10 @@ outputs:
         - libRblas.so
         - /lib64/ld-linux-x86-64.so.2
         - /lib/libc.so.6
-        - /lib/libdl.so.2
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
+        - /lib/libdl.so.2
         - /lib/libpthread.so.0
 
     requirements:
@@ -647,6 +653,8 @@ outputs:
       missing_dso_whitelist:
         - /lib/libc.so.6
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
 
     # Suggests: MASS, Matrix
     requirements:
@@ -757,10 +765,12 @@ outputs:
         - lib/R/lib/
         - lib/
       missing_dso_whitelist:
-        - /lib/libcrypt.so.1
         - /lib/libc.so.6
-        - /lib/libdl.so.2
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
+        - /lib/libcrypt.so.1
+        - /lib/libdl.so.2
         - /lib/libpthread.so.0
         - /lib/librt.so.1
 
@@ -1023,6 +1033,8 @@ outputs:
       missing_dso_whitelist:
         - /lib/libc.so.6
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
         - /lib/libpthread.so.0
 
     # Suggests: splines, parallel, survival, MASS
@@ -1072,6 +1084,8 @@ outputs:
       missing_dso_whitelist:
         - /lib/libc.so.6
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
 
     # Suggests: Hmisc, MASS
     requirements:
@@ -1284,8 +1298,10 @@ outputs:
         - libmtmpi.so.1  # [linux or win]
         - /lib64/ld-linux-x86-64.so.2
         - /lib/libc.so.6
-        - /lib/libdl.so.2
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
+        - /lib/libdl.so.2
         - /lib/libpthread.so.0
     requirements:  # [linux or win]
       host:  # [linux or win]
@@ -1355,8 +1371,10 @@ outputs:
         - liblttng-ust.so.0  # [linux]
         - /lib64/ld-linux-x86-64.so.2
         - /lib/libc.so.6
-        - /lib/libdl.so.2
         - /lib/libm.so.6
+        - libc.so.6
+        - libm.so.6
+        - /lib/libdl.so.2
         - /lib/libpthread.so.0
         - /lib/librt.so.1
     requirements:  # [linux or win]
