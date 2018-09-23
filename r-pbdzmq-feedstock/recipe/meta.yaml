@@ -32,6 +32,8 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}zeromq 4.2.*     # [not win]
+    # - {{native}}zeromq 4.1.*     # [win]
 
   run:
     - mro-base

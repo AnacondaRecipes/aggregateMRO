@@ -42,10 +42,12 @@ requirements:
   host:
     - mro-base
     - r-rcpp
+    - udunits2                   # [linux]
 
   run:
     - mro-base
     - r-rcpp
+    - udunits2                   # [linux]
 
 test:
   commands:

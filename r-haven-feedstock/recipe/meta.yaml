@@ -46,6 +46,7 @@ requirements:
     - r-hms
     - r-readr >=0.1.0
     - r-tibble
+    - zlib                       # [linux]
 
   run:
     - mro-base

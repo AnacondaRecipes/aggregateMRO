@@ -13,6 +13,9 @@ source:
     - {{ cran_mirror }}/src/contrib/Archive/rJava/rJava_{{ version }}.tar.gz
   sha256: c9934bdd3ae08746c4d4b9faa235af2c147a71235a9af108e58bff11c179fe78
 
+  patches:
+    - 0001-Improve-lib-jvm.-so-dylib-dll-loading.patch
+
 build:
   merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
@@ -23,6 +26,10 @@ build:
     - lib/R/lib/
     - lib/
 
+  missing_dso_whitelist:  # [osx or linux]
+    - /System/Library/Frameworks/JavaVM.framework/Versions/A/JavaVM  # [osx]
+    - libjvm.so  # [linux]
+
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
@@ -31,6 +38,7 @@ requirements:
 
   host:
     - mro-base
+    - bzip2                      # [linux]
 
   run:
     - mro-base

@@ -46,6 +46,11 @@ requirements:
     - r-classint
     - r-magrittr
     - r-units >=0.5_1
+    - {{native}}libgdal          # [unix]
+    - {{native}}proj4            # [unix]
+    # For some reason, without this, 3.6.0 was getting selected and conflicting with libgdal's geos dep
+    - {{native}}geos >=3.6.2,<3.6.3.0a0  # [unix]
+
 
   run:
     - mro-base

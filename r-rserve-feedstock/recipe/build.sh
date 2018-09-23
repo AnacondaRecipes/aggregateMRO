@@ -4,7 +4,16 @@ if [[ $target_platform =~ linux.* ]] || [[ $target_platform == win-32 ]] || [[ $
   export DISABLE_AUTOBREW=1
   mv DESCRIPTION DESCRIPTION.old
   grep -v '^Priority: ' DESCRIPTION.old > DESCRIPTION
-  $R CMD INSTALL --build .
+  # This package makes a standalone binary and needs to find libraries essential to R.
+  # It is likely that src/Makevars.in should use $(MAIN_LINK) from lib/R/etc/Makeconf
+  # for this instead of having to pass it in via the PKG_LIBS environment variable.
+  if [[ ${HOST} =~ .*darwin.* ]]; then
+    PKG_LIBS="-L${PREFIX}/lib" $R CMD INSTALL --build .
+  else
+    # .. on Linux the situation is even worse:
+    PKG_LIBS="-L${PREFIX}/lib -L${PREFIX}/lib/R/lib -lR -Wl,-rpath-link,${PREFIX}/lib -lRblas" \
+      $R CMD INSTALL --build .
+  fi
 else
   mkdir -p $PREFIX/lib/R/library/Rserve
   mv * $PREFIX/lib/R/library/Rserve

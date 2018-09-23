@@ -35,6 +35,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
+    - {{ compiler('fortran') }}  # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 

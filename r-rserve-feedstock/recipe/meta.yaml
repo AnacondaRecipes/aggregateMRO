@@ -27,16 +27,21 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
+    - {{ compiler('cxx') }}	 # [not win]
     - rtools                     # [win]
+    - {{posix}}autoconf
+    - {{posix}}automake          # [not win]
+    - {{posix}}pkg-config        # [not win]
+    - {{posix}}make              # [not win]
     - {{posix}}zip               # [win]
 
   host:
     - mro-base
+    - {{native}}openssl
 
   run:
     - mro-base
-
+    - {{native}}openssl          # [win]
 test:
   commands:
     # You can put additional test commands to be run here.

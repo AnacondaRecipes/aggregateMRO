@@ -39,9 +39,11 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}udunits2         # [linux]
 
   run:
     - mro-base
+    - {{native}}udunits2         # [linux]
 
 test:
   commands:

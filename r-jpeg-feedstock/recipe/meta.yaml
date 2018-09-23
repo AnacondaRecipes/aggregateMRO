@@ -39,6 +39,7 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}jpeg             # [not win]
 
   run:
     - mro-base

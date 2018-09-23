@@ -40,6 +40,7 @@ requirements:
 
   host:
     - mro-base
+    - icu                        # [linux]
 
   run:
     - mro-base

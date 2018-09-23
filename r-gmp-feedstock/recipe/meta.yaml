@@ -41,6 +41,7 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}gmp
 
   run:
     - mro-base

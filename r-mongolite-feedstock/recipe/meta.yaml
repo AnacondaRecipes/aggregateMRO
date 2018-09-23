@@ -43,6 +43,10 @@ requirements:
     - r-jsonlite >=1.4
     - r-mime
     - r-openssl >=0.9.4
+    - {{native}}openssl          # [linux or win32]
+    - {{native}}cyrus-sasl	 # [linux]
+    - {{native}}zlib 1.2.8	 # [win32]
+    - {{native}}zlib             # [linux]
 
   run:
     - mro-base

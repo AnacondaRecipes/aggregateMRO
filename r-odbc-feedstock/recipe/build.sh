@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo target_platform $target_platform
-exit 1
-
 if [[ $target_platform =~ linux.* ]] || [[ $target_platform == win-32 ]]; then
   export DISABLE_AUTOBREW=1
   mv DESCRIPTION DESCRIPTION.old

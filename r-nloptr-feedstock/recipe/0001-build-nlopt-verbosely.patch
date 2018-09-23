@@ -1,0 +1,16 @@
+diff -urN nloptr.orig/configure.ac nloptr/configure.ac
+--- nloptr.orig/configure.ac	2018-01-04 11:36:18.000000000 +0000
++++ nloptr/configure.ac	2018-01-04 11:36:29.000000000 +0000
+@@ -142,9 +142,9 @@
+                     --without-matlab --without-guile --without-python --with-cxx \
+                     CC="${NLOPT_CC}" CFLAGS="${NLOPT_CFLAGS}" CPP="${NLOPT_CPP}" \
+                     CPPFLAGS="${NLOPT_CPPFLAGS}" CXX="${NLOPT_CXX}" \
+-                    CXXFLAGS="${NLOPT_CXXFLAGS}" CXXCPP="${NLOPT_CXXCPP}" > /dev/null 2>&1; \
+-        make > /dev/null 2>&1; \
+-        make install > /dev/null 2>&1; \
++                    CXXFLAGS="${NLOPT_CXXFLAGS}" CXXCPP="${NLOPT_CXXCPP}" >&6; \
++        make >&6; \
++        make install >&6; \
+         ls | grep -v "^include$" | grep -v "^lib$" | xargs rm -rf; \
+         rm -rf .libs;)
+    AC_MSG_NOTICE([Done installing library to $(pwd)/nlopt-${NLOPT_VERSION}])

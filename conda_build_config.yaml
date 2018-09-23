@@ -11,3 +11,7 @@ python:
   - 3.7
 libopenblas:
   - 0.3.2
+fortran_compiler_version:
+  - 7.3.0                      # [linux]
+ctng_gcc:
+  - 7.3.0                      # [linux]

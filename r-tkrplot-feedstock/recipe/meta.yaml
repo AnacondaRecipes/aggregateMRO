@@ -34,11 +34,15 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
+    - {{ compiler('c') }}        # [not win]
+    - {{ cdt('libx11-devel') }}  # [linux]
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
   host:
     - mro-base
+    - tk                         # [linux]
 
   run:
     - mro-base
@@ -46,7 +50,8 @@ requirements:
 test:
   commands:
     # You can put additional test commands to be run here.
-    - $R -e "library('tkrplot')"           # [not win]
+    - xvfb-run $R -e "library('tkrplot')"  # [linux]
+    - $R -e "library('tkrplot')"           # [osx]
     - "\"%R%\" -e \"library('tkrplot')\""  # [win]
 
   # You can also put a file called run_test.py, run_test.sh, or run_test.bat

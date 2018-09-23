@@ -33,11 +33,13 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}  # [not win]
+    - {{ compiler('fortran') }}  # [not win]
     # Note, until the build env. is activated properly, you'll need posix in your
     # root env. too. Proper activation is in-progress though.
     - posix                # [win]
     - {{pfx}}toolchain     # [win]
   host:
+    - {{ compiler('c') }}  # [not win]
     - git
     - python
     - setuptools
@@ -48,6 +50,7 @@ requirements:
     - readline             # [not win]
     - bzip2                # [linux]
   run:
+    - {{ compiler('c') }}  # [not win]
     - python
     - mro-base
     - r-rsqlite

@@ -39,6 +39,7 @@ requirements:
 
   host:
     - mro-base
+    - libpng                     # [linux]
 
   run:
     - mro-base

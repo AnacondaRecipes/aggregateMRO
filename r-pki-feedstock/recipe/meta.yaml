@@ -32,6 +32,7 @@ requirements:
   host:
     - mro-base
     - r-base64enc
+    - openssl                    # [not win]
 
   run:
     - mro-base

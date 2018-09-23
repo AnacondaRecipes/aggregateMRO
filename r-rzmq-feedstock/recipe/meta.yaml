@@ -40,9 +40,11 @@ requirements:
 
   host:
     - mro-base
+    - {{native}}zeromq 4.2.*     # [not win]
 
   run:
     - mro-base
+    - {{native}}zeromq 4.2.*     # [not win]
 
 test:
   commands:

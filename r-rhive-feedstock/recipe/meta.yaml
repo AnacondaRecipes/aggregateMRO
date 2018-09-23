@@ -27,8 +27,8 @@ build:
   rpaths:
     - lib/R/lib/
     - lib/
-  script_env:
-    - JAVA_HOME
+  script_env:  # [not linux]
+    - JAVA_HOME  # [not linux]
 # Suggests: RUnit
 requirements:
   build:

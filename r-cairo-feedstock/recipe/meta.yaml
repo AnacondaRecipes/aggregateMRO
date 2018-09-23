@@ -27,14 +27,29 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
+    - {{ cdt('libxrender-devel') }}	 # [linux]
+    - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libxau-devel') }}          # [linux]
+    - {{ cdt('libxt-devel') }}           # [linux]
     - rtools                     # [win]
     - {{posix}}zip               # [win]
+    - {{posix}}automake          # [not win]
+    - {{posix}}pkg-config
+    - {{posix}}make
 
   host:
     - mro-base
+    - {{native}}cairo                    # [not win]
+    - {{native}}jpeg                     # [not win]
+    - {{native}}libtiff                  # [not win]
+    - {{native}}freetype                 # [not win]
 
   run:
     - mro-base
+    - {{native}}libjpeg-turbo            # [win]
+    - {{native}}libtiff >=4.0.3,<4.0.8   # [win]
 
 test:
   commands:

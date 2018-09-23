@@ -1,0 +1,12 @@
+diff -urN nloptr.orig/configure.ac nloptr/configure.ac
+--- nloptr.orig/configure.ac	2018-01-04 20:48:13.000000000 +0000
++++ nloptr/configure.ac	2018-01-04 20:49:56.000000000 +0000
+@@ -138,7 +138,7 @@
+         ed -s isres/isres.c <<< $'H\n,s/sqrt(/sqrt((double) /g\nw'; \
+         ed -s util/qsort_r.c <<< $'H\n1i\nextern "C" {\n.\nw'; \
+         ed -s util/qsort_r.c <<< $'H\n$a\n}\n.\nw' ; \
+-        ./configure --prefix="$(pwd)" --enable-shared --enable-static --without-octave \
++        ./configure --prefix="$(pwd)" --disable-shared --enable-static --without-octave \
+                     --without-matlab --without-guile --without-python --with-cxx \
+                     CC="${NLOPT_CC}" CFLAGS="${NLOPT_CFLAGS}" CPP="${NLOPT_CPP}" \
+                     CPPFLAGS="${NLOPT_CPPFLAGS}" CXX="${NLOPT_CXX}" \

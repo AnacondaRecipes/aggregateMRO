@@ -33,6 +33,8 @@ requirements:
   host:
     - mro-base
     - r-bitops
+    - libcurl                    # [not win]
+    - {{native}}curl             $ [win]
 
   run:
     - mro-base

@@ -43,8 +43,10 @@ requirements:
 
   host:
     - mro-base
-    - libcurl                    # [osx]
-    - zlib                       # [osx]
+    - libcurl                    # [osx or linux]
+    - zlib                       # [osx or linux]
+    - libssh2                    # [linux]
+    - openssl                    # [linux]
 
   run:
     - mro-base

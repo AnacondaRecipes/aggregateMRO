@@ -38,6 +38,26 @@ requirements:
     - {{ compiler('cxx') }}      # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('mesa-libgl-devel') }}	 # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libxrender-devel') }}	 # [linux]
+    - {{ cdt('mesa-libgl-devel') }}	 # [linux]
+    - {{ cdt('mesa-libegl-devel') }}     # [linux]
+    - {{ cdt('mesa-dri-drivers') }}	 # [linux]
+    - {{ cdt('libxau-devel') }}          # [linux]
+    - {{ cdt('libdrm-devel') }}          # [linux]
+    - {{ cdt('libxcomposite-devel') }}   # [linux]
+    - {{ cdt('libxcursor-devel') }}	 # [linux]
+    - {{ cdt('libxi-devel') }}           # [linux]
+    - {{ cdt('libxrandr-devel') }}	 # [linux]
+    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
+    - {{ cdt('libxtst-devel') }}         # [linux]
+    - {{ cdt('libselinux-devel') }}	 # [linux]
+    - {{ cdt('libxdamage') }}            # [linux]
+    - {{ cdt('libxfixes') }}             # [linux]
+    - {{ cdt('libxxf86vm') }}            # [linux]
 
   host:
     - mro-base
@@ -49,6 +69,11 @@ requirements:
     - r-magrittr
     - r-manipulatewidget >=0.9.0
     - r-shiny
+    - expat                              # [linux]
+    - freetype                           # [not win]
+    - libglu                             # [linux]
+    - libpng                             # [not win]
+    - {{native}}libpng                   # [win]
 
   run:
     - mro-base
@@ -60,6 +85,10 @@ requirements:
     - r-magrittr
     - r-manipulatewidget >=0.9.0
     - r-shiny
+    - expat                              # [linux]
+    - libglu                             # [linux]
+    - libpng                             # [not win]
+    - {{native}}libpng                   # [win]
 
 test:
   commands:

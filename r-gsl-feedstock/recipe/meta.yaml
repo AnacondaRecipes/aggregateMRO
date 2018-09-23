@@ -39,7 +39,7 @@ requirements:
 
   host:
     - mro-base
-
+    - {{native}}gsl              # [linux]
   run:
     - mro-base
 
