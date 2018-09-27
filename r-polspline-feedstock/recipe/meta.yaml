@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/polspline_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/polspline/polspline_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 937561842d754e40a48d2e6d0c49638739e3fdc9bb81e9d8d05adea828371f22  # [linux or win32]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/polspline_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/polspline/polspline_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 937561842d754e40a48d2e6d0c49638739e3fdc9bb81e9d8d05adea828371f22  # [linux or win32 or osx]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/polspline_1.1.13.zip  # [win64]
   sha256: 793376488083cbf55e5eabd73defe1a71ade664fb75173d8c9e3b2d8e30b20cc  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/polspline_1.1.13.tgz  # [osx]
-  sha256: f977b76a18cf46d364b62a35f0aa1ec48f6c187a2ed912616a50bed3eaebe500  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/polspline_1.1.13.tgz  # [osx and false]
+  sha256: f977b76a18cf46d364b62a35f0aa1ec48f6c187a2ed912616a50bed3eaebe500  # [osx and false]
 
 build:
   merge_build_host: True  # [win32]

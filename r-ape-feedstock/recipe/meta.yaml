@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/ape_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/ape/ape_{{ version }}.tar.gz  # [linux or win32]
-  sha256: b7d5dca66881638227a40aa59533904aa5efe0f4b867851b248e8f948a01a26e  # [linux or win32]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/ape_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/ape/ape_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: b7d5dca66881638227a40aa59533904aa5efe0f4b867851b248e8f948a01a26e  # [linux or win32 or osx]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/ape_5.1.zip  # [win64]
   sha256: fad274580b6aa84c1411759e9db92d8e069ec3c867cdc50fc542f9536b152c1f  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/ape_5.1.tgz  # [osx]
-  sha256: 57dbd1a48ed69841ac7f0540ebe5934488dfe1e18840ea89490fdb1ac47b723c  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/ape_5.1.tgz  # [osx and false]
+  sha256: 57dbd1a48ed69841ac7f0540ebe5934488dfe1e18840ea89490fdb1ac47b723c  # [osx and false]
 
 build:
   merge_build_host: True  # [win32]
@@ -35,7 +35,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - {{ compiler('fortran') }}  # [linux]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]

@@ -1,6 +1,7 @@
 #!/bin/bash
 set -x
 if [[ $target_platform =~ linux.* ]] || [[ $target_platform == win-32 ]]; then
+  # || [[ $target_platform == osx-64 ]]; then
   # 'Autobrew' is being used by more and more packages these days
   # to grab static libraries from Homebrew bottles. These bottles
   # are fetched via Homebrew's --force-bottle option which grabs
@@ -17,9 +18,9 @@ if [[ $target_platform =~ linux.* ]] || [[ $target_platform == win-32 ]]; then
     DISPLAY=${DISPLAY:-:0} \
       xvfb-run $R CMD INSTALL --build .
   else
-    $R CMD INSTALL --build .
+    DISPLAY=${DISPLAY:-:0} \
+      $R CMD INSTALL --build .
   fi
-
   # Add more build steps here, if they are necessary.
 
   # See

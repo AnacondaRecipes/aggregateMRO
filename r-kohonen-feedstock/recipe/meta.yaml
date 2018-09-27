@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/kohonen_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/kohonen/kohonen_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 1fe105d206850ced22ae3b397d09894ba5a0f6061348169e5968bfcf6d9c0c84  # [linux or win32]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/kohonen_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/kohonen/kohonen_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 1fe105d206850ced22ae3b397d09894ba5a0f6061348169e5968bfcf6d9c0c84  # [linux or win32 or osx]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/kohonen_3.0.5.zip  # [win64]
   sha256: 5c07d3d0a2250ee1cb4d574f71300289123756cfa92e90f8c8411bdc00e20ab7  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/kohonen_3.0.5.tgz  # [osx]
-  sha256: cf7f272154c6d5db4c646f55642aa01cd3de3ae903e6eb44b05ee12c96877957  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/kohonen_3.0.5.tgz  # [osx and false]
+  sha256: cf7f272154c6d5db4c646f55642aa01cd3de3ae903e6eb44b05ee12c96877957  # [osx and false]
 
 build:
   merge_build_host: True  # [win32]
@@ -33,8 +33,8 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
@@ -42,11 +42,13 @@ requirements:
     - mro-base
     - r-mass
     - r-rcpp >=0.12.7
+    - llvm-openmp                # [osx]
 
   run:
     - mro-base
     - r-mass
     - r-rcpp >=0.12.7
+    - llvm-openmp                # [osx]
 
 test:
   commands:

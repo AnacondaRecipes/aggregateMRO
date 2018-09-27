@@ -35,6 +35,7 @@ requirements:
 
   host:
     - mro-base
+    - tk                         # [linux]
 
   run:
     - mro-base

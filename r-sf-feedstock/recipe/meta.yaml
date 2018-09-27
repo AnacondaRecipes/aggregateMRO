@@ -31,11 +31,16 @@ build:
     - lib/R/lib/
     - lib/
 
+  missing_dso_whitelist:
+    - /usr/lib/libz.1.dylib
+    - /usr/lib/libxml2.2.dylib
+    - /usr/lib/libsqlite3.dylib
+
 # Suggests: lwgeom (>= 0.1-2), maps, rgdal, rgeos, sp (>= 1.2-4), raster, spatstat, tmap, maptools, RSQLite, tibble (>= 1.4.1), pillar, rlang, dplyr (>= 0.7-0), tidyr (>= 0.7-2), RPostgreSQL, RPostgres (>= 1.1.0), odbc, tidyselect, ggplot2, mapview, testthat, knitr, covr, microbenchmark, rmarkdown
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
@@ -50,6 +55,8 @@ requirements:
     - {{native}}proj4            # [unix]
     # For some reason, without this, 3.6.0 was getting selected and conflicting with libgdal's geos dep
     - {{native}}geos >=3.6.2,<3.6.3.0a0  # [unix]
+    - expat                      # [osx]
+    - libcurl                    # [osx]
 
 
   run:

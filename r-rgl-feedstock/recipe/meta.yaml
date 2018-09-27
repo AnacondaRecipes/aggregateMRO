@@ -31,11 +31,17 @@ build:
     - lib/R/lib/
     - lib/
 
+  missing_dso_whitelist:
+    - /opt/X11/lib/libX11.6.dylib
+    - /opt/X11/lib/libGLU.1.dylib
+    - /opt/X11/lib/libGL.1.dylib
+    - /opt/X11/lib/libfreetype.6.dylib
+
 # Suggests: MASS, rmarkdown, deldir, orientlib, lattice, misc3d, rstudioapi, magick
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('c') }}        # [linux or osx]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]

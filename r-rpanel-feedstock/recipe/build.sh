@@ -8,7 +8,8 @@ if [[ $target_platform =~ linux.* ]] || [[ $target_platform == win-32 ]] || [[ $
     DISPLAY=${DISPLAY:-:0} \
       xvfb-run $R CMD INSTALL --build .
   else
-    $R CMD INSTALL --build .
+    DISPLAY=${DISPLAY:-:0} \
+      $R CMD INSTALL --build .
   fi
 else
   mkdir -p $PREFIX/lib/R/library/rpanel

@@ -35,7 +35,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - rtools                     # [win32]
     - {{posix}}zip               # [win32]
 
@@ -43,6 +43,7 @@ requirements:
     - mro-base
     - r-rcpp
     - udunits2                   # [linux]
+    - expat                      # [osx]
 
   run:
     - mro-base

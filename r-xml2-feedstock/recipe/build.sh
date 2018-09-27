@@ -30,6 +30,8 @@ else
             install_name_tool -change /usr/lib/libcurl.4.dylib "$PREFIX"/lib/libcurl.4.dylib $SHARED_LIB || true
             install_name_tool -change /usr/lib/libc++.1.dylib "$PREFIX"/lib/libc++.1.dylib $SHARED_LIB || true
             install_name_tool -change /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libc++.1.dylib "$PREFIX"/lib/libc++.1.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libxml2.2.dylib "$PREFIX"/lib/libxml2.2.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libz.1.dylib "$PREFIX"/lib/libz.1.dylib $SHARED_LIB || true
           done
         popd
       done

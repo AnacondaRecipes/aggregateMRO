@@ -31,7 +31,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
-    - {{ compiler('cxx') }}      # [linux]
+    - {{ compiler('cxx') }}      # [linux or osx]
     - rtools                     # [win32 or win64]
     - {{posix}}zip               # [win32 or win64]
 

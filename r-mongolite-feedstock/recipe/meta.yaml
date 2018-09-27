@@ -1,4 +1,4 @@
-{% set version = '1.6' %}  # [linux or win32]
+{% set version = '1.6' %}  # [linux or win32 or osx]
 {% set version = '1.6' %}  # [win64]
 {% set version = '1.6' %}  # [osx]
 
@@ -10,16 +10,16 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/mongolite_{{ version }}.tar.gz  # [linux or win32]
-    - {{ cran_mirror }}/src/contrib/Archive/mongolite/mongolite_{{ version }}.tar.gz  # [linux or win32]
-  sha256: 06757ef06a5b98eadcba097a3c98e0998a091f431fb8ba672ceddce2961e5571  # [linux or win32]
+  url:  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/mongolite_{{ version }}.tar.gz  # [linux or win32 or osx]
+    - {{ cran_mirror }}/src/contrib/Archive/mongolite/mongolite_{{ version }}.tar.gz  # [linux or win32 or osx]
+  sha256: 06757ef06a5b98eadcba097a3c98e0998a091f431fb8ba672ceddce2961e5571  # [linux or win32 or osx]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/mongolite_1.6.zip  # [win64]
   sha256: c9919901bfe145d7567f476c1221f51b727d86d02b39cd06804663947dc5a1e9  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mongolite_1.6.tgz  # [osx]
-  sha256: a1158354ed92f0dcbe9213507f333a1e6c3b31513139fef212b4bfd317137dc4  # [osx]
+  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/mongolite_1.6.tgz  # [osx and false]
+  sha256: a1158354ed92f0dcbe9213507f333a1e6c3b31513139fef212b4bfd317137dc4  # [osx and false]
 
 build:
   merge_build_host: True  # [win32]
@@ -30,6 +30,9 @@ build:
   rpaths:
     - lib/R/lib/
     - lib/
+
+  missing_dso_whitelist:
+    - /usr/lib/libresolv.9.dylib
 
 # Suggests: spelling, nycflights13, ggplot2
 requirements:
@@ -43,10 +46,10 @@ requirements:
     - r-jsonlite >=1.4
     - r-mime
     - r-openssl >=0.9.4
-    - {{native}}openssl          # [linux or win32]
-    - {{native}}cyrus-sasl	 # [linux]
+    - {{native}}openssl          # [linux or win32 or osx]
+    - {{native}}cyrus-sasl	 # [linux or osx]
     - {{native}}zlib 1.2.8	 # [win32]
-    - {{native}}zlib             # [linux]
+    - {{native}}zlib             # [linux or osx]
 
   run:
     - mro-base

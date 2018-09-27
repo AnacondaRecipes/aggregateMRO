@@ -33,7 +33,6 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [linux]
     - {{ compiler('c') }}        # [not win]
     - {{ cdt('libx11-devel') }}  # [linux]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]

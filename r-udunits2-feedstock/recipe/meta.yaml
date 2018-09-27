@@ -40,6 +40,7 @@ requirements:
   host:
     - mro-base
     - {{native}}udunits2         # [linux]
+    - expat                      # [osx]
 
   run:
     - mro-base
