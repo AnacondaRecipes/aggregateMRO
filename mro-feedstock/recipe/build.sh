@@ -42,7 +42,7 @@ pushd unpack
   declare -a ARCHIVES
   if [[ -f $ARCHIVE ]]; then
     if [[ $target_platform == win-64 ]]; then
-      pushd $(mktemp -d)
+      pushd $(mktemp -d -t mro.XXXXXX)
         chmod +x "$SRC_DIR"/wix/dark.exe
         "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack/$ARCHIVE -x $PWD
         rm -f $SRC_DIR/unpack/$ARCHIVE
@@ -97,7 +97,7 @@ pushd unpack
     #   python -c "import libarchive, os; libarchive.extract_file('$SRC_DIR/unpack-r-client-mlm/microsoft-r-client-mlm-$RC_PKG_VERSION.rpm')" || exit 1
     # popd
   elif [[ $target_platform == win-64 ]]; then
-    pushd $(mktemp -d)
+    pushd $(mktemp -d -t mro.XXXXXX)
       "$SRC_DIR"/wix/dark.exe $SRC_DIR/unpack-r-client/RClientSetup.exe -x $PWD
       find .
       ASOLEDB=AsOleDB_13.0.1601.5_1033.msi
@@ -155,11 +155,15 @@ pushd unpack
     mv .$RESOURCES/COPYING lib/R/COPYING
     mv .$RESOURCES/lib lib/R/
     mv .$RESOURCES/bin lib/R/
+    mv .$RESOURCES/doc lib/R
     mv .$RESOURCES/etc lib/R/
     mv .$RESOURCES/include lib/R/
     mv .$RESOURCES/library lib/R/
     mv .$RESOURCES/modules lib/R/
     mv .$RESOURCES/share lib/R/
+    mv .$RESOURCES/tcl8.6 lib/R/
+    mv .$RESOURCES/tk8.6 lib/R/
+    mv .$RESOURCES/SVN-REVISION lib/R/
     # Get rid of all MS-provided clang compiler runtime DSOs
     rm lib/R/lib/libc++.1.dylib
     rm lib/R/lib/libc++abi.1.dylib
@@ -231,7 +235,7 @@ pushd unpack
       patchelf --force-rpath --set-rpath '$ORIGIN'/$rp:'$ORIGIN'/$rp2:$OLD_RPATH $LIBRARY
     done
     # https://github.com/dotnet/cli/issues/3390
-    pushd $(mktemp -d)
+    pushd $(mktemp -d -t mro.XXXXXX)
       curl -SLO http://dl.fedoraproject.org/pub/epel/6/x86_64/Packages/l/libunwind-1.1-3.el6.x86_64.rpm
       "$RECIPE_DIR"/rpm2cpio libunwind-1.1-3.el6.x86_64.rpm | cpio -idmv
       cp -p usr/lib64/libunwind*.so* $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/
@@ -244,7 +248,7 @@ pushd unpack
     # https://github.com/dotnet/coreclr/issues/4132
     # https://github.com/Microsoft/BashOnWindows/issues/302
     # .. but lttng-ust has a bunch more deps and it is not clear that it is necessary, so whitelisting instead.
-    # pushd $(mktemp -d)
+    # pushd $(mktemp -d -t mro.XXXXXX)
     #   curl -SLO http://dl.fedoraproject.org/pub/epel/6/x86_64/Packages/l/lttng-ust-2.4.1-1.el6.x86_64.rpm
     #   "$RECIPE_DIR"/rpm2cpio lttng-ust-2.4.1-1.el6.x86_64.rpm | cpio -idmv
     #   cp -p usr/lib64/liblttng*.so* $SRC_DIR/unpack/lib/R/library/MicrosoftML/mxLibs/x64/Platform/rhel.7-x64/publish/
@@ -271,6 +275,19 @@ pushd unpack
     for DYLIB in ${DYLIBS[@]}; do
       echo $DYLIB
     done
+
+    # Needed for rpanel
+    pushd $(mktemp -d -t mro.XXXXXX)
+      curl -SLO https://downloads.sourceforge.net/project/tcllib/BWidget/1.9.11/bwidget-1.9.11.tar.gz
+      tar -xf bwidget-1.9.11.tar.gz
+      cd bwidget-1.9.11
+      # Files belong to wheel for some reason?
+      chown -R :$(id -g -n) .
+      rm -Rf .fslckout ChangeLog tests demo BWman
+      mkdir -p ${SRC_DIR}/unpack/lib/R/tcl8.6/bwidget
+      mv * ${SRC_DIR}/unpack/lib/R/tcl8.6/bwidget/
+    popd
+
     sed -i'.bak' "s|$FRAMEWORK/Resources|$PREFIX/lib/R|g" lib/R/bin/R
     rm lib/R/bin/R.bak
     # Use conda's compilers
@@ -278,30 +295,35 @@ pushd unpack
     sed -i'.bak' "s|/usr/local/gfortran|$PREFIX|g" lib/R/etc/Makeconf
     sed -i'.bak' "s|/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0|$PREFIX/lib/gcc/x86_64-apple-darwin11.4.2/4.8.5|g" lib/R/etc/Makeconf
     sed -i.'bak' "s|-F/Library/Frameworks/R.framework/.. -framework R|-L$PREFIX/lib/R/lib -lR|g" lib/R/etc/Makeconf
-    rm lib/R/etc/Makeconf.bak
+
+    # sed -i.'bak' "s|\${R_HOME}/tcl8.6|${PREFIX}/lib/tcl8.6|" lib/R/etc/Renviron.site
+
+    rm lib/R/etc/Makeconf.bak # lib/R/etc/Renviron.site.bak
     # Others things to fix in: lib/R/etc/Makeconf
     # JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre
     # LIBR = -F/Library/Frameworks/R.framework/.. -framework R
     # Fix the LC_LOAD_DYLIB entries:
     for libdir in lib/R/lib lib/R/modules lib/R/library lib/R/bin/exec sysroot/usr/lib; do
-      pushd $libdir || exit 1
-      echo "Pushed to libdir $libdir"
-        for SHARED_LIB in $(find . -type f -iname "*.dylib" -or -iname "*.so" -or -iname "R"); do
-          echo "fixing SHARED_LIB $SHARED_LIB"
-          install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
-          install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/local/clang4/lib/libomp.dylib "$PREFIX"/lib/libomp.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/local/gfortran/lib/libgfortran.3.dylib "$PREFIX"/lib/libgfortran.3.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/local/gfortran/lib/libquadmath.0.dylib "$PREFIX"/lib/libquadmath.0.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libgcc_s.1.dylib "$PREFIX"/lib/libgcc_s.1.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libiconv.2.dylib "$PREFIX"/sysroot/usr/lib/libiconv.2.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libncurses.5.4.dylib "$PREFIX"/sysroot/usr/lib/libncurses.5.4.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libicucore.A.dylib "$PREFIX"/sysroot/usr/lib/libicucore.A.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libexpat.1.dylib "$PREFIX"/lib/libexpat.1.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libcurl.4.dylib "$PREFIX"/lib/libcurl.4.dylib $SHARED_LIB || true
-          install_name_tool -change /usr/lib/libc++.1.dylib "$PREFIX"/lib/libc++.1.dylib $SHARED_LIB || true
-        done
-      popd
+      if [[ -d $libdir ]]; then
+        pushd $libdir
+        echo "Pushed to libdir $libdir"
+          for SHARED_LIB in $(find . -type f -iname "*.dylib" -or -iname "*.so" -or -iname "R"); do
+            echo "fixing SHARED_LIB $SHARED_LIB"
+            install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+            install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION%.*}/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/local/clang4/lib/libomp.dylib "$PREFIX"/lib/libomp.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/local/gfortran/lib/libgfortran.3.dylib "$PREFIX"/lib/libgfortran.3.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/local/gfortran/lib/libquadmath.0.dylib "$PREFIX"/lib/libquadmath.0.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libgcc_s.1.dylib "$PREFIX"/lib/libgcc_s.1.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libiconv.2.dylib "$PREFIX"/sysroot/usr/lib/libiconv.2.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libncurses.5.4.dylib "$PREFIX"/sysroot/usr/lib/libncurses.5.4.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libicucore.A.dylib "$PREFIX"/sysroot/usr/lib/libicucore.A.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libexpat.1.dylib "$PREFIX"/lib/libexpat.1.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libcurl.4.dylib "$PREFIX"/lib/libcurl.4.dylib $SHARED_LIB || true
+            install_name_tool -change /usr/lib/libc++.1.dylib "$PREFIX"/lib/libc++.1.dylib $SHARED_LIB || true
+          done
+        popd
+      fi
     done
     # One-off fixups. It seems some packages do not get built against the latest R (doing them for every dylib would be slow):
     install_name_tool -change /Library/Frameworks/R.framework/Versions/${PKG_VERSION}-MRO/Resources/lib/libR.dylib "$PREFIX"/lib/R/lib/libR.dylib lib/R/library/curl/libs/curl.so || exit 1
