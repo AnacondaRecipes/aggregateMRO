@@ -7601,4 +7601,3 @@
 ./RClient/Microsoft/R Client/Temp/licenses
 ./RClient/Microsoft/R Client/Temp/licenses/MicrosoftRServicesLicense.txt
 ./RClient/RClient.msi
-lient.msi

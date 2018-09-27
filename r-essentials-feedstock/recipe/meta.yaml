@@ -24,7 +24,8 @@
 {% set r_purrr_ver = '0.2.5' %}
 {% set r_quantmod_ver = '0.4_13' %}
 {% set r_randomforest_ver = '4.6_14' %}
-{% set r_rbokeh_ver = '0.6.3' %}
+{% set r_rbokeh_ver = '0.6.3' %}  # [linux]
+{% set r_rbokeh_ver = '0.5.0' %}  # [not linux]
 {% set r_readr_ver = '1.1.1' %}
 {% set r_readxl_ver = '1.1.0' %}
 {% set r_recommended_ver = '3.5.1' %}
@@ -45,7 +46,7 @@ package:
 
 requirements:
   build:
-    - mro-base >={{r_base_ver}}
+    - mro-base
     - notebook >={{notebook_ver}}
     - r-broom >={{r_broom_ver}}
     - r-caret >={{r_caret_ver}}
@@ -84,7 +85,7 @@ requirements:
     - r-zoo >={{r_zoo_ver}}
 
   run:
-    - mro-base >={{r_base_ver}}
+    - mro-base
     - notebook >={{notebook_ver}}
     - r-broom >={{r_broom_ver}}
     - r-caret >={{r_caret_ver}}

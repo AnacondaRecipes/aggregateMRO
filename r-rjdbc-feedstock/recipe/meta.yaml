@@ -32,6 +32,7 @@ requirements:
     - mro-base
     - r-dbi
     - r-rjava >=0.4_15
+    - openjdk                    # [win]
 
   run:
     - mro-base
@@ -39,6 +40,8 @@ requirements:
     - r-rjava >=0.4_15
 
 test:
+  requires:
+    - openjdk                    # [win]
   commands:
     # You can put additional test commands to be run here.
     - $R -e "library('RJDBC')"           # [not win]

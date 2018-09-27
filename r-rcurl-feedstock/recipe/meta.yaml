@@ -8,10 +8,17 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  url:
-    - {{ cran_mirror }}/src/contrib/RCurl_{{ version }}.tar.gz
-    - {{ cran_mirror }}/src/contrib/Archive/RCurl/RCurl_{{ version }}.tar.gz
-  sha256: 792a091cf5b80c460d98ed80fe1cad5d9406d0afc32e466e970ee4d2f68c97bf
+  - url:
+      - {{ cran_mirror }}/src/contrib/RCurl_{{ version }}.tar.gz
+      - {{ cran_mirror }}/src/contrib/Archive/RCurl/RCurl_{{ version }}.tar.gz
+    sha256: 792a091cf5b80c460d98ed80fe1cad5d9406d0afc32e466e970ee4d2f68c97bf
+    patches:
+      - 0001-Fix-windows-ERROR-define.patch
+      - 0002-Do-not-link-to-rtmp-on-windows.patch
+  - git_url: https://github.com/rwinlib/libcurl  # [win]
+    git_tag: master  # [win]
+    folder: libcurl  # [win]
+    
 
 build:
   merge_build_host: True  # [win]
@@ -29,12 +36,12 @@ requirements:
     - {{ compiler('c') }}        # [not win]
     - rtools                     # [win]
     - {{posix}}zip               # [win]
+    - git                        # [win]
 
   host:
     - mro-base
     - r-bitops
     - libcurl                    # [not win]
-    - {{native}}curl             $ [win]
 
   run:
     - mro-base

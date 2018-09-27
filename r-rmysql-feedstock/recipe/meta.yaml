@@ -33,12 +33,12 @@ requirements:
   host:
     - mro-base
     - r-dbi >=0.4
-    - {{native}}mysql
+    - {{native}}mysql  # [not win]
 
   run:
     - mro-base
     - r-dbi >=0.4
-    - {{native}}mysql
+    - {{native}}mysql  # [not win]
 
 test:
   commands:

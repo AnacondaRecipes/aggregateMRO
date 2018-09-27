@@ -47,6 +47,8 @@ requirements:
     - r-xlsxjars
 
 test:
+  requires:
+    - openjdk                    # [win]
   commands:
     # You can put additional test commands to be run here.
     - $R -e "library('xlsx')"           # [not win]

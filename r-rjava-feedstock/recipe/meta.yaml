@@ -39,11 +39,14 @@ requirements:
   host:
     - mro-base
     - bzip2                      # [linux]
+    - openjdk                    # [win]
 
   run:
     - mro-base
 
 test:
+  requires:
+    - openjdk                    # [win]
   commands:
     # You can put additional test commands to be run here.
     - $R -e "library('rJava')"           # [not win]

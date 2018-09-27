@@ -1,0 +1,13 @@
+--- work/src/Makevars.win.orig	2018-09-26 11:08:19.946195700 -0500
++++ work/src/Makevars.win	2018-09-26 11:08:41.856247300 -0500
+@@ -8,8 +8,8 @@
+ PKG_CPPFLAGS = -I${CURL_INCLUDE_DIR} $(DEFINES)
+ 
+ ifeq "${R_ARCH}" "/x64"
+-PKG_LIBS = -L${CURL_LIB_DIR} -lcurl -lrtmp -lssl -lssh2 -lcrypto -lgdi32 -lcrypt32 -lz -lws2_32 -lgdi32 -lcrypt32 -lwldap32 -lwinmm
++PKG_LIBS = -L${CURL_LIB_DIR} -lcurl -lssl -lssh2 -lcrypto -lgdi32 -lcrypt32 -lz -lws2_32 -lgdi32 -lcrypt32 -lwldap32 -lwinmm
+ else
+-PKG_LIBS = -L${CURL_LIB_DIR} -lcurl -lrtmp -lssl -lssh2 -lcrypto -lgdi32 -lcrypt32 -lz -lws2_32 -lgdi32 -lcrypt32 -lwldap32 -lwinmm -lidn
++PKG_LIBS = -L${CURL_LIB_DIR} -lcurl -lssl -lssh2 -lcrypto -lgdi32 -lcrypt32 -lz -lws2_32 -lgdi32 -lcrypt32 -lwldap32 -lwinmm -lidn
+ endif
+ 

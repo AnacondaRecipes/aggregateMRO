@@ -12,7 +12,7 @@ requirements:
   build:
     - mro-base
   run:
-    - mro-base {{ version }}
+    - mro-base
     - r-recommended {{ version }}
     - mro-basics {{ version }}
 

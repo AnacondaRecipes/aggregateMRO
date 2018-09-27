@@ -11,8 +11,8 @@ package:
 
 source:
 
-  git_url: https://github.com/bokeh/rbokeh
-  git_tag: v0.6.3
+  git_url: https://github.com/bokeh/rbokeh  # [not (osx or win64)]
+  git_tag: v0.6.3  # [not (osx or win64)]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/rbokeh_0.5.0.zip  # [win64]
   sha256: bac3803af25960d5c46af54c6d730f3fe0ffd09444e94e751cd6c872e3e4707e  # [win64]
@@ -52,6 +52,7 @@ requirements:
     - r-maps
     - r-rlang
     - r-scales
+    - r-lazyeval  # [not linux]
 
   run:
     - mro-base
@@ -67,6 +68,7 @@ requirements:
     - r-maps
     - r-rlang
     - r-scales
+    - r-lazyeval  # [not linux]
 
 test:
   commands:

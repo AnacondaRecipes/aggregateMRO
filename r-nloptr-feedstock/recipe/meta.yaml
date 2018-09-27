@@ -14,9 +14,9 @@ source:
     - {{ cran_mirror }}/src/contrib/nloptr_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/nloptr/nloptr_{{ version }}.tar.gz  # [linux or win32]
   sha256: 84225b993cb1ef7854edda9629858662cc8592b0d1344baadea4177486ece1eb  # [linux or win32]
-  patches:
-    - 0001-build-nlopt-verbosely.patch
-    - 0002-do-not-build-shared-nlopt.patch
+  patches:  # [linux or win32]
+    - 0001-build-nlopt-verbosely.patch  # [linux or win32]
+    - 0002-do-not-build-shared-nlopt.patch  # [linux or win32]
 
   url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/nloptr_1.0.4.zip  # [win64]
   sha256: 22540021f7d41586a4b6bc211a3836e4dd60749c001f0688009d006cfc0bf0a1  # [win64]
