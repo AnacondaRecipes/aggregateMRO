@@ -105,7 +105,7 @@ outputs:
     activate_in_script: True
     build:
       merge_build_host: True
-      number: 1  # [osx]
+      number: 2
       rpaths:
         - lib/R/lib/
         - lib/
@@ -170,6 +170,8 @@ outputs:
         - {{ compiler('c') }}  # [not win]
         - llvm-openmp >=4.0.1  # [osx]
         - curl >=7.58.0  # [not win]
+        - {{ pin_subpackage('r-revoutils', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [not osx]
       test:
         commands:
           - $R -e "print('Hello World!')"           # [not win]
@@ -468,19 +470,13 @@ outputs:
         - lib/R/lib/
         - lib/
 
+    # We do not run depend or host depend on this. It means
+    # we cannot test it. The problem is that we need this
+    # installed by default (it contains Rprofile.site and
+    # must do so) so it needs to be a dependency of mro-base.
     requirements:
       build:
         - m2-base  # [win]
-      host:
-        - mro-base {{ version }}
-      run:
-        - mro-base {{ version }}
-
-    test:
-      commands:
-        # You can put additional test commands to be run here.
-        - $R -e "library('RevoUtils')"           # [not win]
-        - "\"%R%\" -e \"library('RevoUtils')\""  # [win]
 
     about:
       home: https://mran.microsoft.com/package/RevoUtils
@@ -513,17 +509,9 @@ outputs:
       build:
         - m2-base  # [win]
       host:
-        - mro-base {{ version }}
         - libgcc-ng >=7.2.0  # [linux]
       run:
-        - mro-base {{ version }}
         - libgcc-ng >=7.2.0  # [linux]
-
-    test:
-      commands:
-        # You can put additional test commands to be run here.
-        - $R -e "library('RevoUtilsMath')"           # [not win]
-        - "\"%R%\" -e \"library('RevoUtilsMath')\""  # [win]
 
     about:
       home: https://mran.microsoft.com/package/RevoUtilsMath

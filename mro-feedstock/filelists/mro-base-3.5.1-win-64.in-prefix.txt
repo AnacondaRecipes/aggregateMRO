@@ -141,7 +141,6 @@
 ./lib/R/etc/Rdevga
 ./lib/R/etc/repositories
 ./lib/R/etc/rgb.txt
-./lib/R/etc/Rprofile.site
 ./lib/R/etc/x64
 ./lib/R/etc/x64/Makeconf
 ./lib/R/include
@@ -13708,4 +13707,6 @@
 ./Scripts/Rgui.exe
 ./Scripts/Rscript.exe
 ./Scripts/RSetReg.exe
+./Scripts/Rterm.exe
+g.exe
 ./Scripts/Rterm.exe

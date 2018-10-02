@@ -139,12 +139,12 @@
 ./conda-meta/clangxx_osx-64-4.0.1-h22b1bf0_11.json
 ./conda-meta/clang_osx-64-4.0.1-h1ce6c1d_11.json
 ./conda-meta/compiler-rt-4.0.1-h5487866_0.json
-./conda-meta/curl-7.61.0-ha441bb4_0.json
+./conda-meta/curl-7.61.1-ha441bb4_0.json
 ./conda-meta/expat-2.2.6-h0a44026_0.json
 ./conda-meta/gfortran_osx-64-4.8.5-h22b1bf0_4.json
 ./conda-meta/history
 ./conda-meta/ld64-274.2-h7c2db76_0.json
-./conda-meta/libcurl-7.61.0-hf30b1f0_0.json
+./conda-meta/libcurl-7.61.1-hf30b1f0_0.json
 ./conda-meta/libcxx-4.0.1-h579ed51_0.json
 ./conda-meta/libcxxabi-4.0.1-hebd6815_0.json
 ./conda-meta/libgfortran-3.0.1-h93005f0_2.json
@@ -161,6 +161,7 @@
 ./etc/conda
 ./etc/conda/activate.d
 ./etc/conda/activate.d/activate-gfortran_osx-64.sh
+./etc/conda/activate.d/activate-mro-base.sh
 ./etc/conda/activate.d/activate_clangxx_osx-64.sh
 ./etc/conda/activate.d/activate_clang_osx-64.sh
 ./etc/conda/deactivate.d
@@ -2419,7 +2420,6 @@
 ./lib/libcurl.4.dylib
 ./lib/libcurl.a
 ./lib/libcurl.dylib
-./lib/libcurl.la
 ./lib/libexpat.1.6.8.dylib
 ./lib/libexpat.1.dylib
 ./lib/libexpat.a
@@ -2721,7 +2721,6 @@
 ./lib/R/etc/Renviron
 ./lib/R/etc/Renviron.site
 ./lib/R/etc/repositories
-./lib/R/etc/Rprofile.site
 ./lib/R/include
 ./lib/R/include/libintl.h
 ./lib/R/include/R.h

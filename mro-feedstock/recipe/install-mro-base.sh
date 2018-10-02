@@ -95,9 +95,6 @@ make_mro_base () {
     cp -rf * "$PREFIX"/lib/R/
     mv ../library .
     [[ -d ../mro_mkl ]] && mv ../mro_mkl lib/
-    pushd $PREFIX
-      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
-    popd
   popd
 
   # Rewrite Makeconf to prefer our various flags.
@@ -139,6 +136,10 @@ make_mro_base () {
 
   # This file is included in RevoUtils instead, otherwise R fails to load.
   rm "$PREFIX"/lib/R/etc/Rprofile.site
+
+  pushd $PREFIX
+    find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-base-$PKG_VERSION-$target_platform.in-prefix.txt
+  popd
 }
 declare -a EXCLUDED_PACKAGES
 EXCLUDED_PACKAGES+=(boot)

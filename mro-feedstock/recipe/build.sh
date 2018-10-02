@@ -4,6 +4,7 @@ set -x
 
 . "${RECIPE_DIR}"/find_relative_path.sh
 
+# This is often not aligned with the MRO version.
 RC_PKG_VERSION=3.4.3
 
 if [[ $target_platform == win-64 ]]; then
