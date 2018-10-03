@@ -186,7 +186,7 @@ outputs:
         - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
     requirements:
       run:
-        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base_impl', exact=True) }}
         - {{ pin_subpackage('r-revoutils', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
         - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [not osx]
     about:
@@ -430,7 +430,6 @@ outputs:
       run:
         - mro-base {{ version }}
         - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
-        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
     test:
       commands:
         # You can put additional test commands to be run here.
@@ -523,10 +522,10 @@ outputs:
         - m2-base  # [win]
       host:
         - libgcc-ng >=7.2.0  # [linux]
-        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base_impl', exact=True) }}
       run:
         - libgcc-ng >=7.2.0  # [linux]
-        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('mro-base_impl', exact=True) }}
 
     about:
       home: https://mran.microsoft.com/package/RevoUtilsMath
