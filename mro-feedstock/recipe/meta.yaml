@@ -181,6 +181,7 @@ outputs:
 
   - name: mro-base
     build:
+      number: 3
       run_exports:
         - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
     requirements:
@@ -522,6 +523,7 @@ outputs:
         - m2-base  # [win]
       host:
         - libgcc-ng >=7.2.0  # [linux]
+        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
       run:
         - libgcc-ng >=7.2.0  # [linux]
         - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
