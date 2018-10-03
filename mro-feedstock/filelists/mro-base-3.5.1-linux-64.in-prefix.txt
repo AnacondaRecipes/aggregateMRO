@@ -159,7 +159,7 @@
 ./conda-meta/ca-certificates-2018.03.07-0.json
 ./conda-meta/ca-certificates-cos6-x86_64-2016.2.10-h4d6d018_0.json
 ./conda-meta/cairo-1.14.12-h8948797_3.json
-./conda-meta/curl-7.61.0-h84994c4_0.json
+./conda-meta/curl-7.61.1-hbc83047_0.json
 ./conda-meta/fontconfig-2.13.0-h9420a91_0.json
 ./conda-meta/fontconfig-cos6-x86_64-2.8.0-he5a27ec_0.json
 ./conda-meta/freetype-2.9.1-h8a8886c_1.json
@@ -179,7 +179,7 @@
 ./conda-meta/icu-58.2-h9c2bf20_1.json
 ./conda-meta/java-1.7.0-openjdk-cos6-x86_64-1.7.0.131-haf0aaab_0.json
 ./conda-meta/jpackage-utils-cos6-x86_64-1.7.5-ha353daa_0.json
-./conda-meta/libcurl-7.61.0-h1ad7b7a_0.json
+./conda-meta/libcurl-7.61.1-heec0ca6_0.json
 ./conda-meta/libffi-3.2.1-hd88cf55_4.json
 ./conda-meta/libgcc-ng-8.2.0-hdf63c60_1.json
 ./conda-meta/libgfortran-ng-7.3.0-hdf63c60_0.json
@@ -1809,7 +1809,6 @@
 ./lib/libcrypto.so
 ./lib/libcrypto.so.1.0.0
 ./lib/libcurl.a
-./lib/libcurl.la
 ./lib/libcurl.so
 ./lib/libcurl.so.4
 ./lib/libcurl.so.4.5.0
@@ -2261,9 +2260,9 @@
 ./lib/R/etc/javaconf
 ./lib/R/etc/ldpaths
 ./lib/R/etc/Makeconf
+./lib/R/etc/Makeconf.mro.original
 ./lib/R/etc/Renviron
 ./lib/R/etc/repositories
-./lib/R/etc/Rprofile.site
 ./lib/R/include
 ./lib/R/include/R.h
 ./lib/R/include/Rconfig.h

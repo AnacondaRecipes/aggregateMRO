@@ -99,13 +99,13 @@ requirements:
     - m2-base  # [win]
 
 outputs:
-  - name: mro-base
+  - name: mro-base_impl
     version: {{ version }}
     script: install-mro-base.sh
     activate_in_script: True
     build:
       merge_build_host: True
-      number: 2
+      number: 0
       rpaths:
         - lib/R/lib/
         - lib/
@@ -118,8 +118,6 @@ outputs:
         - lib/R/etc/x64/Makeconf
         - lib/R/etc/x64/ldpaths
         - lib/R/etc/x64/javaconf
-      run_exports:
-        - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
       missing_dso_whitelist:
         - /opt/X11/lib/libICE.6.dylib
         - /opt/X11/lib/libSM.6.dylib
@@ -170,12 +168,26 @@ outputs:
         - {{ compiler('c') }}  # [not win]
         - llvm-openmp >=4.0.1  # [osx]
         - curl >=7.58.0  # [not win]
-        - {{ pin_subpackage('r-revoutils', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
-        - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [not osx]
       test:
         commands:
           - $R -e "print('Hello World!')"           # [not win]
           - "\"%R%\" -e \"print('Hello World!')\""  # [win]
+    about:
+      home: http://www.r-project.org/
+      license: GPL-2 | GPL-3
+      license_family: GPL3
+      license_file: COPYING
+      summary: 'R is a free software environment for statistical computing and graphics.'
+
+  - name: mro-base
+    build:
+      run_exports:
+        - {{ pin_subpackage('mro-base', min_pin='x.x.x', max_pin='x.x.x') }}
+    requirements:
+      run:
+        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-revoutils', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
+        - {{ pin_subpackage('r-revoutilsmath', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}  # [not osx]
     about:
       home: http://www.r-project.org/
       license: GPL-2 | GPL-3
@@ -417,7 +429,7 @@ outputs:
       run:
         - mro-base {{ version }}
         - {{ pin_subpackage('r-runit', min_pin='0.4.26', max_pin=None) }}
-
+        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
     test:
       commands:
         # You can put additional test commands to be run here.
@@ -512,6 +524,7 @@ outputs:
         - libgcc-ng >=7.2.0  # [linux]
       run:
         - libgcc-ng >=7.2.0  # [linux]
+        - {{ pin_subpackage('mro-base_impl', min_pin='x.x.x.x.x.x', max_pin='x.x.x.x.x.x') }}
 
     about:
       home: https://mran.microsoft.com/package/RevoUtilsMath

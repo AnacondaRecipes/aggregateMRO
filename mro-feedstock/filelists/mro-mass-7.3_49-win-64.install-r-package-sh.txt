@@ -2374,30 +2374,6 @@
 ./lib/R/library/RevoTreeView/unitTests
 ./lib/R/library/RevoTreeView/unitTests/runit-json.R
 ./lib/R/library/RevoTreeView/unitTests/runit-revoTreeView.R
-./lib/R/library/RevoUtils
-./lib/R/library/RevoUtils/DESCRIPTION
-./lib/R/library/RevoUtils/help
-./lib/R/library/RevoUtils/help/aliases.rds
-./lib/R/library/RevoUtils/help/AnIndex
-./lib/R/library/RevoUtils/help/paths.rds
-./lib/R/library/RevoUtils/help/RevoUtils.rdb
-./lib/R/library/RevoUtils/help/RevoUtils.rdx
-./lib/R/library/RevoUtils/html
-./lib/R/library/RevoUtils/html/00Index.html
-./lib/R/library/RevoUtils/html/R.css
-./lib/R/library/RevoUtils/INDEX
-./lib/R/library/RevoUtils/Meta
-./lib/R/library/RevoUtils/Meta/features.rds
-./lib/R/library/RevoUtils/Meta/hsearch.rds
-./lib/R/library/RevoUtils/Meta/links.rds
-./lib/R/library/RevoUtils/Meta/nsInfo.rds
-./lib/R/library/RevoUtils/Meta/package.rds
-./lib/R/library/RevoUtils/Meta/Rd.rds
-./lib/R/library/RevoUtils/NAMESPACE
-./lib/R/library/RevoUtils/R
-./lib/R/library/RevoUtils/R/RevoUtils
-./lib/R/library/RevoUtils/R/RevoUtils.rdb
-./lib/R/library/RevoUtils/R/RevoUtils.rdx
 ./lib/R/library/rpart
 ./lib/R/library/rpart/data
 ./lib/R/library/rpart/data/Rdata.rdb
@@ -5872,6 +5848,30 @@
 ./o16n/RServe/bin/x64
 ./o16n/RServe/bin/x64/Rserv.cfg
 ./o16n/RServe/R
+./o16n/RServe/R/dummy
+./o16n/RServe/RScripts
+./o16n/RServe/RScripts/source.R
+./o16n/RServeWinService.exe
+./o16n/runAdminUtils.ps1
+./o16n/worker_account_manager.ps1
+./RClient
+./RClient/Microsoft
+./RClient/Microsoft/R Client
+./RClient/Microsoft/R Client/mrupdate.txt
+./RClient/Microsoft/R Client/Samples
+./RClient/Microsoft/R Client/Samples/FlightDelayAnalysis.R
+./RClient/Microsoft/R Client/Setup
+./RClient/Microsoft/R Client/Setup/Microsoft.Deployment.Compression.Cab.dll
+./RClient/Microsoft/R Client/Setup/Microsoft.Deployment.Compression.dll
+./RClient/Microsoft/R Client/Setup/RSetup.exe
+./RClient/Microsoft/R Client/Setup/SRS_9.3.0.0_1033.cab
+./RClient/Microsoft/R Client/Temp
+./RClient/Microsoft/R Client/Temp/etc
+./RClient/Microsoft/R Client/Temp/etc/Rprofile.site
+./RClient/Microsoft/R Client/Temp/licenses
+./RClient/Microsoft/R Client/Temp/licenses/MicrosoftRServicesLicense.txt
+./RClient/RClient.msi
+6n/RServe/R
 ./o16n/RServe/R/dummy
 ./o16n/RServe/RScripts
 ./o16n/RServe/RScripts/source.R
