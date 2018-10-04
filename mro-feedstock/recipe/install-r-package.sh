@@ -18,6 +18,9 @@ if [[ "$LIBRARY_NAME" == "revoutilsmath" ]]; then
     mv "$PREFIX"/lib/R/lib/libRlapack.so "$PREFIX"/lib/R/lib/libRlapack.so.nomkl
     mv "$PREFIX"/lib/R/lib/mro_mkl/libRblas.so "$PREFIX"/lib/R/lib/libRblas.so.mkl
     mv "$PREFIX"/lib/R/lib/mro_mkl/libRlapack.so "$PREFIX"/lib/R/lib/libRlapack.so.mkl
+    pushd $PREFIX
+      find . | LC_COLLATE=C sort --ignore-case > "$RECIPE_DIR"/../filelists/mro-$LIBRARY_NAME-$PKG_VERSION-$target_platform.in-prefix.txt
+    popd
   elif [[ $target_platform == win-64 ]]; then
     LIBRARY=/lib/R.mkl/library
     mv "$PREFIX_LIB"/../bin/x64/Rblas.dll "$PREFIX_LIB"/../bin/x64/Rblas.dll.nomkl

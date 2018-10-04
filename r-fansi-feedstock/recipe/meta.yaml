@@ -1,6 +1,6 @@
-{% set version = '0.2.3' %}  # [linux or win32]
-{% set version = '0.2.3' %}  # [win64]
-{% set version = '0.2.3' %}  # [osx]
+{% set version = '0.3.0' %}  # [linux or win32]
+{% set version = '0.3.0' %}  # [win64]
+{% set version = '0.3.0' %}  # [osx]
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -13,13 +13,13 @@ source:
   url:  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/fansi_{{ version }}.tar.gz  # [linux or win32]
     - {{ cran_mirror }}/src/contrib/Archive/fansi/fansi_{{ version }}.tar.gz  # [linux or win32]
-  sha256: db6dfef8bfe6682d58b654b6a6a1d59cb07225ca41755176b465ab8611fd96c9  # [linux or win32]
+  sha256: dd6401d5c91ff4c45d752cceddd5379d1ae39a8a1196f236b0bc0ec6d691b88c  # [linux or win32]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/windows/contrib/3.5/fansi_0.2.3.zip  # [win64]
-  sha256: 701312fc4893c57db9068be9f0e1f311e62b4188e97cff37a6cdb36cf8e7f5ba  # [win64]
+  url: https://cran.r-project.org/bin/windows/contrib/3.5/fansi_0.3.0.zip  # [win64]
+  sha256: af66cd9b512e3f5109726c3ac469b6e805c054899ff268de81e95c077c98d043  # [win64]
 
-  url: https://cran.microsoft.com/snapshot/2018-08-01/bin/macosx/el-capitan/contrib/3.5/fansi_0.2.3.tgz  # [osx]
-  sha256: 313eca3853c3e9f0b8f9987cec80fbe8a0764354a9e9be7cc48ef1d40a7cefc8  # [osx]
+  url: https://cran.r-project.org/bin/macosx/el-capitan/contrib/3.5/fansi_0.3.0.tgz  # [osx]
+  sha256: 65e97e29ed8b26139a9162a5338b16ff855878c6881b2808600ea5434b001f21  # [osx]
 
 build:
   merge_build_host: True  # [win32]
@@ -31,7 +31,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: unitizer
+# Suggests: unitizer, knitr, rmarkdown
 requirements:
   build:
     - {{ compiler('c') }}        # [linux]
@@ -72,22 +72,23 @@ extra:
 # Package: fansi
 # Title: ANSI Control Sequence Aware String Functions
 # Description: Counterparts to R string manipulation functions that account for the effects of ANSI text formatting control sequences.
-# Version: 0.2.3
-# Authors@R: c( person("Brodie", "Gaslam", email="brodie.gaslam@yahoo.com", role=c("aut", "cre")), person(family="R Core Team", email="R-core@r-project.org", role="cph", comment="UTF8 byte length calcs from src/util.c" ))
+# Version: 0.3.0
+# Authors@R: c( person("Brodie", "Gaslam", email="brodie.gaslam@yahoo.com", role=c("aut", "cre")), person("Elliott", "Sales De Andrade", role="ctb"), person(family="R Core Team", email="R-core@r-project.org", role="cph", comment="UTF8 byte length calcs from src/util.c" ))
 # Depends: R (>= 3.1.0)
 # License: GPL (>= 2)
 # LazyData: true
 # URL: https://github.com/brodieG/fansi
 # BugReports: https://github.com/brodieG/fansi/issues
-# Suggests: unitizer
+# VignetteBuilder: knitr
+# Suggests: unitizer, knitr, rmarkdown
 # RoxygenNote: 6.0.1
 # Collate: 'constants.R' 'fansi-package.R' 'has.R' 'internal.R' 'load.R' 'misc.R' 'nchar.R' 'strip.R' 'strwrap.R' 'strtrim.R' 'strsplit.R' 'substr2.R' 'tohtml.R' 'unhandled.R'
 # NeedsCompilation: yes
-# Packaged: 2018-05-06 14:26:55 UTC; brodie
-# Author: Brodie Gaslam [aut, cre], R Core Team [cph] (UTF8 byte length calcs from src/util.c)
+# Packaged: 2018-08-09 19:30:25 UTC; bg
+# Author: Brodie Gaslam [aut, cre], Elliott Sales De Andrade [ctb], R Core Team [cph] (UTF8 byte length calcs from src/util.c)
 # Maintainer: Brodie Gaslam <brodie.gaslam@yahoo.com>
 # Repository: CRAN
-# Date/Publication: 2018-05-06 18:01:08 UTC
+# Date/Publication: 2018-08-13 14:40:11 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
