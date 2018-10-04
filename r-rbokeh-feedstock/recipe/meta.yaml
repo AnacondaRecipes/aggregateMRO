@@ -52,11 +52,7 @@ requirements:
     - r-maps
     - r-rlang
     - r-scales
-<<<<<<< HEAD
     - r-lazyeval  # [not linux]
-=======
-    - r-lazyeval
->>>>>>> macOS MRO 3.5.1 fixes
 
   run:
     - mro-base
@@ -72,11 +68,7 @@ requirements:
     - r-maps
     - r-rlang
     - r-scales
-<<<<<<< HEAD
     - r-lazyeval  # [not linux]
-=======
-    - r-lazyeval
->>>>>>> macOS MRO 3.5.1 fixes
 
 test:
   commands:
